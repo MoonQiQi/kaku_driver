@@ -392,6 +392,8 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
         req.image0_advert = key1;
         req.image1_advert = key2;
         req.image2_advert = key3;
+        req.var_lat = Utils.getLat();
+        req.var_lon = Utils.getLon();
         KaKuApiProvider.uploadImage(req, new BaseCallback<UploadImageResp>(UploadImageResp.class) {
             @Override
             public void onSuccessful(int statusCode, Header[] headers, UploadImageResp t) {
