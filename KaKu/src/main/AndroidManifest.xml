@@ -6,8 +6,8 @@
     android:versionName="1.5.1">
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="21"
+        android:minSdkVersion="11"
+        android:targetSdkVersion="22"
         tools:overrideLibrary="com.facebook.drawee.backends.pipeline" />
 
     <!-- Required  一些系统要求的权限，如访问网络等 -->
