@@ -14,7 +14,6 @@ import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.OnStartTraceListener;
 import com.baidu.trace.OnStopTraceListener;
 import com.baidu.trace.Trace;
-import com.bugtags.library.Bugtags;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.marswin89.marsdaemon.DaemonClient;
 import com.marswin89.marsdaemon.DaemonConfigurations;
@@ -226,7 +225,7 @@ public class KaKuApplication extends Application {
         OkHttpUtil.init(new Handler());
         SDKInitializer.initialize(getApplicationContext());
         JPushInterface.init(this);
-        Bugtags.start("55d79cc36b915bdd6340a5f4c36995d1", this, Bugtags.BTGInvocationEventBubble);
+        //Bugtags.start("55d79cc36b915bdd6340a5f4c36995d1", this, Bugtags.BTGInvocationEventBubble);
         CrashHandler.getInstance().init(this);//捕获全局异常
         sp = getSharedPreferences(SHARED_NAME, Context.MODE_WORLD_WRITEABLE);
         editor = sp.edit();

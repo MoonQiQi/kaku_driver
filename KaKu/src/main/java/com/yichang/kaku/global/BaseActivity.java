@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugtags.library.Bugtags;
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.view.widget.DialogRequestProgress;
 
@@ -36,14 +35,14 @@ public class BaseActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        Bugtags.onResume(this);
+        //Bugtags.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        Bugtags.onPause(this);
+        //Bugtags.onPause(this);
     }
 
     /**
@@ -147,7 +146,7 @@ public class BaseActivity extends FragmentActivity {
             }
         }
 
-        Bugtags.onDispatchTouchEvent(this, ev);
+        //Bugtags.onDispatchTouchEvent(this, ev);
         return super.dispatchTouchEvent(ev);
     }
 
