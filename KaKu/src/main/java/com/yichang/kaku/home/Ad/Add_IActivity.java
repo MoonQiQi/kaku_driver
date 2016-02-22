@@ -168,12 +168,12 @@ public class Add_IActivity extends BaseActivity implements OnClickListener {
                     }
                 }
                 stopProgressDialog();
+                tv_shouyi_dangqianshouyiqian.withNumber(Float.parseFloat(now_earnings)).start();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
                 stopProgressDialog();
-                tv_shouyi_dangqianshouyiqian.withNumber(Float.parseFloat(now_earnings)).start();
             }
         });
 
