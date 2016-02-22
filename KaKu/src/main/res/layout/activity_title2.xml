@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+     ><!-- android:background="@drawable/topbar_bg" -->
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_title2" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="@dimen/x30" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x108"
+        android:background="@color/white"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_marginTop="@dimen/x20"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x20"
+                android:src="@drawable/search_bar_icon_normal" />
+
+            <AutoCompleteTextView
+                android:id="@+id/et_dingwei_dizhi"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入到车地址"
+                android:textColor="@color/color_word"
+                android:textColorHint="@color/color_hint" />
+        </LinearLayout>
+
+    </RelativeLayout>
+    <View
+        style="@style/Line_h"
+         />
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="@dimen/x30" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white"
+
+        >
+
+        <TextView
+            android:id="@+id/tv_dingwei_dingwei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 定位到当前位置"
+            android:layout_centerInParent="true"
+
+            android:textColor="@color/color_blue"
+            android:textSize="18sp"
+            android:drawableLeft="@drawable/dingweilan"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_dingwei_lishi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View style="@style/Line_h" />
+
+        <ListView
+            android:id="@+id/lv_dingwei_lishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            style="@style/Line_h"
+            />
+
+    </LinearLayout>
+     
+</LinearLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/bottom_bg"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/btn_tab_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="6dp"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/iv_tab_home"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/tabbar_home2" />
+        <TextView
+            android:id="@+id/tv_tab_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首页"
+            android:textSize="13sp"
+            android:textColor="@color/bottom_text_selected" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/btn_tab_zone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="6dp"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/iv_tab_zone"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/tabbar_zone1" />
+        <TextView
+            android:id="@+id/tv_tab_zone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="找货"
+           	android:textSize="13sp"
+            android:textColor="@color/top_widget_color" />
+    </LinearLayout>
+    
+   <!--todo chaih 20150828 恢复发现-->
+    <LinearLayout
+        android:id="@+id/btn_tab_know"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="6dp"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/iv_tab_know"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/tabbar_know1" />
+        <TextView
+            android:id="@+id/tv_tab_know"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="门店"
+            android:textSize="13sp"
+            android:textColor="@color/top_widget_color" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/btn_tab_memb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="6dp"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/iv_tab_memb"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/tabbar_memb2" />
+        <TextView
+            android:id="@+id/tv_tab_memb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我"
+            android:textSize="13sp"
+            android:textColor="@color/top_widget_color" />
+    </LinearLayout>
+
+</LinearLayout>

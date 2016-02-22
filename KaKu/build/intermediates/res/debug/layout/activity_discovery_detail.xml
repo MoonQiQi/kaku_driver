@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"><!-- android:background="@drawable/topbar_bg" -->
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/view_discovery_detail"
+        android:layout_below="@+id/include_titlebar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View style="@style/Line_h" />
+
+            <WebView
+                android:id="@+id/wv_discovery_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+            <View style="@style/Line_h" />
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/x30"
+                android:text="评论"
+                android:textColor="#999999"
+                android:textSize="17sp" />
+
+
+            <ListView
+                android:id="@+id/lv_discovery_detail_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:dividerHeight="@dimen/x30"
+
+                ></ListView>
+
+            <View
+                android:id="@+id/view_comment"
+                style="@style/Line_h"></View>
+
+            <TextView
+                android:id="@+id/tv_footer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="查看更多评价"
+                android:textColor="#999999"
+                android:textSize="17sp" />
+
+            <View style="@style/Line_h" />
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/bg_color"
+
+
+                />
+        </LinearLayout>
+    </ScrollView>
+    <!--<View
+        android:id="@+id/view_discovery_detail1"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/bg_color"
+
+        android:layout_above="@+id/view_discovery_detail"
+        />-->
+    <View
+        android:id="@+id/view_discovery_detail"
+        style="@style/Line_h"
+
+        android:layout_above="@+id/line_discovery_detail"/>
+
+    <LinearLayout
+        android:id="@+id/line_discovery_detail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rela_discovery_detail_shoucang"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_discovery_detail_shoucang"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:src="@drawable/btn_discovery_favor_normal" />
+
+            <TextView
+                android:id="@+id/tv_discovery_detail_shoucang"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_discovery_detail_shoucang"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_v_discovery" />
+
+        <RelativeLayout
+            android:id="@+id/rela_discovery_detail_pinglun"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_discovery_detail_pinglun"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:src="@drawable/btn_discovery_comment" />
+
+            <TextView
+                android:id="@+id/tv_discovery_detail_pinglun"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/iv_discovery_detail_pinglun"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_v_discovery" />
+
+        <RelativeLayout
+            android:id="@+id/rela_discovery_detail_fenxiang"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_discovery_detail_fenxiang"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/btn_discovery_share" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_discovery_detail.xml -->

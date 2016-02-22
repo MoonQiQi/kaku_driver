@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+
+        android:background="@drawable/daily_sign_popwindow"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_popwindw_point"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:gravity="center|bottom"
+            android:text="+15积分"
+            android:textColor="#ff8b03"
+            android:textSize="21sp" />
+
+        <!-- <Button
+             android:id="@+id/btn_popwindow_close"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"
+             android:layout_marginBottom="10dp"
+             android:background="@drawable/btn_dailysign_lingqu" />-->
+        <ImageView
+            android:id="@+id/btn_popwindow_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/btn_dailysign_lingqu" />
+
+
+        <!--<ImageView
+            android:id="@+id/iv_popwindow_close"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/daily_sign_close" />-->
+
+        <!--<TextView
+            android:id="@+id/tv_popwindw_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+
+
+            android:layout_marginTop="5dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="再连续签到4天即可获得额外30积分奖励"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:paddingBottom="3dp"
+
+            />-->
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

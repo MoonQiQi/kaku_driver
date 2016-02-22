@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_titlebar" />
+
+    <ImageView
+        android:id="@+id/iv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/banner_weizhang" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:onClick="queryCity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="查询省份"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/name_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:drawablePadding="@dimen/x10"
+            android:drawableRight="@drawable/btn_arrow2"
+            android:gravity="center"
+            android:text="北京"
+            android:textColor="@color/color_word"
+            android:textSize="17sp" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/x30" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/license_plate_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="车牌号码"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/license_plate_number"
+            android:gravity="center_vertical"
+            android:weightSum="345">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50" />
+
+            <FrameLayout
+                android:id="@+id/rl_license"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/tv_bg_frame_gray_shape"
+                android:clickable="true"
+                android:onClick="chooseLicense"
+                android:paddingBottom="@dimen/x14"
+                android:paddingTop="@dimen/x14">
+
+                <TextView
+                    android:id="@+id/_license_plate_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/x10"
+                    android:drawableRight="@drawable/btn_arrow"
+                    android:gravity="center_vertical"
+                    android:text="京"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </FrameLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15" />
+
+            <EditText
+                android:id="@+id/carNum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="210"
+                android:background="@drawable/tv_bg_frame_gray_shape"
+                android:drawablePadding="10dp"
+                android:gravity="right|center_vertical"
+                android:hint="请输入车牌号"
+                android:paddingBottom="@dimen/x14"
+                android:paddingLeft="@dimen/x10"
+                android:paddingRight="@dimen/x10"
+                android:paddingTop="@dimen/x14"
+                android:textColor="@color/color_word"
+                android:textColorHint="@color/color_word"
+                android:textSize="17sp"
+                tools:text="A0M084" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line_car"
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/x30" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_vehicle_frame"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/vehicle_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="车架号"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/_vehicle_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/vehicle_frame"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="请输入车架号"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x10"
+            android:textColor="@color/color_word"
+            android:textColorHint="@color/color_hint"
+            android:textSize="17sp" />
+
+        <View
+            android:id="@+id/line_vehicle_frame"
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/x30" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_carEngine"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/_engineNum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="发动机号"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/engineNum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/_engineNum"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="请输入发动机号"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x10"
+            android:textColor="@color/color_word"
+            android:textColorHint="@color/color_hint"
+            android:textSize="17sp"
+            tools:text="416098" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+
+        android:clickable="true">
+
+        <LinearLayout
+            android:id="@+id/ll_look_for"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/img_illegal_dengpao" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="在哪找车架号和发动机号"
+                android:textColor="#d10000"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_look_for"
+            android:layout_marginLeft="15dp"
+            android:text="*暂不支持个别省份的违章信息查询"
+            android:textColor="#999999"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/x60"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginRight="@dimen/x30"
+            android:background="@drawable/bt_bg_red"
+            android:gravity="center"
+            android:onClick="query"
+            android:text="查    询"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x36" />
+
+    </FrameLayout>
+
+</LinearLayout>

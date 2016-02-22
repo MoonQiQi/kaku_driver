@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?><!--20130801 chaih 微信支付返回页面-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/NavPage"
+    android:background="@color/white"
+    android:weightSum="3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:gravity="center_horizontal|bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x120"
+            android:src="@drawable/pay_success"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_payresult_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+
+            android:gravity="center"
+            android:text="您已成功付款！"
+            android:textColor="#d10000"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x120"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/x30">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单提交成功，请保持电话畅通\n维修人员会尽快和您联系"
+            android:gravity="center_horizontal"
+            android:textColor="#999999"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_result_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x60"
+            android:layout_marginRight="@dimen/x40"
+            android:layout_marginTop="@dimen/x120"
+            android:layout_weight="1"
+            android:background="@drawable/baidi"
+            android:gravity="center"
+            android:paddingBottom="@dimen/x22"
+            android:paddingLeft="@dimen/x30"
+            android:paddingRight="@dimen/x30"
+            android:paddingTop="@dimen/x22"
+            android:text="查看订单"
+            android:textColor="#d10000"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/btn_result_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x40"
+            android:layout_marginRight="@dimen/x60"
+            android:layout_marginTop="@dimen/x120"
+            android:layout_weight="1"
+            android:background="@drawable/baidi"
+            android:gravity="center"
+            android:paddingBottom="@dimen/x22"
+            android:paddingLeft="@dimen/x30"
+            android:paddingRight="@dimen/x30"
+            android:paddingTop="@dimen/x22"
+            android:text="返回首页"
+            android:textColor="#d10000"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/pay_result_arrival.xml -->

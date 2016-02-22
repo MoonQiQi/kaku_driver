@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_member_msg"
+        layout="@layout/activity_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x30"
+        android:orientation="vertical">
+
+        <View style="@style/Line_h" />
+
+        <RelativeLayout
+            android:id="@+id/rela_bankcard_name"
+            style="@style/MeRelaLayout">
+
+
+            <TextView
+
+                style="@style/MeText"
+                android:layout_toRightOf="@+id/iv_member_serviceorder"
+                android:text="开户人姓名" />
+
+            <EditText
+                android:id="@+id/et_bankcard_name"
+                style="@style/MeTextGray"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:gravity="center|right"
+
+                android:hint="请输入姓名"
+
+                android:inputType="text"
+                android:textColor="#999999"
+                android:textColorHint="#999999"
+                android:textCursorDrawable="@drawable/cursor"
+
+                android:textSize="17sp" />
+
+
+        </RelativeLayout>
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+
+        <!--<RelativeLayout
+            android:id="@+id/rela_bankcard_city"
+            style="@style/MeRelaLayout">
+
+
+            <TextView
+
+                style="@style/MeText"
+                android:layout_toRightOf="@+id/iv_member_serviceorder"
+                android:text="开户行所属城市" />
+
+            <TextView
+                android:id="@+id/tv_bankcard_city"
+                style="@style/MeTextGray"
+
+                android:layout_toLeftOf="@+id/iv_bankcard_city"
+                android:hint="点击选择" />
+
+            <ImageView
+                android:id="@+id/iv_bankcard_city"
+                style="@style/MeImageEntry" />
+
+        </RelativeLayout>
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />-->
+
+        <RelativeLayout
+            android:id="@+id/rela_bankcard_no"
+            style="@style/MeRelaLayout"
+            android:gravity="center_vertical">
+
+
+            <TextView
+
+                style="@style/MeText"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="银行卡号"
+
+                />
+
+            <EditText
+                android:id="@+id/et_bankcard_no"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+
+                android:background="@null"
+                android:gravity="center|right"
+                android:hint="请输入银行卡号"
+                android:inputType="number"
+                android:textColor="#999999"
+                android:textColorHint="#999999"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="17sp" />
+
+
+        </RelativeLayout>
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+
+        <RelativeLayout
+            android:id="@+id/rela_bankcard_bank"
+            style="@style/MeRelaLayout"
+            android:visibility="visible">
+
+
+            <TextView
+                style="@style/MeText"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="开户银行" />
+
+            <TextView
+                android:id="@+id/tv_bankcard_bank"
+                style="@style/MeTextGray"
+
+                android:layout_toLeftOf="@+id/iv_bankcard_bank"
+                android:hint="请选择开户银行"
+                android:textColor="#999999"
+                android:textColorHint="#999999"
+                android:textSize="17sp" />
+            <!--<EditText
+                android:id="@+id/et_bankcard_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+
+                android:gravity="center|right"
+
+                android:hint="请选择开户银行"
+                android:inputType="number"
+                android:textColor="#999999"
+                android:textColorHint="#999999"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="17sp" />-->
+
+            <ImageView
+                android:id="@+id/iv_bankcard_bank"
+                style="@style/MeImageEntry" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="温馨提示："
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="1.支持储蓄卡提现；"
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="2.支持开户行所包含银行的提现；"
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="3.最终解释权属于卡库养车。"
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/x60">
+
+        <Button
+            android:id="@+id/btn_bank_card_finish"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x80"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/x30"
+            android:background="@drawable/bt_bg_red"
+            android:onClick="submit"
+            android:text="完    成"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

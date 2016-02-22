@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <EditText
+            android:id="@+id/et_con"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="left|top"
+            android:hint="请输入您要提问的内容，卡库认证技师将第一时间为您解决问题"
+            android:maxLength="200"
+            android:paddingBottom="@dimen/x20"
+            android:paddingLeft="@dimen/x30"
+            android:paddingRight="@dimen/x30"
+            android:paddingTop="@dimen/x20"
+            android:scrollbars="vertical"
+            android:textColor="@color/color_hint"
+            android:textColorHint="@color/color_hint"
+            android:textCursorDrawable="@drawable/cursor_shape"
+            android:textSize="@dimen/x24" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginRight="@dimen/x30">
+
+            <TextView
+                android:id="@+id/character_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/color_hint"
+                android:textSize="14dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/200"
+                android:textColor="@color/color_hint"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <View style="@style/gray_line" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <!--<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x190"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_shop"
+            android:layout_width="@dimen/x130"
+            android:layout_height="@dimen/x130"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:onClick="pickImg"
+            android:src="@drawable/tianjiatupian" />
+
+    </FrameLayout>-->
+
+</LinearLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_ask.xml -->

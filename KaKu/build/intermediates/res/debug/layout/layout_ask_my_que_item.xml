@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="@dimen/x54"
+        android:layout_height="@dimen/x54"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginTop="@dimen/x30"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_boy" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_pic"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x8"
+        android:layout_toRightOf="@+id/iv_pic"
+        android:gravity="center_vertical"
+        android:textColor="#FF8B03"
+        android:textSize="@dimen/x22"
+        tools:text="刘海生" />
+
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_below="@+id/iv_pic"
+        android:layout_marginTop="@dimen/x10"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x26"
+        tools:text="我们为了实现文本的滚动可以" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/iv_pic"
+        android:layout_below="@+id/question"
+        android:layout_marginBottom="@dimen/x20"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x20"
+        android:drawableLeft="@drawable/iimg_tiwen2"
+        android:drawablePadding="@dimen/x6"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_hint"
+        android:textSize="@dimen/x20"
+        tools:text="7分钟前" />
+
+    <TextView
+        android:id="@+id/res_per_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/time"
+        android:layout_marginRight="@dimen/x30"
+        android:drawableLeft="@drawable/iimg_tiwen3"
+        android:drawablePadding="@dimen/x6"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_hint"
+        android:textSize="@dimen/x20"
+        tools:text="7" />
+
+    <View
+        style="@style/gray_line"
+        android:layout_below="@+id/time" />
+
+    <ImageView
+        android:id="@+id/iv_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/iv_pic"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x4" />
+
+</RelativeLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/layout_ask_my_que_item.xml -->

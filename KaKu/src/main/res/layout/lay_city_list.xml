@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="horizontal">
+
+    <com.yichang.kaku.view.PinnedSectionListView
+        android:id="@+id/pinnedSectionListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:divider="#AAA"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none" />
+
+    <com.yichang.kaku.view.widget.QuickIndexBar
+        android:id="@+id/indexbar"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:background="@color/white" />
+
+</LinearLayout>

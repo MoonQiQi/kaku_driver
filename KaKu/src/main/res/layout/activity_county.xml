@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+     >
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_province" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/quanwudian"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="所在省"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/suozai"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/quanwudian"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="所在市"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/suozai"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/quanyoudian"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="所在县"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/suozai"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <ListView
+        android:id="@+id/lv_province"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+</LinearLayout>

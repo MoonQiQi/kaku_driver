@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F3F3"
+    android:orientation="vertical"
+     ><!-- android:background="@drawable/topbar_bg" -->
+     
+     <include layout="@layout/activity_titlebar"
+         android:id="@+id/include_lunbo" />
+    
+    <WebView
+        android:id="@+id/wv_lunbo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
+     
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/androidAd/src/main/res/layout/activity_lunbodetail.xml -->

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_gray"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <com.yichang.kaku.view.ApplyJoinHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/img_title"
+                    android:drawablePadding="@dimen/x20"
+                    android:gravity="center_vertical"
+                    android:text="商户基本信息"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <View style="@style/gray_line" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:clickable="true">
+
+                <TextView
+                    android:id="@+id/_et_shop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:gravity="center_vertical"
+                    android:text="名称"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <EditText
+                    android:id="@+id/et_shop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:layout_toRightOf="@+id/_et_shop_name"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入店铺名称"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:textColor="@color/color_word"
+                    android:textColorHint="@color/color_hint"
+                    android:textSize="@dimen/x28" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/x30" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:clickable="true"
+                android:onClick="queryCity">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:gravity="center_vertical"
+                    android:text="地图定位"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:drawablePadding="@dimen/x10"
+                    android:drawableRight="@drawable/jinqu"
+                    android:gravity="center"
+                    android:textColor="@color/color_word"
+                    android:textSize="@dimen/x28"
+                    tools:text="北京" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/x30" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:clickable="true"
+                android:onClick="chooseTime">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:gravity="center_vertical"
+                    android:text="营业时间"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:drawablePadding="@dimen/x10"
+                    android:drawableRight="@drawable/jinqu"
+                    android:gravity="center"
+                    android:textColor="@color/color_word"
+                    android:textSize="@dimen/x28"
+                    tools:text="北京" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/x30"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/img_title"
+                    android:drawablePadding="@dimen/x20"
+                    android:gravity="center_vertical"
+                    android:text="联系电话"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <View style="@style/gray_line" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:clickable="true">
+
+                <EditText
+                    android:id="@+id/et_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="请输入固定电话"
+                    android:inputType="phone"
+                    android:paddingLeft="@dimen/x30"
+                    android:paddingRight="@dimen/x30"
+                    android:textColor="@color/color_word"
+                    android:textColorHint="@color/color_hint"
+                    android:textSize="@dimen/x28" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/x30" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:clickable="true">
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="请输入手机号码"
+                    android:inputType="phone"
+                    android:paddingLeft="@dimen/x30"
+                    android:paddingRight="@dimen/x30"
+                    android:textColor="@color/color_word"
+                    android:textColorHint="@color/color_hint"
+                    android:textSize="@dimen/x28" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/x30"
+                android:background="@color/white"
+                android:clickable="true"
+                android:onClick="chooseBrand">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/img_title"
+                    android:drawablePadding="@dimen/x20"
+                    android:gravity="center_vertical"
+                    android:text="主修车辆品牌"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@drawable/jinqu" />
+
+                <View style="@style/gray_line" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <com.yichang.kaku.view.NoScrollGridView
+                    android:id="@+id/noScrollGridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/x20"
+                    android:numColumns="5"
+                    android:verticalSpacing="@dimen/x20"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/x30"
+                android:background="@color/white"
+                android:clickable="true"
+                android:onClick="toIntro">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/img_title"
+                    android:drawablePadding="@dimen/x20"
+                    android:gravity="center_vertical"
+                    android:text="商户简介"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x28" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@drawable/jinqu" />
+
+                <View style="@style/gray_line" />
+
+                <View
+                    style="@style/gray_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x190"
+                android:layout_marginTop="@dimen/x30"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_shop"
+                    android:layout_width="@dimen/x130"
+                    android:layout_height="@dimen/x130"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:onClick="pickImg"
+                    android:src="@drawable/tianjiatupian" />
+
+            </FrameLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:layout_marginBottom="@dimen/x60"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_marginTop="@dimen/x60"
+                android:background="@drawable/bt_bg_red"
+                android:gravity="center"
+                android:onClick="sendData"
+                android:text="保    存"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x36" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

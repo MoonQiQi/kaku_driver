@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape android:shape="rectangle">
+            <solid android:color="#66DEDEDE" />
+             />
+        </shape>
+    </item>
+    <item android:top="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#DEDEDE" />
+
+        </shape>
+    </item>
+    <item android:top="3dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+             />
+        </shape>
+    </item>
+
+
+</layer-list><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/drawable/bg_edittext_shadow.xml -->

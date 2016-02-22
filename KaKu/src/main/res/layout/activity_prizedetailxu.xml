@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+     >
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_prizedetail2" />
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_prizedetail_prize2"
+                android:src="@drawable/jiangpinhong"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_below="@+id/iv_prizedetail_prize2"
+                android:layout_centerHorizontal="true"
+                android:text="中奖时间"
+                android:textSize="15sp"
+                android:textColor="@color/color_word"
+                android:layout_marginBottom="18dp"
+                android:layout_marginTop="18dp"
+                android:id="@+id/tv_prizedetail_zhongjiangtime2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    <View
+        android:layout_marginTop="15dp"
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_margin="15dp"
+            android:id="@+id/iv_prizedetail_image2"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/iv_prizedetail_image2"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tv_prizedetail_name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+        <View
+           style="@style/Line_h"/>
+
+    <LinearLayout
+        android:id="@+id/line_prizedetailxu_info"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_margin="15dp"
+        android:textColor="@color/color_word"
+        android:layout_width="wrap_content"
+        android:text="发货时间"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_margin="15dp"
+        android:textColor="@color/black"
+        android:id="@+id/tv_prizedetail_fahuotime2"
+        android:text="无"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:textColor="@color/color_word"
+            android:layout_width="wrap_content"
+            android:text="卡号"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_prizedetail_wuliugongsi2"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="无"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:textColor="@color/color_word"
+            android:layout_width="wrap_content"
+            android:text="卡密"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_prizedetail_dingdanbianhao2"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="无"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_prizedetail_lingqu2"
+        android:text="立即领取"
+        android:layout_gravity="bottom|right"
+        style="@style/Btn_Red_small"
+        android:layout_margin="15dp"
+        />
+
+</LinearLayout>

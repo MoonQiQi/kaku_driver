@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_genghuanshangpin"
+        layout="@layout/activity_titlebar" />
+
+    <View style="@style/gray_line" />
+
+    <ImageView
+        android:id="@+id/iv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/banner_weizhang" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/carNum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/img_title"
+            android:drawablePadding="@dimen/x30"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28"
+            tools:text="京AB7878" />
+
+        <View style="@style/gray_line" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <View style="@style/gray_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x120"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/x34"
+                tools:text="8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/x10"
+                android:gravity="center_vertical"
+                android:text="未处理违章"
+                android:textColor="@color/color_hint"
+                android:textSize="@dimen/x20" />
+
+        </LinearLayout>
+
+        <View style="@style/gray_line_vertical" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/x34"
+                tools:text="78" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/x10"
+                android:gravity="center_vertical"
+                android:text="共扣分"
+                android:textColor="@color/color_hint"
+                android:textSize="@dimen/x20" />
+
+        </LinearLayout>
+
+        <View style="@style/gray_line_vertical" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/x34"
+                tools:text="8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/x10"
+                android:gravity="center_vertical"
+                android:text="共罚款"
+                android:textColor="@color/color_hint"
+                android:textSize="@dimen/x20" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/gray_line" />
+
+    <ListView
+        android:id="@+id/his_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        tools:listitem="@layout/layout_illegal_query_result" />
+
+</LinearLayout>

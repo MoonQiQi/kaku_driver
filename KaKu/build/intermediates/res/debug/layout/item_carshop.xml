@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+     >
+     
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="15dp">
+    
+  <ImageView
+      android:id="@+id/iv_shopcaritem_shoppic"
+      android:layout_height="70dp"
+      android:layout_width="70dp"
+      android:src="@drawable/ic_launcher"/>
+  
+  <TextView 
+      android:id="@+id/tv_shopcaritem_shopname"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:textColor="@color/black"
+      android:layout_toRightOf="@+id/iv_shopcaritem_shoppic"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="5dp"
+      android:textSize="19sp"
+      android:maxEms="10"
+      android:ellipsize="end"
+      android:singleLine="true"
+      android:text="名字"/>
+  
+  <TextView 
+      android:id="@+id/tv_shopcaritem_jianjie"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_below="@+id/tv_shopcaritem_shopname"
+      android:layout_alignLeft="@+id/tv_shopcaritem_shopname"
+      android:layout_marginTop="10dp"
+      android:maxEms="10"
+      android:ellipsize="end"
+      android:singleLine="true"
+      android:textSize="15sp"
+      android:textColor="@color/color_word"
+      android:text="简介"/>
+      
+  <TextView 
+      android:id="@+id/tv_shopcaritem_buy"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_below="@+id/tv_shopcaritem_jianjie"
+      android:layout_alignLeft="@+id/tv_shopcaritem_shopname"
+      android:textSize="15sp"
+      android:layout_marginTop="10dp"
+      android:textColor="@color/color_yellow_word"
+      android:text="0人购买"/>
+
+  <TextView
+      android:id="@+id/tv_shopcaritem_ping"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/color_word"
+      android:textSize="15sp"
+      android:layout_alignBottom="@+id/tv_shopcaritem_buy"
+      android:layout_toRightOf="@+id/tv_shopcaritem_buy"
+      android:layout_marginLeft="10dp"
+      android:text="0人评"/>
+
+  <TextView
+      android:id="@+id/tv_shopcaritem_shopprice"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_alignParentRight="true"
+      android:textSize="16sp"
+      android:layout_marginTop="13dp"
+      android:textColor="@color/color_word"
+      android:text="¥0起"/>
+
+  <LinearLayout 
+      android:id="@+id/line_shopcaritem_pbpf"
+      android:layout_height="18dp"
+      android:layout_width="wrap_content"
+      android:orientation="horizontal"
+      android:layout_below="@+id/tv_shopcaritem_shopprice"
+      android:layout_marginTop="28dp"
+      android:layout_alignParentRight="true">
+      
+  <ImageView 
+      android:id="@+id/iv_shopcaritem_baoyou"
+      android:layout_height="14dp"
+      android:layout_weight="14"
+      android:layout_width="0dp"
+      android:visibility="gone"
+      android:layout_margin="2dp"
+      android:src="@drawable/baoyou"/>
+      
+  </LinearLayout>  
+
+  </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+  </LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_carshop.xml -->

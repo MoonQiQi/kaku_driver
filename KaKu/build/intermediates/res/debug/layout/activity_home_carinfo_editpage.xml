@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_member_msg"
+        layout="@layout/activity_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+
+    </LinearLayout>
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+    <LinearLayout
+        android:id="@+id/rela_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_edit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+
+
+            android:layout_marginLeft="15dp"
+
+
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:text="车系"
+            android:textColor="#000000"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@drawable/cursor"
+
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/emotionstore_progresscancelbtn" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View style="@style/Line_h" />
+    </LinearLayout>
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_home_carinfo_editpage.xml -->

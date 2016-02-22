@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <com.yichang.kaku.view.widget.XListView
+            android:id="@+id/lv_discovery_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+
+            android:divider="#dedede"
+            android:dividerHeight="@dimen/x1" />
+
+        <include
+            android:id="@+id/layout_data_none"
+            layout="@layout/layout_data_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/layout_net_none"
+            layout="@layout/layout_net_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_discovery_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/bg_edittext_shadow"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        android:orientation="horizontal"
+        android:padding="15dp"
+
+        >
+
+        <TextView
+            android:id="@+id/tv_textsize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="0/200"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_discovery_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/et_bg"
+                android:cursorVisible="true"
+                android:ellipsize="end"
+                android:gravity="left|top"
+                android:hint="我也说点啥..."
+                android:lines="3"
+                android:maxLength="200"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:textColorHint="#666666"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_comment_send"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right|bottom"
+                android:background="@drawable/bg_btn_red"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:paddingTop="1dp"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

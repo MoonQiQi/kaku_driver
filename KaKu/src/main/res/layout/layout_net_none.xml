@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+
+    >
+
+    <ImageView
+        android:id="@+id/iv_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingTop="138dp"
+        android:src="@drawable/wuwangluo"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_nodata"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:text="网络出问题啦"
+        android:textColor="#D1D1D1"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_advice"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_desc"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:text="网络在开小差，检查后再试吧"
+        android:textColor="#D1D1D1"
+        android:textSize="13sp" />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_desc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="重新加载"
+        android:textColor="#D1D1D1"
+        android:textSize="18sp"
+android:background="@drawable/bg_shuaxin"
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+     >
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_okprize" />
+
+    <RelativeLayout
+        android:id="@+id/rela_okprize_addr"
+        android:background="@drawable/shouhuobeijingda"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_okprize_noaddr"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:text="请新建收货地址以确保奖品顺利到达"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:src="@drawable/jinqu"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_okprize_people"
+            android:drawableLeft="@drawable/shouhuotouxiang"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:drawablePadding="3dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_okprize_phone"
+            android:drawableLeft="@drawable/shouhuoshouji"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:textColor="@color/black"
+            android:drawablePadding="3dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_okprize_addr"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/tv_okprize_people"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_word"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="15dp"
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_okprize_image"
+            android:layout_margin="15dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:id="@+id/tv_okprize_name"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/iv_okprize_image"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_okprize_lignqu"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:text="领取"
+            style="@style/Btn_Red" />
+
+    </RelativeLayout>
+
+     
+</LinearLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:layout_margin="8dp"
+    android:orientation="vertical" >
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:scrollbars="none"
+        >
+    
+<LinearLayout 
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+    
+    <TextView
+        android:id="@+id/tv_takephoto"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="@drawable/btn_gray"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:textSize="18sp"
+        android:text="拍照" />
+
+
+    <TextView
+        android:id="@+id/tv_myphoto"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btn_gray"
+        android:text="我的相册" />
+
+    <TextView
+        android:id="@+id/tv_exitphoto"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btn_gray"
+        android:text="取消" />
+    
+    </LinearLayout>
+    
+ </ScrollView>
+
+</LinearLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/popupwindow.xml -->

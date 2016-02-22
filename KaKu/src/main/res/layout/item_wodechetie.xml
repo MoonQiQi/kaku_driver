@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View style="@style/Line_h" />
+
+        <TextView
+            android:id="@+id/tv_wodechetieitem_time"            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="2000-00-00"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_wodechetieitem_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            android:text="状态"
+            android:textColor="@color/color_red"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_wodechetieitem_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="15dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_edittext"
+            fresco:placeholderImage="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_wodechetieitem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_wodechetieitem_image"
+            android:text="卡库养车推广车贴"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_wodechetieitem_wancheng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/wancheng" />
+
+        <TextView
+            android:id="@+id/tv_wodechetieitem_num"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:text="x 1"
+            android:textColor="@color/black"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_wodechetieitem"
+        style="@style/Line_h" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_wodechetieitem_yuqishouyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:text="实付款"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_wodechetieitem_zhifu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/mashangzhifu" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+</LinearLayout>

@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_B2B2B2" />
+
+    <fragment
+        android:id="@+id/bottom_tabs"
+        class="com.yichang.kaku.view.BottomTabFragment"
+        android:layout_width="match_parent"
+        android:layout_height="49dp" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_main.xml -->

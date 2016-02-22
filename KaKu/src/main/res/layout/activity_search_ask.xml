@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFF">
+
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x14"
+            android:src="@drawable/jiantou" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/iv_left"
+            android:background="@drawable/et_bg_gray_strong"
+            android:drawableLeft="@drawable/search_bar_icon_normal"
+            android:drawablePadding="5dp"
+            android:hint="搜索问题"
+            android:imeOptions="actionSearch"
+            android:paddingBottom="@dimen/x20"
+            android:paddingLeft="@dimen/x30"
+            android:paddingTop="@dimen/x20"
+            android:singleLine="true"
+            android:textColor="@color/color_word"
+            android:textSize="@dimen/x24" />
+
+    </RelativeLayout>
+
+    <View style="@style/gray_line" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="@dimen/x30"
+            tools:listitem="@layout/layout_ask_search_item" />
+
+        <include
+            android:id="@+id/layout_data_none"
+            layout="@layout/layout_data_none"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

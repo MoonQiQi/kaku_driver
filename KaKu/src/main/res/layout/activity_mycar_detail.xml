@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"><!-- android:background="@drawable/topbar_bg" -->
+
+    <include
+        android:id="@+id/titlebar_mycar"
+        layout="@layout/activity_titlebar" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x128"
+        android:layout_centerVertical="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+             />
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:lines="2"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/rela_buy_time"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x108"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="购买时间"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/showdate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_series"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_series"
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+
+    <View style="@style/Line_h" />
+
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/rela_miles"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x108"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x20"
+        android:paddingTop="@dimen/x20">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="行驶里程"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/et_miles"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/x68"
+
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tv_miles"
+            android:background="@drawable/bg_edittext"
+            android:cursorVisible="true"
+            android:gravity="center_vertical|right"
+            android:hint=""
+            android:text=""
+            android:textColor="#999999"
+            android:inputType="number"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_miles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="公里"
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+
+    </RelativeLayout>
+
+
+    <View style="@style/Line_h" />
+
+
+</LinearLayout>

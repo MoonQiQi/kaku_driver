@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_add_f"
+        layout="@layout/activity_titlebar_chetie" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <ScrollView
+            android:id="@+id/scroll_add_f"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_add_f"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color"
+                android:paddingBottom="30dp"
+                android:orientation="vertical">
+
+                <include layout="@layout/include_shouyi" />
+
+                <View style="@style/Line_h" />
+
+                <LinearLayout
+                    android:id="@+id/ll_yaoqing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <ImageView
+
+                        android:id="@+id/iv_yaoqing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/btn_yq"
+
+                        />
+
+                </LinearLayout>
+                <View style="@style/Line_h" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_addn_button_f"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:text="审核失败"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="15dp"
+                        android:drawableRight="@drawable/jinqu"
+                        android:drawablePadding="10dp"
+                        android:text="重新上传"
+                        android:textColor="@color/color_word"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_h" />
+
+                <!--  日历  -->
+                <include android:id="@+id/layout_calendar" layout="@layout/layout_calendar" />
+                <View style="@style/Line_h" />
+                <View
+                    style="@style/Line_h"
+                    android:layout_marginTop="15dp" />
+
+                <include layout="@layout/include_chetiexinxi" />
+
+                <include layout="@layout/include_renwushuoming"
+                    android:id="@+id/renwushuoming_f"/>
+
+                <include layout="@layout/include_tietieyangshi"
+                    android:id="@+id/chetiexinxi_f"/>
+
+                <ImageView
+                    android:id="@+id/iv_shouqi_f"
+                    android:src="@drawable/btn_shouqixiangqing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_add_f"
+            style="@style/Btn_Red"
+            android:layout_alignParentBottom="true"
+            android:text="重新上传" />
+
+        <!--<ImageView
+            android:id="@+id/iv_coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_coin"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            />-->
+
+    </RelativeLayout>
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_add_f.xml -->

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+     >
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_pinpaifuwuzhan" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/line_shoplist"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/dotted_line_vertical"/>
+
+            <RelativeLayout
+                android:id="@+id/rela_ppfwz_quanbudiqu"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_ppfwz_quanbudiqu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/heijiantouxia"
+                    android:text="全部地区"/>
+
+            </RelativeLayout>
+
+                <View
+                    style="@style/Line_v"/>
+
+            <RelativeLayout
+                android:id="@+id/rela_ppfwz_pinpai"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_ppfwz_pinpai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="17sp"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/heijiantouxia"
+                    android:textColor="@color/black"
+                    android:text="品牌"/>
+
+            </RelativeLayout>
+
+                <View
+                    style="@style/Line_v"/>
+
+            <RelativeLayout
+                android:id="@+id/rela_ppfwz_tuijianpaixu"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_ppfwz_tuijianpaixu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:text="推荐排序"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+            <View
+                style="@style/Line_h"/>
+
+            <com.yichang.kaku.view.widget.XListView
+                android:id="@+id/lv_ppfwz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_shoplist_grid"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@color/lightBlack"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="@color/bg_color"
+                android:layout_above="@+id/view1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_pupp_left"
+                    android:padding="15dp"
+                    android:text="返回"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_pupp_right"
+                    android:padding="15dp"
+                    android:text="完成"
+                    android:textSize="16sp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/color_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_pupp_mid"
+                    android:padding="15dp"
+                    android:text="中国"
+                    android:layout_centerInParent="true"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view1"
+                android:layout_above="@+id/gv_shoplist_city"
+                style="@style/Line_h"/>
+
+            <com.yichang.kaku.logistics.LineGridView
+                android:id="@+id/gv_shoplist_city"
+                android:numColumns="5"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

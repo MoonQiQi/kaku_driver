@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <View style="@style/Line_h" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tv_msg_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="服务提醒"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <!--<TextView
+            android:id="@+id/tv_msg_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="客服电话:4000000"
+            android:textColor="#999999"
+            android:textSize="16sp"
+
+
+            />-->
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+
+        >
+
+
+        <TextView
+            android:id="@+id/tv_msg_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的订单[55555555]距离本次养护时间还有一个小时，如需延后保养时间请您与客服人员联系"
+            android:textColor="#666666"
+            android:textSize="15sp"
+
+            />
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+
+        <TextView
+            android:id="@+id/tv_msg_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2015-06-28 05:43:15"
+            android:textColor="#999999"
+            android:textSize="16sp"
+
+            />
+
+        <!--<TextView
+            android:id="@+id/tv_msg_vieworder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:text="查看订单"
+            android:textColor="#999999"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_msg_vieworder"
+            style="@style/MeImageEntry"
+            android:layout_gravity="center"
+            android:paddingRight="0dp" />-->
+
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+</LinearLayout>

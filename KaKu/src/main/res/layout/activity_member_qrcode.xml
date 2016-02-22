@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+
+        android:layout_width="297dp"
+        android:layout_height="405dp"
+        android:layout_below="@+id/include_titlebar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+
+        android:background="@color/activity_bg_color">
+
+        <RelativeLayout
+            android:id="@+id/rela_qrcode_driver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp">
+
+            <ImageView
+                android:id="@+id/iv_scanhead"
+
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="34dp"
+
+                android:src="@drawable/icon_boy" />
+
+            <TextView
+                android:id="@+id/tv_scanphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/iv_scanhead"
+                android:layout_toRightOf="@+id/iv_scanhead"
+                android:paddingBottom="5dp"
+                android:text="手机号"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_scanname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_scanphone"
+                android:layout_alignLeft="@+id/tv_scanphone"
+                android:layout_alignTop="@+id/iv_scanhead"
+                android:paddingTop="5dp"
+                android:text="名字"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_qrcode"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/rela_qrcode_driver"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_qrcode"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher" />
+
+
+        <TextView
+            android:id="@+id/tv_qrcode_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_qrcode"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="14dp"
+            android:gravity="center_horizontal"
+            android:lines="2"
+            android:text="邀请好友扫描二维码注册成功\n即可奖励 50 积分"
+            android:textColor="#999999"
+            android:textSize="11sp" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

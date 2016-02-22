@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_sousuo_fanhui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@drawable/jiantou" />
+
+        <EditText
+            android:singleLine="true"
+            android:id="@+id/et_sousuo_sousuo"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/iv_sousuo_fanhui"
+            android:background="@drawable/bg_edittext"
+            android:drawableLeft="@drawable/search_bar_icon_normal"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="搜索感兴趣的内容"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="5dp"
+            android:textColor="@color/color_word"
+            android:layout_toLeftOf="@+id/tv_sousuo_quxiao"
+            android:textCursorDrawable="@drawable/cursor"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:cursorVisible="true"
+            android:textColorHint="@color/color_hint" />
+
+        <TextView
+            android:id="@+id/tv_sousuo_quxiao"
+            android:layout_alignParentRight="true"
+            android:paddingRight="15dp"
+            android:text="取消"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/color_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:id="@+id/line_sousuo_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="15dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tv_sousuo_teyueweixiuzhan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="特约服务站"
+                        android:textColor="@color/color_red"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_sousuo_dayuhao1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/dayuhao" />
+
+                    <TextView
+                        android:id="@+id/tv_sousuo_dayuhao1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_sousuo_dayuhao1"
+                        android:padding="3dp"
+                        android:text="更多"
+                        android:textColor="@color/color_word"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/Line_h"/>
+
+                    <ListView
+                        android:id="@+id/lv_sousuo_item1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_sousuo_lishi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_lishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_lishi_qingkong"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="清空搜索历史"
+            android:textColor="@color/color_red"
+            android:textSize="18sp" />
+
+        <View style="@style/Line_h" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_sousuo.xml -->

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+     >
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_pingjiahuodan" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+    <RatingBar
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/star_pingjiahuodan"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        style="@style/BigRatingBar"
+        android:rating="5"
+        android:numStars="5"/>
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <View
+        android:layout_marginTop="15dp"
+        style="@style/Line_h"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/rela_pingjiahuodan_xinxishushi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_pingjiahuodan_xinxishushi"
+                android:textSize="16sp"
+                android:text="信息属实"
+                android:textColor="@color/black"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_pingjiahuodan_xinxishushi"
+                android:src="@drawable/uncheck_yuan"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_pingjiahuodan_xinxishushi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                style="@style/Line_little"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:id="@+id/rela_pingjiahuodan_yilianxihuozhu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_pingjiahuodan_yilianxihuozhu"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="已联系货主"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_pingjiahuodan_yilianxihuozhu"
+                android:src="@drawable/uncheck_yuan"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_pingjiahuodan_yilianxihuozhu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <View
+        android:layout_marginTop="15dp"
+        style="@style/Line_h"/>
+
+    <EditText
+        android:padding="5dp"
+        android:hint="写下体会或使用过程中带来的帮助等，可以为其他人提供参考~"
+        android:textColor="@color/color_word"
+        android:background="@color/white"
+        android:gravity="top|left"
+        android:id="@+id/et_pingjiahuodan"
+        android:layout_width="match_parent"
+        android:textCursorDrawable="@drawable/cursor"
+        android:cursorVisible="true"
+        android:layout_height="100dp" />
+
+    <View
+        style="@style/Line_h"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:id="@+id/btn_pingjiahuodan_commit"
+        android:text="提交评价"
+        style="@style/Btn_Red" />
+
+</LinearLayout>

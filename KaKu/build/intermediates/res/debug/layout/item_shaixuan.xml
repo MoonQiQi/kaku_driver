@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+     >
+     
+    <RelativeLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/tv_shaixuan_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_wuliao_image"
+            android:textSize="16sp"
+            android:text="名字"/>
+
+        <ImageView
+            android:id="@+id/iv_shaixuan_duihao"
+            android:src="@drawable/duihao"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+</LinearLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_shaixuan.xml -->

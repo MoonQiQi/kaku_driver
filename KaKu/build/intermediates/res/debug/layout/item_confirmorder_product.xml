@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:paddingBottom="@dimen/x30"
+    android:paddingTop="@dimen/x30">
+
+    <!--商品图片-->
+    <ImageView
+        android:id="@+id/iv_confirmorder_product"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_boy" />
+
+    <RelativeLayout
+        android:id="@+id/rela_shopcart_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_weight="1">
+        <!--商品名称-->
+        <com.yichang.kaku.view.KakuTextView
+            android:id="@+id/tv_shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:maxLines="2"
+            android:text="1111111111111111111111111111111111111111111111111"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+        <!--商品金额-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_shopname">
+
+            <TextView
+                android:id="@+id/tv_rmb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_price"
+                android:paddingBottom="0dp"
+                android:text="￥"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_rmb"
+                android:text="459.00"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+            <!--<TextView
+                android:id="@+id/tv_freefhip"
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_price"
+                android:text="包邮"
+                android:padding="1dp"
+                android:textColor="#ffffff"
+                android:background="#d20000"
+                android:layout_alignBottom="@+id/tv_price"
+                android:layout_marginBottom="1dp"
+                android:textSize="14sp" />-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/tv_price"
+
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/tv_price"
+                android:src="@drawable/baoyou" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_confirmorder_num"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="×6"
+        android:textColor="#999999"
+        android:textSize="16sp" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_confirmorder_product.xml -->

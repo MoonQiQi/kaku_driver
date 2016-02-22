@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shouyi">
+
+        <TextView
+            android:id="@+id/tv_shouyi_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="2012-12-23"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_shouyi_zongshouyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_shouyi_time"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="预计总收益"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_shouyi_dangqianshouyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_shouyi_time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="当前收益"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:id="@+id/rela_shouyi_dangqianshouyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_shouyi_dangqianshouyi"
+            android:layout_centerHorizontal="true">
+
+            <com.yichang.kaku.view.RiseNumberTextView
+                android:id="@+id/tv_shouyi_dangqianshouyiqian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:layout_toRightOf="@+id/tv_shouyiyang"
+                android:layout_alignBottom="@+id/tv_shouyiyang"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_shouyiyang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥ "
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_shouyi_canyu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/rela_shouyi_dangqianshouyi"
+            android:layout_margin="15dp"
+            android:text="100人参与"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <View
+            android:id="@+id/view_shouyi_h"
+            style="@style/Line_h"
+            android:layout_below="@+id/tv_shouyi_canyu" />
+
+        <View
+            android:id="@+id/view_shouyi_v"
+            android:layout_width="0.5dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/view_shouyi_h"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_shouyi_h"
+            android:layout_toLeftOf="@+id/view_shouyi_v">
+
+            <TextView
+                android:id="@+id/tv_shouyi_meirizi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="每日收益"
+                android:textColor="#50FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_shouyi_meiriqian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_shouyi_meirizi"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="¥ 0.00"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_shouyi_h"
+            android:layout_toRightOf="@+id/view_shouyi_v">
+
+            <TextView
+                android:id="@+id/tv_shouyi_shengyuzi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="剩余天数"
+                android:textColor="#50FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_shouyi_shengyutian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_shouyi_shengyuzi"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="0 天"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/include_shouyi.xml -->

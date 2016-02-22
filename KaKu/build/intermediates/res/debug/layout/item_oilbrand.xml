@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+     >
+     
+        <TextView
+            android:id="@+id/tv_itemoil_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="名字"/>
+
+        <ImageView
+            android:id="@+id/iv_itemoil_duihao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/duihao"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"/>
+
+    <View
+        style="@style/Line_h"
+        android:layout_below="@+id/tv_itemoil_name"
+        />
+
+</RelativeLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_oilbrand.xml -->

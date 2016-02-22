@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:lineSpacingExtra="@dimen/x8"
+        android:id="@+id/res_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x30"
+        android:text="有道翻译提供即时免费的中、英、日、韩、法、俄、西班牙文全文翻译、网页翻译服务"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x26" />
+
+    <TextView
+        android:id="@+id/time_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/res_content"
+        android:layout_marginBottom="@dimen/x30"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x20"
+        android:gravity="center_vertical"
+        android:text="刚刚"
+        android:textColor="@color/color_hint"
+        android:textSize="@dimen/x18" />
+
+    <View
+        style="@style/gray_line"
+        android:layout_below="@+id/time_stamp" />
+
+</RelativeLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/layout_ask_other_item1.xml -->

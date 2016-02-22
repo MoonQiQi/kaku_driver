@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:id="@+id/rl_withdrawals_acount"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/line0_0"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="可提现金额"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28" />
+
+        <TextView
+            android:id="@+id/line0_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/line0_0"
+            android:background="@null"
+            android:editable="false"
+            android:gravity="right|center_vertical"
+            android:paddingLeft="@dimen/x30"
+            android:singleLine="true"
+            android:textColor="@color/color_hint"
+            android:textSize="@dimen/x28" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/x30" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/line1_0"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="提现到银行卡"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28" />
+
+        <TextView
+            android:id="@+id/line1_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/line1_0"
+            android:background="@null"
+            android:drawablePadding="@dimen/x30"
+            android:drawableRight="@drawable/jinqu"
+            android:editable="false"
+            android:gravity="right|center_vertical"
+            android:hint="请选择银行卡"
+            android:paddingLeft="@dimen/x30"
+            android:singleLine="true"
+            android:textColor="@color/color_hint"
+            android:textColorHint="@color/color_hint"
+            android:textSize="@dimen/x28" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/line2_0"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="提现金额"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28" />
+
+        <EditText
+            android:id="@+id/line2_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_toRightOf="@+id/line2_0"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="请输入提现金额"
+            android:inputType="numberDecimal"
+
+            android:paddingLeft="@dimen/x30"
+            android:singleLine="true"
+            android:textColor="@color/color_hint"
+            android:textSize="@dimen/x28" />
+
+        <View style="@style/gray_line" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="温馨提示："
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="1.提现以您提交的信息为准，请确认开户人姓名、银行卡号和开户银行输入无误；"
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="2.最终解释权属于卡库养车。"
+        android:textColor="#666666"
+        android:textSize="17sp"
+
+        />
+    <!--<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/line3_0"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="手机验证码"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/line3_0">
+
+            <EditText
+                android:id="@+id/line3_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="right|center_vertical"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:paddingLeft="@dimen/x30"
+                android:paddingRight="@dimen/x30"
+                android:textSize="@dimen/x28" />
+
+            <View
+                style="@style/gray_line_vertical"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginTop="@dimen/x10" />
+
+            <TextView
+                android:id="@+id/line3_3"
+                android:layout_width="@dimen/x200"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:editable="false"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="获取验证码"
+                android:textColor="@color/color_hint"
+                android:textSize="@dimen/x28" />
+
+        </LinearLayout>
+
+        <View style="@style/gray_line" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>-->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/x60">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/x30"
+            android:background="@drawable/bt_bg_red"
+            android:gravity="center"
+            android:onClick="submit"
+            android:text="提    现"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/x250"
+    android:layout_margin="15dp"
+    android:background="@drawable/bg_bankcard_list"
+    android:orientation="vertical">
+
+
+
+
+    <TextView
+        android:id="@+id/tv_bank_card_no"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x250"
+        android:layout_gravity="bottom"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="  添加银行卡"
+        android:textColor="#666666"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/img_bankcard_add"
+
+        />
+</RelativeLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_bank_card_add.xml -->

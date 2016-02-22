@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_add_n"
+        layout="@layout/activity_titlebar_chetie" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <ScrollView
+            android:id="@+id/scroll_add_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_add_n"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color"
+                android:paddingBottom="10dp"
+                android:orientation="vertical">
+
+                <include layout="@layout/include_shouyi" />
+
+                <View style="@style/Line_h" />
+
+                <LinearLayout
+                    android:id="@+id/ll_yaoqing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <ImageView
+
+                        android:id="@+id/iv_yaoqing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/btn_yq"
+
+                        />
+
+                </LinearLayout>
+                <View style="@style/Line_h" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_addn_button_n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:text="任务未开启"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="15dp"
+                        android:drawableRight="@drawable/jinqu"
+                        android:drawablePadding="10dp"
+                        android:text="申请开启"
+                        android:textColor="@color/color_word"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_h" />
+
+                <View
+                    style="@style/Line_h"
+                    android:layout_marginTop="15dp" />
+
+                <include layout="@layout/include_chetiexinxi" />
+
+                <include layout="@layout/include_renwushuoming"
+                    android:id="@+id/renwushuoming_n"/>
+
+                <include layout="@layout/include_tietieyangshi"
+                    android:id="@+id/chetiexinxi_n"/>
+
+                <ImageView
+                    android:id="@+id/iv_shouqi_n"
+                    android:src="@drawable/btn_shouqixiangqing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_add_n"
+            style="@style/Btn_Red"
+            android:layout_alignParentBottom="true"
+            android:text="申请开启" />
+        <!--<ImageView
+            android:id="@+id/iv_coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_coin"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            />-->
+    </RelativeLayout>
+
+</LinearLayout>

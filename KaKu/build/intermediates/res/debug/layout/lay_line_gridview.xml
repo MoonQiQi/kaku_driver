@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View style="@style/gray_line" />
+
+    <TextView
+        android:id="@+id/tv_pupp_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/x20"
+        android:paddingLeft="@dimen/x30"
+        android:paddingTop="@dimen/x20"
+        android:text="返回"
+        android:textColor="@color/color_blue"
+        android:textSize="@dimen/x30" />
+
+    <View style="@style/gray_line" />
+
+    <com.yichang.kaku.logistics.LineGridView
+        android:id="@+id/gv_shoplist_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:numColumns="5" />
+
+</LinearLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/lay_line_gridview.xml -->

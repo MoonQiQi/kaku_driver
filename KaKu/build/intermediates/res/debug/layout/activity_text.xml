@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_text"
+        layout="@layout/activity_titlebar" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="@dimen/x30" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white"
+
+        >
+
+        <EditText
+            android:id="@+id/et_text"
+            android:textCursorDrawable="@drawable/cursor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginRight="@dimen/x30"
+
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:cursorVisible="true"
+            android:gravity="center_vertical"
+            android:hint="点击输入"
+            android:paddingLeft="@dimen/x10"
+            android:textColor="@color/color_word"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+    <Button
+        android:id="@+id/btn_text"
+        style="@style/Btn_Red"
+        android:text="确定" />
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_text.xml -->

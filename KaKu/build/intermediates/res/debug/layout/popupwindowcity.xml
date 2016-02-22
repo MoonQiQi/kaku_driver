@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlack"
+    android:layout_margin="8dp"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_pup_left"
+            android:padding="15dp"
+            android:text="返回"
+            android:textSize="16sp"
+            android:textColor="@color/color_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_pup_right"
+            android:padding="15dp"
+            android:text="完成"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/color_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_pup_mid"
+            android:padding="15dp"
+            android:text="中国"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gv_city"
+        android:numColumns="5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+</LinearLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/popupwindowcity.xml -->

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_member_msg"
+        layout="@layout/activity_titlebar" />
+
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+    <RelativeLayout
+        android:id="@+id/rela_setting_edit_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="修改支付密码"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+        <ImageView
+
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_setting_address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="收货地址"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+        <ImageView
+
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View style="@style/Line_h" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white">
+
+        <View style="@style/Line_h" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_setting_update"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="检查更新"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_setting_update"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_info_name"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text="请检查更新"
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_info_name"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_setting_version"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="版本信息"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_setting_version"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text="V1.5.0"
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rela_setting_aboutus"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="关于卡库"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_info_erweima1"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <Button
+        android:id="@+id/btn_setting_exit"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_member_settings"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_member_settings.xml -->

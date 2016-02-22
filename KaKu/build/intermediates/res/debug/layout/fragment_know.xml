@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_pinpaifuwuzhan"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/line_shoplist"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dotted_line_vertical" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_ppfwz_quanbudiqu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_ppfwz_quanbudiqu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/heijiantouxia"
+                        android:text="全部地区"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_v" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_ppfwz_pinpai"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_ppfwz_pinpai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/heijiantouxia"
+                        android:text="品牌"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_v" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_ppfwz_tuijianpaixu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_ppfwz_tuijianpaixu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="推荐排序"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <com.yichang.kaku.view.widget.XListView
+                android:id="@+id/lv_ppfwz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_shoplist_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightBlack"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/view1"
+                android:background="@color/bg_color">
+
+                <TextView
+                    android:id="@+id/tv_pupp_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="返回"
+                    android:textColor="@color/color_blue"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_pupp_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="15dp"
+                    android:text="完成"
+                    android:textColor="@color/color_blue"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_pupp_mid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="15dp"
+                    android:text="中国"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view1"
+                style="@style/Line_h"
+                android:layout_above="@+id/gv_shoplist_city" />
+
+            <com.yichang.kaku.logistics.LineGridView
+                android:id="@+id/gv_shoplist_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:numColumns="5" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/fragment_know.xml -->

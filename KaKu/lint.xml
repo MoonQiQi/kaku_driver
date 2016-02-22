@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="ContentDescription" severity="ignore" />
+    <issue id="Deprecated" severity="ignore" />
+    <issue id="HardcodedText" severity="ignore" />
+    <issue id="NestedScrolling" severity="ignore" />
+    <issue id="NewApi" severity="ignore" />
+    <issue id="OldTargetApi" severity="ignore" />
+    <issue id="Orientation" severity="ignore" />
+    <issue id="ScrollViewCount" severity="ignore" />
+    <issue id="ScrollViewSize" severity="ignore" />
+    <issue id="TooManyViews" severity="ignore" />
+    <issue id="UselessLeaf" severity="ignore" />
+    <issue id="UselessParent" severity="ignore" />
+</lint>

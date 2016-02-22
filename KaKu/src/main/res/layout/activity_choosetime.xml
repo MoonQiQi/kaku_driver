@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@color/white"
+        android:clickable="true"
+        android:onClick="chooseStartTime">
+
+        <View style="@style/gray_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="上班时间"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28" />
+
+        <TextView
+            android:id="@+id/stime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/jinqu"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_hint"
+            android:textSize="15dp" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@color/white"
+        android:clickable="true"
+        android:onClick="chooseEndTime">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x30"
+            android:gravity="center_vertical"
+            android:text="下班时间"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28" />
+
+        <TextView
+            android:id="@+id/etime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/jinqu"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_hint"
+            android:textSize="15dp" />
+
+        <View style="@style/gray_line" />
+
+        <View
+            style="@style/gray_line"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

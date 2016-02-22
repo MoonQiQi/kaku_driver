@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFF">
+
+        <TextView
+            android:id="@+id/tv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/jiantou"
+            android:drawablePadding="3dp"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="@color/color_back"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="对话详情"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x8"
+                android:text="姚望"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x22" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:text="保存"
+            android:textColor="@color/color_back"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <View style="@style/gray_line" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@null"
+        android:divider="@color/white"
+        android:dividerHeight="@dimen/x34"
+        android:listSelector="@android:color/transparent"
+        android:paddingTop="@dimen/x30"
+        android:transcriptMode="alwaysScroll"
+        tools:listitem="@layout/layout_talk_item_me" />
+
+    <View style="@style/gray_line" />
+
+    <ViewStub
+        android:id="@+id/vs_foot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout="@layout/layout_talk_detail_foot" />
+
+</LinearLayout>

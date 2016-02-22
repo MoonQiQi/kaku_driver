@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="15dp"
+     >
+
+    <ImageView
+        android:id="@+id/iv_lovecar_image"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="30dp"
+        android:layout_margin="15dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/tv_lovecar_name"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_toRightOf="@+id/iv_lovecar_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_lovecar_mali"
+        android:textColor="@color/color_word"
+        android:textSize="14sp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_lovecar_name"
+        android:layout_alignLeft="@+id/tv_lovecar_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_lovecar_chechang"
+        android:textColor="@color/color_word"
+        android:textSize="14sp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_lovecar_mali"
+        android:layout_alignLeft="@+id/tv_lovecar_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_lovecar_status"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/color_red"
+        android:textSize="17sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

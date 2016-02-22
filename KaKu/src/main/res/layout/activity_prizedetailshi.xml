@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_prizedetail"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_prizedetail_prize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/jiangpinhong" />
+
+        <TextView
+            android:id="@+id/tv_prizedetail_zhongjiangtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_prizedetail_prize"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="18dp"
+            android:text="中奖时间"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <RelativeLayout
+        android:id="@+id/rela_prizedetail_shouhuo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shouhuobeijingda">
+
+        <TextView
+            android:id="@+id/tv_prizedetail_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/shouhuotouxiang"
+            android:drawablePadding="3dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_prizedetail_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/shouhuoshouji"
+            android:drawablePadding="3dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_prizedetail_addr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_prizedetail_people"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_prizedetail_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="15dp" />
+
+        <TextView
+            android:id="@+id/tv_prizedetail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/iv_prizedetail_image"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:id="@+id/line_prizedetailshi_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:text="发货时间"
+                android:textColor="@color/color_word"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_prizedetail_fahuotime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:layout_marginRight="15dp"
+                android:text="无"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:text="物流公司"
+                android:textColor="@color/color_word"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_prizedetail_wuliugongsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:layout_marginRight="15dp"
+                android:text="无"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:text="订单编号"
+                android:textColor="@color/color_word"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_prizedetail_dingdanbianhao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:layout_marginRight="15dp"
+                android:text="无"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_prizedetail_lingqu"
+            style="@style/Btn_Red_small"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            android:text="邮寄领取" />
+
+        <Button
+            android:id="@+id/btn_prizedetail_xianchang"
+            style="@style/Btn_Red_small"
+            android:layout_margin="15dp"
+            android:text="现场领取" />
+
+    </RelativeLayout>
+
+</LinearLayout>

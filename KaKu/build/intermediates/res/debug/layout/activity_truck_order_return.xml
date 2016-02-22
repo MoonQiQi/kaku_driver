@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/activity_titlebar"
+        android:id="@+id/title_fanxiu" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:padding="15dp"
+        android:textSize="16sp"
+        android:background="@color/white"
+        android:text="服务类型"/>
+
+    <View
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_margin="15dp"
+            android:src="@drawable/fanxiu"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <View
+        android:layout_marginTop="15dp"
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_edittext"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_fanxiu"
+            android:layout_width="match_parent"
+
+            android:textCursorDrawable="@drawable/cursor"
+            android:textColor="@color/color_word"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:layout_height="@dimen/x88" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <View
+        android:layout_marginTop="15dp"
+        style="@style/Line_h"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:padding="15dp"
+        android:textSize="16sp"
+        android:background="@color/white"
+        android:text="上传图片"/>
+
+    <View
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:paddingBottom="15dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_return_add"
+            android:layout_width="wrap_content"
+            android:src="@drawable/tianjiatupian"
+            android:layout_margin="15dp"
+            android:layout_height="wrap_content" />
+
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_return_commit"
+        android:text="提交"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_btn_red"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+
+        />
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_truck_order_return.xml -->

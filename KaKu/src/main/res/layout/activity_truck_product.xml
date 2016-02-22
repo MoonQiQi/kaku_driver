@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true" />
+
+    <com.yichang.kaku.view.BorderScrollView
+        android:id="@+id/sv_product_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_product_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_product_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_product_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="20dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:id="@+id/tv_dollar_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="￥"
+                        android:textColor="#d10000"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/tv_dollar_sign"
+                        android:text="0.00"
+                        android:textColor="#d10000"
+                        android:textSize="27sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_baoyou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/tv_product_price"
+                        android:src="@drawable/product_detail_baoyou" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/iv_baoyou"
+                        android:src="@drawable/product_detail_exchange" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_h" />
+
+                <View
+                    style="@style/Line_h"
+                    android:layout_marginTop="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="商品评价"
+                        android:textColor="#999999"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_num_evals"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="1235"
+                            android:textColor="#d10000"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人评价"
+                            android:textColor="#999999"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_num_exchange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="1235"
+                            android:textColor="#d10000"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人购买"
+                            android:textColor="#999999"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <View style="@style/Line_h" />
+
+                    <ListView
+                        android:id="@+id/lv_comment_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@color/bg_color"
+                        android:dividerHeight="@dimen/x1"
+                        android:overScrollMode="never"></ListView>
+
+                    <TextView
+                        android:id="@+id/tv_comment_more"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x88"
+                        android:gravity="center"
+                        android:text="查看更多评价"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View style="@style/Line_h" />
+
+                <View
+                    style="@style/Line_h"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x88"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="上拉查看图文详情"
+                    android:textColor="#999999"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:id="@+id/ll_product_web"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_down"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x88"
+                    android:gravity="center"
+                    android:text="下拉收起图文详情"
+                    android:textColor="#999999"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <WebView
+                    android:id="@+id/wv_product_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+
+                    ></WebView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </com.yichang.kaku.view.BorderScrollView>
+
+    <!-- <com.yichang.kaku.view.BorderScrollView
+         android:id="@+id/sv_product_web"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="1"
+         android:fillViewport="true"
+         android:visibility="gone">
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             >
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="@dimen/x88"
+                 android:gravity="center"
+                 android:text="下拉查看图文详情"
+                 android:textColor="#000"
+                 android:textSize="16sp" />
+
+             <WebView
+                 android:id="@+id/wv_product_detail"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+
+                 ></WebView>
+         </LinearLayout>
+
+     </com.yichang.kaku.view.BorderScrollView>-->
+
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:id="@+id/ll_shopcart_bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x100"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_service"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/product_detail_service" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="客服热线"
+                android:textColor="#d10000"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_shopcar"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/shopcar_fra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_shopcar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_marginTop="@dimen/x10"
+                    android:src="@drawable/shopcar" />
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@drawable/mall_num_shape"
+                    android:text="9"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="购物车"
+                android:textColor="#d10000"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!--<TextView
+            android:id="@+id/tv_bottombar_pricebill"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:text=""
+            android:textColor="@color/color_red"
+            android:textSize="18sp" />-->
+
+        <TextView
+            android:id="@+id/tv_bottombar_pay"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@color/color_red"
+            android:gravity="center"
+
+            android:text="加入购物车"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--抽奖-->
+            <!--分割线-->
+            <View style="@style/Line_h"
+                android:layout_marginTop="15dp"
+                />
+
+            <RelativeLayout style="@style/MeRelaLayout">
+
+                <TextView
+                    style="@style/MeText"
+                    android:text="积分抽奖" />
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/MeTextGray"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toLeftOf="@+id/iv_member_arrow_coupon"
+                    android:text="小积分，抽大奖，更多礼品等你拿"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_cj1" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_cj2" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--抽奖-->
+            <!--分割线-->
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+
+                style="@style/MeRelaLayout">
+
+
+                <TextView
+                    style="@style/MeText"
+                    android:text="商品秒杀" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/MeTextGray"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toLeftOf="@+id/iv_member_arrow_coupon"
+                    android:text="限时低价，天天上心"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_ms1" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_ms2" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--在线提问-->
+            <!--分割线-->
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+
+                style="@style/MeRelaLayout">
+
+                <TextView
+                    style="@style/MeText"
+                    android:text="在线提问" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/MeTextGray"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toLeftOf="@+id/iv_member_arrow_coupon"
+                    android:text="5万技师为您在线实时解答"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_tw1" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_tw2" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--每日资讯-->
+            <!--分割线-->
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+
+                style="@style/MeRelaLayout">
+
+                <TextView
+                    style="@style/MeText"
+                    android:text="每日资讯" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/MeTextGray"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toLeftOf="@+id/iv_member_arrow_coupon"
+                    android:text="每天推送“有情怀”的行业资讯"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_zx1" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_zx2" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--维修保养-->
+            <!--分割线-->
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+
+                style="@style/MeRelaLayout">
+
+                <TextView
+                    style="@style/MeText"
+                    android:text="维修保养" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/MeTextGray"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toLeftOf="@+id/iv_member_arrow_coupon"
+                    android:text="2万家服务站为您贴身护航"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_wx1" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/img_wx2" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>
+

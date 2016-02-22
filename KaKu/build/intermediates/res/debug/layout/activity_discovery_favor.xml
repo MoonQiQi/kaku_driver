@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color"><!-- android:background="@drawable/topbar_bg" -->
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar" />
+
+    <LinearLayout
+
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.yichang.kaku.view.widget.XListView
+            android:id="@+id/lv_discovery_favor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/layout_data_none"
+        layout="@layout/layout_data_none"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_net_none"
+        layout="@layout/layout_net_none"
+        android:visibility="gone" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_discovery_favor.xml -->

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_comment_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="服务提醒"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="2015-06-28 05:43:15"
+            android:textColor="#999999"
+            android:textSize="16sp"
+
+            />
+
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的订单[5555155155]距离本次养护时间还有一个小时，如需延后保养时间请您与客服人员联系"
+            android:textColor="#666666"
+            android:textSize="15sp"
+
+            />
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:id="@+id/ll_reply_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_comment_reply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="回复"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_reply_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="2015-06-28 05:43:15"
+            android:textColor="#999999"
+            android:textSize="16sp"
+
+            />
+
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" android:id="@+id/view_reply_title"/>
+
+    <LinearLayout
+        android:id="@+id/ll_reply_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+
+        >
+
+
+        <TextView
+            android:id="@+id/tv_reply_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的订单[55555555]距离本次养护时间还有一个小时，如需延后保养时间请您与客服人员联系"
+            android:textColor="#666666"
+            android:textSize="15sp"
+
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_reply"
+        style="@style/Line_h" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_member_comment_list.xml -->

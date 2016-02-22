@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x30"
+        android:src="@drawable/btn_tiwen_ljtw" />
+
+    <ImageView
+        android:id="@+id/talk_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_toRightOf="@+id/user_avatar"
+        android:adjustViewBounds="true"
+        android:background="@drawable/talk_item_me_bg"
+        android:maxWidth="@dimen/x450"
+        android:paddingBottom="@dimen/x6"
+        android:paddingLeft="@dimen/x28"
+        android:paddingRight="@dimen/x6"
+        android:paddingTop="@dimen/x6"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/img_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/talk_img"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:layout_toRightOf="@+id/talk_img"
+        tools:src="@drawable/progress_large" />
+
+    <TextView
+        android:id="@+id/talk_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/talk_img"
+        android:layout_below="@+id/talk_img"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:textColor="#9FADC3"
+        android:textSize="@dimen/x18"
+        tools:text="11-11 12:19" />
+
+</RelativeLayout>

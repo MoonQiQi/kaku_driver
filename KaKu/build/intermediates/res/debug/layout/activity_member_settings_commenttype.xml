@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+
+        layout="@layout/activity_titlebar" />
+
+
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+
+
+
+    <LinearLayout
+        android:id="@+id/rela_setting_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:padding="15dp"
+            android:text="— 请选择 —"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <View style="@style/Line_h"/>
+
+        <TextView
+            android:id="@+id/tv_function"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:padding="15dp"
+            android:text="功能意见"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <View style="@style/Line_h" android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/tv_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:padding="15dp"
+            android:text="页面意见"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <View style="@style/Line_h" android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/tv_operate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:padding="15dp"
+            android:text="操作意见"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <View style="@style/Line_h" android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/tv_others"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:padding="15dp"
+            android:text="其它"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_member_settings_commenttype.xml -->

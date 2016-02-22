@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/titlebar_pinpaixuanze"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/line_pinpai_step1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x68"
+                android:layout_marginBottom="@dimen/x20"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_marginTop="@dimen/x20"
+                android:background="@drawable/bg_edittext">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/x10"
+                    android:paddingRight="@dimen/x10"
+                    android:src="@drawable/search_bar_icon_normal"
+
+                    />
+
+                <com.yichang.kaku.home.ClearEditText
+                    android:id="@+id/filter_edit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x68"
+                    android:background="@null"
+                    android:hint="搜索爱车品牌"
+                    android:singleLine="true"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.yichang.kaku.home.MyGridView
+                            android:id="@+id/gv_remen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:horizontalSpacing="10dp"
+                            android:numColumns="5"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="10dp"
+                            android:verticalSpacing="10dp" />
+
+                        <ListView
+                            android:id="@+id/country_lvcountry"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center"
+                            android:dividerHeight="1dp" />
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+                <TextView
+                    android:id="@+id/title_layout_no_friends"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|top"
+                    android:background="#E0E0E0"
+                    android:gravity="center_vertical"
+                    android:text="没有匹配的车型"
+                    android:textColor="#454545"
+                    android:visibility="gone" />
+
+                <!-- <LinearLayout
+                     android:id="@+id/title_layout"
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="right|top"
+                     android:background="#ff303030"
+                     android:orientation="vertical" >
+
+                     <TextView
+                         android:id="@+id/title_layout_catalog"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:background="@color/white"
+                         android:layout_gravity="center_vertical"
+                         android:text="热门品牌"
+                         android:paddingBottom="3dip"
+                         android:paddingLeft="15dp"
+                         android:paddingTop="3dip"
+                         android:textColor="@color/black" />
+                 </LinearLayout>-->
+
+                <TextView
+                    android:id="@+id/dialog"
+                    android:layout_width="80.0dip"
+                    android:layout_height="80.0dip"
+                    android:layout_gravity="center"
+                    android:background="@drawable/show_head_toast_bg"
+                    android:gravity="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="30.0dip"
+                    android:visibility="invisible" />
+
+                <!-- <com.yichang.kaku.home.mycar.SideBar
+                     android:id="@+id/sidrbar"
+                     android:layout_width="30.0dip"
+                     android:layout_height="fill_parent"
+                     android:layout_gravity="right|center" />-->
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/line_pinpai_step2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
+            android:visibility="gone">
+
+            <View
+                android:id="@+id/view_shadow"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_shadow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/view_shadow"
+                android:background="@color/bg_color"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/iv2_pinpai_pinpai"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="30dp" />
+
+                    <TextView
+                        android:id="@+id/tv2_pinpai_line1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@+id/iv2_pinpai_pinpai"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv2_pinpai_line2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tv2_pinpai_line1"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/tv2_pinpai_line1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv2_pinpai_line3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tv2_pinpai_line2"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/tv2_pinpai_line2"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv2_pinpai_line4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tv2_pinpai_line1"
+                        android:layout_below="@+id/tv2_pinpai_line1"
+                        android:layout_marginTop="5dp"
+                        android:paddingBottom="15dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv2_pinpai_line5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tv2_pinpai_line4"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toRightOf="@+id/tv2_pinpai_line4"
+                        android:paddingBottom="15dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_h" />
+
+                <View
+                    style="@style/Line_h"
+                    android:layout_marginTop="15dp" />
+
+                <ScrollView
+                    android:scrollbars="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/lv_pinpai_step2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <ListView
+                    android:id="@+id/lv_pinpai_step3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <ListView
+                    android:id="@+id/lv_pinpai_step4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_xuanche_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_pinpai_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="15dp"
+                        android:text="未找到爱车？"
+                        android:textColor="@color/color_word"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_pinpai_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tv_pinpai_text1"
+                        android:layout_toRightOf="@+id/tv_pinpai_text1"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:text="点击添加"
+                        android:textColor="@color/color_blue"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

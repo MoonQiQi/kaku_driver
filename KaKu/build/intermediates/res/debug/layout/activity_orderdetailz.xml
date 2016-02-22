@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_orderdetaila"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:paddingRight="@dimen/x30"
+                android:paddingLeft="@dimen/x30"
+                android:gravity="center"
+                android:background="@color/white"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_Z_shenhezhong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/shenhezhong" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/iv_Z_shenhezhong"
+                    android:text="审核中"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_Z_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:paddingRight="@dimen/x30"
+                android:paddingLeft="@dimen/x30"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:gravity="center"
+                
+                android:text="申请时间"
+                android:textColor="@color/color_word"
+                android:textSize="15sp" />
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:paddingRight="@dimen/x30"
+                android:paddingLeft="@dimen/x30"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    
+                    android:text="返修类型"
+                    android:textColor="@color/color_word"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                 
+                    android:text="返修"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:paddingRight="@dimen/x30"
+                android:paddingLeft="@dimen/x30"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    
+                    android:text="售后编号"
+                    android:textColor="@color/color_word"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_Z_shouhoubianhao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:text="售后编号"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:paddingRight="@dimen/x30"
+                android:paddingLeft="@dimen/x30"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_Z_shuoming1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    
+                    android:text="返修说明"
+                    android:textColor="@color/color_word"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_Z_fanxiushuoming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                   
+                    android:layout_toRightOf="@+id/tv_Z_shuoming1"
+                    android:gravity="right"
+                    android:text="返修说明"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:text="图片说明"
+                    android:textColor="@color/color_word"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:id="@+id/iv_Z_image"
+                    android:layout_width="63dp"
+                    android:layout_height="63dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <Button
+                android:id="@+id/btn_Z_call"
+                style="@style/Btn_Red"
+                android:layout_marginTop="15dp"
+                android:text="电话咨询" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_orderdetailz.xml -->

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_jianglimingxi"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x320"
+        android:background="#f1553c">
+
+        <TextView
+            android:id="@+id/tv_quasi_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_shouyi_time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="奖励准现金"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_jlgz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_quasi_cash"
+            android:layout_alignParentRight="true"
+            android:paddingRight="15dp"
+            android:src="@drawable/btn_jlgz" />
+
+        <TextView
+            android:id="@+id/tv_prize_quasi_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_quasi_cash"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="¥ 0.00"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+        <View
+            android:id="@+id/view_shouyi_h"
+            style="@style/Line_h"
+            android:layout_below="@+id/tv_shouyi_canyu" />
+
+        <View
+            android:id="@+id/view_shouyi_v"
+            android:layout_width="0.5dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tv_prize_quasi_cash"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_prize_quasi_cash"
+            android:layout_toLeftOf="@+id/view_shouyi_v">
+
+            <TextView
+                android:id="@+id/tv_shouyi_meirizi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="奖励积分"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_prize_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_shouyi_meirizi"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="10"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_prize_quasi_cash"
+            android:layout_toRightOf="@+id/view_shouyi_v">
+
+            <TextView
+                android:id="@+id/tv_shouyi_shengyuzi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="奖励现金"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_prize_cash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_shouyi_shengyuzi"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="¥ 0.00"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <!-- <ImageView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:src="@drawable/bg_jianglimingxi" />
+
+         <TextView
+             android:id="@+id/tv_jianglimingxi_zongji"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="right"
+             android:padding="15dp"
+             android:text="合计 0"
+             android:textColor="@color/color_word"
+             android:textSize="16sp" />-->
+
+        <View style="@style/Line_h" />
+
+        <!--<com.yichang.kaku.view.widget.XListView
+            android:id="@+id/lv_jianglimingxi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="0.5dp"></com.yichang.kaku.view.widget.XListView>-->
+
+        <ListView
+            android:id="@+id/lv_jianglimingxi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="15dp"
+            android:divider="@color/bg_color"
+
+            />
+
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/layout_data_none"
+        layout="@layout/layout_data_none"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_net_none"
+        layout="@layout/layout_net_none"
+        android:visibility="gone" />
+
+
+</LinearLayout>

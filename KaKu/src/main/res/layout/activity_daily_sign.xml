@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"><!-- android:background="@drawable/topbar_bg" -->
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="15dp">
+
+            <ImageView
+                android:id="@+id/iv_today_rewards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/sign_gift" />
+
+            <TextView
+                android:id="@+id/tv_today_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_today_rewards"
+                android:gravity="center_vertical"
+                android:text="今日签到奖励"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_today_rewards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_today_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_today_rewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#ff8b03"
+                    android:textSize="27sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_today_rewards"
+                    android:text="积分"
+                    android:textColor="#ff8b03"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_today_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_today_rewards"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textColor="#999999"
+                android:textSize="15sp"
+
+                />
+        </RelativeLayout>
+
+        <View
+            style="@style/Line_v"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="15dp">
+
+            <ImageView
+                android:id="@+id/iv_today_point_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/sign_point" />
+
+            <TextView
+                android:id="@+id/tv_points_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_today_point_now"
+                android:gravity="center_vertical"
+                android:text="我的积分"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_point_now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_points_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="#ff8b03"
+                    android:textSize="27sp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_today_rewards"
+                    android:text="积分"
+                    android:textColor="#ff8b03" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/btn_exchange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_point_now"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_text_sign_yellow"
+                android:gravity="center_horizontal"
+                android:padding="2dp"
+                android:text="兑换好礼"
+                android:textColor="#ff8b03"
+                android:textSize="13sp"
+
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+<!--    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="签到提醒"
+            android:textColor="#000000"
+            android:textSize="17sp"
+
+            />
+
+        <CheckBox
+            android:id="@+id/cbx_rewards_toggle"
+            style="@style/ToggleCBox"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp" />
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />-->
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="您已连续签到"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_day_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="6"
+                android:textColor="#ff8b03"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="天"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="13dp"
+            android:text="连续签到获得额外积分，漏签请重新开始"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:scrollbars="none"
+
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_day_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+
+                    <!--<ImageView
+                        android:id="@+id/iv_reward_five"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/daily_sign_reward" />-->
+                    <!--<RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">-->
+
+                    <LinearLayout
+                        android:id="@+id/ll_reward_five"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tv_reward_five"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal|bottom"
+                            android:text="10"
+                            android:textColor="#ff8b03"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tv_reward_five_point"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_below="@+id/tv_reward_five"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal"
+                            android:text="积分"
+                            android:textColor="#ff8b03"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+                    <!--
+                </RelativeLayout>-->
+
+
+                    <ImageView
+                        android:id="@+id/iv_day_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <!-- <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:paddingLeft="5dp"
+                         android:src="@drawable/daily_sign_reward" />-->
+                    <!--<TextView
+                        android:id="@+id/tv_reward_ten"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:gravity="center"
+                        android:text="30"
+                        android:textColor="#ff8b03"
+                        android:textSize="11sp" />-->
+
+                    <LinearLayout
+                        android:id="@+id/ll_reward_ten"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tv_reward_ten"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal|bottom"
+                            android:text="30"
+                            android:textColor="#ff8b03"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tv_reward_ten_point"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_below="@+id/tv_reward_ten"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal"
+                            android:text="积分"
+                            android:textColor="#ff8b03"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/iv_day_11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <!--<TextView
+                        android:id="@+id/tv_reward_twenty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:gravity="center"
+                        android:text="50"
+                        android:textColor="#ff8b03"
+                        android:textSize="11sp" />-->
+
+                    <LinearLayout
+                        android:id="@+id/ll_reward_twenty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tv_reward_twenty"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal|bottom"
+                            android:text="50"
+                            android:textColor="#ff8b03"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tv_reward_twenty_point"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_below="@+id/tv_reward_twenty"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal"
+                            android:text="积分"
+                            android:textColor="#ff8b03"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_day_21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <ImageView
+                        android:id="@+id/iv_day_29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned" />
+
+                    <!--<TextView
+                        android:id="@+id/tv_reward_thirty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:gravity="center"
+                        android:text="80"
+                        android:textColor="#ff8b03"
+                        android:textSize="11sp" />-->
+                    <LinearLayout
+                        android:id="@+id/ll_reward_thirty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/daily_sign_unreward"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tv_reward_thirty"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal|bottom"
+                            android:text="80"
+                            android:textColor="#ff8b03"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tv_reward_thirty_point"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_below="@+id/tv_reward_thirty"
+                            android:layout_weight="1"
+
+
+                            android:gravity="center_horizontal"
+                            android:text="积分"
+                            android:textColor="#ff8b03"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+
+                    <!--<ImageView
+                        android:id="@+id/iv_reward_five"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/daily_sign_reward" />-->
+                    <!--<RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">-->
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:src="@drawable/daily_sign_transparent" />
+
+                        <TextView
+
+                            android:layout_width="26dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_text_sign_gray"
+                            android:gravity="center_horizontal"
+                            android:text="5天"
+                            android:textSize="11sp" />
+                    </FrameLayout>
+
+                    <!--
+                </RelativeLayout>-->
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:src="@drawable/daily_sign_transparent" />
+
+                        <TextView
+
+                            android:layout_width="26dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_text_sign_gray"
+                            android:gravity="center_horizontal"
+                            android:text="10天"
+                            android:textSize="11sp" />
+                    </FrameLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:src="@drawable/daily_sign_transparent" />
+
+                        <TextView
+
+                            android:layout_width="26dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_text_sign_gray"
+                            android:gravity="center_horizontal"
+                            android:text="20天"
+                            android:textSize="11sp" />
+                    </FrameLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/daily_unsigned"
+                        android:visibility="invisible" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:paddingRight="15dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:src="@drawable/daily_sign_transparent" />
+
+                        <TextView
+
+                            android:layout_width="26dp"
+                            android:layout_height="15dp"
+
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_text_sign_gray"
+                            android:gravity="center_horizontal"
+                            android:text="30天"
+                            android:textSize="11sp" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
+    </LinearLayout>
+
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="再连续签到 "
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="#ff8b03"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 天即可获得额外 "
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_extra_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textColor="#ff8b03"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 积分奖励"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

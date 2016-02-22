@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_member_msg"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:id="@+id/rela_setting_update"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x108"
+        android:layout_centerVertical="true"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_car_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_car_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_car_brand"
+            android:paddingLeft="15dp"
+            android:text="卡库"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+    <View
+        style="@style/Line_h"
+        />
+
+
+
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="15dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/rela_car_series"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="车系"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_car_series"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_series"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_series"
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_oil_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="燃油种类"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_oil_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_oil_type"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_oil_type"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_car_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="车型"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_car_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_car_type"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_car_type"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_driver_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="驱动形式"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_driver_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_driver_type"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_driver_type"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_max_hp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="最大马力"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_max_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_max_hp"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_max_hp"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_emission_standards"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="排放标准"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_emission_standards"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_emission_standards"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_emission_standards"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rela_car_engine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:text="发动机"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_car_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_car_engine"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_car_engine"
+
+            style="@style/MeImageEntry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            style="@style/Line_h"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

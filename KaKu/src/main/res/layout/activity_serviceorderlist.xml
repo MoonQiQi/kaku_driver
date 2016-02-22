@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_serviceorderlist"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_orderlist_dayuhao"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/jinqu" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/iv_orderlist_dayuhao"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_orderlist_quanbu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="全部"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <View style="@style/Line_v" />
+
+            <TextView
+                android:id="@+id/tv_orderlist_daifukuan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="待支付"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <View style="@style/Line_v" />
+            <TextView
+                android:id="@+id/tv_orderlist_daianzhuang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="待安装"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <View style="@style/Line_v" />
+            <TextView
+                android:id="@+id/tv_orderlist_daiqueren"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="待确认"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <View style="@style/Line_v" />
+            <TextView
+                android:id="@+id/tv_orderlist_daipingjia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="待评价"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <View style="@style/Line_v" />
+            <TextView
+                android:id="@+id/tv_orderlist_fanxiu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="返修"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <View style="@style/Line_v" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.yichang.kaku.view.widget.XListView
+            android:id="@+id/lv_orderlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="15dp" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/layout_data_none"
+        layout="@layout/layout_data_none"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_net_none"
+        layout="@layout/layout_net_none"
+        android:visibility="gone" />
+
+</LinearLayout>

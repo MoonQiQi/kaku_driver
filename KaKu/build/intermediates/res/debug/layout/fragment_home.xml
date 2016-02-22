@@ -1,0 +1,429 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
+    <com.yichang.kaku.home.ObservableScrollView
+        android:id="@+id/sv_home_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_color"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/home_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ad_height"></RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_home1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home1" />
+
+                <ImageView
+                    android:id="@+id/iv_home2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home2" />
+
+                <ImageView
+                    android:id="@+id/iv_home3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home3" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_home_toutiao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x60"
+                    android:src="@drawable/home_toutiao" />
+
+                <com.yichang.kaku.view.wheelview.WheelView
+                    android:id="@+id/home_toutiao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x20" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="287"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:tag="miaosha">
+
+                        <RelativeLayout
+                            android:id="@+id/rela_iv_home5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/iv_home5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/home5" />
+
+                            <LinearLayout
+                                android:visibility="invisible"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@id/iv_home5"
+                                android:paddingBottom="15dp"
+                                android:paddingLeft="15dp"
+                                android:paddingTop="5dp">
+
+                                <TextView
+                                    android:id="@+id/tv_countdown_hour"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_countdown_dark"
+                                    android:gravity="center"
+                                    android:paddingLeft="1dp"
+                                    android:paddingRight="1dp"
+                                    android:text="00"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=":"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_countdown_min"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_countdown_dark"
+                                    android:gravity="center"
+                                    android:paddingLeft="1dp"
+                                    android:paddingRight="1dp"
+                                    android:text="00"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=":"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_countdown_second"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_countdown_dark"
+                                    android:gravity="center"
+                                    android:paddingLeft="1dp"
+                                    android:paddingRight="1dp"
+                                    android:text="00"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_home6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/home6" />
+
+                        <ImageView
+                            android:id="@+id/iv_home7"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/home7" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_home8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="193"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home8" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <LinearLayout
+                android:id="@+id/line_home_fuwuzhan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_home_teyueweixiuzhan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="特约服务站"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/iv_home_dayuhao2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/dayuhao" />
+
+                <TextView
+                    android:id="@+id/tv_home_dayuhao2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/iv_home_dayuhao2"
+                    android:padding="3dp"
+                    android:text="更多"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <ListView
+                android:id="@+id/lv_home_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <!-- TODO 好礼商城-->
+            <RelativeLayout
+                android:id="@+id/rl_mall"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_home_chepinshangcheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="好礼商城"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/iv_home_dayuhao3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/dayuhao" />
+
+                <TextView
+                    android:id="@+id/tv_home_dayuhao3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/iv_home_dayuhao3"
+                    android:padding="3dp"
+                    android:text="更多"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp"
+                    android:orientation="vertical">
+
+                    <GridView
+                        android:id="@+id/grid_shopmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:numColumns="auto_fit"
+                        android:stretchMode="spacingWidthUniform" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginBottom="15dp" />
+
+        </LinearLayout>
+
+    </com.yichang.kaku.home.ObservableScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rela_main_title2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_main_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/gradlient_black">
+
+        <RelativeLayout
+            android:id="@+id/rela_home_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/ll_title_home_right"
+            android:layout_toRightOf="@+id/ll_title_home_left">
+
+            <TextView
+                android:id="@+id/tv_title_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/dingwei"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/xiajiantou"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_title_home_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/iv_title_home_left"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/kache" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_title_home_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_title_home_right"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/sousuo" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/fragment_home.xml -->

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"><!-- android:background="@drawable/topbar_bg" -->
+
+    <include
+        android:id="@+id/include_titlebar"
+        layout="@layout/activity_titlebar" />
+
+    <LinearLayout
+        android:id="@+id/ll_warning"
+        android:layout_below="@+id/titlebar_mycar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#99000000"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:visibility="visible"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_warning"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+            android:id="@+id/tv_order_invalid_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="请在15分钟内完成支付，否则订单会失效哦~"
+            android:textColor="@color/white"
+
+
+            />
+
+    </LinearLayout>
+    <View style="@style/Line_h" android:layout_marginTop="15dp"/>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x88"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:text="实付款"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_price_bill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="15dp"
+            android:text="￥22.00"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rela_wxpay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:gravity="center_vertical"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:text=" 微信"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/sign_gift"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="15dp"
+                android:src="@drawable/jinqu" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            >
+
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginLeft="15dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_alipay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:text=" 支付宝"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/sign_point"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="15dp"
+
+                android:src="@drawable/jinqu" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_order_pay.xml -->

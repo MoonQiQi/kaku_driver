@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_member_msg"
+        layout="@layout/activity_titlebar" />
+
+
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+
+
+    <RelativeLayout
+        android:id="@+id/rela_info_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:text="车牌号"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+        <EditText
+            android:id="@+id/et_cart_number"
+
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            android:hint="请输入车牌号"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textColor="#666666"
+            android:textSize="17sp" />
+
+        <!-- <ImageView
+             android:id="@+id/iv_info_name"
+
+             style="@style/MeImageEntry" />-->
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"
+        android:paddingLeft="15dp" />
+
+    <RelativeLayout
+        android:id="@+id/rela_info_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:text="车型车长(m)"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/et_cart_length"
+            android:inputType="numberDecimal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            android:hint="请输入车型车长"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textColor="#666666"
+            android:textSize="17sp" />
+
+        <!--<ImageView
+            style="@style/MeImageEntry" />-->
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"
+        android:paddingLeft="15dp" />
+
+    <RelativeLayout
+        android:id="@+id/rela_info_certification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:text="载重(吨)"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/et_cart_load"
+            android:layout_width="200dp"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            android:hint="请输入载重"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:textColor="#666666"
+            android:textSize="17sp" />
+        <!-- <ImageView
+             android:id="@+id/iv_info_certification"
+
+             style="@style/MeImageEntry" />-->
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"
+        android:paddingLeft="15dp" />
+
+    <RelativeLayout
+        android:id="@+id/rela_info_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:text="载货空间(m³)"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/et_cart_space"
+            android:layout_width="200dp"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            android:hint="请输入载货空间"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:textColor="#666666"
+            android:textSize="17sp" />
+        <!--<ImageView
+            android:id="@+id/iv_info_erweima1"
+
+            style="@style/MeImageEntry" />-->
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:text="行驶证正本"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_cart_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/bg_member_cart_certification" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="照片清晰，有利于审核通过~"
+            android:textColor="#999999"
+            android:textSize="11sp"
+
+            />
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="15dp" />
+    </LinearLayout>
+
+    <Button
+        style="@style/Btn_Red"
+        android:id="@+id/btn_cart_submit"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="提交认证"
+        android:textSize="17sp" />
+
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_member_cart_certification.xml -->

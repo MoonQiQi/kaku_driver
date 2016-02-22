@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/x30"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/x30">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x26"
+            tools:text="08:23" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/color_hint"
+            android:textSize="@dimen/x20"
+            tools:text="2015-10.12" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30">
+
+        <View
+            style="@style/gray_line_vertical"
+            android:layout_width="1dp"
+            android:layout_gravity="center_horizontal" />
+
+        <View
+            android:layout_width="@dimen/x18"
+            android:layout_height="@dimen/x18"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x30"
+            android:background="@drawable/shap_oval_gray" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/x30"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingTop="@dimen/x30"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x26"
+            tools:text="北京市大兴区荣昌东街路口" />
+
+        <TextView
+            android:id="@+id/reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:maxLines="2"
+            android:textColor="@color/color_word"
+            android:textSize="@dimen/x20"
+            tools:text="违反静止标线指示灯" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/deduct_marks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:text="扣分"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x26" />
+
+            <TextView
+                android:id="@+id/_deduct_marks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/deduct_marks"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/x26"
+                tools:text="2" />
+
+            <TextView
+                android:id="@+id/fine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/_deduct_marks"
+                android:text="罚款"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x26" />
+
+            <TextView
+                android:id="@+id/_fine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/fine"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/x26"
+                tools:text="100" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/x20"
+        android:background="@drawable/tv_talk_bg_shape"
+        android:clickable="true"
+        android:onClick="sendMsg"
+        android:padding="@dimen/x16"
+        android:text="发送"
+        android:textColor="@color/color_red"
+        android:textSize="@dimen/x26" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tv_send"
+        android:background="@drawable/et_talk_shape"
+        android:hint="请输入文字"
+        android:maxHeight="@dimen/x200"
+        android:padding="@dimen/x16"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        android:textColorHint="@color/color_hint"
+        android:textSize="@dimen/x26" />
+
+
+</RelativeLayout>

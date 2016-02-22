@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+     >
+     
+    <include layout="@layout/activity_titlebar"
+         android:id="@+id/title_time" />
+
+    <RelativeLayout
+        android:id="@+id/pickdate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/xuanzeriqi"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:padding="15dp"
+            android:text="选择日期"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/showdate"
+            android:textColor="@color/color_word"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/iv_time_jinqu1"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageView
+            android:id="@+id/iv_time_jinqu1"
+            android:src="@drawable/jinqu"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <RelativeLayout
+        android:id="@+id/picktime"
+        android:background="@color/white"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/xuanzeshijian"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:padding="15dp"
+            android:text="选择时间"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/showtime"
+            android:textColor="@color/color_word"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/iv_time_jinqu2"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageView
+            android:id="@+id/iv_time_jinqu2"
+            android:src="@drawable/jinqu"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"/>
+
+    <Button
+        android:id="@+id/btn_time_sure"
+        android:layout_marginTop="20dp"
+        style="@style/Btn_Red"
+        android:text="确定"/>
+
+
+</LinearLayout>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_color">
+
+        <ImageView
+            android:id="@+id/iv_imagehis_dian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/shijianzhoudian" />
+
+        <ImageView
+            android:id="@+id/iv_imagehis_xian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rela_imagehiss"
+            android:layout_below="@+id/iv_imagehis_dian"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/shijianzhouxian" />
+
+        <TextView
+            android:id="@+id/tv_imagehis_time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_imagehis_dian"
+            android:text="2015-01-01"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/color_word"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_imagehis_type1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="审核成功"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_imagehis_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_imagehis_time1"
+            android:layout_below="@+id/tv_imagehis_time1"
+            android:layout_marginTop="10dp"
+            android:text="原因 "
+            android:textColor="@color/color_red"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btn_imagehis_commit"
+            android:layout_toRightOf="@+id/tv_imagehis_reason"
+            android:layout_alignBottom="@+id/tv_imagehis_reason"
+            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="13sp"
+            android:background="@drawable/bg_btn_red"
+            android:textColor="@color/white"
+            android:text="重新上传" />
+
+        <RelativeLayout
+            android:id="@+id/rela_imagehiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_imagehis_time1"
+            android:layout_below="@+id/tv_imagehis_reason">
+
+            <RelativeLayout
+                android:id="@+id/rela_imagehis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/image_bg">
+
+                <TextView
+                    android:id="@+id/tv_imagehis_time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="2015-01-01"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_imagehis_type2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="末次上传"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+                <!--<TextView
+                    android:id="@+id/tv_imagehis_time3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_imagehis_time2"
+                    android:layout_below="@+id/tv_imagehis_time2"
+                    android:layout_marginTop="10dp"
+                    android:text="2015-01-01"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_imagehis_type3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_imagehis_type2"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="首次上传"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />-->
+
+                <View
+                    android:id="@+id/view_imagehis"
+                    style="@style/Line_h"
+                    android:layout_below="@+id/tv_imagehis_time2"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_imagehis_tiehouxiaoguo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_imagehis_time2"
+                    android:layout_below="@+id/view_imagehis"
+                    android:layout_marginTop="10dp"
+                    android:text="贴后效果"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rela_imagehis1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_imagehis_tiehouxiaoguo"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/iv_imagehis_image1"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        fresco:placeholderImage="@drawable/logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_imagehis_image1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="车头照"
+                        android:textColor="@color/color_word"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rela_imagehis2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_imagehis_tiehouxiaoguo"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/rela_imagehis1">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/iv_imagehis_image2"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        fresco:placeholderImage="@drawable/logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_imagehis_image2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="左侧照"
+                        android:textColor="@color/color_word"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rela_imagehis3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_imagehis_tiehouxiaoguo"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/rela_imagehis2">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/iv_imagehis_image3"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        fresco:placeholderImage="@drawable/logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_imagehis_image3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="右侧照"
+                        android:textColor="@color/color_word"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_below="@+id/rela_imagehis"
+                android:background="@color/bg_color"></RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/item_tupianlishi.xml -->

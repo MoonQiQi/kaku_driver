@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_fabucheyuan"
+            layout="@layout/activity_titlebar" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:id="@+id/tv_fabu_chufadi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="出发地"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/fabucheyuan" />
+
+            <TextView
+                android:id="@+id/tv_fabu_mudidi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="目的地"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <View style="@style/Line_h" />
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="15dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x108"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/tv_fabu_tujing"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x88"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="途径城市"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/iv_fabu_jinqu1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jinqu"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/et_fabu_tujingchengshi"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/x20"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/x20"
+                android:layout_toLeftOf="@+id/iv_fabu_jinqu1"
+                android:layout_toRightOf="@+id/tv_fabu_tujing"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="15dp" />
+
+        <RelativeLayout
+            android:id="@+id/rela_fabu_zhuanghuoshijian"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="可装货时间"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/iv_fabu_jinqu2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jinqu" />
+
+            <TextView
+                android:id="@+id/tv_fabu_zhuanghuoshijian1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/iv_fabu_jinqu2"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_fabu_zhuanghuoshijian2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_fabu_zhuanghuoshijian1"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/iv_fabu_jinqu2"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+        <RelativeLayout
+            android:id="@+id/rela_fabu_car"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车辆"
+                android:layout_centerVertical="true"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/iv_fabu_jinqu3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jinqu" />
+
+            <TextView
+                android:id="@+id/tv_fabu_cheliang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/iv_fabu_jinqu3"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="15dp" />
+
+        <EditText
+            android:id="@+id/et_fabu_beizhu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
+            android:hint="备注"
+            android:padding="15dp"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textColor="@color/color_word"
+            android:textSize="17sp" />
+
+        <View style="@style/Line_h" />
+
+        <Button
+            android:id="@+id/btn_fabu_fabu"
+            style="@style/Btn_Red"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="发布"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_fabu_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightBlack"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/view2"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_pupfabu_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="返回"
+                android:textColor="@color/color_blue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_pupfabu_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="15dp"
+                android:text=""
+                android:textColor="@color/color_blue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_pupfabu_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="15dp"
+                android:text="中国"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view2"
+            style="@style/Line_h"
+            android:layout_above="@+id/gv_fabu_city" />
+
+        <com.yichang.kaku.logistics.LineGridView
+            android:id="@+id/gv_fabu_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:numColumns="5" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_fabucheyuan.xml -->

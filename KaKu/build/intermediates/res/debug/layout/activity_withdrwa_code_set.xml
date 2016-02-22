@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_member_msg"
+        layout="@layout/activity_titlebar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_captcha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x60"
+                android:background="@color/bg_color"
+                android:gravity="bottom"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/x30"
+                android:text="支付验证码将发送至您登录的手机号"
+                android:textColor="#666666"
+                android:textSize="13sp" />
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:gravity="center_vertical"
+
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_captcha"
+                    android:layout_width="@dimen/x150"
+                    android:layout_height="@dimen/x88"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="验证码"
+                    android:textColor="#000000"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/et_captcha"
+                    android:layout_width="80dp"
+                    android:layout_height="@dimen/x68"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_get_captcha"
+                    android:layout_toRightOf="@+id/tv_captcha"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="4位验证码"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:paddingLeft="5dp"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:textSize="17sp" />
+
+
+                <View
+
+                    style="@style/Line_v" />
+
+                <TextView
+                    android:id="@+id/tv_get_captcha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x68"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+
+                    android:background="@null"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="获取验证码"
+                    android:textColor="#0f7afa"
+                    android:textSize="17sp"
+
+                    />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x60"
+            android:background="@color/bg_color"
+            android:gravity="bottom"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/x30"
+            android:text="请设置支付密码"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <View style="@style/Line_h" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+
+            >
+
+            <TextView
+                android:id="@+id/tv_set_pwd"
+                android:layout_width="@dimen/x150"
+                android:layout_height="@dimen/x88"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="设置密码"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/et_withdraw_code"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x68"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@+id/tv_set_pwd"
+
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入6位数字密码"
+                android:inputType="numberPassword"
+                android:maxLength="6"
+                android:paddingLeft="5dp"
+                android:text=""
+                android:textColor="#999"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="17sp" />
+
+
+        </RelativeLayout>
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginLeft="15dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+
+            >
+
+            <TextView
+                android:id="@+id/tv_confirm_pwd"
+                android:layout_width="@dimen/x150"
+                android:layout_height="@dimen/x88"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="确认密码"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/et_withdraw_code_check"
+                android:layout_width="@dimen/x200"
+                android:layout_height="@dimen/x68"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@+id/tv_confirm_pwd"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请再次输入密码"
+                android:inputType="numberPassword"
+                android:maxLength="6"
+                android:paddingLeft="5dp"
+                android:text=""
+                android:textColor="#999"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="17sp" />
+
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+    </LinearLayout>
+</LinearLayout>
+<!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/layout/activity_withdrwa_code_set.xml -->
