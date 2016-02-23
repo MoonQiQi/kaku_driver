@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -402,8 +401,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
         if (R.id.tv_left == id) {
             finish();
-            Intent intent = new Intent(getApplicationContext(), CheTieListActivity.class);
-            startActivity(intent);
         } else if (R.id.tv_bottombar_pay == id) {
 //            与服务器交互生成订单
             // MobclickAgent.onEvent(context, "CommitCarOrder");
@@ -413,10 +410,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
             } else {
                 generateOrderId();
             }
-
-
-            //generateOrderId();
-
         } else if (R.id.rela_address_change == id) {
 //            修改收货人地址信息
             isSelectAddr = true;
@@ -482,10 +475,8 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
             return;
         }
 
-
         Utils.NoNet(context);
         showProgressDialog();
-
 
         GenerateStickerOrderReq req = new GenerateStickerOrderReq();
         req.code = "60034";
@@ -583,19 +574,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
             KaKuApplication.flag_addr = "";
         }
 
-
     }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-            Intent intent = new Intent(getApplicationContext(), CheTieListActivity.class);
-            startActivity(intent);
-        }
-        return false;
-    }
-
 
 }

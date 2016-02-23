@@ -126,42 +126,14 @@ public class CheTieDetailActivity extends BaseActivity implements OnClickListene
 				if (TextUtils.equals(flag_advert,"Y")){
 					//去拍照页面
 					Intent intent = new Intent(this,QiangImageActivity.class);
-					/*Bundle bundle = new Bundle();
-					bundle.putString("flag_one",mFlag_one);
-					bundle.putString("money_balance",mMoney_balance);
-					bundle.putString("flag_pay",mFlag_pay);
-
-					bundle.putString("price_advert",mPrice_advert);
-					bundle.putString("breaks_money",mBreaks_money);
-					bundle.putString("image_advert",mImage_advert);
-					bundle.putString("name_advert",mName_advert);
-					bundle.putString("id_advert", mId_advert);
-					bundle.putSerializable("addr", (Serializable) mAddr);
-					intent.putExtras(bundle);*/
-
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-
-
-
 					return;
 				} else if ((TextUtils.equals(flag_advert,"N"))){
 					//去订单结算页面
 					Intent intent = new Intent(this,StickerOrderActivity.class);
-					/*Bundle bundle = new Bundle();
-					bundle.putString("flag_one",mFlag_one);
-					bundle.putString("money_balance",mMoney_balance);
-					bundle.putString("flag_pay",mFlag_pay);
-
-					bundle.putString("price_advert",mPrice_advert);
-					bundle.putString("breaks_money",mBreaks_money);
-					bundle.putString("image_advert",mImage_advert);
-					bundle.putString("name_advert",mName_advert);
-					bundle.putString("id_advert", mId_advert);
-					bundle.putSerializable("addr", (Serializable) mAddr);
-					intent.putExtras(bundle);*/
-
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-
 				}
 			}
 		}
