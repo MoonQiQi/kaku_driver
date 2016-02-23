@@ -57,6 +57,9 @@ public class DaoHangActivity extends BaseActivity implements OnGetRoutePlanResul
         title.setText("导航");
         mMapView = (MapView) findViewById(R.id.ma);
 
+        if ("".equals(Utils.getLat())||"".equals(Utils.getLon())){
+            return;
+        }
         double s_Lat = Double.parseDouble(Utils.getLat());
         double s_Lon = Double.parseDouble(Utils.getLon());
         Intent intent = getIntent();
