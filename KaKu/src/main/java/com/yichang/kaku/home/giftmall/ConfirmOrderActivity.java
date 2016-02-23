@@ -341,6 +341,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                     tv_point_available.setTextColor(Color.parseColor("#d10000"));
                     //先选择余额
                     if (isBalanceChecked) {
+                        fPointDeduction=fPointLimit;
                         fRealPayPrice = fPriceGoods - fPointDeduction;
                         if (fBalanceDeduction >= fRealPayPrice) {
 
@@ -353,6 +354,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                         //fRealPayPrice=fRealPayPrice-fPointDeduction;
 
                     } else {
+                        fPointDeduction=fPointLimit;
                         fRealPayPrice = fPriceGoods - fPointDeduction;
                     }
 
@@ -387,7 +389,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                         }
                     }
 
-
+                    fPointDeduction=0f;
                     tv_point_pricepoint.setText("-￥0.00");
                     tv_confirmorder_pricebill.setText("￥" + getFomatFloatString(fRealPayPrice));
 
@@ -454,6 +456,8 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                         tv_balance_available.setTextColor(Color.parseColor("#999999"));
 
                         fRealPayPrice = fRealPayPrice + fBalanceDeduction;
+
+                        fBalanceDeduction=0f;
 
                         tv_balance_pricepoint.setText("-￥0.00");
 
