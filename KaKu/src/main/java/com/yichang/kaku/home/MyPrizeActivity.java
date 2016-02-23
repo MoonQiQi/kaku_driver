@@ -175,10 +175,7 @@ public class MyPrizeActivity extends BaseActivity implements OnClickListener,Ada
 		if (Utils.Many()){
 			return;
 		}
-		//如果点击的位置索引大于列表长度，则屏蔽点击事件
-		if(position>=list_jiangpin.size()){
-			return;
-		}
+
 		JiangPinObj obj = list_jiangpin.get(position-1);
 		Bundle bundle = new Bundle();
 		if ("1".equals(list_jiangpin.get(position-1).getType())){
