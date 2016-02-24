@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics;
+package com.yichang.kaku.zhaohuo;
 
 import android.content.Context;
 import android.view.LayoutInflater;

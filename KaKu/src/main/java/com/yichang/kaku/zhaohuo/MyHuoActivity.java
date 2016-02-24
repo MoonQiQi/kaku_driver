@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics;
+package com.yichang.kaku.zhaohuo;
 
 import android.content.Intent;
 import android.os.Bundle;

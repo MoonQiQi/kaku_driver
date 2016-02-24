@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics;
+package com.yichang.kaku.zhaohuo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.home.mycar.MyCarActivity;
-import com.yichang.kaku.logistics.province.CityAdapter;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.request.AreaReq;
 import com.yichang.kaku.request.FaBuReq;

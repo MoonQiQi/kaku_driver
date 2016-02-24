@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics.province;
+package com.yichang.kaku.zhaohuo.province;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,12 +12,12 @@ import com.yichang.kaku.obj.AreaObj;
 
 import java.util.List;
 
-public class CityAdapter extends BaseAdapter {
+public class ProvinceAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private List<AreaObj> list;
 	private Context mContext;
 
-	public CityAdapter(Context context, List<AreaObj> list) {
+	public ProvinceAdapter(Context context, List<AreaObj> list) {
 		// TODO Auto-generated constructor stub
 		this.list = list;
 		this.mContext = context;
@@ -54,23 +54,23 @@ public class CityAdapter extends BaseAdapter {
 		}
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = mInflater.inflate(R.layout.item_city, null);
+			convertView = mInflater.inflate(R.layout.item_province, null);
 
-			holder.tv_item_city = (TextView) convertView.findViewById(R.id.tv_item_city);
+			holder.tv_province = (TextView) convertView.findViewById(R.id.tv_province);
 
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tv_item_city.setText(obj.getName_area());
+		holder.tv_province.setText(obj.getName_area());
 
 		return convertView;
 	}
 
 	class ViewHolder {
 
-		TextView tv_item_city;
+		TextView tv_province;
 
 	}
 }

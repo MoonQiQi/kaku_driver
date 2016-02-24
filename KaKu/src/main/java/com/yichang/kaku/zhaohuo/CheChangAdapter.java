@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics.province;
+package com.yichang.kaku.zhaohuo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,16 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.obj.AreaObj;
 
 import java.util.List;
 
-public class ProvinceAdapter extends BaseAdapter {
+public class CheChangAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
-	private List<AreaObj> list;
+	private List<String> list;
 	private Context mContext;
 
-	public ProvinceAdapter(Context context, List<AreaObj> list) {
+	public CheChangAdapter(Context context, List<String> list) {
 		// TODO Auto-generated constructor stub
 		this.list = list;
 		this.mContext = context;
@@ -48,29 +47,29 @@ public class ProvinceAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		ViewHolder holder;
-		AreaObj obj = list.get(position);
+		String obj = list.get(position);
 		if (obj == null) {
 			return convertView;
 		}
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = mInflater.inflate(R.layout.item_province, null);
+			convertView = mInflater.inflate(R.layout.item_city, null);
 
-			holder.tv_province = (TextView) convertView.findViewById(R.id.tv_province);
+			holder.tv_item_city = (TextView) convertView.findViewById(R.id.tv_item_city);
 
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tv_province.setText(obj.getName_area());
+		holder.tv_item_city.setText(obj);
 
 		return convertView;
 	}
 
 	class ViewHolder {
 
-		TextView tv_province;
+		TextView tv_item_city;
 
 	}
 }

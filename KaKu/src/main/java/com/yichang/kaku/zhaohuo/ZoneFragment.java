@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics;
+package com.yichang.kaku.zhaohuo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,7 +20,7 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.home.AdActivity;
-import com.yichang.kaku.logistics.province.CityAdapter;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.ZhaoHuoObj;
 import com.yichang.kaku.request.AreaReq;
@@ -296,7 +296,7 @@ public class ZoneFragment extends BaseFragment implements OnClickListener, Adapt
         ZhaoHuoAdapter adapter = new ZhaoHuoAdapter(mActivity, list_zhaohuo);
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX  ? false : true);
-        xListView.setSelection(pageindex);
+        xListView.setSelection(pageindex-2);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
 
             @Override
@@ -507,7 +507,6 @@ public class ZoneFragment extends BaseFragment implements OnClickListener, Adapt
             }
 
         } else if (R.id.lv_zhaohuo == parentId) {
-            LogUtil.E("AAAAAA"+position);
             if ((position) % 6 == 0) {
                 Intent intent = new Intent(getActivity(),AdActivity.class);
                 intent.putExtra("url_ad",list_zhaohuo.get(position-1).getUrl_roll());

@@ -1,4 +1,4 @@
-package com.yichang.kaku.logistics;
+package com.yichang.kaku.zhaohuo.province;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
+import com.yichang.kaku.obj.AreaObj;
 
 import java.util.List;
 
-public class CheChangAdapter extends BaseAdapter {
+public class CityAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
-	private List<String> list;
+	private List<AreaObj> list;
 	private Context mContext;
 
-	public CheChangAdapter(Context context, List<String> list) {
+	public CityAdapter(Context context, List<AreaObj> list) {
 		// TODO Auto-generated constructor stub
 		this.list = list;
 		this.mContext = context;
@@ -47,7 +48,7 @@ public class CheChangAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		ViewHolder holder;
-		String obj = list.get(position);
+		AreaObj obj = list.get(position);
 		if (obj == null) {
 			return convertView;
 		}
@@ -62,7 +63,7 @@ public class CheChangAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tv_item_city.setText(obj);
+		holder.tv_item_city.setText(obj.getName_area());
 
 		return convertView;
 	}
