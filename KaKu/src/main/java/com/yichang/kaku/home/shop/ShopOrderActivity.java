@@ -1,4 +1,4 @@
-package com.yichang.kaku.home;
+package com.yichang.kaku.home.shop;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +22,10 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.ConnectPeopleActivity;
+import com.yichang.kaku.home.nouse.FaPiaoActivity;
+import com.yichang.kaku.home.nouse.TimeActivity;
+import com.yichang.kaku.home.nouse.YouHuiQuanActivity;
 import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
 import com.yichang.kaku.payhelper.alipay.AlipayHelper;
 import com.yichang.kaku.payhelper.arrivalpay.ArrivalpayCallBackActivity;

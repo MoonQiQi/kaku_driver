@@ -1,4 +1,4 @@
-package com.yichang.kaku.home;
+package com.yichang.kaku.home.shop;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.dingwei.DaoHangActivity;
 import com.yichang.kaku.member.serviceorder.PingJiaOrderActivity;
 import com.yichang.kaku.obj.RollsObj;
 import com.yichang.kaku.request.CancleCollectReq;
@@ -117,7 +118,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
                 CancleCollect();
             }
         } else if (R.id.tv_shopdetail_more == id){
-            startActivity(new Intent(this,PingJiaActivity.class));
+            startActivity(new Intent(this,ShopPingJiaActivity.class));
         } else if (R.id.btn_shopdetail_dianping == id){
             Intent intent = new Intent(this, PingJiaOrderActivity.class);
             Bundle bundle = new Bundle();

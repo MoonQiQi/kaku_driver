@@ -1,4 +1,4 @@
-package com.yichang.kaku.home;
+package com.yichang.kaku.home.shop;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +16,10 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.SouSuoActivity;
 import com.yichang.kaku.home.mycar.PinPaiZiAdapter;
-import com.yichang.kaku.logistics.LineGridView;
-import com.yichang.kaku.logistics.province.CityAdapter;
+import com.yichang.kaku.zhaohuo.LineGridView;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.PinPaiXuanZeObj;
 import com.yichang.kaku.obj.Shops_wxzObj;

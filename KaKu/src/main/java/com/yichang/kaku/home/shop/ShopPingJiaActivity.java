@@ -1,4 +1,4 @@
-package com.yichang.kaku.home;
+package com.yichang.kaku.home.shop;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +14,7 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.PingJiaAdapter;
 import com.yichang.kaku.obj.PingJiaObj;
 import com.yichang.kaku.request.PingJiaReq;
 import com.yichang.kaku.response.PingJiaResp;
@@ -28,7 +29,7 @@ import org.apache.http.Header;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PingJiaActivity extends BaseActivity implements OnClickListener{
+public class ShopPingJiaActivity extends BaseActivity implements OnClickListener{
 
     private TextView left, right, title;
     private XListView xListView;
@@ -157,7 +158,7 @@ public class PingJiaActivity extends BaseActivity implements OnClickListener{
             setNoDataLayoutState(ll_container);
         }
 
-        PingJiaAdapter adapter = new PingJiaAdapter(PingJiaActivity.this, list_pingjia);
+        PingJiaAdapter adapter = new PingJiaAdapter(ShopPingJiaActivity.this, list_pingjia);
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
         xListView.setSelection(pageindex);

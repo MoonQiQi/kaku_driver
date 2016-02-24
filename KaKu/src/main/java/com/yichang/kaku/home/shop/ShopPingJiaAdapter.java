@@ -1,4 +1,4 @@
-package com.yichang.kaku.home;
+package com.yichang.kaku.home.shop;
 
 import android.content.Context;
 import android.text.TextUtils;
