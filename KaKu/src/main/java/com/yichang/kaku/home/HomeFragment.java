@@ -38,7 +38,6 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.global.Service1;
 import com.yichang.kaku.home.Ad.Add_EActivity;
 import com.yichang.kaku.home.Ad.Add_FActivity;
 import com.yichang.kaku.home.Ad.Add_IActivity;
@@ -161,7 +160,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        mActivity.startService(new Intent(mActivity, Service1.class));
         tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
         mLocationClient = new LocationClient(mActivity);
         mMyLocationListener = new MyLocationListener();

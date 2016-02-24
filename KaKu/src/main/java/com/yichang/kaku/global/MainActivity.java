@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -14,6 +16,8 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.home.HomeFragment;
 import com.yichang.kaku.home.faxian.FindFragment;
+import com.yichang.kaku.request.CheckUpdateReq;
+import com.yichang.kaku.response.CheckUpdateResp;
 import com.yichang.kaku.zhaohuo.ZoneFragment;
 import com.yichang.kaku.member.MemberFragment;
 import com.yichang.kaku.member.login.LoginActivity;
@@ -36,6 +40,9 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     private BottomTabFragment bottomTabFragment;
     public static TitleFragment titleFragment;
     private boolean isShow = false;
+    private String android_url;
+    private UpdateAppManager updateManager;
+    private String versionName;
 
     @Override
     protected void initViews() {
@@ -77,14 +84,14 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        LogUtil.E("Create M");
+        this.startService(new Intent(this, Service1.class));
+        Update();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         AutoLogin();
-        LogUtil.E("Start M");
     }
 
 
@@ -254,6 +261,75 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
                         }
                     }
                 }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+
+            }
+        });
+    }
+
+    public void Update() {
+        try {
+            PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+            versionName = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        CheckUpdateReq req = new CheckUpdateReq();
+        req.code = "10010";
+        req.version_android = versionName;
+        KaKuApiProvider.checkUpdate(req, new BaseCallback<CheckUpdateResp>(CheckUpdateResp.class) {
+            @Override
+            public void onSuccessful(int statusCode, Header[] headers, CheckUpdateResp t) {
+                if (t != null) {
+                    LogUtil.E("update res: " + t.res);
+                    if (Constants.RES_ONE.equals(t.res)) {
+                        android_url = t.android_url;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("发现新版本!");
+                        //builder.setMessage(getResources().getString(R.string.update));
+                        builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+                                //DownLoad(android_url);
+                                updateManager = new UpdateAppManager(MainActivity.this, android_url);
+                                updateManager.checkUpdateInfo();
+                            }
+                        });
+
+                        builder.setPositiveButton("稍后再说", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
+                    } else if (Constants.RES_NINE.equals(t.res)) {
+                        android_url = t.android_url;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("发现新版本！");
+                        //builder.setMessage(getResources().getString(R.string.update));
+                        builder.setCancelable(false);
+                        builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+                                //DownLoad(android_url);
+                                updateManager = new UpdateAppManager(MainActivity.this, android_url);
+                                updateManager.checkUpdateInfo();
+                            }
+                        });
+
+                        builder.create().show();
+                    }
+                }
+            }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
