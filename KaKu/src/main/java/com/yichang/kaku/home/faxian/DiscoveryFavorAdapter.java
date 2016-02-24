@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.discovery;
+package com.yichang.kaku.home.faxian;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.discovery;
+package com.yichang.kaku.home.faxian;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,14 +22,14 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.FWZMapActivity;
-import com.yichang.kaku.home.ShopDetailActivity;
-import com.yichang.kaku.home.ShopItemAdapter;
+import com.yichang.kaku.home.shop.FWZMapActivity;
+import com.yichang.kaku.home.shop.ShopDetailActivity;
+import com.yichang.kaku.home.shop.ShopItemAdapter;
 import com.yichang.kaku.home.join.ApplyToJoinActivity;
 import com.yichang.kaku.home.mycar.PinPaiXuanZeActivity;
 import com.yichang.kaku.home.mycar.PinPaiZiAdapter;
-import com.yichang.kaku.logistics.LineGridView;
-import com.yichang.kaku.logistics.province.CityAdapter;
+import com.yichang.kaku.zhaohuo.LineGridView;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.PinPaiXuanZeObj;
 import com.yichang.kaku.obj.Shops_wxzObj;
@@ -227,7 +227,7 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
         ShopItemAdapter adapter = new ShopItemAdapter(mActivity, list_shop);
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
-        xListView.setSelection(pageindex - 3);
+        xListView.setSelection(pageindex - 2);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
 
             @Override
@@ -271,11 +271,6 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
         xListView.stopRefresh();
         xListView.stopLoadMore();
         xListView.setRefreshTime(DateUtil.dateFormat());
-    }
-
-    public void GoToMap() {
-        Intent intent = new Intent(mActivity, FWZMapActivity.class);
-        startActivity(intent);
     }
 
     public void GetProvince() {

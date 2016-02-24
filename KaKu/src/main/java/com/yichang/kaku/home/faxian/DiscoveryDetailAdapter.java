@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.discovery;
+package com.yichang.kaku.home.faxian;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,22 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.DiscoveryCommentsObj;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
-import com.yichang.kaku.view.KakuMultiLineTextView;
 
 import java.util.List;
 
-public class DiscoveryCommentAdapter extends BaseAdapter{
+public class DiscoveryDetailAdapter extends BaseAdapter{
 	private LayoutInflater mInflater;
 	private List<DiscoveryCommentsObj> list;
 	private Context mContext;
 
-	public DiscoveryCommentAdapter(Context context, List<DiscoveryCommentsObj> list) {
+	public DiscoveryDetailAdapter(Context context, List<DiscoveryCommentsObj> list) {
 		// TODO Auto-generated constructor stub
 		this.list = list;
 		this.mContext = context;
@@ -65,7 +63,7 @@ public class DiscoveryCommentAdapter extends BaseAdapter{
 						.findViewById(R.id.tv_discovery_comment_name);
 				holder.tv_discovery_comment_time = (TextView) convertView
 						.findViewById(R.id.tv_discovery_comment_time);
-				holder.tv_discovery_comment_content = (KakuMultiLineTextView) convertView
+				holder.tv_discovery_comment_content = (TextView) convertView
 						.findViewById(R.id.tv_discovery_comment_content);
 				holder.iv_discovery_comment_head = (ImageView) convertView
 						.findViewById(R.id.iv_discovery_comment_head);
@@ -77,9 +75,7 @@ public class DiscoveryCommentAdapter extends BaseAdapter{
 			
 			holder.tv_discovery_comment_name.setText(list.get(position).getName_driver());
 			holder.tv_discovery_comment_time.setText(list.get(position).getTime_comment());
-
-			holder.tv_discovery_comment_content.setText(ToDBC(list.get(position).getContent_comment()));
-		//holder.tv_discovery_comment_content.
+			holder.tv_discovery_comment_content.setText(list.get(position).getContent_comment());
 			LogUtil.E("head:" + list.get(position).getHead());
 			if (!"".equals(list.get(position).getHead())) {
 				String head = KaKuApplication.qian_zhui+list.get(position).getHead();
@@ -88,22 +84,11 @@ public class DiscoveryCommentAdapter extends BaseAdapter{
 		
 		return convertView;
 	}
-	public static String ToDBC(String input) {
-		char[] c = input.toCharArray();
-		for (int i = 0; i< c.length; i++) {
-			if (c[i] == 12288) {
-				c[i] = (char) 32;
-				continue;
-			}if (c[i]> 65280&& c[i]< 65375)
-				c[i] = (char) (c[i] - 65248);
-		}
-		return new String(c);
-	}
 
 	class ViewHolder {
 		private TextView tv_discovery_comment_name;
 		private TextView tv_discovery_comment_time;
-		private KakuMultiLineTextView tv_discovery_comment_content;
+		private TextView tv_discovery_comment_content;
 		private ImageView iv_discovery_comment_head;
 	}
 
