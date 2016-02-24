@@ -25,7 +25,7 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.home.PinPaiFuWuZhanActivity;
+import com.yichang.kaku.home.shop.PinPaiFuWuZhanActivity;
 import com.yichang.kaku.obj.MyCarObj;
 import com.yichang.kaku.request.DeleteMyCarReq;
 import com.yichang.kaku.request.MoRenCarReq;
@@ -173,7 +173,6 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
         req.code = "2002";
         req.id_driver = Utils.getIdDriver();
         req.id_car = Utils.getIdCar();
-        //req.sid = Utils.getSid();
         KaKuApiProvider.GetMyCar(req, new BaseCallback<MyCarResp>(MyCarResp.class) {
             @Override
             public void onSuccessful(int statusCode, Header[] headers, MyCarResp t) {
