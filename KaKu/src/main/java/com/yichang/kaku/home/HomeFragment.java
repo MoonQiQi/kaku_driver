@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,8 +39,6 @@ import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.Service1;
-import com.yichang.kaku.global.UpdateAppManager;
-import com.yichang.kaku.home.dingwei.TitleActivity;
 import com.yichang.kaku.home.Ad.Add_EActivity;
 import com.yichang.kaku.home.Ad.Add_FActivity;
 import com.yichang.kaku.home.Ad.Add_IActivity;
@@ -51,20 +47,21 @@ import com.yichang.kaku.home.Ad.Add_PActivity;
 import com.yichang.kaku.home.Ad.Add_YActivity;
 import com.yichang.kaku.home.Ad.CheTieListActivity;
 import com.yichang.kaku.home.choujiang.ChouJiangActivity;
+import com.yichang.kaku.home.dingwei.TitleActivity;
+import com.yichang.kaku.home.faxian.DiscoveryActivity;
 import com.yichang.kaku.home.giftmall.HomeShopMallAdapter;
-import com.yichang.kaku.home.shop.PinPaiFuWuZhanActivity;
+import com.yichang.kaku.home.giftmall.ProductDetailActivity;
+import com.yichang.kaku.home.giftmall.ShopMallActivity;
+import com.yichang.kaku.home.mycar.MyCarActivity;
+import com.yichang.kaku.home.mycar.PinPaiXuanZeActivity;
 import com.yichang.kaku.home.qiandao.DailyRemindService;
 import com.yichang.kaku.home.qiandao.DailySignActivity;
 import com.yichang.kaku.home.qiandao.PollingUtils;
-import com.yichang.kaku.home.faxian.DiscoveryActivity;
-import com.yichang.kaku.home.giftmall.ProductDetailActivity;
-import com.yichang.kaku.home.giftmall.ShopMallActivity;
+import com.yichang.kaku.home.shop.PinPaiFuWuZhanActivity;
 import com.yichang.kaku.home.shop.ShopDetailActivity;
 import com.yichang.kaku.home.shop.ShopItemAdapter;
 import com.yichang.kaku.home.text.ObservableScrollView;
 import com.yichang.kaku.home.weizhang.IllegalQueryActivity;
-import com.yichang.kaku.home.mycar.MyCarActivity;
-import com.yichang.kaku.home.mycar.PinPaiXuanZeActivity;
 import com.yichang.kaku.member.login.LoginActivity;
 import com.yichang.kaku.obj.GoodsObj;
 import com.yichang.kaku.obj.NewsObj;
@@ -72,10 +69,8 @@ import com.yichang.kaku.obj.RollsAddObj;
 import com.yichang.kaku.obj.RollsObj;
 import com.yichang.kaku.obj.SeckillObj;
 import com.yichang.kaku.obj.Shops_wxzObj;
-import com.yichang.kaku.request.CheckUpdateReq;
 import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.HomeReq;
-import com.yichang.kaku.response.CheckUpdateResp;
 import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.HomeResp;
 import com.yichang.kaku.tools.BitmapUtil;
@@ -97,16 +92,12 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment implements OnClickListener, AdapterView.OnItemClickListener, ScrollViewListener, ViewTreeObserver.OnGlobalLayoutListener {
 
-    private String versionName;
     private RelativeLayout galleryContainer;
     private AdGalleryHelper mGalleryHelper;
-    private AdGalleryHelper mGalleryHelper2;
     private Activity mActivity;
     private boolean flag_frag = false;
     private LayoutInflater mInflater;
-    private SharedPreferences prefs;
     private TextView tv_title_home;
-    private String android_url;
     private ListView lv_home_item;
     private List<Shops_wxzObj> list_wxz = new ArrayList<Shops_wxzObj>();
     private ShopItemAdapter adapter;
@@ -114,21 +105,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
     private LinearLayout ll_title_home_left, ll_title_home_right,line_home_fuwuzhan;
     private TextView tv_home_dayuhao2, tv_home_dayuhao3,tv_home_teyueweixiuzhan;
     private ObservableScrollView scroll;
-    private RelativeLayout rela_main_title1, rela_main_title2, rela_home_title, rela_weather;
-    private UpdateAppManager updateManager;
+    private RelativeLayout rela_main_title1, rela_main_title2, rela_home_title;
     private LocationClient mLocationClient = null;
     public MyLocationListener mMyLocationListener;
     public Vibrator mVibrator;
     private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
     private String tempcoor = "bd09ll";
-    //tempcoor="gcj02";//国家测绘局标准
-    //tempcoor="bd09ll";//百度经纬度标准
-    //tempcoor="bd09";//百度墨卡托标准
-    private ImageView iv_weather_weather, iv_home1, iv_home2, iv_home3, iv_home5, iv_home6, iv_home7, iv_home8;
-    private TextView tv_weather_qiwen, tv_weather_chaiyou, tv_weather_date;
-
+    private ImageView iv_home1, iv_home2, iv_home3, iv_home5, iv_home6, iv_home7, iv_home8;
     private GridView grid_shopmall;
-
     private TextView tv_countdown_hour, tv_countdown_min, tv_countdown_second;
     private List<NewsObj> news_list = new ArrayList<NewsObj>();
     private static int sCount = 0;
@@ -183,9 +167,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         mVibrator = (Vibrator) mActivity.getSystemService(Service.VIBRATOR_SERVICE);
-        Update();
         initLocation();
-        LogUtil.E("签到服务是否运行中:" + PollingUtils.isServiceRun);
         if (!PollingUtils.isServiceRun) {
             startDailySign();
         }
@@ -450,7 +432,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         }
         wheelView.removeCallbacks(taskRunnable);
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -789,75 +770,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
                 mLocationClient.stop();
             }
         }
-    }
-
-    public void Update() {
-        try {
-            PackageInfo info = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            versionName = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        CheckUpdateReq req = new CheckUpdateReq();
-        req.code = "10010";
-        req.version_android = versionName;
-        KaKuApiProvider.checkUpdate(req, new BaseCallback<CheckUpdateResp>(CheckUpdateResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, CheckUpdateResp t) {
-                if (t != null) {
-                    LogUtil.E("update res: " + t.res);
-                    if (Constants.RES_ONE.equals(t.res)) {
-                        android_url = t.android_url;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("发现新版本!");
-                        //builder.setMessage(getResources().getString(R.string.update));
-                        builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                //DownLoad(android_url);
-                                updateManager = new UpdateAppManager(getActivity(), android_url);
-                                updateManager.checkUpdateInfo();
-                            }
-                        });
-
-                        builder.setPositiveButton("稍后再说", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.create().show();
-                    } else if (Constants.RES_NINE.equals(t.res)) {
-                        android_url = t.android_url;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("发现新版本！");
-                        //builder.setMessage(getResources().getString(R.string.update));
-                        builder.setCancelable(false);
-                        builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                //DownLoad(android_url);
-                                updateManager = new UpdateAppManager(getActivity(), android_url);
-                                updateManager.checkUpdateInfo();
-                            }
-                        });
-
-                        builder.create().show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
-        });
     }
 
     @Override
