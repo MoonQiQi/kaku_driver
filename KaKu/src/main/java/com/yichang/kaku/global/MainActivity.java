@@ -13,8 +13,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.home.HomeFragment;
-import com.yichang.kaku.home.discovery.FindFragment;
-import com.yichang.kaku.logistics.ZoneFragment;
+import com.yichang.kaku.home.faxian.FindFragment;
+import com.yichang.kaku.zhaohuo.ZoneFragment;
 import com.yichang.kaku.member.MemberFragment;
 import com.yichang.kaku.member.login.LoginActivity;
 import com.yichang.kaku.request.AutoLoginReq;
@@ -77,12 +77,14 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        LogUtil.E("Create M");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         AutoLogin();
+        LogUtil.E("Start M");
     }
 
 
