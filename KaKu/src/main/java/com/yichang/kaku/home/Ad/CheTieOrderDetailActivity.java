@@ -14,7 +14,6 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.OrderCheTiePayActivity;
 import com.yichang.kaku.obj.AdvertBillObj;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
 import com.yichang.kaku.request.CheTieOrderCancleReq;

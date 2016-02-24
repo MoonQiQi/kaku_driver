@@ -15,7 +15,7 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.home.MyPrizeActivity;
+import com.yichang.kaku.home.choujiang.MyPrizeActivity;
 import com.yichang.kaku.tools.Utils;
 
 public class LotteryActivity extends BaseActivity implements OnClickListener {

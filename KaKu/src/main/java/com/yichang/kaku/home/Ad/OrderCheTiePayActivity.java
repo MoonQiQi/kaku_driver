@@ -1,4 +1,4 @@
-package com.yichang.kaku.home;
+package com.yichang.kaku.home.Ad;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +18,6 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
 import com.yichang.kaku.payhelper.alipay.AlipayHelper;
 import com.yichang.kaku.payhelper.wxpay.PayActivity;
 import com.yichang.kaku.request.OrderOverTimeReq;

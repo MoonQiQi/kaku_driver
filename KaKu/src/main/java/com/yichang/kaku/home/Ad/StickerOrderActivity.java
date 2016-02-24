@@ -21,7 +21,6 @@ import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.OrderCheTiePayActivity;
 import com.yichang.kaku.member.address.AddrActivity;
 import com.yichang.kaku.member.cash.SetWithDrawCodeActivity;
 import com.yichang.kaku.obj.Addr2Obj;
