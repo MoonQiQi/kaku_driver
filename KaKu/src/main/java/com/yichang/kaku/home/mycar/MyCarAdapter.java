@@ -13,21 +13,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
-import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.MyCarObj;
-import com.yichang.kaku.request.DeleteMyCarReq;
-import com.yichang.kaku.request.MoRenCarReq;
-import com.yichang.kaku.response.DeleteMyCarResp;
-import com.yichang.kaku.response.MoRenCarResp;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.LogUtil;
-import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.KakuMultiLineTextView;
-import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
 
 import java.util.List;
 
@@ -182,69 +171,8 @@ public class MyCarAdapter extends BaseAdapter {
 
     }
 
-    public void Delete(String id_driver_car, final int position) {
-        Utils.NoNet(mContext);
-        DeleteMyCarReq req = new DeleteMyCarReq();
-        req.code = "2007";
-        req.id_driver_car = id_driver_car;
-        KaKuApiProvider.DeleteMyCar(req, new BaseCallback<DeleteMyCarResp>(DeleteMyCarResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, DeleteMyCarResp t) {
-                if (t != null) {
-                    LogUtil.E("deletecar res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        list.remove(position);
-                        notifyDataSetChanged();
-                        /*if (changeButtonState != null) {
-                            changeButtonState.changeButtonState();
-                        }*/
-                    } else {
-                        LogUtil.showShortToast(mContext, t.msg);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
-        });
-    }
-
-    public void MoRen(String id_driver_car, final int position) {
-        Utils.NoNet(mContext);
-        MoRenCarReq req = new MoRenCarReq();
-        req.code = "2006";
-        req.id_driver = Utils.getIdDriver();
-        req.id_driver_car = id_driver_car;
-        KaKuApiProvider.MoRenMyCar(req, new BaseCallback<MoRenCarResp>(MoRenCarResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, MoRenCarResp t) {
-                if (t != null) {
-                    LogUtil.E("morencar res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setFlag_default("N");
-                        }
-                        list.get(position).setFlag_default("Y");
-                        notifyDataSetChanged();
-                    } else {
-                        LogUtil.showShortToast(mContext, t.msg);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
-        });
-    }
-
     public void setButtonState(IChangeButtonState changeButtonState) {
         this.changeButtonState = changeButtonState;
-
-
     }
 
     private IChangeButtonState changeButtonState;
