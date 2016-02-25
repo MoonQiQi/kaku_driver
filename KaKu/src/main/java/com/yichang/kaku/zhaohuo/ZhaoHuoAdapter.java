@@ -11,18 +11,9 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
-import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ZhaoHuoObj;
-import com.yichang.kaku.request.CallReq;
-import com.yichang.kaku.response.CallResp;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.LogUtil;
-import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
 
 import java.util.List;
 
@@ -99,9 +90,8 @@ public class ZhaoHuoAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     MobclickAgent.onEvent(mContext, "ZhaoHuoCall");
-                    call_string = obj.getPhone_supply().split(",")[0];
-                    Utils.Call(mContext, call_string);
-                    Call(obj.getId_supply());
+                    mCallBack.call(obj.getPhone_supply().split(",")[0]);
+                    mCallBack.callToService(obj.getId_supply());
                 }
             });
         }
@@ -119,28 +109,15 @@ public class ZhaoHuoAdapter extends BaseAdapter {
         RelativeLayout rela_zhaohuo_item;
     }
 
-    public void Call(String id_supply) {
-        CallReq req = new CallReq();
-        req.code = "6004";
-        req.id_driver = Utils.getIdDriver();
-        req.id_supply = id_supply;
-        KaKuApiProvider.Call(req, new BaseCallback<CallResp>(CallResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, CallResp t) {
-                if (t != null) {
-                    LogUtil.E("call res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-
-                    } else {
-                        LogUtil.showShortToast(mContext, t.msg);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
-        });
+    public interface ZhaoHuoAdapterCallBack{
+        void call(String mPhone);
+        void callToService(String id_supply);
     }
+
+    private ZhaoHuoAdapterCallBack mCallBack;
+
+    public void setZhaoHuoCallBack(ZhaoHuoAdapterCallBack callBack){
+        this.mCallBack = callBack;
+    }
+
 }

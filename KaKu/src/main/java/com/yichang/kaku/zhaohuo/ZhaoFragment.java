@@ -20,6 +20,8 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.home.AdActivity;
+import com.yichang.kaku.request.CallReq;
+import com.yichang.kaku.response.CallResp;
 import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.ZhaoHuoObj;
@@ -38,7 +40,7 @@ import org.apache.http.Header;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZoneFragment extends BaseFragment implements OnClickListener, AdapterView.OnItemClickListener {
+public class ZhaoFragment extends BaseFragment implements OnClickListener, AdapterView.OnItemClickListener {
 
     private Activity mActivity;
     private TextView tv_zone_left, tv_zone_mid, tv_zone_right;
@@ -294,6 +296,18 @@ public class ZoneFragment extends BaseFragment implements OnClickListener, Adapt
             setNoDataLayoutState(ll_container);
         }
         ZhaoHuoAdapter adapter = new ZhaoHuoAdapter(mActivity, list_zhaohuo);
+        adapter.setZhaoHuoCallBack(new ZhaoHuoAdapter.ZhaoHuoAdapterCallBack() {
+            @Override
+            public void call(String mPhone) {
+                Utils.Call(mActivity, mPhone);
+            }
+
+            @Override
+            public void callToService(String id_supply) {
+                CallToService(id_supply);
+            }
+        });
+
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX  ? false : true);
         xListView.setSelection(pageindex-2);
@@ -543,5 +557,32 @@ public class ZoneFragment extends BaseFragment implements OnClickListener, Adapt
         rela_zhaohuo_chufadi.setEnabled(true);
         rela_zhaohuo_mudidi.setEnabled(true);
         rela_zhaohuo_chechang.setEnabled(true);
+    }
+
+
+
+    public void CallToService(String id_supply) {
+        CallReq req = new CallReq();
+        req.code = "6004";
+        req.id_driver = Utils.getIdDriver();
+        req.id_supply = id_supply;
+        KaKuApiProvider.Call(req, new BaseCallback<CallResp>(CallResp.class) {
+            @Override
+            public void onSuccessful(int statusCode, Header[] headers, CallResp t) {
+                if (t != null) {
+                    LogUtil.E("calltoservice res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+
+                    } else {
+                        LogUtil.showShortToast(mActivity, t.msg);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+
+            }
+        });
     }
 }

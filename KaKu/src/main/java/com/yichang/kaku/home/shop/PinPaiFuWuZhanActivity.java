@@ -204,7 +204,7 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         ShopItemAdapter adapter = new ShopItemAdapter(context, list_shop);
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
-        xListView.setSelection(pageindex-3);
+        xListView.setSelection(pageindex-2);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
 
             @Override
@@ -452,10 +452,6 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 input.show();
 
                 input.setShowPopWindowCallBack(new AreaPopWindow.ShowPopWindowCallBack() {
-                    @Override
-                    public void show() {
-
-                    }
 
                     @Override
                     public void close(String sName, String mId) {
