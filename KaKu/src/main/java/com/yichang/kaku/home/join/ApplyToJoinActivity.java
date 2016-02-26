@@ -15,8 +15,6 @@ import com.squareup.okhttp.Request;
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.ChooseTimeActivity;
-import com.yichang.kaku.home.FindShopLocationActivity;
 import com.yichang.kaku.response.BrandListResp;
 import com.yichang.kaku.response.ImageUploadResp;
 import com.yichang.kaku.response.LocationInfo;
