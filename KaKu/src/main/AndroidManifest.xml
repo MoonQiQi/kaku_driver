@@ -75,14 +75,14 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".home.illegal.IllegalQueryActivity"
+            android:name=".home.weizhang.IllegalQueryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
 
             />
 
         <activity
-            android:name=".home.ChooseCityActivity"
+            android:name=".home.join.ChooseCityActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -140,16 +140,16 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.ChooseTimeActivity"
+            android:name=".home.join.ChooseTimeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.FindShopLocationActivity"
+            android:name=".home.join.FindShopLocationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <!--违章查询结果-->
         <activity
-            android:name=".home.illegal.IllegalQueryResultActivity"
+            android:name=".home.weizhang.IllegalQueryResultActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -169,7 +169,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.ChooseCarActivity"
+            android:name=".home.nouse.ChooseCarActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -218,11 +218,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.TitleActivity"
+            android:name=".home.dingwei.TitleActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.PinPaiFuWuZhanActivity"
+            android:name=".home.shop.PinPaiFuWuZhanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -236,19 +236,19 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.FWZMapActivity"
+            android:name=".home.shop.FWZMapActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.ShopDetailActivity"
+            android:name=".home.shop.ShopDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.ShopDetailWebActivity"
+            android:name=".home.shop.ShopDetailWebActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.ShopOrderActivity"
+            android:name=".home.shop.ShopOrderActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
@@ -318,7 +318,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.FaPiaoActivity"
+            android:name=".home.nouse.FaPiaoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -326,11 +326,11 @@
             android:label="@string/title_activity_shop_mall" />
 
         <activity
-            android:name="com.yichang.kaku.home.AddOilActivity"
+            android:name=".home.nouse.AddOilActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.TimeActivity"
+            android:name=".home.nouse.TimeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -352,19 +352,19 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".logistics.province.ProvinceActivity"
+            android:name=".zhaohuo.province.ProvinceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".logistics.province.CityActivity"
+            android:name=".zhaohuo.province.CityActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".logistics.province.CountyActivity"
+            android:name=".zhaohuo.province.CountyActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.MyHuoActivity"
+            android:name="com.yichang.kaku.zhaohuo.MyHuoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -384,31 +384,31 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.MyCheYuanActivity"
+            android:name="com.yichang.kaku.zhaohuo.MyCheYuanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.HuoYuanDetailActivity"
+            android:name="com.yichang.kaku.zhaohuo.HuoYuanDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.FaBuCheYuanActivity"
+            android:name="com.yichang.kaku.zhaohuo.FaBuCheYuanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.FaBuTimeActivity"
+            android:name="com.yichang.kaku.zhaohuo.FaBuTimeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.LianXiJiLuActivity"
+            android:name="com.yichang.kaku.zhaohuo.LianXiJiLuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.PingJiaHuoDanActivity"
+            android:name="com.yichang.kaku.zhaohuo.PingJiaHuoDanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.MyLoveCarActivity"
+            android:name="com.yichang.kaku.zhaohuo.MyLoveCarActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
@@ -458,7 +458,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.yichang.kaku.home.YouHuiQuanActivity"
+            android:name=".home.nouse.YouHuiQuanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
@@ -469,23 +469,23 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.yichang.kaku.home.DaoHangActivity"
+            android:name=".home.dingwei.DaoHangActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.BNDemoMainActivity"
+            android:name=".home.dingwei.BNDemoMainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.BNDemoGuideActivity"
+            android:name=".home.dingwei.BNDemoGuideActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Title3Activity"
+            android:name=".home.dingwei.Title3Activity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.PingJiaActivity"
+            android:name=".home.shop.ShopPingJiaActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -513,7 +513,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Title2Activity"
+            android:name=".home.dingwei.Title2Activity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -564,17 +564,17 @@
         <activity android:name=".member.serviceorder.QuXiaoChengGongActivity"></activity>
         <!--圈子相关页面-->
         <activity
-            android:name=".home.discovery.DiscoveryCommentActivity"
+            android:name=".home.faxian.DiscoveryCommentActivity"
             android:label="@string/app_name"
 
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustUnspecified" />
         <activity
-            android:name=".home.discovery.DiscoveryDetailActivity"
+            android:name=".home.faxian.DiscoveryDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.discovery.DiscoveryFavorActivity"
+            android:name=".home.faxian.DiscoveryFavorActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
@@ -592,23 +592,23 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ChouJiangActivity"
+            android:name=".home.choujiang.ChouJiangActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.MyPrizeActivity"
+            android:name=".home.choujiang.MyPrizeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.PrizeDetailShiActivity"
+            android:name=".home.choujiang.PrizeDetailShiActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.PrizeDetailXuActivity"
+            android:name=".home.choujiang.PrizeDetailXuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.OkPrizeActivity"
+            android:name=".home.choujiang.OkPrizeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -618,19 +618,19 @@
             android:windowSoftInputMode="stateAlwaysVisible" />
 
         <activity
-            android:name=".home.dailysign.DailySignActivity"
+            android:name=".home.qiandao.DailySignActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.discovery.DiscoveryActivity"
+            android:name=".home.faxian.DiscoveryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.seckill.HomeSeckillActivity"
+            android:name=".home.miaosha.HomeSeckillActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.seckill.SeckillOrderActivity"
+            android:name=".home.miaosha.SeckillOrderActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -737,7 +737,7 @@
             />
 
         <activity
-            android:name=".home.OrderCheTiePayActivity"
+            android:name=".home.Ad.OrderCheTiePayActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             />
@@ -928,7 +928,7 @@
             android:exported="true" />
 
         <service
-            android:name=".home.dailysign.DailyRemindService"
+            android:name=".home.qiandao.DailyRemindService"
             android:enabled="true" />
 
         <service
