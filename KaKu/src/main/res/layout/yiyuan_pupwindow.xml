@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:text="如何获得一元车贴？"
+                android:text="如何获得0元车贴？"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -41,7 +41,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="付款时输入邀请码，即享一元车贴"
+                android:text="付款时输邀请码，享0元车贴"
                 android:textColor="@color/color_word"
                 android:textSize="15sp" />
 
@@ -54,7 +54,7 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="5dp"
-                android:text="邀请码可拨打客服电话索要。"
+                android:text="邀请码可拨打客服电话索要"
                 android:textColor="@color/color_word"
                 android:textSize="15sp" />
 

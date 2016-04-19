@@ -19,7 +19,7 @@
 
     <View style="@style/gray_line" />
 
-    <com.yichang.kaku.logistics.LineGridView
+    <com.yichang.kaku.zhaohuo.LineGridView
         android:id="@+id/gv_shoplist_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

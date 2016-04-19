@@ -143,11 +143,12 @@
                         android:id="@+id/tv_sticker_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginRight="15dp"
                         android:maxLines="1"
                         android:text="卡库养车推广车贴"
                         android:textColor="#000000"
-                        android:textSize="18sp" android:layout_marginBottom="5dp"/>
+                        android:textSize="18sp" />
                     <!--商品金额-->
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -195,7 +196,6 @@
                     android:text="×1"
                     android:textColor="#000000"
                     android:textSize="18sp" />
-ohuche
 
             </LinearLayout>
 
@@ -364,7 +364,8 @@ ohuche
             <View
                 android:id="@+id/view_preferential"
                 style="@style/Line_h"
-                android:visibility="visible" android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:visibility="visible" />
 
 
             <RelativeLayout
@@ -398,9 +399,8 @@ ohuche
             <View
                 android:id="@+id/view_pricepoint"
                 style="@style/Line_h"
-                android:visibility="visible"
                 android:layout_marginLeft="15dp"
-                />
+                android:visibility="visible" />
 
 
             <RelativeLayout

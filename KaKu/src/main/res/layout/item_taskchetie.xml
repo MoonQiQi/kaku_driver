@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View style="@style/Line_h" />
+
+        <TextView
+            android:id="@+id/tv_taskchetieitem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:text="卡库养车车贴"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_taskchetieitem_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_taskchetieitem_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/image_bg"
+            fresco:placeholderImage="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_taskchetieitem_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_taskchetieitem_image"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/iv_taskchetieitem_image"
+            android:text="2000-01-01"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_taskchetieitem_rishouyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_taskchetieitem_time"
+            android:layout_below="@+id/tv_taskchetieitem_time"
+            android:layout_marginTop="5dp"
+            android:text="日收益"
+            android:textColor="@color/color_word"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignBottom="@+id/iv_taskchetieitem_image"
+            android:layout_alignLeft="@+id/tv_taskchetieitem_rishouyi"
+            android:layout_below="@+id/tv_taskchetieitem_rishouyi"
+            android:layout_marginTop="5dp">
+
+
+            <TextView
+                android:id="@+id/tv_taskchetieitem_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="100人参与"
+                android:textColor="@color/color_word"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/view_taskchetieitem"
+                android:layout_width="0.5dp"
+                android:layout_height="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/dotted_line_vertical"/>
+
+
+            <TextView
+                android:id="@+id/tv_taskchetieitem_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:text="0元标准收益"
+                android:textColor="@color/color_word"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_taskchetieitem_me"
+            android:src="@drawable/chetiewo"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+</LinearLayout>

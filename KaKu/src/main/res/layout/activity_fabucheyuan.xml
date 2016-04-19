@@ -270,7 +270,7 @@
             style="@style/Line_h"
             android:layout_above="@+id/gv_fabu_city" />
 
-        <com.yichang.kaku.logistics.LineGridView
+        <com.yichang.kaku.zhaohuo.LineGridView
             android:id="@+id/gv_fabu_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

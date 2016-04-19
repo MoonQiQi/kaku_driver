@@ -14,7 +14,8 @@
         <View style="@style/Line_h" />
 
         <TextView
-            android:id="@+id/tv_wodechetieitem_time"            android:layout_width="wrap_content"
+            android:id="@+id/tv_wodechetieitem_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="2000-00-00"
@@ -37,15 +38,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_wodechetieitem_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="15dp"
             android:layout_centerVertical="true"
+            android:layout_margin="15dp"
             android:background="@drawable/bg_edittext"
             fresco:placeholderImage="@drawable/ic_launcher" />
 
@@ -69,14 +69,14 @@
 
         <TextView
             android:id="@+id/tv_wodechetieitem_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
+            android:layout_marginRight="15dp"
             android:text="x 1"
             android:textColor="@color/black"
-            android:layout_marginRight="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -102,8 +102,8 @@
             android:id="@+id/iv_wodechetieitem_zhifu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@drawable/mashangzhifu" />
 

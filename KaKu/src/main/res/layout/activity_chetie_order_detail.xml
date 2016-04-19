@@ -40,13 +40,6 @@
                     android:text="订单号"
                     android:textColor="#000000" />
 
-                <!--<TextView
-                    android:id="@+id/tv_truck_order_state"
-                    style="@style/ConfirmOrderText"
-                    android:gravity="center_vertical"
-                    android:text="11"
-                    android:textColor="#666666" />-->
-
             </RelativeLayout>
 
             <View style="@style/Line_h" />
@@ -55,6 +48,31 @@
                 android:id="@+id/view_company_delivery"
                 style="@style/Line_h"
                 android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rela_chetieorder_noaddr"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/ConfirmOrderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:gravity="center_vertical"
+                    android:text="领取方式" />
+
+                <TextView
+                    android:id="@+id/tv_chetieorder_lingqufangshi"
+                    style="@style/ConfirmOrderText"
+                    android:maxWidth="220dp"
+                    android:text="活动现场已领取"
+                    android:textColor="#000" />
+
+            </RelativeLayout>
 
 
             <!--速运公司-->
@@ -83,9 +101,11 @@
                     android:textColor="#000" />
 
             </RelativeLayout>
-            <View style="@style/Line_h" android:layout_marginLeft="15dp"
+
+            <View
                 android:id="@+id/view_no_delivery"
-                />
+                style="@style/Line_h"
+                android:layout_marginLeft="15dp" />
             <!--订单号-->
             <RelativeLayout
                 android:id="@+id/rela_no_delivery"
@@ -113,14 +133,15 @@
 
             </RelativeLayout>
             <!--收货地址-->
-            <View style="@style/Line_h" android:id="@+id/view_no_delivery1"/>
-
             <View
-                style="@style/Line_h"
-                android:layout_marginTop="15dp" />
+                android:id="@+id/view_no_delivery1"
+                style="@style/Line_h" />
+
             <LinearLayout
+                android:id="@+id/line_chetieorder_addr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/shouhuobeijing"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
@@ -172,7 +193,6 @@
 
             </LinearLayout>
 
-
             <View style="@style/Line_h" />
 
 
@@ -211,14 +231,13 @@
                         android:id="@+id/tv_sticker_title1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginRight="15dp"
-                        android:maxLines="1"
 
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="18sp"
-                        android:layout_marginBottom="5dp"
-                        />
+                        android:textSize="18sp" />
                     <!--商品金额-->
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -271,112 +290,8 @@
             </LinearLayout>
 
 
-            <!--收货地址-->
-            <!--分割线-->
-            <!--分割线 与顶部间隔15dp-->
-            <!--           <View
-                           style="@style/Line_h"
-                           android:layout_marginTop="15dp" />
+            <View style="@style/Line_h" />
 
-
-                       &lt;!&ndash;收货人姓名&ndash;&gt;
-
-                       <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:background="@color/white"
-                           android:orientation="vertical">
-
-                           <RelativeLayout
-                               android:id="@+id/rela_confirmorder_name"
-                               android:layout_width="match_parent"
-                               android:layout_height="@dimen/x88"
-                               android:layout_gravity="center_vertical"
-                               android:background="@color/white"
-                               android:visibility="visible">
-
-                               <TextView
-                                   style="@style/ConfirmOrderTitle"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginLeft="@dimen/x30"
-                                   android:gravity="center_vertical"
-                                   android:text="收货人姓名" />
-
-                               <TextView
-                                   android:id="@+id/tv_address_name"
-                                   style="@style/ConfirmOrderText"
-                                   android:text="" />
-
-                           </RelativeLayout>
-                           &lt;!&ndash;分割线&ndash;&gt;
-                           <View
-                               style="@style/Line_h"
-                               android:layout_marginLeft="15dp" />
-
-
-                           &lt;!&ndash;手机号码&ndash;&gt;
-                           &lt;!&ndash;分割线&ndash;&gt;
-
-
-                           <RelativeLayout
-                               android:id="@+id/rela_confirmorder_phone"
-                               android:layout_width="match_parent"
-                               android:layout_height="@dimen/x88"
-                               android:layout_gravity="center_vertical"
-                               android:background="@color/white"
-                               android:visibility="visible">
-
-                               <TextView
-                                   style="@style/ConfirmOrderTitle"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginLeft="@dimen/x30"
-                                   android:gravity="center_vertical"
-                                   android:text="手机号码" />
-
-                               <TextView
-                                   android:id="@+id/tv_address_phone"
-                                   style="@style/ConfirmOrderText"
-                                   android:text="" />
-
-                           </RelativeLayout>
-                           &lt;!&ndash;分割线&ndash;&gt;
-                           <View
-                               style="@style/Line_h"
-                               android:layout_marginLeft="15dp" />
-
-
-                           &lt;!&ndash;地址&ndash;&gt;
-
-                           <RelativeLayout
-
-                               android:layout_width="match_parent"
-                               android:layout_height="@dimen/x88"
-                               android:layout_gravity="center_vertical"
-                               android:background="@color/white"
-                               android:visibility="visible">
-
-                               <TextView
-                                   style="@style/ConfirmOrderTitle"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginLeft="@dimen/x30"
-                                   android:gravity="center_vertical"
-                                   android:text="地址" />
-
-                               <TextView
-                                   android:id="@+id/tv_address_address"
-                                   style="@style/ConfirmOrderText"
-
-                                   android:maxWidth="220dp"
-                                   android:text="" />
-
-                           </RelativeLayout>
-                       </LinearLayout>
-
-                       <View style="@style/Line_h" />-->
-            <!--分割线 与顶部间隔15dp-->
             <View
                 style="@style/Line_h"
                 android:layout_marginTop="15dp" />
@@ -585,9 +500,8 @@
                     android:paddingBottom="@dimen/x30"
                     android:paddingTop="5dp"
                     android:text="下单日期:"
-                    android:textSize="17sp"
                     android:textColor="#999"
-                    />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
             <!--分割线-->
@@ -605,7 +519,9 @@
         android:layout_marginTop="10dp"
         android:text="立即支付" />-->
     <View style="@style/Line_h" />
+
     <LinearLayout
+        android:id="@+id/line_chetieorderdetail_pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

@@ -41,7 +41,7 @@
 
                     />
 
-                <com.yichang.kaku.home.ClearEditText
+                <com.yichang.kaku.home.text.ClearEditText
                     android:id="@+id/filter_edit"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/x68"
@@ -68,7 +68,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.yichang.kaku.home.MyGridView
+                        <com.yichang.kaku.home.text.MyGridView
                             android:id="@+id/gv_remen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

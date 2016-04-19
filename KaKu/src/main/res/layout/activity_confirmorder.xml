@@ -22,14 +22,43 @@
 
 
             <!--购物车结算列表-->
-            <View
+            <!--<View
                 style="@style/Line_h"
                 android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="17sp"
+                    android:text="现场购买"
+                    android:textColor="@color/black" />
+
+                <CheckBox
+                    android:id="@+id/cb_point_xianchanggoumai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/selector_confirmorder_cbx" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />-->
 
             <RelativeLayout
                 android:id="@+id/rela_address_change"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/shouhuobeijing">
                 <!--收货地址-->
 
@@ -67,8 +96,6 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:drawableLeft="@drawable/shouhuoshouji"
-
-
                             android:text=""
                             android:textColor="#000000"
                             android:textSize="17sp" />
@@ -140,11 +167,9 @@
                         android:layout_marginRight="0dp"
                         android:gravity="center_vertical"
                         android:text="可用200积分，抵用"
-                        android:textColor="#999999"
-                        />
+                        android:textColor="#999999" />
 
                     <TextView
-
                         android:id="@+id/tv_point_available"
                         style="@style/ConfirmOrderText"
                         android:layout_width="0dp"
@@ -156,16 +181,16 @@
 
                     <CheckBox
                         android:id="@+id/cbx_point_toggle"
-                        android:button="@drawable/selector_confirmorder_cbx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-
                         android:layout_gravity="center_vertical|right"
-                        android:layout_marginRight="15dp" />
+                        android:layout_marginRight="15dp"
+                        android:button="@drawable/selector_confirmorder_cbx" />
 
 
                 </LinearLayout>
+
+                <View style="@style/Line_h" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -181,11 +206,10 @@
                         android:layout_marginLeft="@dimen/x30"
                         android:layout_marginRight="0dp"
                         android:gravity="center_vertical"
-                        android:textColor="#999999"
-                        android:text="可用余额" />
+                        android:text="可用余额"
+                        android:textColor="#999999" />
 
                     <TextView
-
                         android:id="@+id/tv_balance_available"
                         style="@style/ConfirmOrderText"
                         android:layout_width="0dp"
@@ -193,12 +217,10 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical|left"
                         android:text="￥2.0"
-
                         android:textColor="#999999" />
 
                     <CheckBox
                         android:id="@+id/cbx_balance_toggle"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|right"
@@ -255,15 +277,13 @@
             <!--分割线-->
             <View
                 android:id="@+id/view_pricepoint"
-                style="@style/Line_h"
-                android:visibility="gone" />
+                style="@style/Line_h" />
 
             <RelativeLayout
                 android:id="@+id/rela_point_pricepoint"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x88"
                 android:layout_gravity="center_vertical"
-
                 android:background="@color/white"
                 android:visibility="visible">
 
@@ -278,19 +298,19 @@
                 <TextView
                     android:id="@+id/tv_point_pricepoint"
                     style="@style/ConfirmOrderText"
-
                     android:maxWidth="220dp"
                     android:text="-￥0.00"
                     android:textColor="@color/black" />
 
             </RelativeLayout>
 
+            <View style="@style/Line_h" />
+
             <RelativeLayout
                 android:id="@+id/rela_balance_pricepoint"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x88"
                 android:layout_gravity="center_vertical"
-
                 android:background="@color/white"
                 android:visibility="visible">
 
@@ -305,7 +325,6 @@
                 <TextView
                     android:id="@+id/tv_balance_pricepoint"
                     style="@style/ConfirmOrderText"
-
                     android:maxWidth="220dp"
                     android:text="-￥0.00"
                     android:textColor="@color/black" />
@@ -335,7 +354,6 @@
                 <TextView
                     android:id="@+id/tv_confirmorder_pricebill"
                     style="@style/ConfirmOrderText"
-
                     android:maxWidth="220dp"
                     android:text="￥ "
                     android:textColor="@color/red" />
@@ -383,7 +401,6 @@
             android:layout_weight="1"
             android:background="@color/color_red"
             android:gravity="center"
-
             android:text="提交订单"
             android:textColor="@color/white"
             android:textSize="18sp" />

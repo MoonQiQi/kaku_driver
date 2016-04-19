@@ -17,7 +17,6 @@
 
         <ImageView
             android:layout_centerHorizontal="true"
-            android:background="@drawable/image_bg"
             android:id="@+id/iv_home_good"
             android:layout_width="77dp"
             android:layout_height="77dp" />

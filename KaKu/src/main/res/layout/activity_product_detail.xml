@@ -83,9 +83,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp">
+                            android:background="@color/white">
 
                             <TextView
                                 android:id="@+id/tv_dollar_sign"
@@ -93,7 +91,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="15dp"
-                                android:text="￥"
+                                android:text="¥"
                                 android:textColor="#d10000"
                                 android:textSize="20sp" />
 
@@ -126,7 +124,33 @@
 
                         </RelativeLayout>
 
-                        <View style="@style/Line_h" />
+                        <RelativeLayout
+                            android:id="@+id/rela_giftmalldetail_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp">
+
+                            <TextView
+                                android:id="@+id/tv_giftmalldetail_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="价格"
+                                android:textColor="@color/color_word"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="50dp"
+                                android:layout_height="1dp"
+                                android:layout_centerInParent="true"
+                                android:background="@color/color_word" />
+
+                        </RelativeLayout>
+
+
+                        <View
+                            style="@style/Line_h"
+                            android:layout_marginTop="15dp" />
 
                         <View
                             android:layout_width="match_parent"
@@ -342,7 +366,6 @@
                 android:layout_weight="1"
                 android:background="@color/color_red"
                 android:gravity="center"
-
                 android:text="加入购物车"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

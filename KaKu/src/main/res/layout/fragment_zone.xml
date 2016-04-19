@@ -192,7 +192,7 @@
             android:layout_above="@+id/gv_city"
             style="@style/Line_h"/>
 
-        <com.yichang.kaku.logistics.LineGridView
+        <com.yichang.kaku.zhaohuo.LineGridView
             android:id="@+id/gv_city"
             android:numColumns="5"
             android:background="@color/white"

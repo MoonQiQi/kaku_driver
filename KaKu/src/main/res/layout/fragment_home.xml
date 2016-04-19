@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color">
 
-    <com.yichang.kaku.home.ObservableScrollView
+    <com.yichang.kaku.home.text.ObservableScrollView
         android:id="@+id/sv_home_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -343,7 +343,7 @@
 
         </LinearLayout>
 
-    </com.yichang.kaku.home.ObservableScrollView>
+    </com.yichang.kaku.home.text.ObservableScrollView>
 
     <RelativeLayout
         android:id="@+id/rela_main_title2"

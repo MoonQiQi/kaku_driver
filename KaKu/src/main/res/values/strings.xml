@@ -88,4 +88,8 @@
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="version_no1">V1.7.0</string>
+    <string name="version_no2">Android V1.7.0 build 20160418</string>
+
+    <string name="update_info"> 1、新增加抢车贴活动。\n2、修改更新提示界面。\n3、修复上个版本已知问题。</string>
 </resources>

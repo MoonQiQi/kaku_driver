@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawablePadding="@dimen/x8"
-        android:drawableTop="@drawable/weixin"
+        android:drawableTop="@drawable/weixin1"
         android:gravity="center"
         android:text="微信"
         android:textColor="@color/black"

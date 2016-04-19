@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="@dimen/x10"
+    android:paddingTop="@dimen/x10">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:padding="10dp">
+
+
+        <LinearLayout
+            android:id="@+id/ll_pwd_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/bg_discovery_item"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="输入邀请码"
+                android:textColor="#666666"
+                android:textSize="22sp"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="left"
+                android:text="请向邀请人索要邀请码（对方手机号后6位）"
+                android:textColor="#666666"
+                android:textSize="15sp"
+
+                />
+
+            <com.yichang.kaku.view.SecurityPasswordEditText
+
+                android:id="@+id/et_s_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp">
+
+
+            </com.yichang.kaku.view.SecurityPasswordEditText>
+
+            <Button style="@style/Btn_Red"
+                android:text="确    定"/>
+
+            <Button style="@style/Btn_HuiDi"
+                android:id="@+id/btn_input_yaocode"
+                android:text="没有邀请码，我也要参加"/>
+
+
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/img_popwindow_close"
+
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -44,7 +44,7 @@
 
                 <View style="@style/Line_h" />
 
-                <com.yichang.kaku.home.MyGridView
+                <com.yichang.kaku.home.text.MyGridView
                     android:id="@+id/gv_chexi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 <View style="@style/Line_h" />
 
 
-                <com.yichang.kaku.home.MyGridView
+                <com.yichang.kaku.home.text.MyGridView
                     android:id="@+id/gv_chexing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
 
                 <View style="@style/Line_h" />
 
-                <com.yichang.kaku.home.MyGridView
+                <com.yichang.kaku.home.text.MyGridView
                     android:id="@+id/gv_qudong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
 
                 <View style="@style/Line_h" />
 
-                <com.yichang.kaku.home.MyGridView
+                <com.yichang.kaku.home.text.MyGridView
                     android:id="@+id/gv_ranliao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
 
                 <View style="@style/Line_h" />
 
-                <com.yichang.kaku.home.MyGridView
+                <com.yichang.kaku.home.text.MyGridView
                     android:id="@+id/gv_paifang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -240,7 +240,7 @@
 
                 <View style="@style/Line_h" />
 
-                <com.yichang.kaku.home.MyGridView
+                <com.yichang.kaku.home.text.MyGridView
                     android:id="@+id/gv_gonglv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

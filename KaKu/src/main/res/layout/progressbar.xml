@@ -2,14 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/activity_bg_color"
-     ><!-- android:background="@drawable/topbar_bg" -->
-     
-    <ProgressBar   
-        android:id="@+id/progressBar"  
-        style="?android:attr/progressBarStyleHorizontal"
+    android:background="@drawable/black"
+     >
+
+
+    <ImageView
+        android:id="@+id/iv_progressbar"
+        android:scaleType="fitStart"
+        android:src="@drawable/update_car"
+        android:background="@drawable/black"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="33dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_above="@+id/tv_progressbar"
+        style="@style/mProgress_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
+
+    <TextView
+        android:id="@+id/tv_progressbar"
+        android:layout_below="@+id/iv_progressbar"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:text="正在更新，请稍后..."
+        android:textSize="15sp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="#282828"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    
-     
+
+
 </RelativeLayout>

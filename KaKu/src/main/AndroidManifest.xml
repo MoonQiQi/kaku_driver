@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yichang.kaku"
     android:versionCode="1"
-    android:versionName="1.5.1">
+    android:versionName="1.7.0">
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -137,6 +137,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".member.login.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -166,18 +167,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".home.mycar.PinPaiXuanZeActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.nouse.ChooseCarActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.mycar.CarListActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.mycar.OkCarActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -529,6 +518,14 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.yichang.kaku.home.Ad.XingShiZhengImageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.Ad.JiaShiZhengActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".member.serviceorder.LookLocationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -663,6 +660,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".home.giftmall.ConfirmOrderXianActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".member.cash.BankListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -735,6 +736,16 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".home.Ad.QiangCheTieListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".home.Ad.Add_MActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            />
 
         <activity
             android:name=".home.Ad.OrderCheTiePayActivity"
@@ -798,23 +809,12 @@
             </intent-filter>
         </activity>
 
-        <!-- bugtag -->
-        <activity
-            android:name="com.bugtags.library.BugtagsActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            tools:replace="android:theme"/>
-
         <!-- Required  SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:process=":process1"
             android:enabled="true"
             android:exported="false"></service>
-
-        <!-- bugtag -->
-        <service
-            android:name="com.bugtags.library.BugtagsService"/>
 
         <!-- Required SDK 核心功能 -->
         <service
@@ -853,15 +853,6 @@
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
                 <data android:scheme="com.yichang.kaku" />
-            </intent-filter>
-        </receiver>
-
-        <!-- bugtag -->
-
-        <receiver
-            android:name="com.bugtags.library.BugtagsReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 
@@ -922,10 +913,10 @@
             </intent-filter>
         </receiver>
 
-        <service
+        <!--<service
             android:name="com.baidu.trace.LBSTraceService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true" />-->
 
         <service
             android:name=".home.qiandao.DailyRemindService"

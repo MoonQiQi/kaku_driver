@@ -21,327 +21,326 @@
             android:fillViewport="true"
             android:scrollbars="none">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <com.yichang.kaku.home.giftmall.sliding.ProductDetailScrollViewPage
-        android:id="@+id/ysnowScrollViewPageOne"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/view_bottom"
-        android:scrollbars="none">
+                <com.yichang.kaku.home.giftmall.sliding.ProductDetailScrollViewPage
+                    android:id="@+id/ysnowScrollViewPageOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/view_bottom"
+                    android:scrollbars="none">
 
-        <LinearLayout
-            android:id="@+id/ll_product_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/ll_product_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_chetiedetail_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="15dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitStart"
-                android:src="@drawable/ic_launcher" />
+                        <ImageView
+                            android:id="@+id/iv_chetiedetail_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/ic_launcher" />
 
-            <TextView
-                android:id="@+id/tv_chetiedetail_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:text="卡库养车车贴"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/tv_chetiedetail_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:text="卡库养车车贴"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tv_chetiedetail_funame"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:text="【超值返现】"
-                android:textColor="@color/color_red"
-                android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_chetiedetail_funame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp"
+                            android:text="【超值返现】"
+                            android:textColor="@color/color_red"
+                            android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tv_chetiedetail_shoutiejia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/baoyoujiashoutie"
-                android:text="首帖价"
-                android:textColor="@color/color_red"
-                android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_chetiedetail_shoutiejia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@drawable/baoyoujiashoutie"
+                            android:text="首帖价"
+                            android:textColor="@color/color_red"
+                            android:textSize="14sp" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp">
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp">
 
-                <RelativeLayout
-                    android:id="@+id/rela_chetiedetail_price"
-                    android:layout_width="wrap_content"
+                            <RelativeLayout
+                                android:id="@+id/rela_chetiedetail_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_chetiedetail_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="价格"
+                                    android:textColor="@color/color_word"
+                                    android:textSize="13sp" />
+
+                                <View
+                                    android:layout_width="50dp"
+                                    android:layout_height="1dp"
+                                    android:layout_centerInParent="true"
+                                    android:background="@color/color_word" />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_people"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@+id/rela_chetiedetail_price"
+                                android:text="已售"
+                                android:textColor="@color/color_word"
+                                android:textSize="13sp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            style="@style/Line_h"
+                            android:layout_marginTop="10dp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_cuxiao1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="促销"
+                                android:textColor="@color/color_word"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_cuxiao1info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toRightOf="@+id/tv_chetiedetail_cuxiao1"
+                                android:drawableLeft="@drawable/shoutielijian"
+                                android:drawablePadding="5dp"
+                                android:text="首贴立减"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_cuxiao2info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/tv_chetiedetail_cuxiao1info"
+                                android:layout_below="@+id/tv_chetiedetail_cuxiao1info"
+                                android:layout_marginTop="10dp"
+                                android:drawableLeft="@drawable/kakuziying"
+                                android:drawablePadding="5dp"
+                                android:text="卡库自营"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            style="@style/Line_h"
+                            android:layout_marginTop="10dp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_tishi1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="提示"
+                                android:textColor="@color/color_word"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_tishi1info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toRightOf="@+id/tv_chetiedetail_tishi1"
+                                android:text="收益周期"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_tishi2info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/tv_chetiedetail_tishi1info"
+                                android:layout_below="@+id/tv_chetiedetail_tishi1info"
+                                android:layout_marginTop="6dp"
+                                android:text="预期总收益"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_tishi3info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/tv_chetiedetail_tishi1info"
+                                android:layout_below="@+id/tv_chetiedetail_tishi2info"
+                                android:layout_marginTop="6dp"
+                                android:text="日收益"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            style="@style/Line_h"
+                            android:layout_marginTop="10dp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_fuwu1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="服务"
+                                android:textColor="@color/color_word"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chetiedetail_fuwu1info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toRightOf="@+id/tv_chetiedetail_fuwu1"
+                                android:text="由卡库养车发货并提供售后服务"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/tv_chetiedetail_fuwu1info"
+                                android:layout_below="@+id/tv_chetiedetail_fuwu1info"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/fuwusanheyi" />
+
+                        </RelativeLayout>
+
+                        <View
+                            style="@style/Line_h"
+                            android:layout_marginTop="15dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawableLeft="@drawable/img_jiantou4"
+                            android:drawablePadding="5dp"
+                            android:padding="10dp"
+                            android:text="上拉查看图文详情"
+                            android:textColor="@color/color_word"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </com.yichang.kaku.home.giftmall.sliding.ProductDetailScrollViewPage>
+
+                <com.yichang.kaku.home.giftmall.sliding.ProductDetailWebView
+                    android:id="@+id/wv_product_detail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tv_chetiedetail_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="价格"
-                        android:textColor="@color/color_word"
-                        android:textSize="13sp" />
+                </com.yichang.kaku.home.giftmall.sliding.ProductDetailWebView>
 
-                    <View
-                        android:layout_width="50dp"
-                        android:layout_height="1dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/color_word" />
+            </LinearLayout>
 
-                </RelativeLayout>
+        </com.yichang.kaku.home.giftmall.sliding.ProductDetailSlidingMenu>
 
-                <TextView
-                    android:id="@+id/tv_chetiedetail_people"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/rela_chetiedetail_price"
-                    android:text="已售"
-                    android:textColor="@color/color_word"
-                    android:textSize="13sp" />
+        <View
+            android:id="@+id/view_bottom"
+            style="@style/Line_h"
+            android:layout_above="@+id/ll_shopcart_bottombar" />
 
-            </RelativeLayout>
+        <LinearLayout
 
-            <View
-                style="@style/Line_h"
-                android:layout_marginTop="10dp" />
+            android:id="@+id/ll_shopcart_bottombar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x100"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_cuxiao1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:text="促销"
-                    android:textColor="@color/color_word"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_cuxiao1info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/tv_chetiedetail_cuxiao1"
-                    android:drawableLeft="@drawable/shoutielijian"
-                    android:drawablePadding="5dp"
-                    android:text="首贴立减"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_cuxiao2info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_chetiedetail_cuxiao1info"
-                    android:layout_below="@+id/tv_chetiedetail_cuxiao1info"
-                    android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/kakuziying"
-                    android:drawablePadding="5dp"
-                    android:text="卡库自营"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-            </RelativeLayout>
-
-            <View
-                style="@style/Line_h"
-                android:layout_marginTop="10dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_tishi1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:text="提示"
-                    android:textColor="@color/color_word"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_tishi1info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/tv_chetiedetail_tishi1"
-                    android:text="收益周期"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_tishi2info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_chetiedetail_tishi1info"
-                    android:layout_below="@+id/tv_chetiedetail_tishi1info"
-                    android:layout_marginTop="6dp"
-                    android:text="预期总收益"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_tishi3info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_chetiedetail_tishi1info"
-                    android:layout_below="@+id/tv_chetiedetail_tishi2info"
-                    android:layout_marginTop="6dp"
-                    android:text="日收益"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-            </RelativeLayout>
-
-            <View
-                style="@style/Line_h"
-                android:layout_marginTop="10dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_fuwu1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:text="服务"
-                    android:textColor="@color/color_word"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_chetiedetail_fuwu1info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/tv_chetiedetail_fuwu1"
-                    android:text="由卡库养车发货并提供售后服务"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+            <LinearLayout
+                android:id="@+id/line_chetiedetail_call"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_chetiedetail_fuwu1info"
-                    android:layout_below="@+id/tv_chetiedetail_fuwu1info"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/fuwusanheyi" />
+                    android:src="@drawable/product_detail_service" />
 
-            </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="客服热线"
+                    android:textColor="#d10000"
+                    android:textSize="13sp" />
 
-            <View
-                android:layout_marginTop="15dp"
-                style="@style/Line_h"/>
-
-            <TextView
-                android:text="上拉查看图文详情"
-                android:padding="10dp"
-                android:textColor="@color/color_word"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:drawableLeft="@drawable/img_jiantou4"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </com.yichang.kaku.home.giftmall.sliding.ProductDetailScrollViewPage>
-
-            <com.yichang.kaku.home.giftmall.sliding.ProductDetailWebView
-                android:id="@+id/wv_product_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-            </com.yichang.kaku.home.giftmall.sliding.ProductDetailWebView>
-
-        </LinearLayout>
-
-        </com.yichang.kaku.home.giftmall.sliding.ProductDetailSlidingMenu>
-
-    <View
-        android:id="@+id/view_bottom"
-        style="@style/Line_h"
-        android:layout_above="@+id/ll_shopcart_bottombar" />
-
-    <LinearLayout
-
-        android:id="@+id/ll_shopcart_bottombar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x100"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/line_chetiedetail_call"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/product_detail_service" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="客服热线"
-                android:textColor="#d10000"
-                android:textSize="13sp" />
+                android:id="@+id/tv_chetiedetail_pay"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:background="@color/color_red"
+                android:gravity="center"
+                android:text="提交订单"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_chetiedetail_pay"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="2"
-            android:background="@color/color_red"
-            android:gravity="center"
-            android:text="提交订单"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-    </LinearLayout>
 
     </RelativeLayout>
 

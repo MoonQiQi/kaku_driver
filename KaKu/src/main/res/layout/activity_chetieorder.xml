@@ -3,16 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:orientation="vertical"
-     >
-     
-    <include layout="@layout/activity_titlebar"
-         android:id="@+id/title_chetieorder" />
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_chetieorder"
+        layout="@layout/activity_titlebar" />
 
     <com.yichang.kaku.view.widget.XListView
         android:id="@+id/lv_wodechetie"
-        android:dividerHeight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:dividerHeight="15dp" />
+
+    <LinearLayout
+        android:id="@+id/line_chetieorder"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_wodechetie_nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/wushuju" />
+
+        <TextView
+            android:id="@+id/tv_wodechetie_nodata"
+            android:text="您当前没有车贴订单"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/color_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

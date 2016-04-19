@@ -83,7 +83,7 @@
             android:layout_alignLeft="@+id/tv_chetieitem_name"
             android:layout_below="@+id/tv_chetieitem_timeshouyi"
             android:layout_marginTop="5dp"
-            android:text="首单1元"
+            android:text="首单0元"
             android:textColor="@color/color_red"
             android:textSize="12sp" />
 

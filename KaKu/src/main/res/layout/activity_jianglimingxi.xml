@@ -86,9 +86,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="10"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -116,9 +116,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="¥ 0.00"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -126,9 +126,9 @@
 
     <LinearLayout
         android:id="@+id/ll_container"
-        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -159,11 +159,10 @@
             android:id="@+id/lv_jianglimingxi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="15dp"
             android:divider="@color/bg_color"
+            android:dividerHeight="15dp"
 
             />
-
 
 
     </LinearLayout>

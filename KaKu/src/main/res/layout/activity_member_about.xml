@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="Android V1.5.0 build 20160202"
+            android:text="@string/version_no2"
             android:textColor="#999999"
             android:textSize="10sp"
 
