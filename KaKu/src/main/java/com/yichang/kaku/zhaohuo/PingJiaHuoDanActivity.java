@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.request.PingJiaHuoDanReq;
@@ -20,8 +20,7 @@ import com.yichang.kaku.response.PingJiaHuoDanResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class PingJiaHuoDanActivity extends BaseActivity implements OnClickListener {
 
@@ -96,7 +95,6 @@ public class PingJiaHuoDanActivity extends BaseActivity implements OnClickListen
 
     public void Commit() {
         Utils.NoNet(context);
-        showProgressDialog();
         PingJiaHuoDanReq req = new PingJiaHuoDanReq();
         req.code = "6008";
         req.id_driver = Utils.getIdDriver();
@@ -105,29 +103,19 @@ public class PingJiaHuoDanActivity extends BaseActivity implements OnClickListen
         req.flag_contact = flag_2;
         req.star_eval = String.valueOf(star_pingjiahuodan.getRating());
         req.content_eval = et_pingjiahuodan.getText().toString().trim();
-        KaKuApiProvider.PingJiaHuoDan(req, new BaseCallback<PingJiaHuoDanResp>(PingJiaHuoDanResp.class) {
+        KaKuApiProvider.PingJiaHuoDan(req, new KakuResponseListener<PingJiaHuoDanResp>(this, PingJiaHuoDanResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, PingJiaHuoDanResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("pingjiahuodan res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         finish();
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }
-
 }

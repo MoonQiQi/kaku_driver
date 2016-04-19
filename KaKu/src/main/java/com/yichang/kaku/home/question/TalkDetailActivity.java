@@ -22,6 +22,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
+import com.yichang.kaku.view.WaitDialog;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class TalkDetailActivity extends BaseActivity {
     private ConversationBean.conversationItem firstItem;
     private ConversationBean.conversationItem secondItem;
     private QuestionAnswerObj answerObj;
-
+    private WaitDialog waitDialog = new WaitDialog(context);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +65,9 @@ public class TalkDetailActivity extends BaseActivity {
 
         firstItem = createConversationItem(questionObj.getContent(), Integer.parseInt(questionObj.getId_driver()), "0", questionObj.getTime_create());
         secondItem = createConversationItem(answerObj.getContent(), 0, answerObj.getId_shop_user(), answerObj.getTime_create());
-
         initUI();
         refreshData();
+
     }
 
     private void initUI() {
@@ -82,7 +83,7 @@ public class TalkDetailActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        showProgressDialog();
+        waitDialog.show();
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
                 .p("id_question", sub_id_question)
@@ -98,7 +99,7 @@ public class TalkDetailActivity extends BaseActivity {
                 }
 
                 TalkDetailActivity.this.resp = obj;
-                stopProgressDialog();
+                waitDialog.dismiss();
                 obj.list.addFirst(secondItem);
                 obj.list.addFirst(firstItem);
                 adapter = new TalkDetailAdapter(obj, questionObj.getHead(), header_user);
@@ -107,9 +108,9 @@ public class TalkDetailActivity extends BaseActivity {
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
-                stopProgressDialog();
+
             }
         });
 
@@ -146,7 +147,7 @@ public class TalkDetailActivity extends BaseActivity {
             return;
         }
 
-        showProgressDialog();
+        waitDialog.show();
         resp.list.add(createConversationItem(getText(et_content),
                 Integer.parseInt(Utils.getIdDriver()),
                 "0",
@@ -163,16 +164,16 @@ public class TalkDetailActivity extends BaseActivity {
         OkHttpUtil.postAsync(UrlCtnt.BASEIP, builder.build(), new RequestCallback<ConversationBean>(this, ConversationBean.class) {
             @Override
             public void onSuccess(ConversationBean obj, String result) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 et_content.setText("");
                 adapter.updateMsgState(resp.list.size() - 1, ConversationBean.STATE_SUC);
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
-                stopProgressDialog();
+
             }
         });
     }

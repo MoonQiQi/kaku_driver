@@ -3,7 +3,6 @@ package com.yichang.kaku.request;
 import java.io.Serializable;
 
 public class ShopMallProductsReq extends BaseReq implements Serializable {
-	public String code;
 	public String start;
 	public String len;
 	public String sort;

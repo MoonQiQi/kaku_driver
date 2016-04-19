@@ -1,9 +1,11 @@
-package com.yichang.kaku.view.widget;
+package com.yichang.kaku.view.popwindow;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +27,19 @@ import java.util.HashMap;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
-public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickListener {
+/**
+ * Created by xiaosu on 2015/12/8.
+ */
+public class RedEnvelopeSharePopWindow extends PopupWindow implements View.OnClickListener {
 
     private final BaseActivity context;
     private final ShareContentObj shareContent;
+
+    private String mTitle;
     //是否使用短网址
     private Boolean isShortUrl = true;
 
@@ -43,17 +51,24 @@ public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickLi
         this.isShortUrl = isShortUrl;
     }
 
-    public HongBaoSharePopWindow(BaseActivity context, ShareContentObj shareContent) {
+    public RedEnvelopeSharePopWindow(BaseActivity context, ShareContentObj shareContent) {
         super(context);
         this.context = context;
         this.shareContent = shareContent;
+        if(TextUtils.isEmpty(shareContent.title)){
+            mTitle="卡库分享";
+
+        }else {
+            mTitle=shareContent.title;
+        }
 
         ShareSDK.initSDK(context);
 
-        View rootView = View.inflate(context, R.layout.layout_pop_sharehongbao, null);
+        View rootView = View.inflate(context, R.layout.layout_pop_share, null);
 
         rootView.findViewById(R.id.share_wx).setOnClickListener(this);
         rootView.findViewById(R.id.share_pyq).setOnClickListener(this);
+        rootView.findViewById(R.id.share_qq).setOnClickListener(this);
 
         setContentView(rootView);
         setFocusable(true);
@@ -71,6 +86,7 @@ public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickLi
             case R.id.share_wx:
                 String wxUrl = shareContent.url + "&type=Wechat";
 
+                Log.d("xiaosu", "====" + wxUrl);
                 if (isShortUrl) {
                     try {
                         wxUrl = URLEncoder.encode(wxUrl, "utf-8");
@@ -80,10 +96,12 @@ public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickLi
                     getShortURL(wxUrl, new onSuccessListener() {
                         @Override
                         public void onSuccess(String shortUrl) {
+                            Log.d("xiaosu", "----" + shortUrl);
                             Wechat.ShareParams params = new Wechat.ShareParams();
-                            params.setTitle(shareContent.title);
+                            params.setTitle(mTitle);
                             params.setShareType(Wechat.SHARE_WEBPAGE);
                             params.setText(shareContent.content + shortUrl);
+                            //params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
                             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.qianghongbao);
                             params.setImageData(bitmap);
                             params.setUrl(shortUrl);
@@ -94,9 +112,10 @@ public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickLi
                     });
                 } else {
                     Wechat.ShareParams params = new Wechat.ShareParams();
-                    params.setTitle(shareContent.title);
+                    params.setTitle(mTitle);
                     params.setShareType(Wechat.SHARE_WEBPAGE);
                     params.setText(shareContent.content + shareContent.url);
+                    //params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
                     Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.qianghongbao);
                     params.setImageData(bitmap);
                     params.setUrl(shareContent.url);
@@ -120,7 +139,8 @@ public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickLi
                         public void onSuccess(String shortUrl) {
                             WechatMoments.ShareParams params = new WechatMoments.ShareParams();
                             params.setShareType(WechatMoments.SHARE_WEBPAGE);
-                            params.setTitle(shareContent.title);
+                            params.setTitle(shareContent.content + shortUrl);
+                            //params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
                             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.qianghongbao);
                             params.setImageData(bitmap);
                             params.setUrl(shortUrl);
@@ -132,13 +152,51 @@ public class HongBaoSharePopWindow extends PopupWindow implements View.OnClickLi
                 } else {
                     WechatMoments.ShareParams params = new WechatMoments.ShareParams();
                     params.setShareType(WechatMoments.SHARE_WEBPAGE);
-                    params.setTitle(shareContent.title);
+                    params.setTitle(shareContent.content + shareContent.url);
+                    //params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
                     Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.qianghongbao);
                     params.setImageData(bitmap);
                     params.setUrl(shareContent.url);
                     Platform wechatMoments = ShareSDK.getPlatform(WechatMoments.NAME);
                     wechatMoments.setPlatformActionListener(new InnerPlatformActionListener("微信朋友圈"));
                     wechatMoments.share(params);
+                }
+                break;
+            case R.id.share_qq:
+                String qqUrl = shareContent.url + "&type=QQ";
+
+                if (isShortUrl) {
+                    try {
+                        qqUrl = URLEncoder.encode(qqUrl, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    getShortURL(qqUrl, new onSuccessListener() {
+                        @Override
+                        public void onSuccess(String shortUrl) {
+                            QQ.ShareParams params = new QQ.ShareParams();
+                            params.setTitle(mTitle);
+                            //params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.qianghongbao);
+                            params.setImageData(bitmap);
+                            params.setText(shareContent.content + shortUrl);
+                            params.setTitleUrl(shortUrl);
+                            Platform qq = ShareSDK.getPlatform(QQ.NAME);
+                            qq.setPlatformActionListener(new InnerPlatformActionListener("QQ")); // 设置分享事件回调
+                            qq.share(params);
+                        }
+                    });
+                } else {
+                    QQ.ShareParams params = new QQ.ShareParams();
+                    params.setTitle(mTitle);
+                    //params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.qianghongbao);
+                    params.setImageData(bitmap);
+                    params.setText(shareContent.content + shareContent.url);
+                    params.setTitleUrl(shareContent.url);
+                    Platform qq = ShareSDK.getPlatform(QQ.NAME);
+                    qq.setPlatformActionListener(new InnerPlatformActionListener("QQ")); // 设置分享事件回调
+                    qq.share(params);
                 }
                 break;
         }

@@ -4,42 +4,25 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
-import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.obj.ShareContentObj;
-import com.yichang.kaku.request.MemberRecommendReq;
-import com.yichang.kaku.response.MemberRecommendResp;
 import com.yichang.kaku.response.ShortURLResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
-import com.yichang.kaku.view.OneKeySharePopWindow;
-import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -55,13 +38,11 @@ public class MemberSendMsgActivity extends BaseActivity implements OnClickListen
 
     private String smsContent = "";
     private String smsUrl = "";
-
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_send_msg);
-
         init();
     }
 

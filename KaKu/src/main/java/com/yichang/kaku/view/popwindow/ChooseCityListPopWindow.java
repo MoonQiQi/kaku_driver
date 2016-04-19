@@ -1,4 +1,4 @@
-package com.yichang.kaku.view;
+package com.yichang.kaku.view.popwindow;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

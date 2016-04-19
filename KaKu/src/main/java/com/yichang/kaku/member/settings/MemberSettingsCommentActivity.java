@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.request.SubmitSuggestionReq;
@@ -27,8 +27,7 @@ import com.yichang.kaku.response.SubmitSuggestionResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class MemberSettingsCommentActivity extends BaseActivity implements OnClickListener {
     //    titleBar
@@ -148,8 +147,6 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
         }
 
         Utils.NoNet(context);
-        showProgressDialog();
-
 
         SubmitSuggestionReq req = new SubmitSuggestionReq();
         req.code = "10030";
@@ -157,9 +154,10 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
         req.content_suggest = strComment;
         req.type_suggest = type_suggest;
 
-        KaKuApiProvider.submitSuggestion(req, new BaseCallback<SubmitSuggestionResp>(SubmitSuggestionResp.class) {
+        KaKuApiProvider.submitSuggestion(req, new KakuResponseListener<SubmitSuggestionResp>(this, SubmitSuggestionResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, SubmitSuggestionResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("submitSuggestion res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -172,19 +170,9 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
                         }
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }

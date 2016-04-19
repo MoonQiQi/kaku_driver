@@ -1,4 +1,4 @@
-package com.yichang.kaku.view.widget;
+package com.yichang.kaku.view.popwindow;
 
 import android.app.Activity;
 import android.content.Context;

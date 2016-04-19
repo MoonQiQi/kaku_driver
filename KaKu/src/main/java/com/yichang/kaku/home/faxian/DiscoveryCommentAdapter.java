@@ -8,12 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.DiscoveryCommentsObj;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.view.KakuMultiLineTextView;
 
 import java.util.List;
@@ -79,8 +77,6 @@ public class DiscoveryCommentAdapter extends BaseAdapter{
 			holder.tv_discovery_comment_time.setText(list.get(position).getTime_comment());
 
 			holder.tv_discovery_comment_content.setText(ToDBC(list.get(position).getContent_comment()));
-		//holder.tv_discovery_comment_content.
-			LogUtil.E("head:" + list.get(position).getHead());
 			if (!"".equals(list.get(position).getHead())) {
 				String head = KaKuApplication.qian_zhui+list.get(position).getHead();
 				BitmapUtil.getInstance(mContext).download(holder.iv_discovery_comment_head, head);

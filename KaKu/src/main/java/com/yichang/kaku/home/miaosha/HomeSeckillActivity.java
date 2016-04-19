@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -36,8 +36,7 @@ import com.yichang.kaku.tools.DensityUtils;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -125,9 +124,10 @@ public class HomeSeckillActivity extends BaseActivity implements OnClickListener
         req.code = "8009";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getSeckillDetailList(req, new BaseCallback<SeckillDetailResp>(SeckillDetailResp.class) {
+        KaKuApiProvider.getSeckillDetailList(req, new KakuResponseListener<SeckillDetailResp>(this, SeckillDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, SeckillDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("home res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -163,10 +163,6 @@ public class HomeSeckillActivity extends BaseActivity implements OnClickListener
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -376,9 +372,10 @@ public class HomeSeckillActivity extends BaseActivity implements OnClickListener
         ServerDateTimeReq req = new ServerDateTimeReq();
         req.code = "80012";
 
-        KaKuApiProvider.getServerDateTime(req, new BaseCallback<ServerDateTimeResp>(ServerDateTimeResp.class) {
+        KaKuApiProvider.getServerDateTime(req, new KakuResponseListener<ServerDateTimeResp>(this, ServerDateTimeResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ServerDateTimeResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
 
                     if (Constants.RES.equals(t.res)) {
@@ -403,10 +400,6 @@ public class HomeSeckillActivity extends BaseActivity implements OnClickListener
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

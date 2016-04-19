@@ -2,36 +2,24 @@ package com.yichang.kaku.member.cash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.BankCardObj;
-import com.yichang.kaku.obj.YueObj;
 import com.yichang.kaku.request.BankCardListReq;
-import com.yichang.kaku.request.YueReq;
 import com.yichang.kaku.response.BankCardListResp;
-import com.yichang.kaku.response.YueResp;
-import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.CalendarView;
-import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,36 +86,23 @@ public class BankCardListActivity extends BaseActivity implements OnClickListene
         if (!Utils.checkNetworkConnection(context)) {
             return;
         }
-        showProgressDialog();
 
         BankCardListReq req = new BankCardListReq();
         req.code = "5004";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getBankCardList(req, new BaseCallback<BankCardListResp>(BankCardListResp.class) {
+        KaKuApiProvider.getBankCardList(req, new KakuResponseListener<BankCardListResp>(this, BankCardListResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BankCardListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("yue res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.banks);
-
-
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
             }
         });
     }
@@ -140,13 +115,10 @@ public class BankCardListActivity extends BaseActivity implements OnClickListene
         }else {
             return;
         }
-
         lv_bank_list.addFooterView(footerView);
         BankCardAdapter adapter = new BankCardAdapter(context, list);
         lv_bank_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
-
     }
 
 

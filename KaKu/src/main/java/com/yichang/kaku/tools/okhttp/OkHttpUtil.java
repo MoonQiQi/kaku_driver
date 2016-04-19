@@ -2,7 +2,6 @@ package com.yichang.kaku.tools.okhttp;
 
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -16,9 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 
-/**
- * Created by 小苏 on 2015/10/19.
- */
 public class OkHttpUtil {
 
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -49,7 +45,7 @@ public class OkHttpUtil {
             }
             builder.add(key, value);
             if (BuildConfig.DEBUG) {
-                Log.d("xiaosu", key + " = " + value);
+
             }
         }
 

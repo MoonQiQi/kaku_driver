@@ -10,23 +10,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.obj.PingJiaObj;
 import com.yichang.kaku.obj.ShopMallProductCommentObj;
 import com.yichang.kaku.request.GetProductCommentListReq;
-import com.yichang.kaku.request.PingJiaReq;
 import com.yichang.kaku.response.GetProductCommentListResp;
-import com.yichang.kaku.response.PingJiaResp;
 import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,9 +125,10 @@ public class ProductCommentListActivity extends BaseActivity implements OnClickL
         req.id_goods = mId_goods;
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
-        KaKuApiProvider.getProductCommentList(req, new BaseCallback<GetProductCommentListResp>(GetProductCommentListResp.class) {
+        KaKuApiProvider.getProductCommentList(req, new KakuResponseListener<GetProductCommentListResp>(this, GetProductCommentListResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, GetProductCommentListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("pingjia res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -149,10 +145,6 @@ public class ProductCommentListActivity extends BaseActivity implements OnClickL
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

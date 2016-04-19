@@ -15,14 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.home.AdActivity;
-import com.yichang.kaku.request.CallReq;
-import com.yichang.kaku.response.CallResp;
-import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.ZhaoHuoObj;
 import com.yichang.kaku.request.AreaReq;
@@ -34,8 +31,8 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,7 +239,6 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
     }
 
     public void ZhaoHuo(int pageIndex, int pageSize) {
-        //Utils.NoNet(mActivity);
         if (!Utils.checkNetworkConnection(mActivity)) {
             setNoDataLayoutState(layout_net_none);
 
@@ -251,7 +247,6 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
             setNoDataLayoutState(ll_container);
 
         }
-        showProgressDialog();
         ZhaoHuoReq req = new ZhaoHuoReq();
         req.code = "6001";
         req.id_depart = chufadi_id;
@@ -259,27 +254,19 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
         req.id_car_len = chengchang;
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
-        KaKuApiProvider.ZhaoHuo(req, new BaseCallback<ZhaoHuoResp>(ZhaoHuoResp.class) {
+        KaKuApiProvider.ZhaoHuo(req, new KakuResponseListener<ZhaoHuoResp>(mActivity, ZhaoHuoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ZhaoHuoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("zhaohuo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.supplys);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(mActivity);
-                        }
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }
@@ -296,21 +283,9 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
             setNoDataLayoutState(ll_container);
         }
         ZhaoHuoAdapter adapter = new ZhaoHuoAdapter(mActivity, list_zhaohuo);
-        adapter.setZhaoHuoCallBack(new ZhaoHuoAdapter.ZhaoHuoAdapterCallBack() {
-            @Override
-            public void call(String mPhone) {
-                Utils.Call(mActivity, mPhone);
-            }
-
-            @Override
-            public void callToService(String id_supply) {
-                CallToService(id_supply);
-            }
-        });
-
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX  ? false : true);
-        xListView.setSelection(pageindex-2);
+        xListView.setSelection(pageindex);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
 
             @Override
@@ -370,15 +345,16 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
 
     public void GetProvince() {
         Utils.NoNet(mActivity);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = "0";
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(mActivity, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
+                    LogUtil.E("sssssssssss" + t.areas.toString());
                     if (Constants.RES.equals(t.res)) {
                         list_province = t.areas;
                         adapter = new CityAdapter(mActivity, list_province);
@@ -389,25 +365,20 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCity(String id_province) {
         Utils.NoNet(mActivity);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_province;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(mActivity, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -419,25 +390,20 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCounty(String id_city) {
         Utils.NoNet(mActivity);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_city;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(mActivity, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -448,13 +414,8 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -521,6 +482,7 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
             }
 
         } else if (R.id.lv_zhaohuo == parentId) {
+            LogUtil.E("AAAAAA" + position);
             if ((position) % 6 == 0) {
                 Intent intent = new Intent(getActivity(),AdActivity.class);
                 intent.putExtra("url_ad",list_zhaohuo.get(position-1).getUrl_roll());
@@ -557,32 +519,5 @@ public class ZhaoFragment extends BaseFragment implements OnClickListener, Adapt
         rela_zhaohuo_chufadi.setEnabled(true);
         rela_zhaohuo_mudidi.setEnabled(true);
         rela_zhaohuo_chechang.setEnabled(true);
-    }
-
-
-
-    public void CallToService(String id_supply) {
-        CallReq req = new CallReq();
-        req.code = "6004";
-        req.id_driver = Utils.getIdDriver();
-        req.id_supply = id_supply;
-        KaKuApiProvider.Call(req, new BaseCallback<CallResp>(CallResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, CallResp t) {
-                if (t != null) {
-                    LogUtil.E("calltoservice res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-
-                    } else {
-                        LogUtil.showShortToast(mActivity, t.msg);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
-        });
     }
 }

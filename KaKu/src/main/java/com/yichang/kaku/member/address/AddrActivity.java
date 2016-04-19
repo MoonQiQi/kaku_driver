@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -26,8 +26,7 @@ import com.yichang.kaku.response.AddrResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,6 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addr);
         init();
-        GetAddr();
     }
 
     @Override
@@ -74,10 +72,8 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
 
             list_addr.set(itemPosition, obj);
             adapter.notifyDataSetChanged();
-        } else {
-            GetAddr();
         }
-
+        GetAddr();
     }
 
     private void init() {
@@ -117,7 +113,6 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
         int id = v.getId();
         if (R.id.tv_left == id) {
             Intent intent = new Intent();
-
             intent.putExtra("name", "");
             intent.putExtra("phone", "");
             intent.putExtra("addr", "");
@@ -126,7 +121,6 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
         } else if (R.id.btn_addr_new == id) {
             NewBuild();
         } else if (R.id.btn_refresh == id) {
-
             GetAddr();
         }
     }
@@ -162,15 +156,15 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
                 setNoDataLayoutState(ll_container);
 
             }
-            showProgressDialog();
             final int positionf = position;
             AddrMorenReq req = new AddrMorenReq();
             req.code = "10017";
             req.id_addr = list_addr.get(position).getId_addr();
             req.id_driver = Utils.getIdDriver();
-            KaKuApiProvider.MorenAddr(req, new BaseCallback<AddrMorenResp>(AddrMorenResp.class) {
+            KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(this, AddrMorenResp.class) {
                 @Override
-                public void onSuccessful(int statusCode, Header[] headers, AddrMorenResp t) {
+                public void onSucceed(int what, Response response) {
+                    super.onSucceed(what, response);
                     if (t != null) {
                         LogUtil.E("morenaddr res: " + t.res);
                         if (Constants.RES.equals(t.res)) {
@@ -181,19 +175,9 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
                             list_addr.get(positionf).setFlag_default("Y");
                             adapter.notifyDataSetChanged();
                         } else {
-                            if (Constants.RES_TEN.equals(t.res)){
-                                Utils.Exit(context);
-                                finish();
-                            }
                             LogUtil.showShortToast(context, t.msg);
                         }
                     }
-                    stopProgressDialog();
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                    stopProgressDialog();
                 }
             });
         }
@@ -226,13 +210,13 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
             btn_addr_new.setVisibility(View.VISIBLE);
 
         }
-        showProgressDialog();
         AddrReq req = new AddrReq();
         req.code = "10014";
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.getAddr(req, new BaseCallback<AddrResp>(AddrResp.class) {
+        KaKuApiProvider.getAddr(req, new KakuResponseListener<AddrResp>(this, AddrResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AddrResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("addr res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -246,39 +230,17 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
                             stopProgressDialog();
                             return;
                         } else {
-
                             setNoDataLayoutState(ll_container);
                         }
 
                         adapter = new AddrAdapter(AddrActivity.this, list_addr);
                         lv_addr.setAdapter(adapter);
                         setListViewHeightBasedOnChildren(lv_addr);
-                        adapter.setShowProgress(new AddrAdapter.ShowProgress() {
-                            @Override
-                            public void showDialog() {
-                                showProgressDialog();
-                            }
-
-                            @Override
-                            public void stopDialog() {
-                                stopProgressDialog();
-                            }
-                        });
                         Utils.setListViewHeightBasedOnChildren(lv_addr);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }

@@ -33,7 +33,6 @@ public class WithdrawActivity extends BaseActivity implements View.OnClickListen
 
     public static int BANK_INFO_REQUEST = 200;
     public static int BANK_INFO_RESPONSE_SUCCESS = 201;
-
    /* private TextView getCode;
     private EditText line2_1;*/
     /*mCardBank：银行卡号
@@ -97,19 +96,19 @@ public class WithdrawActivity extends BaseActivity implements View.OnClickListen
         Params.builder builder = new Params.builder();
         builder.p("id_driver", Utils.getIdDriver())
                 .p("code", "5003")
-                /*.p("card_bank", mCardBank)*/
+                .p("sid", Utils.getSid())
                 .p("id_driver_bank", mId_driver_bank)
                 .p("num_money", getText(money));
 
-        OkHttpUtil.postAsync(UrlCtnt.BASEIP, builder.build(), new RequestCallback<WithdrawResp>(this, WithdrawResp.class) {
+        OkHttpUtil.postAsync(UrlCtnt.BASEIP + "pay/deposit_submit", builder.build(), new RequestCallback<WithdrawResp>(this, WithdrawResp.class) {
             @Override
             public void onSuccess(WithdrawResp obj, String result) {
-
+                stopProgressDialog();
+                LogUtil.showShortToast(context,obj.msg);
                 MyActivityManager.getInstance().finishActivity(YueActivity.class);
                 startActivity(new Intent(context, YueActivity.class));
                 finish();
 
-                stopProgressDialog();
             }
 
             @Override
@@ -139,15 +138,16 @@ public class WithdrawActivity extends BaseActivity implements View.OnClickListen
         showProgressDialog();
         Params.builder builder = new Params.builder();
         builder.p("id_driver", Utils.getIdDriver())
+                .p("sid", Utils.getSid())
                 .p("code", "5002");
 
-        OkHttpUtil.postAsync(UrlCtnt.BASEIP, builder.build(), new RequestCallback<WithdrawResp>(this, WithdrawResp.class) {
+        OkHttpUtil.postAsync(UrlCtnt.BASEIP + "pay/deposit_confirm", builder.build(), new RequestCallback<WithdrawResp>(this, WithdrawResp.class) {
             @Override
             public void onSuccess(WithdrawResp obj, String result) {
+                stopProgressDialog();
                 count.setText("¥ " + obj.money_balance);
                 car_bank.setText(obj.remark_driver_bank);
                 mId_driver_bank = obj.id_driver_bank;
-                stopProgressDialog();
             }
 
             @Override
@@ -162,7 +162,6 @@ public class WithdrawActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_assets_withdraw);
-
         count = findView(R.id.line0_1);
         money = findView(R.id.line2_1);
 

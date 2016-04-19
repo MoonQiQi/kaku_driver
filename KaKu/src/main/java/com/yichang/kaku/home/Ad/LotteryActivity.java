@@ -80,42 +80,6 @@ public class LotteryActivity extends BaseActivity implements OnClickListener {
         finish();
     }
 
-/*
-    private void getLotteryUrl() {
-
-        Utils.NoNet(context);
-        showProgressDialog();
-
-        LotteryUrlReq req = new LotteryUrlReq();
-        req.code = "70039";
-        req.id_driver = Utils.getIdDriver();
-
-
-        KaKuApiProvider.getLotteryUrl(req, new BaseCallback<LotteryUrlResp>(LotteryUrlResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, LotteryUrlResp t) {
-                if (t != null) {
-
-                    if (Constants.RES.equals(t.res)) {
-                        LogUtil.E("getLotteryUrl :"+t.url);
-                        wv_lottery.loadUrl(t.url);
-
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
-        });
-
-    }
-*/
-
 
     @Override
     public void onClick(View v) {

@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -37,8 +37,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,13 +177,13 @@ public class OrderDetailCActivity extends BaseActivity implements OnClickListene
 
     public void OrderDetail() {
         Utils.NoNet(context);
-        showProgressDialog();
         OrderDetailReq req = new OrderDetailReq();
         req.code = "40022";
         req.id_order = KaKuApplication.id_orderC;
-        KaKuApiProvider.OrderDetail(req, new BaseCallback<OrderDetailResp>(OrderDetailResp.class) {
+        KaKuApiProvider.OrderDetail(req, new KakuResponseListener<OrderDetailResp>(this, OrderDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("orderdetail res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -329,13 +328,8 @@ public class OrderDetailCActivity extends BaseActivity implements OnClickListene
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -386,14 +380,13 @@ public class OrderDetailCActivity extends BaseActivity implements OnClickListene
 
     public void QueDingWanCheng() {
         Utils.NoNet(context);
-        showProgressDialog();
         QueDingWanChengReq req = new QueDingWanChengReq();
         req.code = "40013";
         req.id_order = KaKuApplication.id_orderC;
-        KaKuApiProvider.QueDingWanCheng(req, new BaseCallback<QueDingWanChengResp>(QueDingWanChengResp.class) {
+        KaKuApiProvider.QueDingWanCheng(req, new KakuResponseListener<QueDingWanChengResp>(this, QueDingWanChengResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, QueDingWanChengResp t) {
-                stopProgressDialog();
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("querenwancheng res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -406,10 +399,6 @@ public class OrderDetailCActivity extends BaseActivity implements OnClickListene
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

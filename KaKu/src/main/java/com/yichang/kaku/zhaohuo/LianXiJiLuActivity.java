@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.LianXiJiLuObj;
@@ -22,8 +22,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +102,6 @@ public class LianXiJiLuActivity extends BaseActivity implements OnClickListener 
     }
 
     public void LianXiJiLu(int pageIndex, int pageSize) {
-//		Utils.NoNet(context);
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
 
@@ -112,35 +110,24 @@ public class LianXiJiLuActivity extends BaseActivity implements OnClickListener 
             setNoDataLayoutState(ll_container);
 
         }
-        showProgressDialog();
         LianXiJiLuReq req = new LianXiJiLuReq();
         req.code = "6007";
         req.id_options = id_options;
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
-        KaKuApiProvider.LianXiJiLu(req, new BaseCallback<LianXiJiLuResp>(LianXiJiLuResp.class) {
+        KaKuApiProvider.LianXiJiLu(req, new KakuResponseListener<LianXiJiLuResp>(this, LianXiJiLuResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, LianXiJiLuResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("lianxijilu res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.contacts);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
-                    //LogUtil.showShortToast(context, t.msg);
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }

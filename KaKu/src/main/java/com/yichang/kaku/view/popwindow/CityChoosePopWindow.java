@@ -1,4 +1,4 @@
-package com.yichang.kaku.view.widget;
+package com.yichang.kaku.view.popwindow;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -10,10 +10,11 @@ import android.widget.PopupWindow;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.BaseActivity;
-import com.yichang.kaku.home.ChooseCityAdapter;
+import com.yichang.kaku.home.join.ChooseCityAdapter;
 import com.yichang.kaku.response.CityResp;
 import com.yichang.kaku.tools.ViewUtils;
 import com.yichang.kaku.view.PinnedSectionListView;
+import com.yichang.kaku.view.widget.QuickIndexBar;
 
 import java.util.LinkedList;
 import java.util.Map;

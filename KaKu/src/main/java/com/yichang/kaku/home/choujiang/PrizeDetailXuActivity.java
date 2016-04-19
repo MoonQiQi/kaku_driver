@@ -11,19 +11,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.choujiang.MyPrizeActivity;
 import com.yichang.kaku.request.LingQuPrizeReq;
 import com.yichang.kaku.response.LingQuPrizeResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class PrizeDetailXuActivity extends BaseActivity implements OnClickListener{
 	
@@ -113,16 +111,16 @@ public class PrizeDetailXuActivity extends BaseActivity implements OnClickListen
 
 	public void LingQuPrize(){
 		Utils.NoNet(context);
-		showProgressDialog();
 		LingQuPrizeReq req = new LingQuPrizeReq();
 		req.code = "70023";
 		req.id_wheel_win = id_wheel_win;
 		req.name_addr = "";
 		req.phone_addr = "";
 		req.addr = "";
-		KaKuApiProvider.LingQuPrize(req, new BaseCallback<LingQuPrizeResp>(LingQuPrizeResp.class) {
+		KaKuApiProvider.LingQuPrize(req, new KakuResponseListener<LingQuPrizeResp>(this,LingQuPrizeResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, LingQuPrizeResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("lingquprize res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -130,22 +128,12 @@ public class PrizeDetailXuActivity extends BaseActivity implements OnClickListen
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
-						LogUtil.showShortToast(context, t.msg);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 

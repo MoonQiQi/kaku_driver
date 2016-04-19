@@ -20,7 +20,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -34,8 +34,7 @@ import com.yichang.kaku.response.SouSuoResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -110,7 +109,6 @@ public class SouSuoActivity extends BaseActivity implements OnClickListener ,Ada
 
 	public void SouSuo(String sousuo) {
 		Utils.NoNet(this);
-		showProgressDialog();
 		SouSuoReq req = new SouSuoReq();
 		req.code = "8004";
 		req.id_driver = Utils.getIdDriver();
@@ -119,9 +117,10 @@ public class SouSuoActivity extends BaseActivity implements OnClickListener ,Ada
 		req.name_shop = sousuo;
 		req.start = "0";
 		req.len = "5";
-		KaKuApiProvider.SouSuo(req, new BaseCallback<SouSuoResp>(SouSuoResp.class) {
+		KaKuApiProvider.SouSuo(req, new KakuResponseListener<SouSuoResp>(this,SouSuoResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, SouSuoResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("sousuo res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -132,19 +131,9 @@ public class SouSuoActivity extends BaseActivity implements OnClickListener ,Ada
 						setListViewHeightBasedOnChildren(lv_home_item1);
 						ll_sousuo_lishi.setVisibility(View.GONE);
 					}  else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
 			}
 		});
 	}

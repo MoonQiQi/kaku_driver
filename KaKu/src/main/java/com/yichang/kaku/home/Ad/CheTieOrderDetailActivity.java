@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -18,14 +20,15 @@ import com.yichang.kaku.obj.AdvertBillObj;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
 import com.yichang.kaku.request.CheTieOrderCancleReq;
 import com.yichang.kaku.request.CheTieOrderDetailReq;
+import com.yichang.kaku.request.QueRenShouHuoReq;
 import com.yichang.kaku.response.BaseResp;
 import com.yichang.kaku.response.CheTieOrderDetailResp;
+import com.yichang.kaku.response.ExitResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +73,15 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
     private View view_no_delivery1;
     private RelativeLayout rela_company_delivery;
     private RelativeLayout rela_no_delivery;
+    private RelativeLayout rela_point_moneybalance;
+    private RelativeLayout rela_chetieorder_noaddr;
 
     private TextView tv_company_delivery;
     private TextView tv_no_delivery;
+    private TextView tv_chetieorder_lingqufangshi;
+    private LinearLayout line_chetieorderdetail_pay;
+    private LinearLayout line_chetieorder_addr;
+    private String flag_recommended;
 
 
     @Override
@@ -102,14 +111,10 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
 
         initStickerView();
 
-
         initDeliveryView();
 
+        id_bill = KaKuApplication.id_bill_chetie;
 
-        id_bill = getIntent().getStringExtra("id_bill");
-
-
-        LogUtil.E("车品订单详情：idbill::" + id_bill);
         getOrderDetailInfo();
     }
 
@@ -120,8 +125,13 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
 
         rela_company_delivery = (RelativeLayout) findViewById(R.id.rela_company_delivery);
         rela_no_delivery = (RelativeLayout) findViewById(R.id.rela_no_delivery);
+        rela_point_moneybalance = (RelativeLayout) findViewById(R.id.rela_point_moneybalance);
+        rela_chetieorder_noaddr = (RelativeLayout) findViewById(R.id.rela_chetieorder_noaddr);
         tv_company_delivery = (TextView) findViewById(R.id.tv_company_delivery);
         tv_no_delivery = (TextView) findViewById(R.id.tv_no_delivery);
+        tv_chetieorder_lingqufangshi = (TextView) findViewById(R.id.tv_chetieorder_lingqufangshi);
+        line_chetieorderdetail_pay = (LinearLayout) findViewById(R.id.line_chetieorderdetail_pay);
+        line_chetieorder_addr = (LinearLayout) findViewById(R.id.line_chetieorder_addr);
     }
 
     private void initStickerView() {
@@ -133,55 +143,47 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
 
     private void initOrderId() {
         tv_truck_order_id = (TextView) findViewById(R.id.tv_truck_order_id);
-
-
     }
 
     private void getOrderDetailInfo() {
         Utils.NoNet(context);
         showProgressDialog();
-
         CheTieOrderDetailReq req = new CheTieOrderDetailReq();
         req.code = "60036";
         req.id_advert_bill = id_bill;
 
-        KaKuApiProvider.getCheTieOrderDetail(req, new BaseCallback<CheTieOrderDetailResp>(CheTieOrderDetailResp.class) {
+        KaKuApiProvider.getCheTieOrderDetail(req, new KakuResponseListener<CheTieOrderDetailResp>(this, CheTieOrderDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, CheTieOrderDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-                    LogUtil.E("getTruckOrderDetailInfo res: " + t.res);
+                    LogUtil.E("CheTieOrderDetailInfo res: " + t.res);
+                    LogUtil.E("flag_recommended: " + t.advert_bill.getFlag_recommended());
+                    LogUtil.E("flag_operate: " + t.advert_bill.getFlag_operate());
                     if (Constants.RES.equals(t.res)) {
 
                         setData(t.advert_bill);
-//                        LogUtil.E("getTruckOrderDetailInfo res: " + t.order.toString());
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
                 stopProgressDialog();
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
-
-
     }
 
-
     private void setData(AdvertBillObj order) {
-        LogUtil.E("chaih order" + order.toString());
+        if ("N".equals(order.getFlag_operate())) {
+            line_chetieorderdetail_pay.setVisibility(View.GONE);
+        } else {
+            line_chetieorderdetail_pay.setVisibility(View.VISIBLE);
+        }
+
+        flag_recommended = order.getFlag_recommended();
         BitmapUtil.download(iv_sticker_product, KaKuApplication.qian_zhui + order.getImage_advert());
         tv_sticker_title.setText(order.getName_advert().toString());
         tv_sticker_price.setText(order.getPrice_advert_single().toString());
-        tv_sticker_num.setText("X"+order.getNum_advert().toString());
+        tv_sticker_num.setText("X" + order.getNum_advert().toString());
 
         tv_company_delivery.setText(order.getCompany_delivery());
         tv_no_delivery.setText(order.getNo_delivery());
@@ -235,6 +237,7 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
         switch (state) {
 //            A待支付B已支付，待发货C已完成D已取消
             case "A":
+                MobclickAgent.onEvent(context, "CheTieZhiFu");
                 tv_truck_paytype.setText("待支付");
 
                 setState("待支付");
@@ -262,10 +265,18 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                         startActivity(intent);
                     }
                 });
-
-                setDeliveryViews(true);
+                if ("".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(false);
+                    setLingQuViews(false, "");
+                } else if ("X".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "找邀请人提供车贴");
+                }
                 break;
             case "B":
+                MobclickAgent.onEvent(context, "CheTieQuXiao");
                 setState("待发货");
                 btn_top.setText("取消订单");
                 btn_top.setVisibility(View.VISIBLE);
@@ -281,19 +292,94 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                     }
                 });
                 btn_bottom.setVisibility(View.GONE);
-                setDeliveryViews(false);
+                if ("".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(false);
+                    setLingQuViews(false, "");
+                } else if ("D".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "拍摄行驶证申请邮寄车贴");
+                    btn_top.setVisibility(View.GONE);
+                } else if ("X".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "找邀请人提供车贴");
+                }
                 break;
-            case "C":
+            case "E":
                 setState("已完成");
                 btn_top.setVisibility(View.GONE);
                 btn_bottom.setVisibility(View.GONE);
-                setDeliveryViews(false);
+                if ("".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(true);
+                    setLingQuViews(false, "");
+                } else if ("A".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "邀请人提供了车贴");
+                } else if ("B".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "地推人员已发放");
+                } else if ("C".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "活动现场已领取");
+                } else if ("D".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(true);
+                    setLingQuViews(false, "");
+                } else if ("Z".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "活动现场拍行驶证已领取");
+                } else if ("X".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(true);
+                    setLingQuViews(true, "找邀请人提供车贴");
+                }
                 break;
-            case "D":
+            case "G":
                 setState("已取消");
                 btn_top.setVisibility(View.GONE);
                 btn_bottom.setVisibility(View.GONE);
-                setDeliveryViews(false);
+                if ("".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(false);
+                    setLingQuViews(false, "");
+                } else if ("X".equals(flag_recommended)) {
+                    setAddrViews(false);
+                    setDeliveryViews(false);
+                    setLingQuViews(true, "找邀请人提供车贴");
+                }
+                break;
+            case "D":
+                setState("待确认");
+                btn_top.setVisibility(View.GONE);
+                btn_bottom.setText("确认收货");
+                btn_bottom.setVisibility(View.VISIBLE);
+                btn_bottom.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        QueRenShouHuo();
+                    }
+                });
+                if ("".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(true);
+                    setLingQuViews(false, "");
+                } else if ("D".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(true);
+                    setLingQuViews(false, "");
+                } else if ("X".equals(flag_recommended)) {
+                    setAddrViews(true);
+                    setDeliveryViews(true);
+                    setLingQuViews(true, "找邀请人提供车贴");
+                    return;
+                }
                 break;
 
         }
@@ -301,24 +387,35 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
 
     private void setDeliveryViews(Boolean isStateA) {
         if (isStateA) {
-
-            view_company_delivery.setVisibility(View.GONE);
+            //view_no_delivery.setVisibility(View.VISIBLE);
+            view_no_delivery1.setVisibility(View.VISIBLE);
+            rela_company_delivery.setVisibility(View.VISIBLE);
+            rela_no_delivery.setVisibility(View.VISIBLE);
+        } else {
+            //view_company_delivery.setVisibility(View.GONE);
             view_no_delivery.setVisibility(View.GONE);
             view_no_delivery1.setVisibility(View.GONE);
             rela_company_delivery.setVisibility(View.GONE);
             rela_no_delivery.setVisibility(View.GONE);
-        } else {
-            view_company_delivery.setVisibility(View.VISIBLE);
-            view_no_delivery.setVisibility(View.VISIBLE);
-            view_no_delivery1.setVisibility(View.VISIBLE);
-            rela_company_delivery.setVisibility(View.VISIBLE);
-            rela_no_delivery.setVisibility(View.VISIBLE);
-
         }
-
-
     }
 
+    private void setLingQuViews(Boolean isStateB, String ling) {
+        if (isStateB) {
+            rela_chetieorder_noaddr.setVisibility(View.VISIBLE);
+            tv_chetieorder_lingqufangshi.setText(ling);
+        } else {
+            rela_chetieorder_noaddr.setVisibility(View.GONE);
+        }
+    }
+
+    private void setAddrViews(Boolean isStateC) {
+        if (isStateC) {
+            line_chetieorder_addr.setVisibility(View.VISIBLE);
+        } else {
+            line_chetieorder_addr.setVisibility(View.GONE);
+        }
+    }
 
 
     @Override
@@ -332,26 +429,24 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
     private void cancleOrder(String id_bill) {
         Utils.NoNet(context);
         showProgressDialog();
-
         CheTieOrderCancleReq req = new CheTieOrderCancleReq();
         req.code = "60037";
         req.id_advert_bill = id_bill;
 
-        KaKuApiProvider.cancleCheTieOrder(req, new BaseCallback<BaseResp>(BaseResp.class) {
+        KaKuApiProvider.cancleCheTieOrder(req, new KakuResponseListener<BaseResp>(this, BaseResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BaseResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-                    LogUtil.E("cancleTruckOrder res: " + t.res);
-                    gotoCheTieOrderList();
-                    LogUtil.showShortToast(context, t.msg);
+                    if (Constants.RES.equals(t.res)) {
+                        LogUtil.E("cancleTruckOrder res: " + t.res);
+                        gotoCheTieOrderList();
+                        LogUtil.showShortToast(context, t.msg);
+                    }
                 }
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -410,8 +505,27 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
         if (R.id.tv_left == id) {
             finish();
         }
-
     }
 
+    public void QueRenShouHuo() {
+        showProgressDialog();
+        QueRenShouHuoReq req = new QueRenShouHuoReq();
+        req.code = "60039";
+        req.id_advert_bill = id_bill;
+        KaKuApiProvider.QueRenShouHuo(req, new KakuResponseListener<ExitResp>(this, ExitResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (Constants.RES.equals(t.res)) {
+                    if (t != null) {
+                        LogUtil.E("querenshouhuo res: " + t.res);
+                        gotoCheTieOrderList();
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+        });
+    }
 
 }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.DiscoveryItemObj;
@@ -19,8 +19,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,24 +42,16 @@ public class DiscoveryActivity extends BaseActivity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        //mActivity = getActivity();
         setContentView(R.layout.activity_discovery);
         init();
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        setPullState(false);
-    }
-
-
     private void init() {
         initTitleBar();
         xListView = (XListView) findViewById(R.id.lv_discovery);
         xListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
+        setPullState(false);
     }
 
     private void initTitleBar() {
@@ -93,39 +84,28 @@ public class DiscoveryActivity extends BaseActivity implements OnClickListener {
     }
 
     public void getDiscoveryList(int pageIndex, int pageSize) {
-
         showProgressDialog();
+
         DiscoveryListReq req = new DiscoveryListReq();
         req.code = "70010";
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
-        req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.getDiscoveryList(req, new BaseCallback<DiscoveryListResp>(DiscoveryListResp.class) {
+        KaKuApiProvider.getDiscoveryList(req, new KakuResponseListener<DiscoveryListResp>(this,DiscoveryListResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DiscoveryListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
 
                 if (t != null) {
-                    LogUtil.E("yidiantongshoucang res: " + t.res);
+                    LogUtil.E("yidiantong res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.newss);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         Toast.makeText(context, t.msg, Toast.LENGTH_SHORT).show();
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
                 stopProgressDialog();
             }
         });
@@ -191,7 +171,6 @@ public class DiscoveryActivity extends BaseActivity implements OnClickListener {
         } else {
             start = 0;
             pageindex = 0;
-            // prize_info = new ArrayList<PrizeInfoObj>();
             if (discoveryItemList != null) {
                 discoveryItemList.clear();
             }

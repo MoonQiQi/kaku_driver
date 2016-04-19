@@ -1,4 +1,4 @@
-package com.yichang.kaku.view;
+package com.yichang.kaku.view.popwindow;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,26 +12,23 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.home.Ad.LotteryActivity;
 import com.yichang.kaku.member.cash.SetWithDrawCodeActivity;
 import com.yichang.kaku.payhelper.wxpay.net.sourceforge.simcpux.MD5;
 import com.yichang.kaku.request.CheckWithDrawCodeReq;
-import com.yichang.kaku.request.ValidateCodeReq;
 import com.yichang.kaku.response.BaseResp;
-import com.yichang.kaku.response.ValidateCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
+import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 /**
  * Created by xiaosu on 2015/12/3.
  */
-public class ValidatePopWindow extends PopupWindow {
+public class InputPwdPopWindow extends PopupWindow {
 
     private BaseActivity context;
 
@@ -39,7 +36,7 @@ public class ValidatePopWindow extends PopupWindow {
     private final SecurityPasswordEditText sEdit;
 
 
-    public ValidatePopWindow(final BaseActivity context) {
+    public InputPwdPopWindow(final BaseActivity context) {
         super(context);
         this.context = context;
 
@@ -49,22 +46,26 @@ public class ValidatePopWindow extends PopupWindow {
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
-        final View view = context.inflate(R.layout.layout_validate_coin);
+        final View view = context.inflate(R.layout.layout_input_pwd_confirm);
         setContentView(view);
 
-        LinearLayout ll_pwd_container = (LinearLayout) view.findViewById(R.id.ll_pwd_container);
+        LinearLayout ll_pwd_container= (LinearLayout) view.findViewById(R.id.ll_pwd_container);
 
         sEdit = (SecurityPasswordEditText) view.findViewById(R.id.et_s_pwd);
         sEdit.setSecurityEditCompleListener(new SecurityPasswordEditText.SecurityEditCompleListener() {
             @Override
             public void onNumCompleted(String num) {
                 strPwd = num;
-                if (num.length() == 6) {
+                if(num.length()==6){
+
                     checkCode(num);
                 }
             }
         });
-        ImageView iv_close = (ImageView) view.findViewById(R.id.iv_close);
+
+
+        ImageView iv_close= (ImageView) view.findViewById(R.id.iv_close);
+
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +73,19 @@ public class ValidatePopWindow extends PopupWindow {
 
             }
         });
+
+        TextView tv_forget_code = (TextView) view.findViewById(R.id.tv_forget_code);
+        tv_forget_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SetWithDrawCodeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("isPassExist", true);
+                intent.putExtra("flag_next_activity", "CONFIRM_ORDER");
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     public void show() {
@@ -82,41 +96,24 @@ public class ValidatePopWindow extends PopupWindow {
         Utils.NoNet(context);
         mListener.showDialog();
 
-
-        ValidateCodeReq req = new ValidateCodeReq();
-        req.code = "70040";
+        CheckWithDrawCodeReq req = new CheckWithDrawCodeReq();
+        req.code = "5008";
         req.id_driver = Utils.getIdDriver();
-        req.key_content = code;
+        req.pay_pass = code;
+        req.sign = genAppSign(req.id_driver);
 
-        KaKuApiProvider.validateLotteryCode(req, new BaseCallback<ValidateCodeResp>(ValidateCodeResp.class) {
+        KaKuApiProvider.checkWithDrawCode(req, new KakuResponseListener<BaseResp>(context, BaseResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ValidateCodeResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("checkWithDrawCode res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
-                        /*todo 跳转到抽奖页面*/
-                        context.startActivity(new Intent(context, LotteryActivity.class).putExtra("url",t.url));
+                        mListener.confirmPwd(true);
                         mListener.stopDialog();
-
-                        dismiss();
-
-                    } else if (Constants.RES_ONE.equals(t.res)) {
-
-                        LogUtil.showShortToast(context,t.msg);
-                        sEdit.clearSecurityEdit();
-                        mListener.stopDialog();
-
-                    } else if (Constants.RES_TWO.equals(t.res)) {
-                        LogUtil.showShortToast(context,t.msg);
-                        sEdit.clearSecurityEdit();
-                        mListener.stopDialog();
-                        dismiss();
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                        }
 
                         LogUtil.showShortToast(context, t.msg);
                         sEdit.clearSecurityEdit();
@@ -125,24 +122,32 @@ public class ValidatePopWindow extends PopupWindow {
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                mListener.stopDialog();
-            }
         });
-
 
     }
 
+    private String genAppSign(String id_driver) {
+        StringBuilder sb = new StringBuilder();
+        //拼接签名字符串
+        sb.append("id_driver=");
+        sb.append(id_driver);
+
+        sb.append("&key=");
+        sb.append(Constants.MSGKEY);
+        LogUtil.E("sb:" + sb);
+
+        String appSign1 = MD5.getMessageDigest(sb.toString().getBytes());
+        String appSign = MD5.getMessageDigest(appSign1.getBytes()).toUpperCase();
+        return appSign;
+    }
 
     public interface ConfirmListener {
-        void confirmValidateCode(Boolean isConfirmed);
+        void confirmPwd(Boolean isConfirmed);
 
         void showDialog();
 
         void stopDialog();
     }
-
 
     private ConfirmListener mListener;
 

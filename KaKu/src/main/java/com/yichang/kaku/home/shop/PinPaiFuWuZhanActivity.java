@@ -12,14 +12,12 @@ import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.home.SouSuoActivity;
 import com.yichang.kaku.home.mycar.PinPaiZiAdapter;
-import com.yichang.kaku.zhaohuo.LineGridView;
-import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.PinPaiXuanZeObj;
 import com.yichang.kaku.obj.Shops_wxzObj;
@@ -32,12 +30,12 @@ import com.yichang.kaku.response.PinPaiXuanZeResp;
 import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.widget.AreaPopWindow;
-import com.yichang.kaku.view.widget.MenDianPopWindow;
+import com.yichang.kaku.view.popwindow.MenDianPopWindow;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yichang.kaku.zhaohuo.LineGridView;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +64,6 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
     private List<PinPaiXuanZeObj> list_pinpai = new ArrayList<PinPaiXuanZeObj>();
     private String tv_name;
     private Boolean isPwdPopWindowShow = false;
-    private Boolean isAreaPopWindowShow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +123,8 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
             MobclickAgent.onEvent(context, "Map");
             GoToMap();
         } else if (R.id.rela_ppfwz_quanbudiqu == id){
-            //flag_type = "";
-            //GetProvince();
-            showAreaWindow();
+            flag_type = "";
+            GetProvince();
         } else if (R.id.rela_ppfwz_pinpai == id){
             flag_type = "";
             PinPaiXuanZe();
@@ -165,34 +161,28 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         req.flag_type = flag_type;
         req.id_brand = id_brand;
         req.id_area = id_area;
-        KaKuApiProvider.PinPaiFuWuZhan(req, new BaseCallback<PinPaiFuWuZhanResp>(PinPaiFuWuZhanResp.class) {
+        KaKuApiProvider.PinPaiFuWuZhan(req, new KakuResponseListener<PinPaiFuWuZhanResp>(this, PinPaiFuWuZhanResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, PinPaiFuWuZhanResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("pinpaifuwuzhan res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        if (TextUtils.equals(t.flag_enter,"N")){
+                        if (TextUtils.equals(t.flag_enter, "N")) {
                             if (!"".equals(Utils.getIdCar())) {
+                                if (!isDestroyed())
                                 showPwdInputWindow(t.mobile_brand);
                             }
                         }
                         setData(t.shops);
                         onLoadStop();
-                    }  else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -204,7 +194,7 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         ShopItemAdapter adapter = new ShopItemAdapter(context, list_shop);
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
-        xListView.setSelection(pageindex-2);
+        xListView.setSelection(pageindex-3);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
 
             @Override
@@ -256,46 +246,41 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
     }
 
     public void GetProvince(){
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = "0";
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(this, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        if (t.areas.size() != 0){
+                        if (t.areas.size() != 0) {
                             list_province = t.areas;
                             id_type = "province";
-                            adapter = new CityAdapter(context,list_province);
+                            adapter = new CityAdapter(context, list_province);
                             gv_city.setAdapter(adapter);
                             rela_zhaohuo_grid.setVisibility(View.VISIBLE);
                         }
-                    }else {
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCity(String id_province){
         Utils.NoNet(context);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_province;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(this, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -305,29 +290,24 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                             gv_city.setAdapter(adapter);
                             tv_pup_right.setVisibility(View.VISIBLE);
                         }
-                    }else {
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCounty(String id_city){
         Utils.NoNet(context);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_city;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(this, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -336,17 +316,12 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                             adapter = new CityAdapter(context, list_province);
                             gv_city.setAdapter(adapter);
                         }
-                    }else {
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -391,12 +366,12 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
     }
 
     public void PinPaiXuanZe(){
-        showProgressDialog();
         PinPaiXuanZeReq req = new PinPaiXuanZeReq();
         req.code = "2008";
-        KaKuApiProvider.PinPaiXuanZe(req, new BaseCallback<PinPaiXuanZeResp>(PinPaiXuanZeResp.class) {
+        KaKuApiProvider.PinPaiXuanZe(req, new KakuResponseListener<PinPaiXuanZeResp>(this, PinPaiXuanZeResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, PinPaiXuanZeResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -407,21 +382,12 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                             gv_city.setAdapter(adapter_pinpai);
                             rela_zhaohuo_grid.setVisibility(View.VISIBLE);
                         }
-                    }else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 
@@ -435,33 +401,6 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                         new MenDianPopWindow(PinPaiFuWuZhanActivity.this ,phone);
 
                 input.show();
-
-            }
-        }, 200);
-    }
-
-    private void showAreaWindow() {
-        getWindow().getDecorView().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isAreaPopWindowShow = true;
-
-                final AreaPopWindow input =
-                        new AreaPopWindow(PinPaiFuWuZhanActivity.this);
-
-                input.show();
-
-                input.setShowPopWindowCallBack(new AreaPopWindow.ShowPopWindowCallBack() {
-
-                    @Override
-                    public void close(String sName, String mId) {
-                        input.dismiss();
-                        id_area = mId;
-                        tv_ppfwz_quanbudiqu.setText(sName);
-                        setPullState(false);
-                    }
-
-                });
 
             }
         }, 200);

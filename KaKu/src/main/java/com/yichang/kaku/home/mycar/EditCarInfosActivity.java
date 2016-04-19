@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -20,8 +20,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class EditCarInfosActivity extends BaseActivity implements OnClickListener {
 
@@ -253,10 +252,8 @@ public class EditCarInfosActivity extends BaseActivity implements OnClickListene
         /*todo*/
         Utils.NoNet(context);
 
-
         EditCarInfoReq req = new EditCarInfoReq();
         req.code = "20013";
-        req.id_driver = Utils.getIdDriver();
         req.id_brand = id_brand;
         if (!TextUtils.isEmpty(tv_car_series.getText().toString().trim())) {
             req.data_series = tv_car_series.getText().toString().trim();
@@ -303,10 +300,10 @@ public class EditCarInfosActivity extends BaseActivity implements OnClickListene
             LogUtil.showShortToast(this, "发动机型号信息不能为空");
             return;
         }
-        showProgressDialog();
-        KaKuApiProvider.submitCarInfos(req, new BaseCallback<EditCarInfoResp>(EditCarInfoResp.class) {
+        KaKuApiProvider.submitCarInfos(req, new KakuResponseListener<EditCarInfoResp>(this, EditCarInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, EditCarInfoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
 
                     LogUtil.E("submitCarInfos res: " + t.res);
@@ -314,20 +311,11 @@ public class EditCarInfosActivity extends BaseActivity implements OnClickListene
                         //提交数据
                         finish();
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 }

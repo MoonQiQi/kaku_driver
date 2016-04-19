@@ -2,31 +2,17 @@ package com.yichang.kaku.member.cash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
-import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.home.giftmall.sliding.ProductDetailLinearList;
-import com.yichang.kaku.request.AreaReq;
-import com.yichang.kaku.response.AreaResp;
 import com.yichang.kaku.tools.BankNameUtil;
-import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +37,10 @@ public class BankListActivity extends BaseActivity implements OnClickListener,Ad
         initTitleBar();
         lv_bank_list= (ListView) findViewById(R.id.lv_bank_list);
         mBankName.clear();
-        mBankName=BankNameUtil.getBankNameList();
+        mBankName= BankNameUtil.getBankNameList();
 
         //LogUtil.E("mBankname:"+mBankName);
-        lv_bank_list.setAdapter(new ArrayAdapter<String>(this,R.layout.item_bank_list,mBankName));
+        lv_bank_list.setAdapter(new ArrayAdapter<String>(this, R.layout.item_bank_list,mBankName));
 
         lv_bank_list.setOnItemClickListener(this);
 

@@ -13,7 +13,6 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ShopCartProductObj;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.LogUtil;
 
 import java.util.List;
 
@@ -78,7 +77,6 @@ public class ShopCartProductAdapter extends BaseAdapter {
 
 		holder.tv_shopcart_num.setText("X"+obj.getNum_shopcar());
 		holder.tv_shopcart_price.setText(obj.getPrice_goods());
-		LogUtil.E("idgoods_shopcar:"+obj.getId_goods_shopcar());
 		holder.tv_shopcart_price.setTag(obj.getId_goods_shopcar());
 		holder.tv_shopcart_title.setText(obj.getName_goods());
 		holder.cbx_shopcart_select.setChecked(obj.getIsChecked());

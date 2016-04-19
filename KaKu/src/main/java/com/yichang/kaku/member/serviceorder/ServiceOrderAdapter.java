@@ -221,7 +221,7 @@ public class ServiceOrderAdapter extends BaseAdapter {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("提示");
         builder.setMessage("确认拨打:" + phone + "？");
-        builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+        builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -231,7 +231,7 @@ public class ServiceOrderAdapter extends BaseAdapter {
             }
         });
 
-        builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+        builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

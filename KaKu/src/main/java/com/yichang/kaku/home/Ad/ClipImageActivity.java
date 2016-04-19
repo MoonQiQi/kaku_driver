@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.member.driver.DriverInfoActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -71,23 +72,11 @@ public class ClipImageActivity extends Activity implements OnClickListener {
         if (v.getId() == R.id.okBtn) {
             Bitmap bitmap = mClipImageLayout.clip();
             Bitmap bitmap1 = compressImage(bitmap);
-            if ("zhong".equals(KaKuApplication.flag_image)) {
+            if ("chetie".equals(KaKuApplication.flag_image)) {
                 String path1 = Environment.getExternalStorageDirectory() + "/" + AdImageActivity.TMP_PATH1;
                 saveBitmap(bitmap1, path1);
                 Intent intent = new Intent();
                 intent.putExtra(RESULT_PATH, path1);
-                setResult(RESULT_OK, intent);
-            } else if ("zuo".equals(KaKuApplication.flag_image)) {
-                String path2 = Environment.getExternalStorageDirectory() + "/" + AdImageActivity.TMP_PATH2;
-                saveBitmap(bitmap1, path2);
-                Intent intent = new Intent();
-                intent.putExtra(RESULT_PATH, path2);
-                setResult(RESULT_OK, intent);
-            } else if ("you".equals(KaKuApplication.flag_image)) {
-                String path3 = Environment.getExternalStorageDirectory() + "/" + AdImageActivity.TMP_PATH3;
-                saveBitmap(bitmap1, path3);
-                Intent intent = new Intent();
-                intent.putExtra(RESULT_PATH, path3);
                 setResult(RESULT_OK, intent);
             } else if ("ben".equals(KaKuApplication.flag_image)) {
                 String path4 = Environment.getExternalStorageDirectory() + "/" + QiangImageActivity.TMP_PATH4;
@@ -100,6 +89,24 @@ public class ClipImageActivity extends Activity implements OnClickListener {
                 saveBitmap(bitmap1, path5);
                 Intent intent = new Intent();
                 intent.putExtra(RESULT_PATH, path5);
+                setResult(RESULT_OK, intent);
+            } else if ("head".equals(KaKuApplication.flag_image)) {
+                String path6 = Environment.getExternalStorageDirectory() + "/" + DriverInfoActivity.TMP_PATH6;
+                saveBitmap(bitmap1, path6);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path6);
+                setResult(RESULT_OK, intent);
+            } else if ("xingshizheng".equals(KaKuApplication.flag_image)) {
+                String path7 = Environment.getExternalStorageDirectory() + "/" + XingShiZhengImageActivity.TMP_PATH7;
+                saveBitmap(bitmap1, path7);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path7);
+                setResult(RESULT_OK, intent);
+            } else if ("jiashizheng".equals(KaKuApplication.flag_image)) {
+                String path8 = Environment.getExternalStorageDirectory() + "/" + JiaShiZhengActivity.TMP_PATH8;
+                saveBitmap(bitmap1, path8);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path8);
                 setResult(RESULT_OK, intent);
             }
         }

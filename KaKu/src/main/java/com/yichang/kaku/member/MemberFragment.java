@@ -16,13 +16,13 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BadgeView;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
-import com.yichang.kaku.home.MyPrizeActivity;
+import com.yichang.kaku.home.choujiang.MyPrizeActivity;
 import com.yichang.kaku.home.mycar.MyCarActivity;
 import com.yichang.kaku.member.address.AddrActivity;
 import com.yichang.kaku.member.cash.YueActivity;
@@ -43,8 +43,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.CircularImage;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class MemberFragment extends BaseFragment implements OnClickListener {
 
@@ -317,7 +316,7 @@ public class MemberFragment extends BaseFragment implements OnClickListener {
     private void initDriverInfo() {
 //        设置头像
         if (!"".equals(driverInfo.getHead())) {
-            BitmapUtil.getInstance(mActivity).download(iv_member_icon, KaKuApplication.qian_zhui + driverInfo.getHead());
+            BitmapUtil.getInstance(mActivity).download(iv_member_icon, KaKuApplication.qian_zhuikong + driverInfo.getHead());
         }
 //        设置姓名
         this.tv_member_drivername.setText(driverInfo.getName_driver());
@@ -346,17 +345,17 @@ public class MemberFragment extends BaseFragment implements OnClickListener {
     private void getDriverInfo() {
         Utils.NoNet(getActivity());
         showProgressDialog();
-
         MemberDriverReq req = new MemberDriverReq();
         req.code = "10011";
         //todo 测试代码
         req.id_driver = Utils.getIdDriver();
         //todo 正式代码中使用下面的语句为req赋值
         //req.id_driver=Utils.getIdDriver();
-        KaKuApiProvider.getMemberDriverInfo(req, new BaseCallback<MemberDriverResp>(MemberDriverResp.class) {
+        KaKuApiProvider.getMemberDriverInfo(req, new KakuResponseListener<MemberDriverResp>(mActivity, MemberDriverResp.class) {
+
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MemberDriverResp t) {
-                LogUtil.E(t.driver.toString());
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     if (Constants.RES.equals(t.res)) {
 
@@ -382,28 +381,21 @@ public class MemberFragment extends BaseFragment implements OnClickListener {
                             removeCoin();
                         }
 
-                        mRedEnvelopeUrl =t.url_0;
+                        mRedEnvelopeUrl = t.url_0;
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(mActivity);
-                        }
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     private void createCoin() {
         mCoin.setVisibility(View.VISIBLE);
 
-        mCoin.setOnClickListener(new View.OnClickListener() {
+        mCoin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 LogUtil.E("isClose :" + isClose);
@@ -610,6 +602,7 @@ public class MemberFragment extends BaseFragment implements OnClickListener {
             startActivity(intent);
         }else if (R.id.rela_member_sticker == id) {
             //todo 车贴订单
+            KaKuApplication.chetie_order_to = "member";
             Intent intent = new Intent(getActivity(), CheTieOrderListActivity.class);
             startActivity(intent);
         }

@@ -12,11 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.home.mycar.MyCarActivity;
-import com.yichang.kaku.zhaohuo.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.request.AreaReq;
 import com.yichang.kaku.request.FaBuReq;
@@ -25,8 +24,8 @@ import com.yichang.kaku.response.FaBuResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +138,6 @@ public class FaBuCheYuanActivity extends BaseActivity implements OnClickListener
 
     public void FaBu() {
         Utils.NoNet(context);
-        showProgressDialog();
         FaBuReq req = new FaBuReq();
         req.code = "6006";
         req.id_driver = Utils.getIdDriver();
@@ -149,40 +147,32 @@ public class FaBuCheYuanActivity extends BaseActivity implements OnClickListener
         req.id_area_depart = chufadi_id;
         req.id_area_arrive = mudidi_id;
         req.id_driver_car = id_car;
-        KaKuApiProvider.FaBu(req, new BaseCallback<FaBuResp>(FaBuResp.class) {
+        KaKuApiProvider.FaBu(req, new KakuResponseListener<FaBuResp>(this, FaBuResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, FaBuResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("fabu res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         finish();
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetProvince() {
         Utils.NoNet(context);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = "0";
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(this, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -194,25 +184,20 @@ public class FaBuCheYuanActivity extends BaseActivity implements OnClickListener
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCity(String id_province) {
         Utils.NoNet(context);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_province;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(this, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -223,25 +208,20 @@ public class FaBuCheYuanActivity extends BaseActivity implements OnClickListener
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCounty(String id_city) {
         Utils.NoNet(context);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_city;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(this, AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -252,13 +232,8 @@ public class FaBuCheYuanActivity extends BaseActivity implements OnClickListener
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

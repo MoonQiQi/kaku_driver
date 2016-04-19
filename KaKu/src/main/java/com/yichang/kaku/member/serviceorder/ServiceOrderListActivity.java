@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -33,8 +33,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -262,36 +261,27 @@ public class ServiceOrderListActivity extends BaseActivity implements OnClickLis
             ll_container.setVisibility(View.VISIBLE);
         }
 
-        showProgressDialog();
         OrderListReq req = new OrderListReq();
         req.code = "40021";
         req.id_driver = Utils.getIdDriver();
         req.state_order = KaKuApplication.state_order;
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
-        KaKuApiProvider.SerViceOrderList(req, new BaseCallback<OrderListResp>(OrderListResp.class) {
+        KaKuApiProvider.SerViceOrderList(req, new KakuResponseListener<OrderListResp>(this, OrderListResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("orderlist res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.orders);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -469,35 +459,27 @@ public class ServiceOrderListActivity extends BaseActivity implements OnClickLis
 
     private void payOrder() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         WXPayInfoReq req = new WXPayInfoReq();
         req.code = "30021";
         req.no_bill=mNo_order;
         //req.fee
 
-        KaKuApiProvider.getWXPayInfo(req, new BaseCallback<WXPayInfoResp>(WXPayInfoResp.class) {
+        KaKuApiProvider.getWXPayInfo(req, new KakuResponseListener<WXPayInfoResp>(this, WXPayInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, WXPayInfoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
 
                 if (t != null) {
                     LogUtil.E("getWXPayInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         wxPay(t);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

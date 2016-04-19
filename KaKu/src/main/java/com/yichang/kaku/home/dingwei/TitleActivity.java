@@ -50,7 +50,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
-import com.yichang.kaku.view.widget.CityChoosePopWindow;
+import com.yichang.kaku.view.popwindow.CityChoosePopWindow;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -169,7 +169,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
         builder.p("sid", Utils.getSid())
                 .p("code", "90013");
 
-        OkHttpUtil.postAsync(UrlCtnt.BASEIP, builder.build(), new RequestCallback<CityResp>(this, CityResp.class) {
+        OkHttpUtil.postAsync(UrlCtnt.BASEIP + "login/area_list_0", builder.build(), new RequestCallback<CityResp>(this, CityResp.class) {
             @Override
             public void onSuccess(final CityResp obj, String result) {
 

@@ -24,12 +24,12 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.giftmall.ConfirmOrderAdapter;
 import com.yichang.kaku.home.OrderPayActivity;
+import com.yichang.kaku.home.giftmall.ConfirmOrderAdapter;
 import com.yichang.kaku.member.address.AddrActivity;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
 import com.yichang.kaku.request.GenerateOrderReq;
@@ -39,8 +39,7 @@ import com.yichang.kaku.response.SeckillOrderResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -152,9 +151,10 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
         req.id_driver = Utils.getIdDriver();
         req.id_goods = mId_goods;
 
-        KaKuApiProvider.getSeckillOrderInfo(req, new BaseCallback<SeckillOrderResp>(SeckillOrderResp.class) {
+        KaKuApiProvider.getSeckillOrderInfo(req, new KakuResponseListener<SeckillOrderResp>(this, SeckillOrderResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, SeckillOrderResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
 
                     if (Constants.RES.equals(t.res)) {
@@ -171,10 +171,6 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
 
@@ -507,9 +503,10 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
 //todo 为实付款赋值，在支付完成回调页上显示
         KaKuApplication.realPayment = price_bill;
 
-        KaKuApiProvider.generateOrderInfo(req, new BaseCallback<GenerateOrderResp>(GenerateOrderResp.class) {
+        KaKuApiProvider.generateOrderInfo(req, new KakuResponseListener<GenerateOrderResp>(this, GenerateOrderResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, GenerateOrderResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 //stopProgressDialog();
                 if (t != null) {
                     LogUtil.E("generateOrderInfo res: " + t.toString());
@@ -531,10 +528,6 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
                 //stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
 

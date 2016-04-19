@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.request.CityInfoReq;
@@ -26,12 +25,11 @@ import com.yichang.kaku.response.IllegalQueryResp;
 import com.yichang.kaku.response.IllegalResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.ChooseCityListPopWindow;
-import com.yichang.kaku.view.IllegalPopWindow;
 import com.yichang.kaku.view.LicenseChoosePop;
+import com.yichang.kaku.view.popwindow.ChooseCityListPopWindow;
+import com.yichang.kaku.view.popwindow.IllegalPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 /**
  * Created by xiaosu on 2015/11/9.
@@ -78,12 +76,12 @@ public class IllegalQueryActivity extends BaseActivity implements AdapterView.On
         req.id_driver = Utils.getIdDriver();
 
 
-        KaKuApiProvider.getIllegalDriverInfo(req, new BaseCallback<IllegalDirverInfoResp>(IllegalDirverInfoResp.class) {
+        KaKuApiProvider.getIllegalDriverInfo(req, new KakuResponseListener<IllegalDirverInfoResp>(this, IllegalDirverInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, IllegalDirverInfoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (Constants.RES.equals(t.res)) {
                     stopProgressDialog();
-                    LogUtil.E("chaih " + t.driver.toString());
 
                     if (TextUtils.isEmpty(t.driver.getCarnumber()) && TextUtils.isEmpty(t.driver.getCarcode()) && TextUtils.isEmpty(t.driver.getCarcode())) {
 //省市
@@ -120,32 +118,27 @@ public class IllegalQueryActivity extends BaseActivity implements AdapterView.On
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-
-            }
         });
     }
 
     private void getCityInfo() {
-        showProgressDialog();
         CityInfoReq cityInfoReq = new CityInfoReq();
         cityInfoReq.code = "9001";
-        KaKuApiProvider.CityQuery(cityInfoReq, new BaseCallback<IllegalResp>(IllegalResp.class) {
+        KaKuApiProvider.CityQuery(cityInfoReq, new KakuResponseListener<IllegalResp>(this, IllegalResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, IllegalResp illegalResp) {
-                if (illegalResp.res == 0) {
-                    stopProgressDialog();
-                    resp = illegalResp;
-                    Log.d("xiaosu", illegalResp.Data.size() + "个省");
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                LogUtil.E("cityinfo:"+t.res);
+                if ("0".equals(t.res)) {
+                    resp = t;
                     refreshView();
                     getIllegalDriverInfo();
                 }
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
+                super.onFailed(what, url, tag, message, responseCode, networkMillis);
                 stopProgressDialog();
                 new AlertDialog.
                         Builder(IllegalQueryActivity.this).
@@ -163,6 +156,7 @@ public class IllegalQueryActivity extends BaseActivity implements AdapterView.On
                 }).setCancelable(false).
                         show();
             }
+
         });
     }
 
@@ -271,36 +265,35 @@ public class IllegalQueryActivity extends BaseActivity implements AdapterView.On
         illegalQueryReq.carcode = _vehicle_frame;
         illegalQueryReq.cardrivenumber = _engineNum;
         illegalQueryReq.carnumber = license_plate_number.getText().toString() + _carNum;
-
-        LogUtil.E(mCarCi + ":::" + mCarNo + ":::" + mCarPro + ":::");
         illegalQueryReq.carno = mCarNo;
         illegalQueryReq.carpro = mCarPro;
         illegalQueryReq.carci = mCarCi;
 
-        Log.d("xiaosu", illegalQueryReq.carnumber);
-
-        KaKuApiProvider.IllegalQuery(illegalQueryReq, new BaseCallback<IllegalQueryResp>(IllegalQueryResp.class) {
+        KaKuApiProvider.IllegalQuery(illegalQueryReq, new KakuResponseListener<IllegalQueryResp>(this, IllegalQueryResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, IllegalQueryResp illegalQueryResp) {
-                stopProgressDialog();
-                if (illegalQueryResp.res.equals("0")) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t.res.equals("0")) {
                     startActivity(new Intent(IllegalQueryActivity.this, IllegalQueryResultActivity.class).
                             putExtra("carNum", illegalQueryReq.carnumber).
-                            putExtra("info", illegalQueryResp));
+                            putExtra("info", t));
                 } else {
-                    if (Constants.RES_TEN.equals(illegalQueryResp.res)) {
+                    if (Constants.RES_TEN.equals(t.res)) {
                         Utils.Exit(context);
                         finish();
                     }
-                    LogUtil.showShortToast(context, illegalQueryResp.msg);
+                    LogUtil.showShortToast(context, t.msg);
                 }
+                stopProgressDialog();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
+                super.onFailed(what, url, tag, message, responseCode, networkMillis);
                 stopProgressDialog();
                 showShortToast("网络状态不好，请稍后再试");
             }
+
         });
     }
 

@@ -3,7 +3,6 @@ package com.yichang.kaku.request;
 import java.io.Serializable;
 
 public class EditCarInfoReq extends BaseReq implements Serializable {
-    public String id_driver;//司机id
     public String id_brand;//品牌id
     public String data_series;//车系
     public String data_model;//车型

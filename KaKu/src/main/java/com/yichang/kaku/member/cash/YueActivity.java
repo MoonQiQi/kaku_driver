@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.YueObj;
@@ -20,8 +20,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,19 +36,13 @@ public class YueActivity extends BaseActivity implements OnClickListener{
 	private final static int INDEX = 10;// 一屏显示的个数
 	private boolean isShowProgress = false;
 
-	private boolean isPassExist=false;
+	private boolean isPassExist =false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_yue);
-
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
 		init();
 	}
 
@@ -104,22 +97,19 @@ public class YueActivity extends BaseActivity implements OnClickListener{
 		req.id_driver = Utils.getIdDriver();
 		req.start = String.valueOf(pageIndex);
 		req.len = String.valueOf(pageSize);
-		KaKuApiProvider.Yue(req, new BaseCallback<YueResp>(YueResp.class) {
+		KaKuApiProvider.Yue(req, new KakuResponseListener<YueResp>(this, YueResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, YueResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("yue res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
-						setData(t.moneys);
 						tv_yue_yue.setText("¥ " + t.money_balance);
-						tv_yue_left_down.setText("¥ "+t.money_income);
-						tv_yue_right_down.setText("¥ "+t.money_deposit);
-						isPassExist=t.pass_exist.equals("Y");
+						tv_yue_left_down.setText("¥ " + t.money_income);
+						tv_yue_right_down.setText("¥ " + t.money_deposit);
+						isPassExist = t.pass_exist.equals("Y");
+						setData(t.moneys);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)) {
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 					onLoadStop();
@@ -127,10 +117,6 @@ public class YueActivity extends BaseActivity implements OnClickListener{
 				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-			}
 		});
 	}
 
@@ -173,7 +159,7 @@ public class YueActivity extends BaseActivity implements OnClickListener{
 	}
 
 	private void setPullState(boolean isUp) {
-		if (isUp) {
+		if (!isUp) {
 			isShowProgress = true;
 			start++;
 			pageindex = start * STEP;
@@ -192,6 +178,4 @@ public class YueActivity extends BaseActivity implements OnClickListener{
 		xListView.stopLoadMore();
 		xListView.setRefreshTime(DateUtil.dateFormat());
 	}
-
-
 }

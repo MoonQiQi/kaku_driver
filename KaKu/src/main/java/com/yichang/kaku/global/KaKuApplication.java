@@ -5,32 +5,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.util.Log;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.trace.LBSTraceClient;
-import com.baidu.trace.OnStartTraceListener;
-import com.baidu.trace.OnStopTraceListener;
-import com.baidu.trace.Trace;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.marswin89.marsdaemon.DaemonClient;
 import com.marswin89.marsdaemon.DaemonConfigurations;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.yichang.kaku.obj.Addr2Obj;
 import com.yichang.kaku.obj.QuestionObj;
 import com.yichang.kaku.tools.CaptchaDownTimer;
 import com.yichang.kaku.tools.CrashHandler;
-import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
+import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
-
-/*import com.pgyersdk.crash.PgyCrashManager;*/
 
 public class KaKuApplication extends Application {
 
@@ -52,7 +46,7 @@ public class KaKuApplication extends Application {
     public static String id_car;
     public static String flag_freeze;
     //所有图片的前缀
-    public static String qian_zhui = "http://kaku.wekaku.com/index.php?m=Img&a=imgAction&img=";
+    public static String qian_zhui = "http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=";
     public static String qian_zhuikong = "";
     //判断是否是从收货地址跳回MyCenter
     public static boolean isShopToFirst;
@@ -68,7 +62,7 @@ public class KaKuApplication extends Application {
     public static String price_string;
     //保养，地址
     public static String addr_string;
-    public static String flag_shop;
+    public static String flag_shop = "0";
     public static String flag_show;
     //订单状态
     public static String state_order;
@@ -84,9 +78,10 @@ public class KaKuApplication extends Application {
     public static String id_orderZ;
     public static String fanxiu_order;
     public static String id_drop;
+    public static String id_bill_chetie;
     public static boolean flag_IsDetailToPingJia;
 
-    public static String titleName;
+    public static String id_advert = "";
     public static String WhichFrag;
     //判断是否弹出升级对话框
     public static boolean isShowDialog;
@@ -122,9 +117,6 @@ public class KaKuApplication extends Application {
     //用户自动登录
     public static String sid;
     public static boolean isLogin;
-    public static boolean isReward;
-    public static int total;
-    public static String hometype;
     public static String address;
     public static String name_shop = "";
     public static String addr_shop = "";
@@ -140,7 +132,6 @@ public class KaKuApplication extends Application {
     public static String no_item;
     public static String reason_upload;
     public static String flag_image = "wu";
-    public static String id_advert;
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
@@ -156,6 +147,15 @@ public class KaKuApplication extends Application {
     public static String id_advert_qiang;
     public static Addr2Obj addr_qiang;
 
+    //车贴详情弹不弹蒙板
+    public static String flag_mengban = "N";
+    public static String flag_recommended = "";
+    public static String flag_code = "";
+    public static String flag_nochetietv = "";
+    public static String flag_position = "L";
+    public static String flag_heart = "";
+    public static String flag_jiashinum = "N";
+    public static String phone_driver = "";
 
     //服务订单评价
     public static Bitmap picture;
@@ -169,23 +169,23 @@ public class KaKuApplication extends Application {
     public static String truck_order_state;
 
     /*上传头像*/
-    public static Bitmap driverInfoIcon;
+    public static Bitmap ImageHead;
     /*上传驾照*/
     public static Bitmap cartInfoIcon;
 
     /*上传车品订单评论照片*/
     public static Bitmap OrderCommentIcon;
-    public static Bitmap ImageZuo;
     public static Bitmap ImageZhong;
-    public static Bitmap ImageYou;
+    public static Bitmap ImageJiaShiZheng;
     public static Bitmap ImageBen;
     public static Bitmap ImageChe;
+    public static Bitmap ImageXingShiZheng;
     /*微信支付结果*/
     public static String WXPayResult = "";
     public static String APP_ID;
 
     /*支付回调地址*/
-    public static String notify_url = "http://kaku.wekaku.com/app/alipay/notify_url.php";
+    public static String notify_url = "http://www.99kaku.com/public/alipay/notify_url.php";
     public static String id_bill = "";
     public static String id_order = "";
     //    订单类型 服务：SERVICE，车品：TRUCK
@@ -214,18 +214,19 @@ public class KaKuApplication extends Application {
     private LocationListner locationListner;
     //问题详情列表 Question实体
     public static QuestionObj question;
-    private static Trace mLocalTrace;
+    /*private static Trace mLocalTrace;
     private LBSTraceClient localLBSTraceClient;
-    private static LBSTraceClient mLocalLBSTraceClient1;
+    private static LBSTraceClient mLocalLBSTraceClient1;*/
+    public static String chetie_order_to = "";
 
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
         OkHttpUtil.init(new Handler());
+        NoHttp.init(this);
         SDKInitializer.initialize(getApplicationContext());
         JPushInterface.init(this);
-        //Bugtags.start("55d79cc36b915bdd6340a5f4c36995d1", this, Bugtags.BTGInvocationEventBubble);
         CrashHandler.getInstance().init(this);//捕获全局异常
         sp = getSharedPreferences(SHARED_NAME, Context.MODE_WORLD_WRITEABLE);
         editor = sp.edit();
@@ -233,6 +234,7 @@ public class KaKuApplication extends Application {
         initLocation();
         //LeakCanary.install(this);
         Fresco.initialize(this);
+        CrashReport.initCrashReport(getApplicationContext(), "900022764", false);
 
         Utils.setmContext(getApplicationContext());
 
@@ -261,7 +263,7 @@ public class KaKuApplication extends Application {
         mLocationClient.unRegisterLocationListener(locationListner);
     }
 
-    public static void initTraceService(Context paramContext, String paramString) {
+    /*public static void initTraceService(Context paramContext, String paramString) {
         LBSTraceClient localLBSTraceClient = new LBSTraceClient(paramContext.getApplicationContext());
         Trace localTrace = new Trace(paramContext.getApplicationContext(), 104890L, paramString, 2);
         OnStartTraceListener local1 = new OnStartTraceListener() {
@@ -309,18 +311,20 @@ public class KaKuApplication extends Application {
     }
 
     public static void stopTrace() {
-        mLocalLBSTraceClient1.stopTrace(mLocalTrace, new OnStopTraceListener() {
-            @Override
-            public void onStopTraceSuccess() {
-                LogUtil.E("结束上传");
-            }
+        if (mLocalLBSTraceClient1 != null) {
+            mLocalLBSTraceClient1.stopTrace(mLocalTrace, new OnStopTraceListener() {
+                @Override
+                public void onStopTraceSuccess() {
+                    LogUtil.E("结束上传");
+                }
 
-            @Override
-            public void onStopTraceFailed(int i, String s) {
+                @Override
+                public void onStopTraceFailed(int i, String s) {
 
-            }
-        });
-    }
+                }
+            });
+        }
+    }*/
 
     private void initLocationInfo(LocationClient mLocationClient) {
         LocationClientOption option = new LocationClientOption();

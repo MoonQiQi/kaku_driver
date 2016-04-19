@@ -19,7 +19,7 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -30,8 +30,8 @@ import com.yichang.kaku.response.QiangImageResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -182,14 +182,15 @@ public class QiangImageActivity extends BaseActivity implements OnClickListener{
 	}
 
 	public void QiNiuYunToken(final String sort) {
-		showProgressDialog();
+		Utils.NoNet(context);
 		QiNiuYunTokenReq req = new QiNiuYunTokenReq();
 		req.code = "qn01";
 		req.sort = sort;
 		req.id_driver = Utils.getIdDriver();
-		KaKuApiProvider.QiNiuYunToken(req, new BaseCallback<QiNiuYunTokenResp>(QiNiuYunTokenResp.class) {
+		KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this,QiNiuYunTokenResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, QiNiuYunTokenResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("qiniuyuntoken res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -204,18 +205,9 @@ public class QiangImageActivity extends BaseActivity implements OnClickListener{
 						}
 
 					} else {
-						if (Constants.RES_TEN.equals(t.res)) {
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
 			}
 		});
 	}
@@ -256,15 +248,18 @@ public class QiangImageActivity extends BaseActivity implements OnClickListener{
 	}
 
 	public void Upload(){
+		Utils.NoNet(context);
+		showProgressDialog();
 		QiangImageReq req = new QiangImageReq();
 		req.code = "60033";
-		req.id_advert = "1";
+		req.id_advert = KaKuApplication.id_advert;
 		req.id_driver = Utils.getIdDriver();
 		req.image_license = key1;
 		req.image_car = key2;
-		KaKuApiProvider.QiangImage(req, new BaseCallback<QiangImageResp>(QiangImageResp.class) {
+		KaKuApiProvider.QiangImage(req, new KakuResponseListener<QiangImageResp>(this,QiangImageResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, QiangImageResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("uploadimage res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -272,20 +267,12 @@ public class QiangImageActivity extends BaseActivity implements OnClickListener{
 						startActivity(intent);
 						finish();
 					} else {
-						if (Constants.RES_TEN.equals(t.res)) {
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
 				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 

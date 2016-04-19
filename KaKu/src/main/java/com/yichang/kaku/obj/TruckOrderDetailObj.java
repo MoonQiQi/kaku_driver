@@ -15,6 +15,10 @@ public class TruckOrderDetailObj implements Serializable {
 	private String addr;
 	private String price_goods;
 	private String price_point;
+	private String price_bill;
+	private String time_create;
+	private String money_balance;
+	private String type_receive;
 
 	public String getMoney_balance() {
 		return money_balance;
@@ -22,31 +26,6 @@ public class TruckOrderDetailObj implements Serializable {
 
 	public void setMoney_balance(String money_balance) {
 		this.money_balance = money_balance;
-	}
-
-	private String price_bill;
-	private String time_create;
-
-	private String money_balance;
-
-	@Override
-	public String toString() {
-		return "TruckOrderDetailObj{" +
-				"id_bill='" + id_bill + '\'' +
-				", state_bill='" + state_bill + '\'' +
-				", no_bill='" + no_bill + '\'' +
-				", type_pay='" + type_pay + '\'' +
-				", type_invoice='" + type_invoice + '\'' +
-				", type1_invoice='" + type1_invoice + '\'' +
-				", var_invoice='" + var_invoice + '\'' +
-				", name_addr='" + name_addr + '\'' +
-				", phone_addr='" + phone_addr + '\'' +
-				", addr='" + addr + '\'' +
-				", price_goods='" + price_goods + '\'' +
-				", price_point='" + price_point + '\'' +
-				", price_bill='" + price_bill + '\'' +
-				", time_create='" + time_create + '\'' +
-				'}';
 	}
 
 	public String getId_bill() {
@@ -159,5 +138,35 @@ public class TruckOrderDetailObj implements Serializable {
 
 	public void setTime_create(String time_create) {
 		this.time_create = time_create;
+	}
+
+	public String getType_receive() {
+		return type_receive;
+	}
+
+	public void setType_receive(String type_receive) {
+		this.type_receive = type_receive;
+	}
+
+	@Override
+	public String toString() {
+		return "TruckOrderDetailObj{" +
+				"id_bill='" + id_bill + '\'' +
+				", state_bill='" + state_bill + '\'' +
+				", no_bill='" + no_bill + '\'' +
+				", type_pay='" + type_pay + '\'' +
+				", type_invoice='" + type_invoice + '\'' +
+				", type1_invoice='" + type1_invoice + '\'' +
+				", var_invoice='" + var_invoice + '\'' +
+				", name_addr='" + name_addr + '\'' +
+				", phone_addr='" + phone_addr + '\'' +
+				", addr='" + addr + '\'' +
+				", price_goods='" + price_goods + '\'' +
+				", price_point='" + price_point + '\'' +
+				", price_bill='" + price_bill + '\'' +
+				", time_create='" + time_create + '\'' +
+				", money_balance='" + money_balance + '\'' +
+				", type_receive='" + type_receive + '\'' +
+				'}';
 	}
 }

@@ -15,12 +15,12 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.home.UpdateAppManager;
+import com.yichang.kaku.global.UpdateAppManager;
 import com.yichang.kaku.member.address.AddrActivity;
 import com.yichang.kaku.member.cash.SetWithDrawCodeActivity;
 import com.yichang.kaku.member.login.LoginActivity;
@@ -30,9 +30,9 @@ import com.yichang.kaku.response.CheckUpdateResp;
 import com.yichang.kaku.response.ExitResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
+import com.yichang.kaku.view.popwindow.UpDatePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class MemberSettingsActivity extends BaseActivity implements OnClickListener {
     //    titleBar
@@ -45,10 +45,11 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
 
     private TextView tv_setting_update, tv_setting_version;
 
-    private UpdateAppManager updateAppManager;
     //    版本信息
-    private String versionName;
     private String android_url;
+    private UpdateAppManager updateManager;
+    private String versionName;
+    private Boolean isPwdPopWindowShow = false;
 
 
     @Override
@@ -61,7 +62,6 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
     }
 
     private void init() {
-        versionName = getVersionName();
         initTitleBar();
 
         initRelativeLayout();
@@ -71,7 +71,6 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
 //显示版本更新、版本信息
         tv_setting_update = (TextView) findViewById(R.id.tv_setting_update);
         tv_setting_version = (TextView) findViewById(R.id.tv_setting_version);
-        tv_setting_version.setText("V" + versionName);
 
     }
 
@@ -112,7 +111,7 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
         } else if (R.id.rela_setting_update == id) {
             /*检查更新*/
             MobclickAgent.onEvent(context, "Update");
-            checkUpdate();
+            Update();
 
         } else if (R.id.rela_setting_version == id) {
             /*版本*/
@@ -135,7 +134,7 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("提示");
                 builder.setMessage("是否选择退出？");
-                builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -144,7 +143,7 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
                     }
                 });
 
-                builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+                builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -160,90 +159,48 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
         }
     }
 
-    private void checkUpdate() {
-        Utils.NoNet(context);
-        showProgressDialog();
-
+    public void Update() {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            versionName = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         CheckUpdateReq req = new CheckUpdateReq();
         req.code = "10010";
         req.version_android = versionName;
+        KaKuApiProvider.checkUpdate(req, new KakuResponseListener<CheckUpdateResp>(context,CheckUpdateResp.class) {
 
-        KaKuApiProvider.checkUpdate(req, new BaseCallback<CheckUpdateResp>(CheckUpdateResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, CheckUpdateResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-                    LogUtil.E("exit res: " + t.res);
-                    android_url = t.android_url;
-                    switch (t.res) {
-                        case Constants.RES:
-                            tv_setting_update.setText("当前已是最新版本");
-                            break;
-                        case Constants.RES_ONE:
-                            tv_setting_update.setText("有新版本待更新");
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MemberSettingsActivity.this);
-                            builder.setTitle("发现新版本！");
-                            //builder.setMessage("新版本特性");
-                            builder.setNegativeButton("立即更新", new android.content.DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    updateAppManager = new UpdateAppManager(context,android_url);
-
-                                    updateAppManager.checkUpdateInfo();
-                                }
-                            });
-
-                            builder.setPositiveButton("稍后再说", new android.content.DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // TODO Auto-generated method stub
-                                    dialog.dismiss();
-                                }
-                            });
-                            builder.create().show();
-
-                            break;
-
-                        case Constants.RES_NINE:
-                            tv_setting_update.setText("有新版本待更新");
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MemberSettingsActivity.this);
-                            builder1.setTitle("发现新版本！");
-                            //builder1.setMessage("新版本特性");
-                            builder1.setNegativeButton("立即更新", new android.content.DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    updateAppManager = new UpdateAppManager(context,android_url);
-
-                                    updateAppManager.checkUpdateInfo();
-                                }
-                            });
-                            builder1.setCancelable(false);
-                            builder1.create().show();
-
-                            break;
+                    LogUtil.E("update res: " + t.res);
+                    if (Constants.RES_ONE.equals(t.res)) {
+                        android_url = t.android_url;
+                        showPopWindow(true,android_url);
+                    } else if (Constants.RES_NINE.equals(t.res)) {
+                        android_url = t.android_url;
+                        showPopWindow(false,android_url);
+                    } else {
+                        LogUtil.showShortToast(context,t.msg);
                     }
-
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }
 
-    private String getVersionName() {
-        try {
-            PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
-            return info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private void showPopWindow(final boolean flag, final String android_url) {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                UpDatePopWindow input =
+                        new UpDatePopWindow(MemberSettingsActivity.this, flag, android_url);
+                input.show();
+            }
+        }, 200);
     }
 
     private void goToHome() {
@@ -255,15 +212,19 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
 
     private void Exit() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         ExitReq req = new ExitReq();
         req.code = "1000";
-        req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.exit(req, new BaseCallback<ExitResp>(ExitResp.class) {
+        KaKuApiProvider.exit(req, new KakuResponseListener<ExitResp>(this, ExitResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ExitResp t) {
+            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
+                super.onFailed(what, url, tag, message, responseCode, networkMillis);
+            }
+
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("exit res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -280,12 +241,6 @@ public class MemberSettingsActivity extends BaseActivity implements OnClickListe
 
                     LogUtil.showShortToast(context, t.msg);
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }

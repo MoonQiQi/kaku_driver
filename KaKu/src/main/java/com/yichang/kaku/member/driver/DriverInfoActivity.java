@@ -1,12 +1,13 @@
 package com.yichang.kaku.member.driver;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -19,42 +20,33 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.Ad.ClipImageActivity;
 import com.yichang.kaku.member.QRCodeActivity;
 import com.yichang.kaku.obj.DriveInfoObj;
 import com.yichang.kaku.request.MemberDriverInfoReq;
+import com.yichang.kaku.request.MemberUploadIconReq;
+import com.yichang.kaku.request.QiNiuYunTokenReq;
 import com.yichang.kaku.response.MemberDriverInfoResp;
-import com.yichang.kaku.tools.Base64Coder;
+import com.yichang.kaku.response.QiNiuYunTokenResp;
+import com.yichang.kaku.response.QiangImageResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yichang.kaku.webService.UrlCtnt;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.FileNotFoundException;
 
 public class DriverInfoActivity extends BaseActivity implements OnClickListener, AdapterView.OnItemClickListener {
     //titleBar,返回，购物车，标题,标题栏布局
@@ -75,12 +67,29 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
 
     private static DriveInfoObj driverInfo;
 
+    private final int START_ALBUM_REQUESTCODE = 4;//相册
+    private final int CAMERA_WITH_DATA = 2;//拍照
+    private final int CROP_RESULT_CODE = 3;//结果
+    public static final String TMP_PATH6 = "clip_temp6.jpg";
+    public String token1;
+    public String key1;
+    public String path1;
+    private Bitmap photo1;
+    private PopupWindow window;
+    //    拍照；从相册中选择；取消
+    private TextView tv_takephoto, tv_myphoto, tv_exitphoto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_driverinfo);
-        init();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        init();
     }
 
     private void init() {
@@ -109,34 +118,25 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
     private void getDriverInfo() {
         Utils.NoNet(context);
         showProgressDialog();
-
         MemberDriverInfoReq req = new MemberDriverInfoReq();
         req.code = "10012";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getDriverInfo(req, new BaseCallback<MemberDriverInfoResp>(MemberDriverInfoResp.class) {
+        KaKuApiProvider.getDriverInfo(req, new KakuResponseListener<MemberDriverInfoResp>(this, MemberDriverInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MemberDriverInfoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getDriverInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.driver);
-                        LogUtil.E("t.driver : " + t.driver);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }
@@ -162,7 +162,7 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
 
 
             if (!TextUtils.isEmpty(driver.getHead())) {
-                BitmapUtil.getInstance(context).download(iv_info_icon, KaKuApplication.qian_zhui + driver.getHead());
+                BitmapUtil.getInstance(context).download(iv_info_icon, KaKuApplication.qian_zhuikong + driver.getHead());
             }
             tv_info_name.setText(driver.getName_driver());
             tv_info_phone.setText(driver.getPhone_driver());
@@ -174,13 +174,9 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
 
     private void initTitleBar() {
         left = (TextView) findViewById(R.id.tv_left);
-
         left.setOnClickListener(this);
-
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("个人资料");
-
-
     }
 
     @Override
@@ -209,11 +205,13 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
 //            进入二维码界面
             gotoQRCode();
         } else if (R.id.tv_takephoto == id) {
-            fecthFromCamear();
-
+            KaKuApplication.flag_image = "head";
+            startCapture();
+            window.dismiss();
         } else if (R.id.tv_myphoto == id) {
-            fecthFromGallery();
-
+            KaKuApplication.flag_image = "head";
+            startAlbum();
+            window.dismiss();
         } else if (R.id.tv_exitphoto == id) {
             window.dismiss();
 
@@ -245,134 +243,6 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
         }
     }
 
-// todo   以下为上传头像代码段，待完善-------------------------------------------------------------
-
-    /**
-     * @return void    返回类型
-     * @throws
-     * @Title: upload
-     * @说 明:
-     * @参 数:
-     */
-    public void Upload() {
-        showProgressDialog();
-        new Thread() {
-            private String file;
-
-            public void run() {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                if ("".equals(KaKuApplication.driverInfoIcon)||KaKuApplication.driverInfoIcon == null) {
-                    file = "";
-                } else {
-                    KaKuApplication.driverInfoIcon.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-                    byte[] b = stream.toByteArray();
-                    // 将图片流以字符串形式存储下来
-                    file = new String(Base64Coder.encodeLines(b));
-                }
-                HttpClient client = new DefaultHttpClient();
-                // 设置上传参数
-                List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-                formparams.add(new BasicNameValuePair("code", "10027"));
-                formparams.add(new BasicNameValuePair("id_driver", Utils.getIdDriver()));
-                formparams.add(new BasicNameValuePair("head", file));
-                LogUtil.E("----"+formparams.toString());
-                HttpPost post = new HttpPost(UrlCtnt.BASEIP);
-                UrlEncodedFormEntity entity;
-                try {
-                    entity = new UrlEncodedFormEntity(formparams, "UTF-8");
-                    post.addHeader("Accept","text/javascript, text/html, application/xml, text/xml");
-                    post.addHeader("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3");
-                    post.addHeader("Accept-Encoding", "gzip,deflate,sdch");
-                    post.addHeader("Connection", "Keep-Alive");
-                    post.addHeader("Cache-Control", "no-cache");
-                    post.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                    post.setEntity(entity);
-                    HttpResponse response = client.execute(post);
-                    LogUtil.E("statuscode:"+response.getStatusLine().getStatusCode());
-                    String json = EntityUtils.toString(response.getEntity());
-                    JSONObject object = new JSONObject(json);
-                    String res = object.getString("res");
-                    String msg = object.getString("msg");
-                    LogUtil.E("json:"+json);
-
-                    Message message = new Message();
-                    if (200 == response.getStatusLine().getStatusCode()) {
-                        LogUtil.E("上传完成~~~");
-                        message.obj = msg;
-                        handler.sendMessage(message);
-                        client.getConnectionManager().shutdown();
-                        stopProgressDialog();
-                    } else {
-                        LogUtil.E("上传失败~~~");
-                        message.obj = msg;
-                        handler.sendMessage(message);
-                        client.getConnectionManager().shutdown();
-                        stopProgressDialog();
-                    }
-//            GoToOrderList();
-                } catch (Exception e) {
-                    LogUtil.E("上传失败"+e.toString());
-                    stopProgressDialog();
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            String hint = (String) msg.obj;
-            if (!TextUtils.isEmpty(hint)) {
-                LogUtil.showShortToast(getApplicationContext(), msg.obj.toString());
-            }
-            super.handleMessage(msg);
-        }
-    };
-
-    /**
-     * 将进行剪裁后的图片显示到UI界面上
-     */
-
-    private void setPicToView(Intent picdata) {
-        Bundle bundle = picdata.getExtras();
-        if (bundle != null) {
-            photo = bundle.getParcelable("data");
-            try {
-                saveFile(photo);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            KaKuApplication.driverInfoIcon = photo;
-            iv_info_icon.setImageBitmap(photo);
-            if (isTAKEPHOTO) {
-                if (photoFile.exists()) {
-                    boolean isdelete = photoFile.delete();
-                    LogUtil.E("isdelete:: " + isdelete);
-                }
-                isTAKEPHOTO = false;
-            }
-        }
-    }
-
-    // 创建一个以当前时间为名称的文件
-    private File dataFile;
-    private File photoFile;
-    private boolean isTAKEPHOTO = false;
-    private static final int ZERO = 0;// 拍照
-    private static final int PHOTO_REQUEST_TAKEPHOTO = 4;// 拍照
-    private static final int PHOTO_REQUEST_GALLERY = 5;// 从相册中选择
-    private static final int PHOTO_REQUEST_CUT = 6;// 结果
-    private Bitmap photo;
-
-    private String imagePath;
-
-    private PopupWindow window;
-    //    拍照；从相册中选择；取消
-    private TextView tv_takephoto, tv_myphoto, tv_exitphoto;
-
     public void showPopWindow(View v) {
         DisplayMetrics outMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
@@ -390,127 +260,166 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
         window.showAtLocation(v, Gravity.BOTTOM, 0, 10);
     }
 
+    private void startCapture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(
+                Environment.getExternalStorageDirectory(), TMP_PATH6)));
+        startActivityForResult(intent, CAMERA_WITH_DATA);
+    }
 
-    /**
-     * 保存图片到本地
-     */
-    public void saveFile(Bitmap bm) throws IOException {
-        if (dataFile == null)
-            dataFile = new File(this.getFilesDir(), "curImag"
-                    + Utils.getIdDriver() + ".jpg");
-        if (dataFile.exists())
-            dataFile.delete();// 如果有同名文件存在先删除
-        BufferedOutputStream bos = new BufferedOutputStream(
-                new FileOutputStream(dataFile));
-        bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
-        bos.flush();
-        bos.close();
-        imagePath = dataFile.toString();
-        LogUtil.E("imagePath : " + imagePath);
+    private void startAlbum() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+            intent.setType("image/*");
+            startActivityForResult(intent, START_ALBUM_REQUESTCODE);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            try {
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, START_ALBUM_REQUESTCODE);
+            } catch (Exception e2) {
+                // TODO: handle exception
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // 裁剪图片的Activity
+    private void startCropImageActivity(String path) {
+        ClipImageActivity.startActivity(this, path, CROP_RESULT_CODE);
     }
 
     /**
-     * 打开手机相机拍照
+     * 通过uri获取文件路径
+     *
+     * @param mUri
+     * @return
      */
-    private void startPhotoZoom(Uri uri, int size) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
-
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", size);
-        intent.putExtra("outputY", size);
-        intent.putExtra("return-data", true);
-
-        startActivityForResult(intent, PHOTO_REQUEST_CUT);
+    public String getFilePath(Uri mUri) {
+        try {
+            if (mUri.getScheme().equals("file")) {
+                return mUri.getPath();
+            } else {
+                return getFilePathByUri(mUri);
+            }
+        } catch (FileNotFoundException ex) {
+            return null;
+        }
     }
 
+    // 获取文件路径通过url
+    private String getFilePathByUri(Uri mUri) throws FileNotFoundException {
+        Cursor cursor = getContentResolver()
+                .query(mUri, null, null, null, null);
+        cursor.moveToFirst();
+        return cursor.getString(1);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
         switch (requestCode) {
-            case PHOTO_REQUEST_TAKEPHOTO:
-                if (photoFile.exists())
-                    startPhotoZoom(Uri.fromFile(photoFile), 354);
-                window.dismiss();
+            case CROP_RESULT_CODE:
+                path1 = data.getStringExtra(ClipImageActivity.RESULT_PATH);
+                photo1 = BitmapFactory.decodeFile(path1);
+                KaKuApplication.ImageHead = photo1;
+                iv_info_icon.setImageBitmap(photo1);
+                QiNiuYunToken("1");
                 break;
-
-            case PHOTO_REQUEST_GALLERY:
-                if (data != null)
-                    startPhotoZoom(data.getData(), 354);
-                window.dismiss();
+            case START_ALBUM_REQUESTCODE:
+                startCropImageActivity(getFilePath(data.getData()));
                 break;
-
-            case PHOTO_REQUEST_CUT:
-                if (data != null)
-                    setPicToView(data);
-                Upload();
-                break;
-
-
-        }
-
-        switch (resultCode) {
-            //判断是否修改过姓名
-            case NAMECHANGED:
-                tv_info_name.setText(data.getStringExtra("drivername"));
-                //               getDriverInfo();
-                break;
-            case 111:
-                tv_info_certification.setText("认证中");
-                driverInfo.setFlag_approve("D");
-                driverInfo.setCard_driver(data.getStringExtra("certifi_ID"));
-                driverInfo.setName_real(data.getStringExtra("certifi_name"));
-
-
+            case CAMERA_WITH_DATA:
+                // 照相机程序返回的,再次调用图片剪辑程序去修剪图片
+                startCropImageActivity(Environment.getExternalStorageDirectory()
+                        + "/" + TMP_PATH6);
                 break;
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * 使用系统当前日期加以调整作为照片的名称
-     */
-    private String getPhotoFileName() {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "'IMG'_yyyyMMdd_HHmmss");
-        return dateFormat.format(date) + ".jpg";
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        KaKuApplication.ImageHead = null;
     }
 
-    /**
-     * 通过照相获得图片
-     *
-     * @param
-     */
-    private void fecthFromCamear() {
-        photoFile = new File(Environment.getExternalStorageDirectory(),
-                getPhotoFileName());
-        LogUtil.E("photoFile: " + photoFile);
-        // 调用系统的拍照功能
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // 指定调用相机拍照后照片的储存路径
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-        startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
-        isTAKEPHOTO = true;
+
+    public void QiNiuYunToken(final String sort) {
+        Utils.NoNet(context);
+        QiNiuYunTokenReq req = new QiNiuYunTokenReq();
+        req.code = "qn01";
+        req.sort = sort;
+        req.id_driver = Utils.getIdDriver();
+        KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this,QiNiuYunTokenResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("qiniuyuntoken res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                            token1 = t.token;
+                            key1 = t.key;
+                            uploadImg(token1, key1, sort);
+
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+            }
+        });
     }
 
-    /**
-     * 通过相册获得图片
-     *
-     * @param
-     */
-    private void fecthFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, null);
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+    private void uploadImg(final String token , final String key , final String sort){
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                String file = path1;
+                UploadManager uploadManager = new UploadManager();
+                uploadManager.put(file, key, token,
+                        new UpCompletionHandler() {
+                            @Override
+                            public void complete(String arg0, ResponseInfo info, JSONObject response) {
+                                // TODO Auto-generated method stub
+                                if (info.isOK()){
+                                    Upload();
+                                }
+                            }
+                        }, null);
+            }
+        }).start();
+    }
+
+    public void Upload(){
+        Utils.NoNet(context);
+        showProgressDialog();
+        MemberUploadIconReq req = new MemberUploadIconReq();
+        req.code = "10027";
+        req.head = key1;
+        req.id_driver = Utils.getIdDriver();
+        KaKuApiProvider.headUpload(req, new KakuResponseListener<QiangImageResp>(this,QiangImageResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("uploadimage res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+
+        });
     }
 
 }

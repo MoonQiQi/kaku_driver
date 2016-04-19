@@ -17,19 +17,17 @@ import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.shop.FWZMapActivity;
-import com.yichang.kaku.home.shop.ShopDetailActivity;
-import com.yichang.kaku.home.shop.ShopItemAdapter;
 import com.yichang.kaku.home.join.ApplyToJoinActivity;
 import com.yichang.kaku.home.mycar.PinPaiXuanZeActivity;
 import com.yichang.kaku.home.mycar.PinPaiZiAdapter;
-import com.yichang.kaku.zhaohuo.LineGridView;
-import com.yichang.kaku.zhaohuo.province.CityAdapter;
+import com.yichang.kaku.home.shop.FWZMapActivity;
+import com.yichang.kaku.home.shop.ShopDetailActivity;
+import com.yichang.kaku.home.shop.ShopItemAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.PinPaiXuanZeObj;
 import com.yichang.kaku.obj.Shops_wxzObj;
@@ -42,11 +40,12 @@ import com.yichang.kaku.response.PinPaiXuanZeResp;
 import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.widget.MenDianPopWindow;
+import com.yichang.kaku.view.popwindow.MenDianPopWindow;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yichang.kaku.zhaohuo.LineGridView;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +99,8 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
 
     private void initTitleBar(View view) {
         left = (TextView) view.findViewById(R.id.tv_left);
-        left.setText("商户加盟");
-        left.setOnClickListener(this);
+        left.setText("");
+        //left.setOnClickListener(this);
         left.setCompoundDrawables(null, null, null, null);
         title = (TextView) view.findViewById(R.id.tv_mid);
         title.setText("门店");
@@ -183,9 +182,10 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
         req.flag_type = flag_type;
         req.id_brand = id_brand;
         req.id_area = id_area;
-        KaKuApiProvider.PinPaiFuWuZhan(req, new BaseCallback<PinPaiFuWuZhanResp>(PinPaiFuWuZhanResp.class) {
+        KaKuApiProvider.PinPaiFuWuZhan(req, new KakuResponseListener<PinPaiFuWuZhanResp>(mActivity,PinPaiFuWuZhanResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, PinPaiFuWuZhanResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("pinpaifuwuzhan res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -203,17 +203,9 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
                         setData(t.shops);
                         onLoadStop();
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(mActivity);
-                        }
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
                 stopProgressDialog();
             }
         });
@@ -278,9 +270,10 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = "0";
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(mActivity,AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -298,22 +291,19 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
+
         });
     }
 
     public void GetCity(String id_province) {
         Utils.NoNet(mActivity);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_province;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(mActivity,AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -327,25 +317,20 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void GetCounty(String id_city) {
         Utils.NoNet(mActivity);
-        showProgressDialog();
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_city;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(mActivity,AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -358,11 +343,6 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
                 stopProgressDialog();
             }
         });
@@ -427,12 +407,12 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
     }
 
     public void PinPaiXuanZe() {
-        showProgressDialog();
         PinPaiXuanZeReq req = new PinPaiXuanZeReq();
         req.code = "2008";
-        KaKuApiProvider.PinPaiXuanZe(req, new BaseCallback<PinPaiXuanZeResp>(PinPaiXuanZeResp.class) {
+        KaKuApiProvider.PinPaiXuanZe(req, new KakuResponseListener<PinPaiXuanZeResp>(mActivity,PinPaiXuanZeResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, PinPaiXuanZeResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -447,13 +427,8 @@ public class FindFragment extends BaseFragment implements OnClickListener, Adapt
                         LogUtil.showShortToast(mActivity, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 

@@ -13,6 +13,7 @@ public class CheTieOrderObj implements Serializable {
 	private String time_create;
 	private String num_advert;
 	private String image_advert;
+	private String flag_operate;
 
 	public String getId_advert_bill() {
 		return id_advert_bill;
@@ -86,6 +87,14 @@ public class CheTieOrderObj implements Serializable {
 		this.image_advert = image_advert;
 	}
 
+	public String getFlag_operate() {
+		return flag_operate;
+	}
+
+	public void setFlag_operate(String flag_operate) {
+		this.flag_operate = flag_operate;
+	}
+
 	@Override
 	public String toString() {
 		return "CheTieOrderObj{" +
@@ -98,6 +107,7 @@ public class CheTieOrderObj implements Serializable {
 				", time_create='" + time_create + '\'' +
 				", num_advert='" + num_advert + '\'' +
 				", image_advert='" + image_advert + '\'' +
+				", flag_operate='" + flag_operate + '\'' +
 				'}';
 	}
 }

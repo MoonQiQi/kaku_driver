@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.member.settings.MemberSettingsCommentActivity;
@@ -20,8 +20,7 @@ import com.yichang.kaku.response.ChouJiangResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class ChouJiangActivity extends BaseActivity implements OnClickListener {
 
@@ -81,7 +80,7 @@ public class ChouJiangActivity extends BaseActivity implements OnClickListener {
         if (R.id.tv_left == id) {
             finish();
         } else if (R.id.tv_right == id) {
-            startActivity(new Intent(context, MyPrizeActivity.class));
+            MyPrizeActivity.gotoMyPrize();
         }
     }
 
@@ -91,29 +90,20 @@ public class ChouJiangActivity extends BaseActivity implements OnClickListener {
         ChouJiangReq req = new ChouJiangReq();
         req.code = "700241";
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.ChouJiang(req, new BaseCallback<ChouJiangResp>(ChouJiangResp.class) {
+        KaKuApiProvider.ChouJiang(req, new KakuResponseListener<ChouJiangResp>(this,ChouJiangResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ChouJiangResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("choujiang res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         wv.loadUrl(t.url);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
-
 }

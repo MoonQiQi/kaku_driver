@@ -1,14 +1,12 @@
-package com.yichang.kaku.view;
+package com.yichang.kaku.view.popwindow;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
 import com.yichang.kaku.R;
@@ -85,7 +83,6 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
             case R.id.share_wx:
                 String wxUrl = shareContent.url + "&type=Wechat";
 
-                Log.d("xiaosu", "====" + wxUrl);
                 if (isShortUrl) {
                     try {
                         wxUrl = URLEncoder.encode(wxUrl, "utf-8");
@@ -95,12 +92,11 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                     getShortURL(wxUrl, new onSuccessListener() {
                         @Override
                         public void onSuccess(String shortUrl) {
-                            Log.d("xiaosu", "----" + shortUrl);
                             Wechat.ShareParams params = new Wechat.ShareParams();
                             params.setTitle(mTitle);
                             params.setShareType(Wechat.SHARE_WEBPAGE);
                             params.setText(shareContent.content + shortUrl);
-                            params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                            params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
                             params.setUrl(shortUrl);
                             Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
                             wechat.setPlatformActionListener(new InnerPlatformActionListener("微信"));
@@ -112,7 +108,7 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                     params.setTitle(mTitle);
                     params.setShareType(Wechat.SHARE_WEBPAGE);
                     params.setText(shareContent.content + shareContent.url);
-                    params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                    params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
                     params.setUrl(shareContent.url);
                     Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
                     wechat.setPlatformActionListener(new InnerPlatformActionListener("微信"));
@@ -135,7 +131,7 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                             WechatMoments.ShareParams params = new WechatMoments.ShareParams();
                             params.setShareType(WechatMoments.SHARE_WEBPAGE);
                             params.setTitle(shareContent.content + shortUrl);
-                            params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                            params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
                             params.setUrl(shortUrl);
                             Platform wechatMoments = ShareSDK.getPlatform(WechatMoments.NAME);
                             wechatMoments.setPlatformActionListener(new InnerPlatformActionListener("微信朋友圈"));
@@ -146,7 +142,7 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                     WechatMoments.ShareParams params = new WechatMoments.ShareParams();
                     params.setShareType(WechatMoments.SHARE_WEBPAGE);
                     params.setTitle(shareContent.content + shareContent.url);
-                    params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                    params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
                     params.setUrl(shareContent.url);
                     Platform wechatMoments = ShareSDK.getPlatform(WechatMoments.NAME);
                     wechatMoments.setPlatformActionListener(new InnerPlatformActionListener("微信朋友圈"));
@@ -167,7 +163,7 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                         public void onSuccess(String shortUrl) {
                             QQ.ShareParams params = new QQ.ShareParams();
                             params.setTitle(mTitle);
-                            params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                            params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
                             params.setText(shareContent.content + shortUrl);
                             params.setTitleUrl(shortUrl);
                             Platform qq = ShareSDK.getPlatform(QQ.NAME);
@@ -178,7 +174,7 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                 } else {
                     QQ.ShareParams params = new QQ.ShareParams();
                     params.setTitle(mTitle);
-                    params.setImageUrl("http://kaku.wekaku.com/icon_share.png");
+                    params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
                     params.setText(shareContent.content + shareContent.url);
                     params.setTitleUrl(shareContent.url);
                     Platform qq = ShareSDK.getPlatform(QQ.NAME);

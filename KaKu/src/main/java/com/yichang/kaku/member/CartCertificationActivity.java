@@ -20,7 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -30,8 +30,7 @@ import com.yichang.kaku.tools.Base64Coder;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -206,7 +205,6 @@ public class CartCertificationActivity extends BaseActivity implements OnClickLi
             }
 
             Utils.NoNet(context);
-            showProgressDialog();
 
             MemberCartCertificationReq req = new MemberCartCertificationReq();
             req.code = "10029";
@@ -219,9 +217,10 @@ public class CartCertificationActivity extends BaseActivity implements OnClickLi
 
 
             req.image_no = transImgToString();
-            KaKuApiProvider.uploadCartCertificationInfo(req, new BaseCallback<MemberCartCertificationResp>(MemberCartCertificationResp.class) {
+            KaKuApiProvider.uploadCartCertificationInfo(req, new KakuResponseListener<MemberCartCertificationResp>(this, MemberCartCertificationResp.class) {
                 @Override
-                public void onSuccessful(int statusCode, Header[] headers, MemberCartCertificationResp t) {
+                public void onSucceed(int what, Response response) {
+                    super.onSucceed(what, response);
                     if (t != null) {
                         LogUtil.E("uploadCartCertificationInfo res: " + t.res);
                         if (Constants.RES.equals(t.res)) {
@@ -230,23 +229,11 @@ public class CartCertificationActivity extends BaseActivity implements OnClickLi
                             KaKuApplication.cartInfoIcon = null;
                             finish();
                         } else {
-                            if (Constants.RES_TEN.equals(t.res)){
-                                Utils.Exit(context);
-                                finish();
-                            }
                             LogUtil.showShortToast(context, t.msg);
                         }
                     }
-                    stopProgressDialog();
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                    stopProgressDialog();
                 }
             });
-
-
         } else if (R.id.tv_takephoto == id) {
             fecthFromCamear();
 

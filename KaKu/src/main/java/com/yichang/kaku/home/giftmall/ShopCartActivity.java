@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -26,8 +26,7 @@ import com.yichang.kaku.response.ShopCartProductsResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -144,9 +143,10 @@ public class ShopCartActivity extends BaseActivity implements OnClickListener, A
         req.code = "3005";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getShopCartProductsLst(req, new BaseCallback<ShopCartProductsResp>(ShopCartProductsResp.class) {
+        KaKuApiProvider.getShopCartProductsLst(req, new KakuResponseListener<ShopCartProductsResp>(this, ShopCartProductsResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ShopCartProductsResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getShopCartProductsLst res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -163,10 +163,6 @@ public class ShopCartActivity extends BaseActivity implements OnClickListener, A
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }

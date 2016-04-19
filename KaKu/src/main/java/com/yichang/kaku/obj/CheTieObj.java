@@ -20,6 +20,9 @@ public class CheTieObj implements Serializable {
 	private String total_earnings;
 	private String flag_type;
 	private String sales_percent;
+	private String flag_join;
+	private String flag_position;
+	private String flag_show;
 
 	public String getId_advert() {
 		return id_advert;
@@ -149,6 +152,30 @@ public class CheTieObj implements Serializable {
 		this.sales_percent = sales_percent;
 	}
 
+	public String getFlag_join() {
+		return flag_join;
+	}
+
+	public void setFlag_join(String flag_join) {
+		this.flag_join = flag_join;
+	}
+
+	public String getFlag_position() {
+		return flag_position;
+	}
+
+	public void setFlag_position(String flag_position) {
+		this.flag_position = flag_position;
+	}
+
+	public String getFlag_show() {
+		return flag_show;
+	}
+
+	public void setFlag_show(String flag_show) {
+		this.flag_show = flag_show;
+	}
+
 	@Override
 	public String toString() {
 		return "CheTieObj{" +
@@ -168,6 +195,9 @@ public class CheTieObj implements Serializable {
 				", total_earnings='" + total_earnings + '\'' +
 				", flag_type='" + flag_type + '\'' +
 				", sales_percent='" + sales_percent + '\'' +
+				", flag_join='" + flag_join + '\'' +
+				", flag_position='" + flag_position + '\'' +
+				", flag_show='" + flag_show + '\'' +
 				'}';
 	}
 }

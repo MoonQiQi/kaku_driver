@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.AddrObj;
@@ -25,8 +25,7 @@ import com.yichang.kaku.response.DeleteAddrResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.List;
 
@@ -106,7 +105,7 @@ public class AddrAdapter extends BaseAdapter {
                 LogUtil.E("上下文" + mContext);
                 builder.setTitle("提示");
                 builder.setMessage("确认删除？");
-                builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -114,11 +113,10 @@ public class AddrAdapter extends BaseAdapter {
 
                         Delete(obj.getId_addr(), position);
 
-
                     }
                 });
 
-                builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+                builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -181,13 +179,13 @@ public class AddrAdapter extends BaseAdapter {
 
     public void Delete(String id_addr, final int position) {
         Utils.NoNet(mContext);
-        showProgress.showDialog();
         DeleteAddrReq req = new DeleteAddrReq();
         req.code = "10016";
         req.id_addr = id_addr;
-        KaKuApiProvider.DeleteAddr(req, new BaseCallback<DeleteAddrResp>(DeleteAddrResp.class) {
+        KaKuApiProvider.DeleteAddr(req, new KakuResponseListener<DeleteAddrResp>(mContext, DeleteAddrResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DeleteAddrResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("deleteaddr res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -196,13 +194,8 @@ public class AddrAdapter extends BaseAdapter {
                     }
                     LogUtil.showShortToast(mContext, t.msg);
                 }
-                showProgress.stopDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                showProgress.stopDialog();
-            }
         });
     }
 
@@ -230,9 +223,10 @@ public class AddrAdapter extends BaseAdapter {
         req.code = "10017";
         req.id_addr = id_addr;
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.MorenAddr(req, new BaseCallback<AddrMorenResp>(AddrMorenResp.class) {
+        KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(mContext, AddrMorenResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AddrMorenResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("morenaddr res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -246,10 +240,6 @@ public class AddrAdapter extends BaseAdapter {
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 }

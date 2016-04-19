@@ -19,6 +19,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
+import com.yichang.kaku.view.WaitDialog;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class MyAskListActivity extends BaseActivity implements LoadMoreControlle
 
     private int curPage = 1;
     private LinearLayout rootView;
-
+    private WaitDialog waitDialog = new WaitDialog(context);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class MyAskListActivity extends BaseActivity implements LoadMoreControlle
 
     private void getData(final int page) {
         if (page == 1) {
-            showProgressDialog();
+            waitDialog.show();
         }
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
@@ -99,12 +100,12 @@ public class MyAskListActivity extends BaseActivity implements LoadMoreControlle
                         ++curPage;
                     }
                 }
-                stopProgressDialog();
+                waitDialog.dismiss();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
                 if (page != 1) {//表示加载更多
                     controller.updateState(LoadMoreController.STATE_FAIL);

@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -26,8 +26,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.Calendar;
 
@@ -96,38 +95,26 @@ public class MyCarDetailActivity extends BaseActivity implements OnClickListener
 
     private void getMyCarDetailInfo() {
         Utils.NoNet(this);
-        showProgressDialog();
 
         MyCarDetailReq req = new MyCarDetailReq();
         req.code = "20016";
         req.id_driver_car = id_driver_car;
         req.id_car = id_car;
 
-        KaKuApiProvider.getMyCarDetail(req, new BaseCallback<MyCarDetailResp>(MyCarDetailResp.class) {
+        KaKuApiProvider.getMyCarDetail(req, new KakuResponseListener<MyCarDetailResp>(this, MyCarDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MyCarDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-                    //LogUtil.E("getMyCarDetail res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
-
-
     }
 
     private void setData(MyCarDetailResp t) {
@@ -142,7 +129,7 @@ public class MyCarDetailActivity extends BaseActivity implements OnClickListener
         initTitleBar();
         showDate = (TextView) findViewById(R.id.showdate);
         pickDate = (RelativeLayout) findViewById(R.id.rela_buy_time);
-        pickDate.setOnClickListener(new View.OnClickListener() {
+        pickDate.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -246,50 +233,31 @@ public class MyCarDetailActivity extends BaseActivity implements OnClickListener
     }
 
     private void save() {
-        //LogUtil.showShortToast(this, "保存信息");
 
         Utils.NoNet(this);
-        showProgressDialog();
         CarDetailSubmitReq req = new CarDetailSubmitReq();
         req.code = "20015";
 //        todo  页面传递过来
         req.id_car = id_car;
         req.id_driver_car = id_driver_car;
-
         req.id_driver = Utils.getIdDriver();
-
         req.time_production = showDate.getText().toString().trim();
         req.travel_mileage = et_miles.getText().toString().trim();
 
-        KaKuApiProvider.submitMyCarDetail(req, new BaseCallback<CarDetailSubmitResp>(CarDetailSubmitResp.class) {
+        KaKuApiProvider.submitMyCarDetail(req, new KakuResponseListener<CarDetailSubmitResp>(this, CarDetailSubmitResp.class) {
                     @Override
-                    public void onSuccessful(int statusCode, Header[] headers, CarDetailSubmitResp t) {
+                    public void onSucceed(int what, Response response) {
+                        super.onSucceed(what, response);
                         if (t != null) {
                             LogUtil.E("savecar res: " + t.res);
                             if (Constants.RES.equals(t.res)) {
                                 finish();
                             } else {
-                                if (Constants.RES_TEN.equals(t.res)){
-                                    Utils.Exit(context);
-                                    finish();
-                                }
                                 LogUtil.showShortToast(context, t.msg);
                             }
                         }
-                        stopProgressDialog();
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String msg, Throwable
-                            error) {
-                        stopProgressDialog();
                     }
                 }
-
         );
-
-
     }
-
-
 }

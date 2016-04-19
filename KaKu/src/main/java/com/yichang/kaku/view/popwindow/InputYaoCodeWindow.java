@@ -1,4 +1,4 @@
-package com.yichang.kaku.view;
+package com.yichang.kaku.view.popwindow;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,23 +9,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.member.cash.SetWithDrawCodeActivity;
-import com.yichang.kaku.payhelper.wxpay.net.sourceforge.simcpux.MD5;
-import com.yichang.kaku.request.CheckWithDrawCodeReq;
-import com.yichang.kaku.response.BaseResp;
+import com.yichang.kaku.home.Ad.QiangImageActivity;
+import com.yichang.kaku.request.CheckCodeReq;
+import com.yichang.kaku.response.CheckCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
+import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
-
-public class InputPwdPopWindow extends PopupWindow {
+/**
+ * Created by xiaosu on 2015/12/3.
+ */
+public class InputYaoCodeWindow extends PopupWindow {
 
     private BaseActivity context;
 
@@ -33,7 +34,7 @@ public class InputPwdPopWindow extends PopupWindow {
     private final SecurityPasswordEditText sEdit;
 
 
-    public InputPwdPopWindow(final BaseActivity context) {
+    public InputYaoCodeWindow(final BaseActivity context) {
         super(context);
         this.context = context;
 
@@ -43,7 +44,7 @@ public class InputPwdPopWindow extends PopupWindow {
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
-        final View view = context.inflate(R.layout.layout_input_pwd_confirm);
+        final View view = context.inflate(R.layout.layout_input_yaocode_confirm);
         setContentView(view);
 
         LinearLayout ll_pwd_container= (LinearLayout) view.findViewById(R.id.ll_pwd_container);
@@ -71,18 +72,6 @@ public class InputPwdPopWindow extends PopupWindow {
             }
         });
 
-        TextView tv_forget_code = (TextView) view.findViewById(R.id.tv_forget_code);
-        tv_forget_code.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, SetWithDrawCodeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("isPassExist", true);
-                intent.putExtra("flag_next_activity", "CONFIRM_ORDER");
-                context.startActivity(intent);
-            }
-        });
-
     }
 
     public void show() {
@@ -91,30 +80,26 @@ public class InputPwdPopWindow extends PopupWindow {
 
     private void checkCode(final String code) {
         Utils.NoNet(context);
-        mListener.showDialog();
 
-
-        CheckWithDrawCodeReq req = new CheckWithDrawCodeReq();
-        req.code = "5008";
+        CheckCodeReq req = new CheckCodeReq();
+        req.code = "60013";
         req.id_driver = Utils.getIdDriver();
-        req.pay_pass = code;
-        req.sign = genAppSign(req.id_driver);
+        req.code_recommended = code;
 
-
-        KaKuApiProvider.checkWithDrawCode(req, new BaseCallback<BaseResp>(BaseResp.class) {
+        KaKuApiProvider.CheckCode(req, new KakuResponseListener<CheckCodeResp>(context, CheckCodeResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BaseResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-                    LogUtil.E("checkWithDrawCode res: " + t.res);
+                    LogUtil.E("checkcode res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
                         mListener.confirmPwd(true);
                         mListener.stopDialog();
+                        Intent intent = new Intent(context, QiangImageActivity.class);
+                        context.startActivity(intent);
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                        }
 
                         LogUtil.showShortToast(context, t.msg);
                         sEdit.clearSecurityEdit();
@@ -123,29 +108,8 @@ public class InputPwdPopWindow extends PopupWindow {
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                mListener.stopDialog();
-            }
         });
 
-
-    }
-
-    private String genAppSign(String id_driver) {
-        StringBuilder sb = new StringBuilder();
-        //拼接签名字符串
-        sb.append("id_driver=");
-        sb.append(id_driver);
-
-
-        sb.append("&key=");
-        sb.append(Constants.MSGKEY);
-        LogUtil.E("sb:" + sb);
-
-        String appSign1 = MD5.getMessageDigest(sb.toString().getBytes());
-        String appSign = MD5.getMessageDigest(appSign1.getBytes()).toUpperCase();
-        return appSign;
     }
 
     public interface ConfirmListener {
@@ -155,8 +119,6 @@ public class InputPwdPopWindow extends PopupWindow {
 
         void stopDialog();
     }
-
-    ;
 
     private ConfirmListener mListener;
 

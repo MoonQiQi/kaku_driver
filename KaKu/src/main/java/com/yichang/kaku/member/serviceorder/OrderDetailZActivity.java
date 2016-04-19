@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -18,8 +18,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class OrderDetailZActivity extends BaseActivity implements OnClickListener{
 
@@ -62,40 +61,35 @@ public class OrderDetailZActivity extends BaseActivity implements OnClickListene
 		if (R.id.tv_left == id) {
 			finish();
 		}else if (R.id.btn_Z_call == id){
-			Utils.Call(context,phone);
+			Utils.Call(context, phone);
 		}
 	}
 
 	public void FanXiuDetail(){
 		Utils.NoNet(context);
-		showProgressDialog();
 		FanXiuDetailReq req = new FanXiuDetailReq();
 		req.code = "40025";
 		req.id_order = KaKuApplication.id_orderZ;
-		KaKuApiProvider.FanXiuDetail(req, new BaseCallback<FanXiuDetailResp>(FanXiuDetailResp.class) {
+		KaKuApiProvider.FanXiuDetail(req, new KakuResponseListener<FanXiuDetailResp>(this, FanXiuDetailResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, FanXiuDetailResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("fanxiudetail res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
 						phone = t.repair.getTel_repair();
-						tv_Z_time.setText("申请时间："+t.repair.getTime_repair());
+						tv_Z_time.setText("申请时间：" + t.repair.getTime_repair());
 						tv_Z_fanxiushuoming.setText(t.repair.getDescribe_repair());
 						tv_Z_shouhoubianhao.setText(t.repair.getId_repair());
-						if (!"".equals(t.repair.getImage_repair())){
-							BitmapUtil.getInstance(context).download(iv_Z_image,KaKuApplication.qian_zhui+t.repair.getImage_repair());
+						if (!"".equals(t.repair.getImage_repair())) {
+							BitmapUtil.getInstance(context).download(iv_Z_image, KaKuApplication.qian_zhui + t.repair.getImage_repair());
 						}
 					} else {
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 

@@ -14,8 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -29,10 +30,11 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.DensityUtils;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.widget.InputYaoCodeWindow;
+import com.yichang.kaku.view.popwindow.InputYaoCodeWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
+import java.text.DecimalFormat;
 
 public class CheTieDetailActivity extends BaseActivity implements OnClickListener{
 	
@@ -118,6 +120,7 @@ public class CheTieDetailActivity extends BaseActivity implements OnClickListene
 		} else if (R.id.line_chetiedetail_call == id){
 			Utils.Call(this,phone);
 		} else if (R.id.tv_chetiedetail_pay == id){
+			MobclickAgent.onEvent(context, "CheTieJieSuan");
 			if (TextUtils.equals(flag_reco,"Y")){
 				//弹邀请码框
 				showPwdInputWindow();
@@ -146,9 +149,10 @@ public class CheTieDetailActivity extends BaseActivity implements OnClickListene
 		req.code = "60032";
 		req.id_driver = Utils.getIdDriver();
 		req.id_advert = KaKuApplication.id_advert;
-		KaKuApiProvider.getCheTieDetail(req, new BaseCallback<GetCheTieDetailResp>(GetCheTieDetailResp.class) {
+		KaKuApiProvider.getCheTieDetail(req, new KakuResponseListener<GetCheTieDetailResp>(this,GetCheTieDetailResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, GetCheTieDetailResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("getchetiedetail res: " + t.res);
 					LogUtil.E("flag_reco res: " + t.flag_reco);
@@ -164,12 +168,12 @@ public class CheTieDetailActivity extends BaseActivity implements OnClickListene
 						double youhui = Double.parseDouble(t.advert.getBreaks_money());
 
 						if (TextUtils.equals(t.advert.getBreaks_money(),"0")){
-							string_money = "购买价 ¥"+(yuanjia - youhui);
+							string_money = "购买价 ¥"+new DecimalFormat("#0.00").format((yuanjia - youhui));
 						} else {
-							string_money = "首贴价 ¥"+(yuanjia - youhui);
+							string_money = "首贴价 ¥"+new DecimalFormat("#0.00").format((yuanjia - youhui));
 						}
 						SpannableStringBuilder style = new SpannableStringBuilder(string_money);
-						style.setSpan(new AbsoluteSizeSpan(18, true), 3, string_money.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						style.setSpan(new AbsoluteSizeSpan(18, true), string_money.length()-5, string_money.length()-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						tv_chetiedetail_shoutiejia.setText(style);
 
 						tv_chetiedetail_price.setText("价格："+t.advert.getPrice_advert());
@@ -212,18 +216,9 @@ public class CheTieDetailActivity extends BaseActivity implements OnClickListene
 						productDetailSlidingMenu.setWebUrl(t.advert.getUrl_advert());
 
 					}  else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
 				stopProgressDialog();
 			}
 		});

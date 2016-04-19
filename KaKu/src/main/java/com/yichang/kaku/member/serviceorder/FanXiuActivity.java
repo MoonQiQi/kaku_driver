@@ -292,7 +292,7 @@ public class FanXiuActivity extends BaseActivity implements OnClickListener{
 
 			public void run() {
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				if ("".equals(KaKuApplication.picture_fanxiu)||KaKuApplication.picture_fanxiu == null) {
+				if ("".equals(KaKuApplication.picture_fanxiu)|| KaKuApplication.picture_fanxiu == null) {
 					file = "";
 				} else {
 					KaKuApplication.picture_fanxiu.compress(Bitmap.CompressFormat.JPEG, 60, stream);
@@ -307,7 +307,7 @@ public class FanXiuActivity extends BaseActivity implements OnClickListener{
 				formparams.add(new BasicNameValuePair("id_order", KaKuApplication.fanxiu_order));
 				formparams.add(new BasicNameValuePair("describe_repair", String.valueOf(et_fanxiu.getText().toString().trim())));
 				formparams.add(new BasicNameValuePair("image_repair", file));
-				LogUtil.E("----"+formparams.toString());
+				LogUtil.E("----" + formparams.toString());
 				HttpPost post = new HttpPost(UrlCtnt.BASEIP);
 				UrlEncodedFormEntity entity;
 				try {
@@ -320,12 +320,12 @@ public class FanXiuActivity extends BaseActivity implements OnClickListener{
 					post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 					post.setEntity(entity);
 					HttpResponse response = client.execute(post);
-					LogUtil.E("statuscode:"+response.getStatusLine().getStatusCode());
+					LogUtil.E("statuscode:" + response.getStatusLine().getStatusCode());
 					String json = EntityUtils.toString(response.getEntity());
 					JSONObject object = new JSONObject(json);
 					String res = object.getString("res");
 					String msg = object.getString("msg");
-					LogUtil.E("json:"+json);
+					LogUtil.E("json:" + json);
 
 					Message message = new Message();
 					if (200 == response.getStatusLine().getStatusCode()) {
@@ -343,7 +343,7 @@ public class FanXiuActivity extends BaseActivity implements OnClickListener{
 					}
 					GoToOrderList();
 				} catch (Exception e) {
-					LogUtil.E("上传失败"+e.toString());
+					LogUtil.E("上传失败" + e.toString());
 					e.printStackTrace();
 				}
 			}

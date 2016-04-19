@@ -159,7 +159,7 @@ public class LookLocationActivity extends BaseActivity implements OnClickListene
                 tv.setText("上门位置");
                 InfoWindow mInfoWindow = new InfoWindow(tv, ll, -47);
                 //InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(tv), ll, -47, null);
-                tv.setOnClickListener(new View.OnClickListener() {
+                tv.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                     }

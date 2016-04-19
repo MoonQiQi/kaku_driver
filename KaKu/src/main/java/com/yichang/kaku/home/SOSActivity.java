@@ -28,7 +28,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.Shops_wxzObj;
@@ -37,8 +37,7 @@ import com.yichang.kaku.response.SOSResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,9 +180,10 @@ public class SOSActivity extends BaseActivity implements OnClickListener{
 		req.lon = Utils.getLon();
 		req.start = "0";
 		req.len = "20";
-		KaKuApiProvider.SOS(req, new BaseCallback<SOSResp>(SOSResp.class) {
+		KaKuApiProvider.SOS(req, new KakuResponseListener<SOSResp>(this,SOSResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, SOSResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("sos res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -192,62 +192,55 @@ public class SOSActivity extends BaseActivity implements OnClickListener{
 						phone_brand = t.mobile_brand;
 						initOverlay(list_map);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
 			}
 		});
 	}
 
 	public void initOverlay(final List<Shops_wxzObj> list) {
 
-		for (int i = 0 ; i < list.size() ; i++){
-			LatLng latlng = new LatLng(Double.parseDouble(list.get(i).getVar_lat()),Double.parseDouble(list.get(i).getVar_lon()));
-			OverlayOptions oo = new MarkerOptions().position(latlng).icon(bd).zIndex(5);
-			Marker mMarker = (Marker) (mBaiduMap.addOverlay(oo));
-			mMarker.setTitle(list.get(i).getName_shop());
+		for (int i = 0 ; i < list.size() ; i++) {
+			if (!"".equals(list.get(i).getVar_lat())) {
+				LatLng latlng = new LatLng(Double.parseDouble(list.get(i).getVar_lat()), Double.parseDouble(list.get(i).getVar_lon()));
+				OverlayOptions oo = new MarkerOptions().position(latlng).icon(bd).zIndex(5);
+				Marker mMarker = (Marker) (mBaiduMap.addOverlay(oo));
+				mMarker.setTitle(list.get(i).getName_shop());
 
-			mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-				public boolean onMarkerClick(final Marker marker) {
+				mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+					public boolean onMarkerClick(final Marker marker) {
 
-					LatLng ll = marker.getPosition();
-					TextView tv = new TextView(SOSActivity.this);
-					tv.setTextColor(Color.WHITE);
-					tv.setPadding(20, 10, 20, 10);
-					tv.setGravity(Gravity.CENTER_VERTICAL);
-					tv.setBackgroundColor(Color.argb(80, 0, 0, 0));
-					tv.setText(marker.getTitle());
-					Drawable drawable= getResources().getDrawable(R.drawable.bg_jiuyuan);
-					drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-					tv.setCompoundDrawables(null,null,drawable,null);
-					tv.setCompoundDrawablePadding(20);
-					InfoWindow mInfoWindow = new InfoWindow(tv,ll,-47);
-					tv.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							String title = marker.getTitle();
-							for (int j = 0 ;j < list.size() ;j++){
-								if (title.equals(list.get(j).getName_shop())){
-									Utils.Call(SOSActivity.this,list.get(j).getMobile_shop());
+						LatLng ll = marker.getPosition();
+						TextView tv = new TextView(SOSActivity.this);
+						tv.setTextColor(Color.WHITE);
+						tv.setPadding(20, 10, 20, 10);
+						tv.setGravity(Gravity.CENTER_VERTICAL);
+						tv.setBackgroundColor(Color.argb(80, 0, 0, 0));
+						tv.setText(marker.getTitle());
+						Drawable drawable = getResources().getDrawable(R.drawable.bg_jiuyuan);
+						drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+						tv.setCompoundDrawables(null, null, drawable, null);
+						tv.setCompoundDrawablePadding(20);
+						InfoWindow mInfoWindow = new InfoWindow(tv, ll, -47);
+						tv.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								String title = marker.getTitle();
+								for (int j = 0; j < list.size(); j++) {
+									if (title.equals(list.get(j).getName_shop())) {
+										Utils.Call(SOSActivity.this, list.get(j).getMobile_shop());
+									}
 								}
 							}
-						}
-					});
-					mBaiduMap.showInfoWindow(mInfoWindow);
-					return true;
-				}
-			});
-		}
+						});
+						mBaiduMap.showInfoWindow(mInfoWindow);
+						return true;
+					}
+				});
+			}
 
+		}
 	}
 
 }

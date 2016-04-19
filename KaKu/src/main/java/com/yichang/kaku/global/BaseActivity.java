@@ -22,6 +22,7 @@ public class BaseActivity extends FragmentActivity {
     public static boolean flag_base = false;
 
     private DialogRequestProgress progressDialog;// loading对话框
+    //private WaitDialog progressDialog;// loading对话框
 
 
     @Override
@@ -35,25 +36,32 @@ public class BaseActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        //Bugtags.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        //Bugtags.onPause(this);
     }
 
     /**
      * 显示请求dialog
      */
     public void showProgressDialog() {
-        if (null == progressDialog) {
-            progressDialog = new DialogRequestProgress(this);
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
+
+        if (!isFinishing()) {
+
+            if (null == progressDialog) {
+                progressDialog = new DialogRequestProgress(this);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setCancelable(false);
+            }
+
         }
+
+        getWindow().getDecorView().postDelayed(new DismassDialogTask(progressDialog), 20000);
+
+        progressDialog.show();
 
         getWindow().getDecorView().postDelayed(new DismassDialogTask(progressDialog), 20000);
 
@@ -76,8 +84,9 @@ public class BaseActivity extends FragmentActivity {
 
     @Override
     public void finish() {
-        if (progressDialog!=null){
-            stopProgressDialog();
+        if (progressDialog != null) {
+            if (!isFinishing())
+                stopProgressDialog();
         }
         super.finish();
     }
@@ -146,7 +155,6 @@ public class BaseActivity extends FragmentActivity {
             }
         }
 
-        //Bugtags.onDispatchTouchEvent(this, ev);
         return super.dispatchTouchEvent(ev);
     }
 
@@ -179,6 +187,7 @@ public class BaseActivity extends FragmentActivity {
 
     /**
      * 获取InputMethodManager，隐藏软键盘
+     *
      * @param token
      */
     private void hideKeyboard(IBinder token) {

@@ -1,4 +1,4 @@
-package com.yichang.kaku.view.widget;
+package com.yichang.kaku.view.popwindow;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -13,18 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.logistics.LineGridView;
-import com.yichang.kaku.logistics.province.CityAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.request.AreaReq;
 import com.yichang.kaku.response.AreaResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yichang.kaku.zhaohuo.LineGridView;
+import com.yichang.kaku.zhaohuo.province.CityAdapter;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,13 +125,14 @@ public class AreaPopWindow extends PopupWindow {
 
     }
 
-    public void GetProvince(){
+    public void GetProvince() {
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = "0";
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(context,AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -147,24 +147,19 @@ public class AreaPopWindow extends PopupWindow {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
             }
         });
     }
 
-    public void GetCity(String id_province){
+    public void GetCity(String id_province) {
         Utils.NoNet(context);
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_province;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(context,AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -178,24 +173,19 @@ public class AreaPopWindow extends PopupWindow {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
             }
         });
     }
 
-    public void GetCounty(String id_city){
+    public void GetCounty(String id_city) {
         Utils.NoNet(context);
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = id_city;
-        KaKuApiProvider.Area(req, new BaseCallback<AreaResp>(AreaResp.class) {
+        KaKuApiProvider.Area(req, new KakuResponseListener<AreaResp>(context,AreaResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AreaResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("area res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -209,11 +199,6 @@ public class AreaPopWindow extends PopupWindow {
                     }
                 }
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 
@@ -222,7 +207,6 @@ public class AreaPopWindow extends PopupWindow {
     }
 
     ;public interface ShowPopWindowCallBack{
-        void show();
         void close(String sName,String mId);
     }
 

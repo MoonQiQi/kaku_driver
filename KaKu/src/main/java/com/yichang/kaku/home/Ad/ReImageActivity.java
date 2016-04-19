@@ -12,6 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,25 +25,27 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.QiNiuYunTokenReq;
+import com.yichang.kaku.request.UploadCheTieImageReq;
 import com.yichang.kaku.request.UploadImageReq;
+import com.yichang.kaku.response.ExitResp;
+import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.QiNiuYunTokenResp;
 import com.yichang.kaku.response.UploadImageResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ReImageActivity extends BaseActivity implements OnClickListener {
 
@@ -50,25 +53,17 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
     private TextView tv_adimage_yuanyin;
     private ImageView iv_adimage_1, iv_adimage_2, iv_adimage_3, iv_adimage_12, iv_adimage_22, iv_adimage_32;
     private Button btn_adimage_tijiao;
-    // 创建一个以当前时间为名称的文件
-    private File dataFile;
-    private File photoFile;
-    private boolean isTAKEPHOTO = false;
     private final int CAMERA_WITH_DATA = 2;//拍照
     private final int CROP_RESULT_CODE = 3;//结果
     private Bitmap photo1, photo2, photo3;
-    private Map<Integer, Bitmap> bmpMap = new HashMap<>();
-    private String imagePath;
-    private int mAdapterIndex;
-    private TextView tv_takephoto, tv_myphoto, tv_exitphoto;
     private int anInt;
+    private String reason;
     private String image0_advert;
     private String image1_advert;
     private String image2_advert;
     private String image0_approve;
     private String image1_approve;
     private String image2_approve;
-    private Bundle bundle;
     private RelativeLayout rela_image1, rela_image2, rela_image3;
     public static final String TMP_PATH1 = "clip_temp4.jpg";
     public static final String TMP_PATH2 = "clip_temp5.jpg";
@@ -78,6 +73,7 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
     public String key1 = "",key2 = "",key3 = "";
     public String path1,path2,path3;
     private int count = 0;
+    private String flag_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +94,6 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
         right.setText("联系客服");
         right.setOnClickListener(this);
         tv_adimage_yuanyin = (TextView) findViewById(R.id.tv_adimage_yuanyin);
-        String string = "原因：" + KaKuApplication.reason_upload;
-        SpannableStringBuilder style = new SpannableStringBuilder(string);
-        style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_red)), 3, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_adimage_yuanyin.setText(style);
-        tv_adimage_yuanyin.setVisibility(View.VISIBLE);
         iv_adimage_1 = (ImageView) findViewById(R.id.iv_adimage_11);
         iv_adimage_12 = (ImageView) findViewById(R.id.iv_adimage_12);
         iv_adimage_1.setOnClickListener(this);
@@ -118,18 +109,9 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
         rela_image1.setOnClickListener(this);
         rela_image2.setOnClickListener(this);
         rela_image3.setOnClickListener(this);
-        Intent intent = getIntent();
-        bundle = intent.getExtras();
-        image0_advert = bundle.getString("image0_advert");
-        image1_advert = bundle.getString("image1_advert");
-        image2_advert = bundle.getString("image2_advert");
-        image0_approve = bundle.getString("image0_approve");
-        image1_approve = bundle.getString("image1_approve");
-        image2_approve = bundle.getString("image2_approve");
-
-        BitmapUtil.getInstance(context).download(iv_adimage_1, KaKuApplication.qian_zhuikong + image0_advert);
-        BitmapUtil.getInstance(context).download(iv_adimage_2, KaKuApplication.qian_zhuikong + image1_advert);
-        BitmapUtil.getInstance(context).download(iv_adimage_3, KaKuApplication.qian_zhuikong + image2_advert);
+        btn_adimage_tijiao = (Button) findViewById(R.id.btn_adimage_tijiao);
+        btn_adimage_tijiao.setOnClickListener(this);
+        btn_adimage_tijiao.setEnabled(true);
 
         DisplayMetrics outMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
@@ -137,14 +119,22 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(anInt, anInt);
         LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(anInt, anInt);
         LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(anInt, anInt);
-        params1.setMargins(10,10,5,0);
-        params2.setMargins(5,10,5,0);
-        params3.setMargins(5,10,10,0);
+        params1.setMargins(10, 10, 5, 0);
+        params2.setMargins(5, 10, 5, 0);
+        params3.setMargins(5, 10, 10, 0);
         rela_image1.setLayoutParams(params1);
         rela_image2.setLayoutParams(params2);
         rela_image3.setLayoutParams(params3);
-        btn_adimage_tijiao = (Button) findViewById(R.id.btn_adimage_tijiao);
-        btn_adimage_tijiao.setOnClickListener(this);
+
+        GetAdd();
+
+    }
+
+    public void SetText(){
+
+        BitmapUtil.getInstance(context).download(iv_adimage_1, KaKuApplication.qian_zhuikong + image0_advert);
+        BitmapUtil.getInstance(context).download(iv_adimage_2, KaKuApplication.qian_zhuikong + image1_advert);
+        BitmapUtil.getInstance(context).download(iv_adimage_3, KaKuApplication.qian_zhuikong + image2_advert);
 
         if (TextUtils.equals(image0_approve, "N")) {
             iv_adimage_1.setEnabled(false);
@@ -171,6 +161,44 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
             iv_adimage_32.setBackgroundResource(R.drawable.chongxinshangchuan);
         }
         application = (KaKuApplication) getApplication();
+        SpannableStringBuilder style = new SpannableStringBuilder(reason);
+        style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_red)), 3, reason.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_adimage_yuanyin.setText(style);
+        tv_adimage_yuanyin.setVisibility(View.VISIBLE);
+    }
+
+    public void GetAdd() {
+        showProgressDialog();
+        GetAddReq req = new GetAddReq();
+        req.code = "60011";
+        req.id_driver = Utils.getIdDriver();
+        req.id_advert = KaKuApplication.id_advert;
+        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(this, GetAddResp.class) {
+
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("getadd res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        KaKuApplication.id_advert = t.advert.getId_advert();
+                        flag_type = t.advert.getFlag_type();
+                        image0_advert = t.advert.getImage0_advert();
+                        image1_advert = t.advert.getImage1_advert();
+                        image2_advert = t.advert.getImage2_advert();
+                        image0_approve = t.advert.getImage0_approve();
+                        image1_approve = t.advert.getImage1_approve();
+                        image2_approve = t.advert.getImage2_approve();
+                        reason = "原因：" + t.advert.getApprove_opinions();
+                        SetText();
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+
+        });
     }
 
     @Override
@@ -181,7 +209,7 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
-            finish();
+            GoAdd();
         } else if (R.id.tv_right == id) {
             Utils.Call(context, "400-6867585");
         } else if (R.id.iv_adimage_11 == id || R.id.iv_adimage_21 == id  || R.id.iv_adimage_31 == id) {
@@ -202,19 +230,8 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
                         return;
                     }
                 }
-                if (TextUtils.equals(image1_approve, "Y")) {
-                    if ("".equals(KaKuApplication.ImageZuo) || KaKuApplication.ImageZuo == null) {
-                        LogUtil.showShortToast(context, "必须上传左侧照才可提交");
-                        return;
-                    }
-                }
-                if (TextUtils.equals(image2_approve, "Y")) {
-                    if ("".equals(KaKuApplication.ImageYou) || KaKuApplication.ImageYou == null) {
-                        LogUtil.showShortToast(context, "必须上传右侧照才可提交");
-                        return;
-                    }
-                }
-            application.startTrace(context,Utils.getPhone());
+
+            //application.startTrace(context,Utils.getPhone());
             if (TextUtils.equals(image0_approve, "Y")) {
                 QiNiuYunToken("1");
             }
@@ -224,6 +241,8 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
             if (TextUtils.equals(image2_approve, "Y")) {
                 QiNiuYunToken("3");
             }
+
+            btn_adimage_tijiao.setEnabled(false);
         }
     }
 
@@ -262,18 +281,6 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
                     KaKuApplication.ImageZhong = photo1;
                     iv_adimage_12.setBackgroundResource(0);
                     iv_adimage_1.setImageBitmap(photo1);
-                } else if ("zuo".equals(KaKuApplication.flag_image)) {
-                    path2 = data.getStringExtra(ClipImageActivity.RESULT_PATH);
-                    photo2 = BitmapFactory.decodeFile(path2);
-                    KaKuApplication.ImageZuo = photo2;
-                    iv_adimage_22.setBackgroundResource(0);
-                    iv_adimage_2.setImageBitmap(photo2);
-                } else if ("you".equals(KaKuApplication.flag_image)) {
-                    path3 = data.getStringExtra(ClipImageActivity.RESULT_PATH);
-                    photo3 = BitmapFactory.decodeFile(path3);
-                    KaKuApplication.ImageYou = photo3;
-                    iv_adimage_32.setBackgroundResource(0);
-                    iv_adimage_3.setImageBitmap(photo3);
                 }
                 break;
 
@@ -300,19 +307,18 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         KaKuApplication.ImageZhong = null;
-        KaKuApplication.ImageZuo = null;
-        KaKuApplication.ImageYou = null;
     }
 
     public void QiNiuYunToken(final String sort) {
-        showProgressDialog();
+        Utils.NoNet(context);
         QiNiuYunTokenReq req = new QiNiuYunTokenReq();
         req.code = "qn01";
         req.sort = sort;
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.QiNiuYunToken(req, new BaseCallback<QiNiuYunTokenResp>(QiNiuYunTokenResp.class) {
+        KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this,QiNiuYunTokenResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, QiNiuYunTokenResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("qiniuyuntoken res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -331,19 +337,11 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
                         }
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 
@@ -380,44 +378,131 @@ public class ReImageActivity extends BaseActivity implements OnClickListener {
     public void IsThree(){
         num++;
         if (num == count){
-            Upload();
+            if ("60020".equals(KaKuApplication.flag_code)){
+                Upload2();
+            } else {
+                Upload();
+            }
         }
     }
 
     public void Upload(){
+        Utils.NoNet(context);
+        showProgressDialog();
         UploadImageReq req = new UploadImageReq();
         req.code = "60018";
-        req.id_advert = "1";
+        req.id_advert = KaKuApplication.id_advert;
         req.id_driver = Utils.getIdDriver();
         req.image0_advert = key1;
-        req.image1_advert = key2;
-        req.image2_advert = key3;
         req.var_lat = Utils.getLat();
         req.var_lon = Utils.getLon();
-        KaKuApiProvider.uploadImage(req, new BaseCallback<UploadImageResp>(UploadImageResp.class) {
+        KaKuApiProvider.uploadImage(req, new KakuResponseListener<UploadImageResp>(this,UploadImageResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, UploadImageResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("uploadimage res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        startActivity(new Intent(context, ImageHistoryActivity.class));
-                        finish();
+                        GoAdd();
                     }  else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                btn_adimage_tijiao.setEnabled(true);
+                stopProgressDialog();
+            }
+        });
+    }
+
+    public void GoAdd(){
+        showProgressDialog();
+        GetAddReq req = new GetAddReq();
+        req.code = "60011";
+        req.id_driver = Utils.getIdDriver();
+        req.id_advert = KaKuApplication.id_advert;
+        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(this,GetAddResp.class) {
+
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("getadd res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        KaKuApplication.id_advert = t.advert.getId_advert();
+                        GoToAdd(t.advert.getFlag_type());
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
 
+        });
+    }
+
+    public void GoToAdd(String flag_type){
+        Intent intent = new Intent();
+        LogUtil.E("flag:"+flag_type);
+        if ("N".equals(flag_type)){
+            intent.setClass(context,Add_NActivity.class);
+        } else if ("Y".equals(flag_type)){
+            intent.setClass(context,Add_YActivity.class);
+        } else if ("E".equals(flag_type)){
+            intent.setClass(context,Add_EActivity.class);
+        } else if ("I".equals(flag_type)){
+            intent.setClass(context,Add_IActivity.class);
+        } else if ("F".equals(flag_type)){
+            intent.setClass(context,Add_FActivity.class);
+        } else if ("P".equals(flag_type)){
+            intent.setClass(context,Add_PActivity.class);
+        } else if ("A".equals(flag_type)){
+            intent.setClass(context,CheTieListActivity.class);
+        } else if ("M".equals(flag_type)){
+            intent.setClass(context,Add_MActivity.class);
+        }
+        startActivity(intent);
+        finish();
+    }
+
+    public void Upload2(){
+        Utils.NoNet(context);
+        showProgressDialog();
+        UploadCheTieImageReq req = new UploadCheTieImageReq();
+        req.code = "60020";
+        req.flag_recommended = KaKuApplication.flag_recommended;
+        req.image0_advert = key1;
+        req.image1_advert = key2;
+        req.image2_advert = key3;
+        req.image_license = "";
+        req.var_lat = Utils.getLat();
+        req.var_lon = Utils.getLon();
+        req.id_advert = KaKuApplication.id_advert;
+        KaKuApiProvider.uploadCheTieImage(req, new KakuResponseListener<ExitResp>(this, ExitResp.class) {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("uploadimage res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        GoAdd();
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
                 stopProgressDialog();
             }
+
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK )
+        {
+           GoAdd();
+        }
+        return false;
     }
 
 }

@@ -13,14 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.callback.ShareContentCustomizeDemo;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.DiscoveryItemObj;
 import com.yichang.kaku.request.DiscoveryAddFavorReq;
+import com.yichang.kaku.request.DiscoveryCancelFavorReq;
 import com.yichang.kaku.request.DiscoveryShareReq;
 import com.yichang.kaku.response.DiscoveryAddFavorResp;
 import com.yichang.kaku.response.DiscoveryShareResp;
@@ -28,9 +28,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.List;
 
@@ -122,7 +120,7 @@ public class DiscoveryAdapter extends BaseAdapter {
 
         String image = KaKuApplication.qian_zhui + list.get(position).getThumbnail_news();
         flag = list.get(position).getIs_collection();
-        LogUtil.E("flag:" + flag);
+        LogUtil.E("AAAAAA"+list.get(0).getIs_collection());
         BitmapUtil.getInstance(mContext).download(holder.iv_discovery_image, image);
         if ("Y".equals(flag)) {
             holder.iv_discoveryitem_shoucang.setImageResource(R.drawable.btn_discovery_favor_red);
@@ -156,6 +154,7 @@ public class DiscoveryAdapter extends BaseAdapter {
                     list.get(position).setNum_collection(str_shoucang);
                     list.get(position).setIs_collection("N");
                     code = "7005";
+                    cancleFavor(id_news);
 
                 } else {
                     holder.iv_discoveryitem_shoucang.setImageResource(R.drawable.btn_discovery_favor_red);
@@ -166,8 +165,9 @@ public class DiscoveryAdapter extends BaseAdapter {
                     list.get(position).setNum_collection(str_shoucang);
                     list.get(position).setIs_collection("Y");
                     code = "7004";
+                    addFavor(id_news);
                 }
-                addFavor(code, id_news);
+
                 notifyDataSetChanged();
             }
         });
@@ -248,29 +248,41 @@ public class DiscoveryAdapter extends BaseAdapter {
         private Boolean isClickable = true;
     }
 
-    public void addFavor(String code, String id_news) {
+    public void addFavor(String id_news) {
 
         DiscoveryAddFavorReq req = new DiscoveryAddFavorReq();
-        req.code = code;
-        req.id_driver = Utils.getIdDriver();
+        req.code = "7004";
         req.id_news = id_news;
-        KaKuApiProvider.addDiscoveryFavor(req, new BaseCallback<DiscoveryAddFavorResp>(DiscoveryAddFavorResp.class) {
+        KaKuApiProvider.addDiscoveryFavor(req, new KakuResponseListener<DiscoveryAddFavorResp>(mContext, DiscoveryAddFavorResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers,
-                                     DiscoveryAddFavorResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 if (t != null) {
                     LogUtil.E("shoucang res: " + t.res);
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
+        });
+    }
 
+    public void cancleFavor(String id_news) {
+
+        DiscoveryCancelFavorReq req = new DiscoveryCancelFavorReq();
+        req.code = "7005";
+        req.id_news = id_news;
+        KaKuApiProvider.cancelDiscoveryFavor(req, new KakuResponseListener<DiscoveryAddFavorResp>(mContext, DiscoveryAddFavorResp.class) {
+
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                // TODO Auto-generated method stub
+                if (t != null) {
+                    LogUtil.E("quxiaoshoucang res: " + t.res);
+                }
             }
+
         });
     }
 
@@ -278,11 +290,11 @@ public class DiscoveryAdapter extends BaseAdapter {
         DiscoveryShareReq req = new DiscoveryShareReq();
         req.code = "7008";
         req.id_news = id_whiff;
-        KaKuApiProvider.getShareInfos(req, new BaseCallback<DiscoveryShareResp>(DiscoveryShareResp.class) {
+        KaKuApiProvider.getShareInfos(req, new KakuResponseListener<DiscoveryShareResp>(mContext, DiscoveryShareResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers,
-                                     DiscoveryShareResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 if (t != null) {
                     LogUtil.E("getshare res: " + t.res);
@@ -296,11 +308,6 @@ public class DiscoveryAdapter extends BaseAdapter {
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-            }
         });
     }
 

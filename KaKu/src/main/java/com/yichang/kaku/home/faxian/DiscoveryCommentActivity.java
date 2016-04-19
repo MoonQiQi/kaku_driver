@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -35,8 +35,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -185,10 +184,11 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
         req.id_news = KaKuApplication.discoveryId;
-        KaKuApiProvider.getDiscoveryCommentsList(req, new BaseCallback<DiscoveryCommentsResp>(DiscoveryCommentsResp.class) {
+        KaKuApiProvider.getDiscoveryCommentsList(req, new KakuResponseListener<DiscoveryCommentsResp>(this, DiscoveryCommentsResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DiscoveryCommentsResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 stopProgressDialog();
                 if (t != null) {
@@ -206,12 +206,6 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-                stopProgressDialog();
-            }
         });
     }
 
@@ -304,11 +298,11 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         req.id_driver = Utils.getIdDriver();
         req.id_news = KaKuApplication.discoveryId;
         req.content_comment = strComment;
-        KaKuApiProvider.sendDiscoveryComment(req, new BaseCallback<DiscoveryCommentSendResp>(DiscoveryCommentSendResp.class) {
+        KaKuApiProvider.sendDiscoveryComment(req, new KakuResponseListener<DiscoveryCommentSendResp>(this, DiscoveryCommentSendResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers,
-                                     DiscoveryCommentSendResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 if (t != null) {
                     if (Constants.RES.equals(t.res)) {
@@ -330,12 +324,6 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-                stopProgressDialog();
-            }
         });
     }
 

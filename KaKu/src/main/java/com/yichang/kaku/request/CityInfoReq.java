@@ -5,6 +5,4 @@ package com.yichang.kaku.request;
  */
 public class CityInfoReq extends BaseReq {
 
-    //public String code = "9001";
-
 }

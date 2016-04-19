@@ -3,27 +3,22 @@ package com.yichang.kaku.member.settings;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.member.driver.MsgAdapter;
-import com.yichang.kaku.obj.MemberMsgObj;
 import com.yichang.kaku.obj.SuggestionObj;
 import com.yichang.kaku.request.GetSuggestionReq;
 import com.yichang.kaku.response.GetSuggestionResp;
-import com.yichang.kaku.response.SubmitSuggestionResp;
 import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,39 +80,29 @@ public class CommentListActivity extends BaseActivity implements OnClickListener
     private void getSuggestions(int pageindex, int pagesize) {
 
         Utils.NoNet(context);
-        showProgressDialog();
-
 
         GetSuggestionReq req=new GetSuggestionReq();
         req.code="10031";
-        req.id_driver=Utils.getIdDriver();
+        req.id_driver= Utils.getIdDriver();
         req.start = String.valueOf(pageindex);
         req.len = String.valueOf(pagesize);
 
-        KaKuApiProvider.getSuggestions(req, new BaseCallback<GetSuggestionResp>(GetSuggestionResp.class) {
+        KaKuApiProvider.getSuggestions(req, new KakuResponseListener<GetSuggestionResp>(this, GetSuggestionResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, GetSuggestionResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getSuggestions res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         /*xListView.setAdapter(new CommentListAdapter(context, t.suggests));*/
                         setData(t.suggests);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -125,8 +110,6 @@ public class CommentListActivity extends BaseActivity implements OnClickListener
         if (notices != null) {
             list.addAll(notices);
         }
-
-
 
         CommentListAdapter adapter = new CommentListAdapter(this, list);
         xListView.setAdapter(adapter);

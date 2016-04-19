@@ -16,8 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -26,14 +27,15 @@ import com.yichang.kaku.member.cash.SetWithDrawCodeActivity;
 import com.yichang.kaku.obj.Addr2Obj;
 import com.yichang.kaku.payhelper.alipay.AlipayCallBackActivity;
 import com.yichang.kaku.request.GenerateStickerOrderReq;
+import com.yichang.kaku.request.GetCheTieDetailReq;
 import com.yichang.kaku.response.GenerateStickerOrderResp;
+import com.yichang.kaku.response.GetCheTieDetailResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.InputPwdPopWindow;
+import com.yichang.kaku.view.popwindow.InputPwdPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.text.DecimalFormat;
 
@@ -114,7 +116,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_order);
-        init();
     }
 
     private void init() {
@@ -138,7 +139,7 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
 
         //获取订单数据
-        getOrderInfo();
+        GetCheTieDetail();
     }
 
     private void initProductInfo() {
@@ -230,19 +231,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     }
 
     private void getOrderInfo() {
-
-        /*bundle = getIntent().getExtras();
-        fMoneyBalance = Float.parseFloat(bundle.getString("money_balance"));
-        isMulti = "N".equals(bundle.getString("flag_one")) ? true : false;
-        hasSetPwd = "N".equals(bundle.getString("flag_pay")) ? true : false;
-        mAddr = (Addr2Obj) bundle.get("addr");
-
-        fPriceProduct = Float.parseFloat(bundle.getString("price_advert"));
-        fPriceDeduction = Float.parseFloat(bundle.getString("breaks_money"));
-
-        mName_advert = bundle.getString("name_advert");
-        mImage_advert = bundle.getString("image_advert");
-        mId_advert = bundle.getString("id_advert");*/
 
 
         fMoneyBalance = Float.parseFloat(KaKuApplication.money_balance_qiang);
@@ -366,8 +354,8 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
                     intent.putExtra("isPassExist", false);
                     intent.putExtra("flag_next_activity", "NONE");
-
                     startActivity(intent);
+                    dialog.dismiss();
                 }
             });
 
@@ -402,7 +390,7 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
             finish();
         } else if (R.id.tv_bottombar_pay == id) {
 //            与服务器交互生成订单
-            // MobclickAgent.onEvent(context, "CommitCarOrder");
+            MobclickAgent.onEvent(context, "CheTieTiJiao");
 
             if (isBalanceChecked) {
                 showPwdInputWindow();
@@ -468,7 +456,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
     private void generateOrderId() {
 
-
         if (TextUtils.isEmpty(tv_address_address.getText().toString().trim()) || TextUtils.isEmpty(tv_address_name.getText().toString().trim()) || TextUtils.isEmpty(tv_address_phone.getText().toString().trim())) {
             LogUtil.showShortToast(context, "请选择正确的收货地址");
             return;
@@ -476,7 +463,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
         Utils.NoNet(context);
         showProgressDialog();
-
         GenerateStickerOrderReq req = new GenerateStickerOrderReq();
         req.code = "60034";
         req.id_driver = Utils.getIdDriver();
@@ -485,25 +471,29 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
         req.money_balance = getFomatFloatString(fBalanceDeduction);
         req.price_bill = getFomatFloatString(fPriceRealPay);
         req.breaks_money = getFomatFloatString(fPriceDeduction);
-        req.name_addr = mAddr.getName_addr();
-        req.phone_addr = mAddr.getPhone_addr();
-        req.addr = mAddr.getAddr();
+        req.name_addr = tv_address_name.getText().toString();
+        req.phone_addr = tv_address_phone.getText().toString();
+        req.addr = tv_address_address.getText().toString();
         req.num_advert = String.valueOf(productNum);
 
-        KaKuApiProvider.generateStickOrder(req, new BaseCallback<GenerateStickerOrderResp>(GenerateStickerOrderResp.class) {
+        KaKuApiProvider.generateStickOrder(req, new KakuResponseListener<GenerateStickerOrderResp>(this, GenerateStickerOrderResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, GenerateStickerOrderResp t) {
-                //stopProgressDialog();
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-
-
                     if (Constants.RES.equals(t.res)) {
                         LogUtil.E("generateStickOrder res: " + t.no_bill);
                         //todo 进入订单列表页
+
+                        if (fPriceTotal - fPriceDeduction == 0) {
+                            KaKuApplication.payType = "STICKER";
+                            KaKuApplication.realPayment = "0.00";
+                            Intent intent = new Intent(context, AlipayCallBackActivity.class);
+                            startActivity(intent);
+                            return;
+                        }
+
                         if (fPriceRealPay == 0f) {
-                            /*Intent intent = new Intent(context, TruckOrderDetailActivity.class);
-                            intent.putExtra("idbill", t.id_bill);
-                            startActivity(intent);*/
                             //变更订单类型为truck
                             KaKuApplication.payType = "STICKER";
                             KaKuApplication.realPayment = "0.00";
@@ -518,22 +508,12 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
                             startActivity(intent);
                         }
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
                 stopProgressDialog();
             }
         });
-
-
     }
 
     @Override
@@ -546,28 +526,29 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
             /*todo */
             if (!isPwdPopWindowShow) {
                 //如果支付密码验证框关闭则关闭当前页面，否则不finish
-                finish();
+                //finish();
             }
         }
         super.onStop();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        init();
 
         //判断新建地址之后，将新建地址赋值给地址栏
         if (KaKuApplication.flag_addr.equals("Y")) {
             ll_address.setVisibility(View.VISIBLE);
             tv_notify.setVisibility(View.INVISIBLE);
 
-            if(!TextUtils.isEmpty(KaKuApplication.name_addr)){
+            if (!TextUtils.isEmpty(KaKuApplication.name_addr)) {
                 tv_address_name.setText(KaKuApplication.name_addr);
             }
-            if(!TextUtils.isEmpty(KaKuApplication.phone_addr)){
+            if (!TextUtils.isEmpty(KaKuApplication.phone_addr)) {
                 tv_address_phone.setText(KaKuApplication.phone_addr);
             }
-            if(!TextUtils.isEmpty(KaKuApplication.dizhi_addr)){
+            if (!TextUtils.isEmpty(KaKuApplication.dizhi_addr)) {
                 tv_address_address.setText(KaKuApplication.dizhi_addr);
             }
             KaKuApplication.flag_addr = "";
@@ -575,4 +556,36 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
     }
 
+    public void GetCheTieDetail(){
+        showProgressDialog();
+        GetCheTieDetailReq req = new GetCheTieDetailReq();
+        req.code = "60032";
+        req.id_driver = Utils.getIdDriver();
+        req.id_advert = KaKuApplication.id_advert;
+        KaKuApiProvider.getCheTieDetail(req, new KakuResponseListener<GetCheTieDetailResp>(this,GetCheTieDetailResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("getchetiedetail res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+
+                        KaKuApplication.breaks_money_qiang = t.advert.breaks_money;
+                        KaKuApplication.flag_one_qiang = t.flag_one;
+                        KaKuApplication.id_advert_qiang = t.advert.id_advert;
+                        KaKuApplication.flag_pay_qiang = t.flag_pay;
+                        KaKuApplication.image_advert_qiang = t.advert.image_advert;
+                        KaKuApplication.money_balance_qiang = t.money_balance;
+                        KaKuApplication.price_advert_qiang = t.advert.price_advert;
+                        KaKuApplication.name_advert_qiang = t.advert.name_advert;
+                        KaKuApplication.addr_qiang = t.addr;
+                        getOrderInfo();
+                    }  else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+        });
+    }
 }

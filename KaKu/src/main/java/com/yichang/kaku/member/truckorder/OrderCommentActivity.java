@@ -26,7 +26,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -37,8 +37,7 @@ import com.yichang.kaku.tools.Base64Coder;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -107,7 +106,6 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
 
         Bitmap bmp = drawableToBitmap(context, drawable);
         strDefaultImg = transBitmapToString(bmp);
-        LogUtil.E("strDefaultImg::" + strDefaultImg);
 
     }
 
@@ -138,7 +136,6 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
     }
 
     private void sendTruckOrderComment(final int index) {
-        showProgressDialog();
         String strRating;
         String comment;
         String strBmp;
@@ -146,7 +143,6 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
 
         Bitmap bmp;
         if (index < 0) {
-            stopProgressDialog();
             LogUtil.showShortToast(context, "评论成功");
             finish();
             return;
@@ -192,18 +188,15 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
         req.image_eval = strBmp;
         req.star_eval = strRating;
 
-        KaKuApiProvider.sendTruckOrderComment(req, new BaseCallback<SendTruckOrderCommentResp>(SendTruckOrderCommentResp.class) {
+        KaKuApiProvider.sendTruckOrderComment(req, new KakuResponseListener<SendTruckOrderCommentResp>(this, SendTruckOrderCommentResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, SendTruckOrderCommentResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getTruckOrderDetailInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         sendTruckOrderComment(index - 1);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
 
@@ -211,11 +204,6 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
 
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                LogUtil.showShortToast(OrderCommentActivity.this, "评价失败，请重试");
-                stopProgressDialog();
-            }
         });
     }
 

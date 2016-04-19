@@ -35,10 +35,19 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.yichang.kaku.R;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
+import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.PingJiaActivity;
+import com.yichang.kaku.home.shop.ShopPingJiaActivity;
+import com.yichang.kaku.request.QiNiuYunTokenReq;
+import com.yichang.kaku.request.ShopCommitReq;
+import com.yichang.kaku.response.QiNiuYunTokenResp;
+import com.yichang.kaku.response.ShopCommitResp;
 import com.yichang.kaku.tools.Base64Coder;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
@@ -50,7 +59,9 @@ import com.yichang.kaku.view.uploadimages.util.FileUtils;
 import com.yichang.kaku.view.uploadimages.util.ImageItem;
 import com.yichang.kaku.view.uploadimages.util.PublicWay;
 import com.yichang.kaku.view.uploadimages.util.Res;
+import com.yichang.kaku.webService.KaKuApiProvider;
 import com.yichang.kaku.webService.UrlCtnt;
+import com.yolanda.nohttp.Response;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -97,6 +108,9 @@ public class PingJiaOrderActivity extends BaseActivity implements OnClickListene
     ///scrollView
     private ScrollView scroll_view;
     private Boolean isShowTop;
+    public String token1,token2,token3,token4;
+    public String key1,key2,key3,key4;
+    private Bitmap photo1,photo2,photo3,photo4;
 
 
     @Override
@@ -114,7 +128,7 @@ public class PingJiaOrderActivity extends BaseActivity implements OnClickListene
         tv_pingjiaorder_name.setText(KaKuApplication.name_shop);
         tv_pingjiaorder_addr.setText(KaKuApplication.addr_shop);
         et_pingjiaorder_content.setText(KaKuApplication.pingjia_shop);
-        BitmapUtil.getInstance(context).download(iv_pingjiaorder_image,KaKuApplication.qian_zhui+ KaKuApplication.image_shop);
+        BitmapUtil.getInstance(context).download(iv_pingjiaorder_image, KaKuApplication.qian_zhui+ KaKuApplication.image_shop);
         if (window.isShowing()) {
             window.dismiss();
         }
@@ -191,7 +205,7 @@ public class PingJiaOrderActivity extends BaseActivity implements OnClickListene
             KaKuApplication.flag_IsDetailToPingJia = false;
             tv_pingjiaorder_name.setText(KaKuApplication.name_shop);
             tv_pingjiaorder_addr.setText(KaKuApplication.addr_shop);
-            BitmapUtil.getInstance(context).download(iv_pingjiaorder_image,KaKuApplication.qian_zhui+ KaKuApplication.image_shop);
+            BitmapUtil.getInstance(context).download(iv_pingjiaorder_image, KaKuApplication.qian_zhui+ KaKuApplication.image_shop);
             Bimp.tempSelectBitmap.clear();
             Bimp.max=0;
         }
@@ -280,13 +294,131 @@ public class PingJiaOrderActivity extends BaseActivity implements OnClickListene
         }
     };
 
-    public void Upload() {
+
+    public  void Commit(){
+        if ( Bimp.tempSelectBitmap.size() == 0){
+
+        } else {
+            for (int i = 1 ; i <= Bimp.tempSelectBitmap.size() ; i++ ){
+                QiNiuYunToken(i+"");
+            }
+        }
+
+    }
+
+    public void QiNiuYunToken(final String sort) {
+        Utils.NoNet(context);
+        QiNiuYunTokenReq req = new QiNiuYunTokenReq();
+        req.code = "qn01";
+        req.sort = sort;
+        req.id_driver = Utils.getIdDriver();
+        KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this, QiNiuYunTokenResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("qiniuyuntoken res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        if ("1".equals(sort)) {
+                            token1 = t.token;
+                            key1 = t.key;
+                            uploadImg(token1, key1, sort);
+                        } else if ("2".equals(sort)) {
+                            token2 = t.token;
+                            key2 = t.key;
+                            uploadImg(token2, key2, sort);
+                        } else if ("3".equals(sort)) {
+                            token3 = t.token;
+                            key3 = t.key;
+                            uploadImg(token3, key3, sort);
+                        } else if ("4".equals(sort)) {
+                            token4 = t.token;
+                            key4 = t.key;
+                            uploadImg(token4, key4, sort);
+                        }
+
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+            }
+        });
+    }
+
+    private void uploadImg(final String token , final String key , final String sort){
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                String file = "";
+
+                if ("1".equals(sort)){
+                    file = Bimp.tempSelectBitmap.get(0).getImagePath();
+                } else if ("2".equals(sort)){
+                    file = Bimp.tempSelectBitmap.get(1).getImagePath();
+                } else if ("3".equals(sort)){
+                    file = Bimp.tempSelectBitmap.get(2).getImagePath();
+                } else if ("4".equals(sort)){
+                    file = Bimp.tempSelectBitmap.get(3).getImagePath();
+                }
+
+                UploadManager uploadManager = new UploadManager();
+                uploadManager.put(file, key, token,
+                        new UpCompletionHandler() {
+                            @Override
+                            public void complete(String arg0, ResponseInfo info, JSONObject response) {
+                                // TODO Auto-generated method stub
+                                if (info.isOK()){
+                                    Upload();
+                                }
+                            }
+                        }, null);
+            }
+        }).start();
+    }
+
+
+    public void Upload(){
+        Utils.NoNet(context);
+        showProgressDialog();
+        ShopCommitReq req = new ShopCommitReq();
+        req.code = "8007";
+        req.star_eval = String.valueOf(star_pingjia1.getRating());
+        req.content_eval = KaKuApplication.pingjia_shop;
+        req.id_shop = KaKuApplication.id_shop;
+        req.image1_eval = key1;
+        req.image2_eval = key2;
+        req.image2_eval = key3;
+        req.image2_eval = key4;
+        KaKuApiProvider.commitShop(req, new KakuResponseListener<ShopCommitResp>(this, ShopCommitResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("uploadimage res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        Intent intent = new Intent(PingJiaOrderActivity.this, ShopPingJiaActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+
+        });
+    }
+
+
+    public void Upload2() {
         showProgressDialog();
         new Thread() {
             public void run() {
                 HttpClient client = new DefaultHttpClient();
                 // 设置上传参数
                 List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+                String s = Bimp.tempSelectBitmap.get(0).getImagePath();
                 formparams.add(new BasicNameValuePair("code", "8007"));
                 formparams.add(new BasicNameValuePair("id_shop", KaKuApplication.id_shop));
                 formparams.add(new BasicNameValuePair("id_driver", Utils.getIdDriver()));
@@ -298,7 +430,7 @@ public class PingJiaOrderActivity extends BaseActivity implements OnClickListene
                 }
 
                 LogUtil.E("----" + formparams.toString());
-                HttpPost post = new HttpPost(UrlCtnt.BASEIP);
+                HttpPost post = new HttpPost(UrlCtnt.BASEIP +"homepage/shop_eval_submit");
                 UrlEncodedFormEntity entity;
                 try {
                     entity = new UrlEncodedFormEntity(formparams, "UTF-8");
@@ -334,7 +466,7 @@ public class PingJiaOrderActivity extends BaseActivity implements OnClickListene
                         client.getConnectionManager().shutdown();
                         stopProgressDialog();
                     }
-                    startActivity(new Intent(context, PingJiaActivity.class));
+                    startActivity(new Intent(context, ShopPingJiaActivity.class));
                     finish();
                 } catch (Exception e) {
                     LogUtil.E("上传失败" + e.toString());

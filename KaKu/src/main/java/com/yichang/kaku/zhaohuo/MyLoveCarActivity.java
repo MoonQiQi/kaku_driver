@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.MyLoveCarObj;
@@ -21,8 +21,7 @@ import com.yichang.kaku.response.MyLoveCarResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +93,6 @@ public class MyLoveCarActivity extends BaseActivity implements OnClickListener, 
     }
 
     public void MyLoveCar() {
-//		Utils.NoNet(context);
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
 
@@ -103,13 +101,13 @@ public class MyLoveCarActivity extends BaseActivity implements OnClickListener, 
             setNoDataLayoutState(ll_container);
 
         }
-        showProgressDialog();
         MyLoveCarReq req = new MyLoveCarReq();
         req.code = "10028";
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.MyLoveCar(req, new BaseCallback<MyLoveCarResp>(MyLoveCarResp.class) {
+        KaKuApiProvider.MyLoveCar(req, new KakuResponseListener<MyLoveCarResp>(this, MyLoveCarResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MyLoveCarResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("mylovecar res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -123,19 +121,9 @@ public class MyLoveCarActivity extends BaseActivity implements OnClickListener, 
                         adapter = new MyLoveCarAdapter(context, list_mylovecar);
                         lv_mylovecar.setAdapter(adapter);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }

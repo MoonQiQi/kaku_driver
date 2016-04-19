@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.BaseActivity;
+import com.yichang.kaku.obj.IllegalInfo;
 import com.yichang.kaku.response.IllegalQueryResp;
 import com.yichang.kaku.tools.Utils;
 
@@ -50,7 +51,8 @@ public class IllegalQueryResultActivity extends BaseActivity {
             }
         });
 
-        illegalQueryResp = (IllegalQueryResp) getIntent().getParcelableExtra("info");
+        illegalQueryResp = (IllegalQueryResp) getIntent().getSerializableExtra("info");
+
 
         carNum.setText(getIntent().getStringExtra("carNum"));
         tv_num.setText(illegalQueryResp.data_count);
@@ -68,7 +70,7 @@ public class IllegalQueryResultActivity extends BaseActivity {
         }
 
         @Override
-        public IllegalQueryResp.IllegalInfo getItem(int position) {
+        public IllegalInfo getItem(int position) {
             return illegalQueryResp.data.get(position);
         }
 
@@ -84,15 +86,15 @@ public class IllegalQueryResultActivity extends BaseActivity {
                 convertView = inflate(R.layout.layout_illegal_query_result);
             }
             //2105-12-12 2:15
-            String[] split = getItem(position).time.split(" ");
+            String[] split = getItem(position).getTime().split(" ");
             if (split != null && split.length == 2) {
                 ((TextView) convertView.findViewById(R.id.time)).setText(split[1].substring(0, split[1].lastIndexOf(":")));
                 ((TextView) convertView.findViewById(R.id.date)).setText(split[0]);
             }
-            ((TextView) convertView.findViewById(R.id.position)).setText(getItem(position).street);
-            ((TextView) convertView.findViewById(R.id.reason)).setText(getItem(position).reason);
-            ((TextView) convertView.findViewById(R.id._deduct_marks)).setText(getItem(position).degree);
-            ((TextView) convertView.findViewById(R.id._fine)).setText(getItem(position).count);
+            ((TextView) convertView.findViewById(R.id.position)).setText(getItem(position).getStreet());
+            ((TextView) convertView.findViewById(R.id.reason)).setText(getItem(position).getReason());
+            ((TextView) convertView.findViewById(R.id._deduct_marks)).setText(getItem(position).getDegree());
+            ((TextView) convertView.findViewById(R.id._fine)).setText(getItem(position).getCount());
 
             return convertView;
         }

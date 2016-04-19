@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.request.CheckCodeReq;
@@ -22,8 +22,7 @@ import com.yichang.kaku.response.CheckCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class SiJiZhaoMuActivity extends BaseActivity implements OnClickListener {
 	
@@ -77,14 +76,14 @@ public class SiJiZhaoMuActivity extends BaseActivity implements OnClickListener 
 	}
 
 	public void CheckCode(){
-		showProgressDialog();
 		CheckCodeReq req = new CheckCodeReq();
 		req.code = "60013";
 		req.id_driver = Utils.getIdDriver();
 		req.code_recommended = et_sijizhaomu.getText().toString().trim();
-		KaKuApiProvider.CheckCode(req, new BaseCallback<CheckCodeResp>(CheckCodeResp.class) {
+		KaKuApiProvider.CheckCode(req, new KakuResponseListener<CheckCodeResp>(this,CheckCodeResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, CheckCodeResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("checkcode res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -95,14 +94,8 @@ public class SiJiZhaoMuActivity extends BaseActivity implements OnClickListener 
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				showProgressDialog();
-			}
 		});
 	}
-
 }

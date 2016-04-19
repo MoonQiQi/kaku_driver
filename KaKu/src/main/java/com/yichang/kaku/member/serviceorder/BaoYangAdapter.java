@@ -69,7 +69,7 @@ public class BaoYangAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		BitmapUtil.getInstance(mContext).download(holder.iv_baoyang_image,KaKuApplication.qian_zhui+obj.getImage_item());
+		BitmapUtil.getInstance(mContext).download(holder.iv_baoyang_image, KaKuApplication.qian_zhui+obj.getImage_item());
 		holder.tv_baoyang_name.setText(obj.getName_item());
 		holder.tv_baoyang_price.setText("¥"+obj.getPrice_item());
 		holder.tv_baoyang_num.setText("X"+obj.getNum_item());

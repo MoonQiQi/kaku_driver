@@ -206,8 +206,6 @@ public class Utils {
         KaKuApplication.editor.putBoolean(Constants.ISLOGIN, false);
         KaKuApplication.editor.commit();
         Intent intent = new Intent(context, LoginActivity.class);
-        /*Intent intent=new Intent();
-        intent.setClassName("com.yichang.kaku.member.login","LoginActivity");*/
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
@@ -221,13 +219,10 @@ public class Utils {
         KaKuApplication.editor.putBoolean(Constants.ISLOGIN, false);
         KaKuApplication.editor.commit();
         Intent intent = new Intent(mContext, LoginActivity.class);
-        //Intent intent=new Intent();
-        //intent.setClassName("com.yichang.kaku.member.login","com.yichang.kaku.member.login.LoginActivity");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("isOtherLogin",true);
         mContext.startActivity(intent);
 
-        LogUtil.E("您的账号已在其他设备登陆 chaih");
     }
 
 
@@ -241,7 +236,7 @@ public class Utils {
 
     public static boolean Many() {
         long time = System.currentTimeMillis();
-        if (time - lastClickTime < 1200) {
+        if (time - lastClickTime < 1000) {
             return true;
         }
         lastClickTime = time;

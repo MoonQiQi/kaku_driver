@@ -1,23 +1,21 @@
 package com.yichang.kaku.response;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.yichang.kaku.obj.IllegalInfo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by xiaosu on 2015/11/10.
  */
-public class IllegalQueryResp implements Parcelable {
+public class IllegalQueryResp extends BaseResp implements Serializable {
 
     public String degree;
-    public String res;
-    public String msg;
     public String count;
     public String data_count;
     public ArrayList<IllegalInfo> data;
 
-    public static class IllegalInfo implements Parcelable {
+    /*public static class IllegalInfo implements Parcelable {
         public String time;// 时间
         public String street;// 地点
         public String reason;// 原因
@@ -95,5 +93,5 @@ public class IllegalQueryResp implements Parcelable {
         public IllegalQueryResp[] newArray(int size) {
             return new IllegalQueryResp[size];
         }
-    };
+    };*/
 }

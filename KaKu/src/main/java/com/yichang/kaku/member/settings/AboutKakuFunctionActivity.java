@@ -28,16 +28,12 @@ public class AboutKakuFunctionActivity extends BaseActivity implements OnClickLi
 
     }
 
-
-
-
     private void initTitleBar() {
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
 
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("功能特点");
-
 
     }
 

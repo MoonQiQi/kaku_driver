@@ -15,6 +15,8 @@ public class AddObj implements Serializable {
 	private String day_continue;
 	private String total_earnings;
 	private String flag_type;
+	private String flag_show;
+	private String flag_position;
 	private String now_earnings;
 	private String day_remaining;
 	private String approve_opinions;
@@ -24,6 +26,9 @@ public class AddObj implements Serializable {
 	private String image0_advert;
 	private String image1_advert;
 	private String image2_advert;
+	private String flag_recommended;
+	private String id_advert;
+	private String num_privilege;
 
 	public String getName_advert() {
 		return name_advert;
@@ -185,6 +190,46 @@ public class AddObj implements Serializable {
 		this.image2_advert = image2_advert;
 	}
 
+	public String getId_advert() {
+		return id_advert;
+	}
+
+	public void setId_advert(String id_advert) {
+		this.id_advert = id_advert;
+	}
+
+	public String getFlag_recommended() {
+		return flag_recommended;
+	}
+
+	public void setFlag_recommended(String flag_recommended) {
+		this.flag_recommended = flag_recommended;
+	}
+
+	public String getNum_privilege() {
+		return num_privilege;
+	}
+
+	public void setNum_privilege(String num_privilege) {
+		this.num_privilege = num_privilege;
+	}
+
+	public String getFlag_show() {
+		return flag_show;
+	}
+
+	public void setFlag_show(String flag_show) {
+		this.flag_show = flag_show;
+	}
+
+	public String getFlag_position() {
+		return flag_position;
+	}
+
+	public void setFlag_position(String flag_position) {
+		this.flag_position = flag_position;
+	}
+
 	@Override
 	public String toString() {
 		return "AddObj{" +
@@ -199,6 +244,8 @@ public class AddObj implements Serializable {
 				", day_continue='" + day_continue + '\'' +
 				", total_earnings='" + total_earnings + '\'' +
 				", flag_type='" + flag_type + '\'' +
+				", flag_show='" + flag_show + '\'' +
+				", flag_position='" + flag_position + '\'' +
 				", now_earnings='" + now_earnings + '\'' +
 				", day_remaining='" + day_remaining + '\'' +
 				", approve_opinions='" + approve_opinions + '\'' +
@@ -208,6 +255,9 @@ public class AddObj implements Serializable {
 				", image0_advert='" + image0_advert + '\'' +
 				", image1_advert='" + image1_advert + '\'' +
 				", image2_advert='" + image2_advert + '\'' +
+				", flag_recommended='" + flag_recommended + '\'' +
+				", id_advert='" + id_advert + '\'' +
+				", num_privilege='" + num_privilege + '\'' +
 				'}';
 	}
 }

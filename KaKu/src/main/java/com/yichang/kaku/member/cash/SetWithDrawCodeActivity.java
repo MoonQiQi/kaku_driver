@@ -9,37 +9,24 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.obj.BankCardObj;
 import com.yichang.kaku.payhelper.wxpay.net.sourceforge.simcpux.MD5;
 import com.yichang.kaku.request.BankCardListReq;
-import com.yichang.kaku.request.BaseReq;
-import com.yichang.kaku.request.MobileReq;
 import com.yichang.kaku.request.WithDrawCaptchaReq;
 import com.yichang.kaku.request.WithDrawCodeReq;
 import com.yichang.kaku.response.BankCardListResp;
 import com.yichang.kaku.response.BaseResp;
-import com.yichang.kaku.response.MobileResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
-
-import java.util.List;
-
-import cn.jpush.android.api.JPushInterface;
+import com.yolanda.nohttp.Response;
 
 public class SetWithDrawCodeActivity extends BaseActivity implements OnClickListener {
 
@@ -139,7 +126,6 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
             }
         });
 
-
         getBankCardList();
     }
 
@@ -196,8 +182,6 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
 
             setWithDrawCode();
 
-
-
         } else if (R.id.tv_get_captcha == id) {
             //startActivity(new Intent(this, WithdrawActivity.class));
             if (isWaiting) {
@@ -221,7 +205,6 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
 
     private void setWithDrawCode() {
         Utils.NoNet(this);
-        showProgressDialog();
 
         WithDrawCodeReq req=new WithDrawCodeReq();
         req.code = "5007";
@@ -235,19 +218,20 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
         }
         req.pay_pass=strPassword;
 
-        KaKuApiProvider.setWithDrawCode(req, new BaseCallback<BaseResp>(BaseResp.class) {
+        KaKuApiProvider.setWithDrawCode(req, new KakuResponseListener<BaseResp>(this, BaseResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BaseResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("setWithDrawCode res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
                         /*startActivity(new Intent(context,InputWithDrawCodeActivity.class));
                         finish();*/
-                        LogUtil.showShortToast(context,"支付密码修改成功！");
-                        switch (flag_next_activity){
+                        LogUtil.showShortToast(context, "支付密码修改成功！");
+                        switch (flag_next_activity) {
                             case "INPUT":
-                                startActivity(new Intent(context,InputWithDrawCodeActivity.class));
+                                startActivity(new Intent(context, InputWithDrawCodeActivity.class));
                                 break;
                             case "NONE":
 
@@ -262,22 +246,11 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
                         finish();
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-                stopProgressDialog();
-            }
         });
     }
 
@@ -318,40 +291,26 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
     private void getCaptcha() {
 
         Utils.NoNet(this);
-        showProgressDialog();
 
         WithDrawCaptchaReq req = new WithDrawCaptchaReq();
         req.code = "5006";
         req.id_driver = Utils.getIdDriver();
         req.sign = genAppSign(req.id_driver);
 
-        KaKuApiProvider.getWithDrawCaptcha(req, new BaseCallback<BaseResp>(BaseResp.class) {
+        KaKuApiProvider.getWithDrawCaptcha(req, new KakuResponseListener<BaseResp>(this, BaseResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BaseResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getWithDrawCaptcha res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
-
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
             }
         });
-
-
     }
 
     private String genAppSign(String id_driver) {
@@ -363,7 +322,6 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
 
         sb.append("&key=");
         sb.append(Constants.MSGKEY);
-        LogUtil.E("sb:" + sb);
 
         String appSign1 = MD5.getMessageDigest(sb.toString().getBytes());
         String appSign = MD5.getMessageDigest(appSign1.getBytes()).toUpperCase();
@@ -374,38 +332,25 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
         if (!Utils.checkNetworkConnection(context)) {
             return;
         }
-        showProgressDialog();
 
         BankCardListReq req = new BankCardListReq();
         req.code = "5004";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getBankCardList(req, new BaseCallback<BankCardListResp>(BankCardListResp.class) {
+        KaKuApiProvider.getBankCardList(req, new KakuResponseListener<BankCardListResp>(this, BankCardListResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BankCardListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("yue res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
-
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
-
-
 }

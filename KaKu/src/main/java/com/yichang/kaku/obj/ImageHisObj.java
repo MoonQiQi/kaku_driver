@@ -6,6 +6,9 @@ public class ImageHisObj implements Serializable {
 
 	private String id_driver_advert;
 	private String flag_type;
+	private String flag_position;
+	private String flag_show;
+	private String flag_type_shoot;
 	private String upload_time;
 	private String create_time;
 	private String approve_time;
@@ -16,6 +19,7 @@ public class ImageHisObj implements Serializable {
 	private String image0_approve;
 	private String image1_approve;
 	private String image2_approve;
+	private String isJia = "Y";
 
 	public String getId_driver_advert() {
 		return id_driver_advert;
@@ -113,11 +117,46 @@ public class ImageHisObj implements Serializable {
 		this.image2_approve = image2_approve;
 	}
 
+	public String getFlag_position() {
+		return flag_position;
+	}
+
+	public void setFlag_position(String flag_position) {
+		this.flag_position = flag_position;
+	}
+
+	public String getFlag_show() {
+		return flag_show;
+	}
+
+	public void setFlag_show(String flag_show) {
+		this.flag_show = flag_show;
+	}
+
+	public String getFlag_type_shoot() {
+		return flag_type_shoot;
+	}
+
+	public void setFlag_type_shoot(String flag_type_shoot) {
+		this.flag_type_shoot = flag_type_shoot;
+	}
+
+	public String getIsJia() {
+		return isJia;
+	}
+
+	public void setIsJia(String isJia) {
+		this.isJia = isJia;
+	}
+
 	@Override
 	public String toString() {
 		return "ImageHisObj{" +
 				"id_driver_advert='" + id_driver_advert + '\'' +
 				", flag_type='" + flag_type + '\'' +
+				", flag_position='" + flag_position + '\'' +
+				", flag_show='" + flag_show + '\'' +
+				", flag_type_shoot='" + flag_type_shoot + '\'' +
 				", upload_time='" + upload_time + '\'' +
 				", create_time='" + create_time + '\'' +
 				", approve_time='" + approve_time + '\'' +
@@ -128,6 +167,7 @@ public class ImageHisObj implements Serializable {
 				", image0_approve='" + image0_approve + '\'' +
 				", image1_approve='" + image1_approve + '\'' +
 				", image2_approve='" + image2_approve + '\'' +
+				", isJia='" + isJia + '\'' +
 				'}';
 	}
 }

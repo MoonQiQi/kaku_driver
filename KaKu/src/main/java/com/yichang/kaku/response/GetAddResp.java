@@ -9,6 +9,5 @@ import java.util.List;
 public class GetAddResp extends BaseResp implements Serializable {
 	public AddObj advert;
 	public List<RollsAddObj> rolls;
-
 	public String flag_show;
 }

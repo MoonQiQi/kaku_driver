@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -21,8 +21,7 @@ import com.yichang.kaku.response.ShenQingQuXiaoResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class QuXiaoXiangQingActivity extends BaseActivity implements OnClickListener{
 	
@@ -122,7 +121,7 @@ public class QuXiaoXiangQingActivity extends BaseActivity implements OnClickList
 			AlertDialog.Builder builder=new AlertDialog.Builder(this);
 			builder.setTitle("提示");
 			builder.setMessage("取消订单后，存在的优惠可能一并取消，是否继续？");
-			builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+			builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -131,7 +130,7 @@ public class QuXiaoXiangQingActivity extends BaseActivity implements OnClickList
 				}
 			});
 
-			builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+			builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -145,35 +144,25 @@ public class QuXiaoXiangQingActivity extends BaseActivity implements OnClickList
 
 	public void Commit(){
         Utils.NoNet(context);
-        showProgressDialog();
         ShenQingQuXiaoReq req = new ShenQingQuXiaoReq();
         req.code = "40028";
         req.id_order = KaKuApplication.id_orderB;
 		req.reason_cancel = flag1+","+flag2+","+flag3+","+flag4+","+flag5+",";
-        KaKuApiProvider.ShenQingQuXiao(req, new BaseCallback<ShenQingQuXiaoResp>(ShenQingQuXiaoResp.class) {
+        KaKuApiProvider.ShenQingQuXiao(req, new KakuResponseListener<ShenQingQuXiaoResp>(this, ShenQingQuXiaoResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, ShenQingQuXiaoResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("shenqingquxiao res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
-						Intent intent = new Intent(context,QuXiaoChengGongActivity.class);
+						Intent intent = new Intent(context, QuXiaoChengGongActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						finish();
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
 			}
 		});
 	}

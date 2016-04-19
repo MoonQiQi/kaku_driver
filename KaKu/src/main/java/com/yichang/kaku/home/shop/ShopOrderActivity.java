@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -37,8 +37,7 @@ import com.yichang.kaku.response.GetOrderResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.text.DecimalFormat;
 
@@ -231,7 +230,6 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
 
     public void CommitOrder() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         CommitOrderReq req = new CommitOrderReq();
         req.code = "40011";
@@ -267,9 +265,10 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
         req.name_driver = tv_shoporder_peoname.getText().toString();
         req.phone_driver = tv_shoporder_peophone.getText().toString() ;
 
-        KaKuApiProvider.CommitOrder(req, new BaseCallback<CommitOrderResp>(CommitOrderResp.class) {
+        KaKuApiProvider.CommitOrder(req, new KakuResponseListener<CommitOrderResp>(this, CommitOrderResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, CommitOrderResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("commitorder res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -296,17 +295,12 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
                                 break;
                         }
 
-                    }else {
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -360,21 +354,21 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
 
     public void GetOrder() {
         Utils.NoNet(context);
-        showProgressDialog();
         GetOrderReq req = new GetOrderReq();
         req.code = "4009";
         req.id_driver = Utils.getIdDriver();
         req.id_shop = KaKuApplication.id_shop;
         req.total_price = String.valueOf(KaKuApplication.money + KaKuApplication.carmoney);
-        KaKuApiProvider.GetOrder(req, new BaseCallback<GetOrderResp>(GetOrderResp.class) {
+        KaKuApiProvider.GetOrder(req, new KakuResponseListener<GetOrderResp>(this, GetOrderResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, GetOrderResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getorder res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 //                        根据状态判断是否隐藏发票栏
-                        if ("N".equals(t.flag_ticket)){
+                        if ("N".equals(t.flag_ticket)) {
                             rela_order_fapiao.setVisibility(View.GONE);
                             view_fapiao_high.setVisibility(View.GONE);
                             view_fapiao_normal.setVisibility(View.VISIBLE);
@@ -390,7 +384,7 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
                         tv_shoporder_peophone.setText(t.phone_driver);
                         KaKuApplication.name_connect = tv_shoporder_peoname.getText().toString().trim();
                         KaKuApplication.phone_connect = tv_shoporder_peophone.getText().toString().trim();
-                        if ("0".equals(t.num_coupons)){
+                        if ("0".equals(t.num_coupons)) {
                             rela_order_youhuiquan.setEnabled(false);
                         } else {
                             rela_order_youhuiquan.setEnabled(true);
@@ -398,12 +392,12 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
                         point_limit = t.point_limit;
                         point = Integer.parseInt(point_limit);
                         max = point;
-                        if (TextUtils.isEmpty(manjianqian)){
+                        if (TextUtils.isEmpty(manjianqian)) {
                             rela_order_manjian.setVisibility(View.GONE);
                         } else {
                             rela_order_manjian.setVisibility(View.VISIBLE);
                         }
-                        if (TextUtils.isEmpty(shoujianqian)){
+                        if (TextUtils.isEmpty(shoujianqian)) {
                             rela_order_shoujian.setVisibility(View.GONE);
                         } else {
                             rela_order_shoujian.setVisibility(View.VISIBLE);
@@ -426,21 +420,12 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
                         style3.setSpan(new ForegroundColorSpan(Color.rgb(209, 0, 0)), 5, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         tv_order_shifukuan1.setText(style3);
                         tv_order_shifukuan2.setText("实付款:¥ " + format_money);
-                    }else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

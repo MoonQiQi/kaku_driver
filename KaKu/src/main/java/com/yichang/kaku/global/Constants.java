@@ -1,25 +1,11 @@
 package com.yichang.kaku.global;
 
 public class Constants {
-    /**
-     * TAB未知
-     */
+
     public static final int TAB_POSITION_UNKONWN = -1;
-    /**
-     * TAB首页
-     */
     public static final int TAB_POSITION_HOME = 1;
-    /**
-     * TAB找货
-     */
     public static final int TAB_POSITION_ZONE = 2;
-    /**
-     * TAB发现
-     */
     public static final int TAB_POSITION_FIND = 4;
-    /**
-     * TAB个人中心
-     */
     public static final int TAB_POSITION_MEMBER = 5;
 
     public final static int RESULT = 100;
@@ -30,6 +16,7 @@ public class Constants {
     public static final String FRAGMENT_TAG_MEMBER = "member";
 
     public static final String GO_TO_TAB = "gototab";
+
     /**
      * 当前tab序号
      */
@@ -58,6 +45,7 @@ public class Constants {
     public final static String IDUSER = "iduser";
     public final static String IDDRIVE = "iddrive";
     public final static String SID = "sid";
+    public final static String IDADVERT = "idadvert";
     public final static String NAMEDRIVE = "namedrive";
     public final static String IDCAR = "id_car";
     public final static String NICKNAME = "nickname";
@@ -88,7 +76,7 @@ public class Constants {
      */
     public static long lastClickMil = -1;
 
-    public static final String MESSAGE_RECEIVED_ACTION = "com.lungpan.MESSAGE_RECEIVED_ACTION";
+    public static final String MESSAGE_RECEIVED_ACTION = "com.kaku.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
@@ -121,5 +109,6 @@ public class Constants {
 
     //  API密钥，在商户平台设置
     public static final String API_KEY = "pOYjSGe6H1ZgfKn6sLo7USC3YaWTU9xT";
+
 
 }

@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.ShopCartProductObj;
@@ -26,8 +26,7 @@ import com.yichang.kaku.response.ShopCartProductsResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.List;
 
@@ -151,7 +150,7 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示");
             builder.setMessage("是否要删除选中的商品？");
-            builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+            builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -160,7 +159,7 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
                 }
             });
 
-            builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+            builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -203,27 +202,24 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
         req.code = "3006";
         req.id_goods_shopcars = strDelId;
 
-        KaKuApiProvider.deleteShopCartItem(req, new BaseCallback<ShopCartDeleteResp>(ShopCartDeleteResp.class) {
+        KaKuApiProvider.deleteShopCartItem(req, new KakuResponseListener<ShopCartDeleteResp>(this, ShopCartDeleteResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ShopCartDeleteResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("deleteShopCartItem res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         refreshListView();
-                    }else{
-                        if (Constants.RES_TEN.equals(t.res)){
+                    } else {
+                        if (Constants.RES_TEN.equals(t.res)) {
                             Utils.Exit(context);
                             finish();
                         }
-                        LogUtil.showShortToast(context,t.res);
+                        LogUtil.showShortToast(context, t.res);
                     }
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -237,30 +233,27 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
         req.code = "3005";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getShopCartProductsLst(req, new BaseCallback<ShopCartProductsResp>(ShopCartProductsResp.class) {
+        KaKuApiProvider.getShopCartProductsLst(req, new KakuResponseListener<ShopCartProductsResp>(this, ShopCartProductsResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ShopCartProductsResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
 
                 if (t != null) {
                     LogUtil.E("getShopCartProductsLst res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         editLst.addAll(t.shopcar);
                         setData(editLst);
-                    }else{
-                        if (Constants.RES_TEN.equals(t.res)){
+                    } else {
+                        if (Constants.RES_TEN.equals(t.res)) {
                             Utils.Exit(context);
                             finish();
                         }
-                        LogUtil.showShortToast(context,t.msg);
+                        LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }
@@ -329,9 +322,10 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
         req.id_goods_shopcars = strIdDriver.substring(0, strIdDriver.length() - 1);
         req.num_shopcar = strNum.substring(0, strNum.length() - 1);
 
-        KaKuApiProvider.updateShopCart(req, new BaseCallback<ShopCartEditUpdateResp>(ShopCartEditUpdateResp.class) {
+        KaKuApiProvider.updateShopCart(req, new KakuResponseListener<ShopCartEditUpdateResp>(this, ShopCartEditUpdateResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ShopCartEditUpdateResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("updateShopCart res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -339,17 +333,13 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
                         Intent intent = new Intent();
                         setResult(1);
                         finish();
-                    }else{
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

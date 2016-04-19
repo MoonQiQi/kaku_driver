@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.wly.android.widget.AdGalleryHelper;
 import com.wly.android.widget.Advertising;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -21,8 +21,7 @@ import com.yichang.kaku.response.HuoYuanDetailResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +54,7 @@ public class HuoYuanDetailActivity extends BaseActivity implements OnClickListen
 		btn_huoyuandetail_call.setOnClickListener(this);
 		btn_huoyuandetail_pingjia= (Button) findViewById(R.id.btn_huoyuandetail_pingjia);
 		btn_huoyuandetail_pingjia.setOnClickListener(this);
+		btn_huoyuandetail_pingjia.setVisibility(View.GONE);
 		tv_huoyuandetail_qidian= (TextView) findViewById(R.id.tv_huoyuandetail_qidian);
 		tv_huoyuandetail_zhongdian= (TextView) findViewById(R.id.tv_huoyuandetail_zhongdian);
 		tv_huoyuandetail_fabushijian= (TextView) findViewById(R.id.tv_huoyuandetail_fabushijian);
@@ -79,7 +79,7 @@ public class HuoYuanDetailActivity extends BaseActivity implements OnClickListen
 			finish();
 		} else if (R.id.btn_huoyuandetail_call == id){
 			String call_string = phone.split(",")[0];
-			Utils.Call(HuoYuanDetailActivity.this,call_string);
+			Utils.Call(HuoYuanDetailActivity.this, call_string);
 		} else if (R.id.btn_huoyuandetail_pingjia == id){
 			GoToPingJia();
 		}
@@ -87,13 +87,13 @@ public class HuoYuanDetailActivity extends BaseActivity implements OnClickListen
 
 	public void HuoYuanDetail(){
 		Utils.NoNet(context);
-		showProgressDialog();
 		HuoYuanDetailReq req = new HuoYuanDetailReq();
 		req.code = "6002";
 		req.id_supply = id_supply;
-		KaKuApiProvider.HuoYuanDetail(req, new BaseCallback<HuoYuanDetailResp>(HuoYuanDetailResp.class) {
+		KaKuApiProvider.HuoYuanDetail(req, new KakuResponseListener<HuoYuanDetailResp>(this, HuoYuanDetailResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, HuoYuanDetailResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("huoyuandetail res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -104,23 +104,14 @@ public class HuoYuanDetailActivity extends BaseActivity implements OnClickListen
 						tv_huoyuandetail_fabushijian.setText(t.supply.getTime_pub());
 						tv_huoyuandetail_huoyuanxinxi.setText(t.supply.getRemark_supply());
 						tv_huoyuandetail_zonglichengshu.setText(t.supply.getMileage_supply());
-						tv_huoyuandetail_cankaojiage.setText("¥ "+t.supply.getPrice_supply());
+						tv_huoyuandetail_cankaojiage.setText("¥ " + t.supply.getPrice_supply());
 						phone = t.supply.getPhone_supply();
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 

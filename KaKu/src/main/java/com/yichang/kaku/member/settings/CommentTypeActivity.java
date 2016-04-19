@@ -51,7 +51,6 @@ public class CommentTypeActivity extends BaseActivity implements OnClickListener
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("产品吐槽");
 
-
     }
 
 

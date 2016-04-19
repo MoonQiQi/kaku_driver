@@ -17,6 +17,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
+import com.yichang.kaku.view.WaitDialog;
 import com.yichang.kaku.view.widget.QuickIndexBar;
 import com.yichang.kaku.webService.UrlCtnt;
 
@@ -43,11 +44,13 @@ public class BrandListActivity extends BaseActivity implements AdapterView.OnIte
     private ListView listview;
     private TextView curLetter;
     private QuickIndexBar indexBar;
+    private WaitDialog waitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allbrand_list);
+        //waitDialog=new WaitDialog(this);
         initUI();
 
         getData();
@@ -91,13 +94,13 @@ public class BrandListActivity extends BaseActivity implements AdapterView.OnIte
 
     private void getData() {
 
-        showProgressDialog();
+        waitDialog.show();
 
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
                 .p("code", "9003");
 
-        OkHttpUtil.postAsync(UrlCtnt.BASEIP, builder.build(), new RequestCallback<BrandListResp>(this, BrandListResp.class) {
+        OkHttpUtil.postAsync(UrlCtnt.BASEIP+"checkillegal/check_illegal", builder.build(), new RequestCallback<BrandListResp>(this, BrandListResp.class) {
             @Override
             public void onSuccess(BrandListResp obj, String result) {
                 BrandListActivity.this.resp = obj;
@@ -126,12 +129,12 @@ public class BrandListActivity extends BaseActivity implements AdapterView.OnIte
                     adapter = new BrandListAdapter(obj.list, list);
                     listview.setAdapter(adapter);
                 }
-                stopProgressDialog();
+                waitDialog.dismiss();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
             }
         });

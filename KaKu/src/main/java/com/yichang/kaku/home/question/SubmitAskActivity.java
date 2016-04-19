@@ -20,7 +20,8 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
-import com.yichang.kaku.view.widget.PicturePickPopWindow;
+import com.yichang.kaku.view.WaitDialog;
+import com.yichang.kaku.view.popwindow.PicturePickPopWindow;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class SubmitAskActivity extends BaseActivity implements PicturePickPopWin
     private TextView characterNum;
     private ImageView iv_shop;
     private PicturePickPopWindow popWindow;
-
+    private WaitDialog waitDialog = new WaitDialog(context);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +97,7 @@ public class SubmitAskActivity extends BaseActivity implements PicturePickPopWin
             return;
         }
 
-        showProgressDialog();
+        waitDialog.show();
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
                 .p("content", content)
@@ -107,14 +108,14 @@ public class SubmitAskActivity extends BaseActivity implements PicturePickPopWin
             @Override
             public void onSuccess(BaseResp obj, String result) {
                 showShortToast("提交成功");
-                stopProgressDialog();
+                waitDialog.dismiss();
                 startActivity(new Intent(SubmitAskActivity.this, MyAskListActivity.class));
                 finish();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
             }
         });

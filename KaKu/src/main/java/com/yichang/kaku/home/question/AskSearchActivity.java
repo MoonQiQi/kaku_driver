@@ -20,6 +20,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
+import com.yichang.kaku.view.WaitDialog;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -37,12 +38,13 @@ public class AskSearchActivity extends BaseActivity implements TextView.OnEditor
     private SearchAskAdapter adapter;
     private String keyword;
     private View dataNone;
-
+    private WaitDialog waitDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_ask);
 
+        //waitDialog=new WaitDialog(this);
         initUI();
     }
 
@@ -66,7 +68,7 @@ public class AskSearchActivity extends BaseActivity implements TextView.OnEditor
 
     public void getData(String word, final int page) {
         if (page == 1) {
-            showProgressDialog();
+            waitDialog.show();
         }
 
         Params.builder builder = new Params.builder()
@@ -81,7 +83,7 @@ public class AskSearchActivity extends BaseActivity implements TextView.OnEditor
                 if (page == 1) {
                     if (null == obj.list || obj.list.isEmpty()) {
                         dataNone.setVisibility(View.VISIBLE);
-                        stopProgressDialog();
+                        waitDialog.dismiss();
                         return;
                     }
                     dataNone.setVisibility(View.GONE);
@@ -98,13 +100,13 @@ public class AskSearchActivity extends BaseActivity implements TextView.OnEditor
                         ++curPage;
                     }
                 }
-                stopProgressDialog();
+                waitDialog.dismiss();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
                 showShortToast("网络连接失败，请稍后再试");
-                stopProgressDialog();
+                waitDialog.dismiss();
                 if (page != 1) {//表示加载更多
                     controller.updateState(LoadMoreController.STATE_FAIL);
                 }

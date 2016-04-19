@@ -7,12 +7,10 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -20,7 +18,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -35,10 +33,9 @@ import com.yichang.kaku.response.MoRenCarResp;
 import com.yichang.kaku.response.MyCarResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.widget.MenDianPopWindow;
+import com.yichang.kaku.view.popwindow.MenDianPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.List;
 
@@ -63,6 +60,7 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
     private LinearLayout ll_warning;
     private Button btn_addcar;
     private Boolean isPwdPopWindowShow = false;
+    private MenDianPopWindow input;
 
 
     @Override
@@ -141,8 +139,6 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
             } else {
                 goToHome();
             }
-        } else if (R.id.tv_right == id) {
-
         } else if (R.id.btn_refresh == id) {
             GetMyCar();
         } else if (R.id.btn_addcar == id) {
@@ -159,55 +155,49 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
     }
 
     public void GetMyCar() {
-//		Utils.NoNet(this);
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
-
             return;
         } else {
             setNoDataLayoutState(sv_top);
-
         }
         showProgressDialog();
         MyCarReq req = new MyCarReq();
         req.code = "2002";
         req.id_driver = Utils.getIdDriver();
         req.id_car = Utils.getIdCar();
-        KaKuApiProvider.GetMyCar(req, new BaseCallback<MyCarResp>(MyCarResp.class) {
+        KaKuApiProvider.GetMyCar(req, new KakuResponseListener<MyCarResp>(this, MyCarResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MyCarResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
 
                 if (t != null) {
                     LogUtil.E("mycar res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        if (TextUtils.equals(t.flag_enter, "N")){
-                            if (!"".equals(Utils.getIdCar())){
-                                showPwdInputWindow(t.mobile_brand);
+                        stopProgressDialog();
+                        if (TextUtils.equals(t.flag_enter, "N")) {
+                            if (!"".equals(Utils.getIdCar())) {
+                                if (!isFinishing()){
+                                    showPwdInputWindow(t.mobile_brand);
+                                }
                             }
                         }
                         car_list = t.driver_cars;
-                        LogUtil.E("carlist:" + car_list);
 
                         if (car_list.size() == 0) {
 
                             setNoDataLayoutState(layout_data_none);
-                            stopProgressDialog();
                             return;
                         } else {
-
                             setNoDataLayoutState(sv_top);
                         }
                         int carSize = getCarSize();
                         if (carSize >= 5) {
-                            // btn_addcar.setEnabled(false);
                             ll_warning.setVisibility(View.VISIBLE);
 
                         } else {
-                            // btn_addcar.setEnabled(true);
                             ll_warning.setVisibility(View.GONE);
                         }
-/*
-                        ll_warning.setVisibility(View.VISIBLE);*/
                         adapter = new MyCarAdapter(MyCarActivity.this, car_list);
                         adapter.setButtonState(new MyCarAdapter.IChangeButtonState() {
 
@@ -222,40 +212,33 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
                             }
                         });
                         lv.setAdapter(adapter);
-                        setListViewHeightBasedOnChildren(lv);
+                        Utils.setListViewHeightBasedOnChildren(lv);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
+
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void MoRen(String id_driver_car, final int position) {
         Utils.NoNet(context);
-        showProgressDialog();
         MoRenCarReq req = new MoRenCarReq();
         req.code = "2006";
         req.id_driver = Utils.getIdDriver();
         req.id_driver_car = id_driver_car;
-        KaKuApiProvider.MoRenMyCar(req, new BaseCallback<MoRenCarResp>(MoRenCarResp.class) {
+        KaKuApiProvider.MoRenMyCar(req, new KakuResponseListener<MoRenCarResp>(this, MoRenCarResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MoRenCarResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("morencar res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        if (TextUtils.equals(t.flag_enter, "N")){
-                            if (!"".equals(Utils.getIdCar())){
+                        if (TextUtils.equals(t.flag_enter, "N")) {
+                            if (!"".equals(Utils.getIdCar())) {
+                                if (!isDestroyed())
                                 showPwdInputWindow(t.mobile_brand);
                             }
                         }
@@ -268,25 +251,20 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void Delete(String id_driver_car, final int position) {
         Utils.NoNet(context);
-        showProgressDialog();
         DeleteMyCarReq req = new DeleteMyCarReq();
         req.code = "2007";
         req.id_driver_car = id_driver_car;
-        KaKuApiProvider.DeleteMyCar(req, new BaseCallback<DeleteMyCarResp>(DeleteMyCarResp.class) {
+        KaKuApiProvider.DeleteMyCar(req, new KakuResponseListener<DeleteMyCarResp>(this, DeleteMyCarResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DeleteMyCarResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("deletecar res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -302,20 +280,11 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
                             ll_warning.setVisibility(View.GONE);
                         }
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -325,35 +294,8 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
             if (obj.getFlag_check().equals("Y")) {
                 size++;
             }
-
         }
-        LogUtil.E("carsize:" + size);
         return size;
-    }
-
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        btn_addcar.measure(0, 0);
-        LogUtil.E("btn_addcar"+btn_addcar.getMeasuredHeight());
-        totalHeight = totalHeight + btn_addcar.getMeasuredHeight() + 40;
-
-        LogUtil.E("totalHeight"+totalHeight);
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        params.height += 5;
-
-        listView.setLayoutParams(params);
     }
 
     public void GoToPinPaiXuanZe() {
@@ -401,7 +343,6 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
     }
 
     public void MoRen(String id_driver_car) {
-//		Utils.NoNet(context);
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
 
@@ -410,34 +351,24 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
             setNoDataLayoutState(sv_top);
 
         }
-
         showProgressDialog();
         MoRenCarReq req = new MoRenCarReq();
         req.code = "2006";
         req.id_driver = Utils.getIdDriver();
         req.id_driver_car = id_driver_car;
-        KaKuApiProvider.MoRenMyCar(req, new BaseCallback<MoRenCarResp>(MoRenCarResp.class) {
+        KaKuApiProvider.MoRenMyCar(req, new KakuResponseListener<MoRenCarResp>(this, MoRenCarResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MoRenCarResp t) {
-                stopProgressDialog();
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("morencar res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         Intent intent = new Intent(context, PinPaiFuWuZhanActivity.class);
                         startActivity(intent);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
                 stopProgressDialog();
             }
         });
@@ -457,15 +388,12 @@ public class MyCarActivity extends BaseActivity implements OnClickListener, Adap
             @Override
             public void run() {
                 isPwdPopWindowShow = true;
-
-                MenDianPopWindow input =
-                        new MenDianPopWindow(MyCarActivity.this ,phone);
-
+                input = new MenDianPopWindow(MyCarActivity.this ,phone);
 
                 input.show();
 
             }
-        }, 200);
+        }, 0);
     }
 
 }

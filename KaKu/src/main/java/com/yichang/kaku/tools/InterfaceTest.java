@@ -12,9 +12,8 @@ public class InterfaceTest {
 	//10-17 12:51:37.420: E/LungPoon(30373): Unknown column 'help' in 'field list'
 
 	public static void sendEms() throws Exception {
-        String code = "10033";
 
-        URL url = new URL(UrlCtnt.BASEIP);
+        URL url = new URL(UrlCtnt.BASEIP+"bill/goods/goods_information");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");// 提交模式
         // conn.setConnectTimeout(10000);//连接超时 单位毫秒
@@ -23,11 +22,13 @@ public class InterfaceTest {
 
         StringBuffer params = new StringBuffer();
         // 表单参数与get形式一样
-        params.append("code").append("=").append(code);
+        params.append("id_driver").append("=").append("11");
+        params.append("id_goods").append("=").append("145");
+        params.append("sid").append("=").append("ff971ff22139bc9222563e0b66eef50d");
         byte[] bypes = params.toString().getBytes();
         conn.getOutputStream().write(bypes);// 输入参数
         InputStream inStream=conn.getInputStream();
-        LogUtil.E("sendEms :"+new String(readInputStream(inStream), "gbk"));
+        LogUtil.E("KaKu :"+new String(readInputStream(inStream), "gbk"));
 
     }
 	
@@ -44,57 +45,5 @@ public class InterfaceTest {
         return data;
     }
 
-	
-	
-	
-/*	public static void testGehome(){
-		HomeReq req = new HomeReq();
-		req.code = "2001";
-		LungPoonApiProvider.getHome(req, new BaseCallback<HomeResp>(HomeResp.class) {
 
-			@Override
-			public void onSuccessful(int statusCode, Header[] headers,
-					HomeResp t) {
-				// TODO Auto-generated method stub
-				LogUtil.E(statusCode+" getHome "+t);
-				
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg,
-					Throwable error) {
-				// TODO Auto-generated method stub
-				LogUtil.E("msg "+ msg);
-			}
-		});
-	}*/
-	
-/*	public  static void testGetZone() {
-		// TODO Auto-generated method stub
-		ZoneReq req = new ZoneReq();
-		req.code = "2002";
-		req.start = "0";
-		req.len = "4";
-		req.sort = "0";
-		LungPoonApiProvider.getZone(req, new BaseCallback<ZoneResp>(
-				ZoneResp.class) {
-
-			@Override
-			public void onSuccessful(int statusCode, Header[] headers,
-					ZoneResp t) {
-				// TODO Auto-generated method stub
-				if (t != null && Constants.RES.equals(t.res)) {
-					LogUtil.E(" getZone: " + t.prize_info);
-				} else {
-					LogUtil.E(" getZone: " + statusCode);
-				}
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg,
-					Throwable error) {
-				// TODO Auto-generated method stub
-			}
-		});
-	}*/
 }

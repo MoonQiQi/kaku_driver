@@ -17,10 +17,11 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -43,8 +44,7 @@ import com.yichang.kaku.response.MobileResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -72,6 +72,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private String MobileInfo = "";
 
     private boolean isOtherLogin;
+    SharedPreferences.Editor editor = KaKuApplication.editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_login);
 
         ViewUtils.inject(this);
-        bt_login.setEnabled(true);
         bt_login.setOnClickListener(this);
         bt_check.setOnClickListener(this);
         login_back = (TextView) findViewById(R.id.login_back);
@@ -89,11 +89,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         initReceiver();
         getInfo();
         initProtocal();
-
-        isOtherLogin=getIntent().getBooleanExtra("isOtherLogin",false);
-        if(isOtherLogin){
-           // Toast.makeText(this, "您的账号已在其他设备登陆 chaih", Toast.LENGTH_LONG);
-            LogUtil.showShortToast(this,"当前账号已在其他设备上登录，如非本人操作，请重新登录或联系客服");
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE |
+        WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        isOtherLogin = getIntent().getBooleanExtra("isOtherLogin", false);
+        if (isOtherLogin) {
+            LogUtil.showShortToast(this, "当前账号已在其他设备上登录，如非本人操作，请重新登录或联系客服");
         }
     }
 
@@ -204,7 +206,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
                 if (SmsMessage.createFromPdu(pdus[i]).getDisplayOriginatingAddress().endsWith("106904700027")) {
                     String messageBody = SmsMessage.createFromPdu(pdus[i]).getDisplayMessageBody();
-                    Log.d("xiaosu", messageBody);
                     login_psw.setText(messageBody.subSequence(13, 17));
                 }
 
@@ -218,13 +219,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         if (Utils.Many()) {
             return;
         }
-        String checkCode = login_psw.getText().toString().trim();
         String phone = login_name.getText().toString().trim();
         switch (v.getId()) {
             case R.id.bt_login:
 
                 MobclickAgent.onEvent(context, "Login");
-                bt_login.setEnabled(false);
                 // 登录
                 login();
 
@@ -259,19 +258,20 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private void getCaptcha() {
 
         Utils.NoNet(this);
-        showProgressDialog();
         String phone = login_name.getText().toString().trim();
         String appSign = genAppSign(phone, JPushInterface.getRegistrationID(context));
+
         MobileReq req = new MobileReq();
         req.code = "1004";
         req.phone_driver = phone;
         req.id_equipment = JPushInterface.getRegistrationID(context);
         req.sign = appSign;
 
-        KaKuApiProvider.getCaptcha(req, new BaseCallback<MobileResp>(MobileResp.class) {
+        KaKuApiProvider.getCaptcha(req, new KakuResponseListener<MobileResp>(this, MobileResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MobileResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getCaptcha res: " + t.res);
 
@@ -284,12 +284,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
                     Toast.makeText(LoginActivity.this, t.msg, Toast.LENGTH_SHORT).show();
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }
@@ -297,7 +291,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private void login() {
         Utils.NoNet(this);
         showProgressDialog();
-
         LoginReq req = new LoginReq();
         req.code = "1002";
         req.driver_equipment = "A";
@@ -308,33 +301,22 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         req.id_equipment = JPushInterface.getRegistrationID(this);
         req.vcode = login_psw.getText().toString().trim();
 
-        KaKuApiProvider.login(req, new BaseCallback<LoginResp>(LoginResp.class) {
-
+        KaKuApiProvider.login(req, new KakuResponseListener<LoginResp>(this, LoginResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, LoginResp t) {
-                if (t != null) {
-                    if (Constants.RES.equals(t.res)) {
-                        SharedPreferences.Editor editor = KaKuApplication.editor;
-                        editor.putBoolean(Constants.ISLOGIN, true);
-                        editor.putString(Constants.PHONE, login_name.getText().toString().trim());
-                        editor.putString(Constants.IDDRIVE, t.driver.getId_driver());
-                        editor.putString(Constants.IDCAR, t.id_car);
-                        editor.putString(Constants.NAMEDRIVE, t.driver.getName_driver());
-                        editor.putString(Constants.SID, t.driver.getSid());
-                        editor.commit();
-                        GoHome(t);
-                    } else {
-                        bt_login.setEnabled(true);
-                    }
-
-                    Toast.makeText(LoginActivity.this, t.msg, Toast.LENGTH_SHORT).show();
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (Constants.RES.equals(t.res)) {
+                    editor.putBoolean(Constants.ISLOGIN, true);
+                    editor.putString(Constants.PHONE, login_name.getText().toString().trim());
+                    editor.putString(Constants.IDDRIVE, t.driver.getId_driver());
+                    editor.putString(Constants.IDCAR, t.id_car);
+                    editor.putString(Constants.NAMEDRIVE, t.driver.getName_driver());
+                    editor.putString(Constants.SID, t.driver.getSid());
+                    editor.commit();
+                    GoHome(t);
                 }
                 stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
+                LogUtil.showShortToast(context, t.msg);
             }
         });
     }

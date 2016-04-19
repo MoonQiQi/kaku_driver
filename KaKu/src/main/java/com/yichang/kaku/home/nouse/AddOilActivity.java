@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -28,8 +28,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +188,6 @@ public class AddOilActivity extends BaseActivity implements OnClickListener,Adap
 
 	public void AddOil(int pageIndex, int pageSize){
 		Utils.NoNet(context);
-		showProgressDialog();
 		AddOilReq req = new AddOilReq();
 		req.code = "4008";
 		req.id_shop = KaKuApplication.id_shop;
@@ -199,29 +197,22 @@ public class AddOilActivity extends BaseActivity implements OnClickListener,Adap
 		req.flag_type = flag_type;
 		req.start = String.valueOf(pageIndex);
 		req.len = String.valueOf(pageSize);
-		KaKuApiProvider.AddOil(req, new BaseCallback<AddOilResp>(AddOilResp.class) {
+		KaKuApiProvider.AddOil(req, new KakuResponseListener<AddOilResp>(this, AddOilResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, AddOilResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("addoil res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
 						setData(t.itmes);
 						KaKuApplication.id_drop = "";
 						onLoadStop();
-					}else{
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
+					} else {
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
+
 		});
 
 	}
@@ -315,19 +306,20 @@ public class AddOilActivity extends BaseActivity implements OnClickListener,Adap
 		req.code = "40027";
 		req.id_shop = KaKuApplication.id_shop;
 		req.flag_type = flag_type;
-		KaKuApiProvider.ShaiXuanOil(req , new BaseCallback<ShaiXuanOilResp>(ShaiXuanOilResp.class) {
+		KaKuApiProvider.ShaiXuanOil(req, new KakuResponseListener<ShaiXuanOilResp>(this, ShaiXuanOilResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, ShaiXuanOilResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				stopProgressDialog();
 				if (t != null) {
 					LogUtil.E("shaixuan res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
 						list_shaixuan = t.drops;
-						adapter_shaixuan = new ShaiXuanOilAdapter(context,list_shaixuan);
+						adapter_shaixuan = new ShaiXuanOilAdapter(context, list_shaixuan);
 						lv_shaixuan.setAdapter(adapter_shaixuan);
 						lv_shaixuan.setVisibility(View.VISIBLE);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
+						if (Constants.RES_TEN.equals(t.res)) {
 							Utils.Exit(context);
 							finish();
 						}
@@ -336,10 +328,6 @@ public class AddOilActivity extends BaseActivity implements OnClickListener,Adap
 				}
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 }

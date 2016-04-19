@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -26,8 +26,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class OkPrizeActivity extends BaseActivity implements OnClickListener{
 	
@@ -116,16 +115,16 @@ public class OkPrizeActivity extends BaseActivity implements OnClickListener{
 
 	public void LingQuPrize(){
 		Utils.NoNet(context);
-		showProgressDialog();
 		LingQuPrizeReq req = new LingQuPrizeReq();
 		req.code = "70023";
 		req.id_wheel_win = id_wheel_win;
 		req.name_addr = tv_okprize_name.getText().toString().trim();
 		req.phone_addr = tv_okprize_phone.getText().toString().trim();
 		req.addr =tv_okprize_addr.getText().toString().trim();
-		KaKuApiProvider.LingQuPrize(req, new BaseCallback<LingQuPrizeResp>(LingQuPrizeResp.class) {
+		KaKuApiProvider.LingQuPrize(req, new KakuResponseListener<LingQuPrizeResp>(this,LingQuPrizeResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, LingQuPrizeResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("lingquprize res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -135,31 +134,22 @@ public class OkPrizeActivity extends BaseActivity implements OnClickListener{
 						finish();
 						LogUtil.showShortToast(context, t.msg);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 					}
 					LogUtil.showShortToast(context, t.msg);
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 
 	public void GetAddr(){
-		showProgressDialog();
 		GetAddrReq req = new GetAddrReq();
 		req.code = "70022";
 		req.id_driver = Utils.getIdDriver();
-		KaKuApiProvider.GetAddr2(req, new BaseCallback<GetAddrResp>(GetAddrResp.class) {
+		KaKuApiProvider.GetAddr2(req, new KakuResponseListener<GetAddrResp>(this,GetAddrResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, GetAddrResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("getaddr2 res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -178,20 +168,11 @@ public class OkPrizeActivity extends BaseActivity implements OnClickListener{
 							tv_okprize_addr.setText(t.addr.getAddr());
 						}
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 

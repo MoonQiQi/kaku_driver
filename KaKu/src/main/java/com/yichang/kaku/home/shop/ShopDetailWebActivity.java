@@ -10,7 +10,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -19,8 +19,7 @@ import com.yichang.kaku.response.ShopDetailWebResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class ShopDetailWebActivity extends BaseActivity implements OnClickListener{
 
@@ -64,7 +63,7 @@ public class ShopDetailWebActivity extends BaseActivity implements OnClickListen
 		int id = v.getId();
 		if (R.id.tv_back == id){
 			finish();
-			overridePendingTransition(R.anim.top_in,R.anim.top_out);
+			overridePendingTransition(R.anim.top_in, R.anim.top_out);
 		}
 	}
 
@@ -72,27 +71,20 @@ public class ShopDetailWebActivity extends BaseActivity implements OnClickListen
 		ShopDetailWebReq req = new ShopDetailWebReq();
 		req.code = "4003";
 		req.id_shop = KaKuApplication.id_shop;
-		KaKuApiProvider.ShopDetailWeb(req, new BaseCallback<ShopDetailWebResp>(ShopDetailWebResp.class) {
+		KaKuApiProvider.ShopDetailWeb(req, new KakuResponseListener<ShopDetailWebResp>(this, ShopDetailWebResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, ShopDetailWebResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("ShopDetailWeb res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
 						wv.loadUrl(t.url);
-					}else{
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
+					} else {
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-			}
 		});
 	}
 

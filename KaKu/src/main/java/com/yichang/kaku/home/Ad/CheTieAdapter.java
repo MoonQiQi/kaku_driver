@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
@@ -64,64 +63,45 @@ public class CheTieAdapter extends BaseAdapter {
 		}
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = mInflater.inflate(R.layout.item_chetie, null);
-			holder.iv_chetieitem_image = (ImageView) convertView.findViewById(R.id.iv_chetieitem_image);
-			holder.iv_chetieitem_mashangqiang = (ImageView) convertView.findViewById(R.id.iv_chetieitem_mashangqiang);
-			holder.tv_chetieitem_time = (TextView) convertView.findViewById(R.id.tv_chetieitem_time);
-			holder.tv_chetieitem_status = (TextView) convertView.findViewById(R.id.tv_chetieitem_status);
-			holder.tv_chetieitem_name = (TextView) convertView.findViewById(R.id.tv_chetieitem_name);
-			holder.tv_chetieitem_timeshouyi = (TextView) convertView.findViewById(R.id.tv_chetieitem_timeshouyi);
-			holder.tv_chetieitem_money = (TextView) convertView.findViewById(R.id.tv_chetieitem_money);
-			holder.tv_chetieitem_people = (TextView) convertView.findViewById(R.id.tv_chetieitem_people);
-			holder.tv_chetieitem_yuqishouyi = (TextView) convertView.findViewById(R.id.tv_chetieitem_yuqishouyi);
-			holder.tv_chetieitem_percent = (TextView) convertView.findViewById(R.id.tv_chetieitem_percent);
-			holder.progress_chetieitem = (ProgressBar) convertView.findViewById(R.id.progress_chetieitem);
+			convertView = mInflater.inflate(R.layout.item_taskchetie, null);
+			holder.iv_taskchetieitem_image = (ImageView) convertView.findViewById(R.id.iv_taskchetieitem_image);
+			holder.iv_taskchetieitem_status = (ImageView) convertView.findViewById(R.id.iv_taskchetieitem_status);
+			holder.iv_taskchetieitem_me = (ImageView) convertView.findViewById(R.id.iv_taskchetieitem_me);
+			holder.tv_taskchetieitem_time = (TextView) convertView.findViewById(R.id.tv_taskchetieitem_time);
+			holder.tv_taskchetieitem_name = (TextView) convertView.findViewById(R.id.tv_taskchetieitem_name);
+			holder.tv_taskchetieitem_money = (TextView) convertView.findViewById(R.id.tv_taskchetieitem_money);
+			holder.tv_taskchetieitem_people = (TextView) convertView.findViewById(R.id.tv_taskchetieitem_people);
+			holder.tv_taskchetieitem_rishouyi = (TextView) convertView.findViewById(R.id.tv_taskchetieitem_rishouyi);
 
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.iv_chetieitem_image.setImageURI(Uri.parse(KaKuApplication.qian_zhui + obj.getImage_advert()));
-		holder.tv_chetieitem_name.setText(obj.getName_advert());
-		holder.tv_chetieitem_percent.setText(obj.getSales_percent()+"%");
-		holder.tv_chetieitem_timeshouyi.setText(obj.getTime_begin() +"至"+obj.getTime_end()+"标准收益"+obj.getDay_continue()+"天");
-
-		String string_money = "¥ " + obj.getTotal_earnings()+" 标准收益";
-		SpannableStringBuilder style = new SpannableStringBuilder(string_money);
-		style.setSpan(new AbsoluteSizeSpan(18, true), 0, string_money.length()-5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		style.setSpan(new ForegroundColorSpan(Color.rgb(255, 81, 92)), 0, string_money.length()-5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		holder.tv_chetieitem_money.setText(style);
-
-		String string_shouyi = "售价：¥ "+obj.getPrice_advert();
+		String string_shouyi = "¥ "+obj.getDay_earnings()+" 日收益";
 		SpannableStringBuilder style2 = new SpannableStringBuilder(string_shouyi);
-		style2.setSpan(new ForegroundColorSpan(Color.rgb(255, 81, 92)), 3, string_shouyi.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		holder.tv_chetieitem_yuqishouyi.setText(style2);
+		style2.setSpan(new ForegroundColorSpan(Color.rgb(255, 81, 92)), 0, string_shouyi.length() - 4 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		style2.setSpan(new AbsoluteSizeSpan(18, true), 1, string_shouyi.length() - 4 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		holder.tv_taskchetieitem_rishouyi.setText(style2);
 
-		String string_people = obj.getNum_driver()+"人参与";
-		SpannableStringBuilder style3 = new SpannableStringBuilder(string_people);
-		style3.setSpan(new ForegroundColorSpan(Color.rgb(0, 0, 0)), 0, string_people.length() - 3 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		holder.tv_chetieitem_people.setText(style3);
+		holder.iv_taskchetieitem_image.setImageURI(Uri.parse(KaKuApplication.qian_zhui + obj.getImage_advert()));
+		holder.tv_taskchetieitem_name.setText(obj.getName_advert());
+		holder.tv_taskchetieitem_money.setText(obj.getTotal_earnings()+"元标准收益");
+		holder.tv_taskchetieitem_people.setText(obj.getNum_driver()+"人参与");
+		holder.tv_taskchetieitem_time.setText(obj.getTime_begin()+"至"+obj.getTime_end()+"收益");
 
-		holder.progress_chetieitem.setProgress((int) Float.parseFloat(obj.getSales_percent()));
-		if (TextUtils.equals(obj.getFlag_type(),"Y")){
-			holder.iv_chetieitem_mashangqiang.setVisibility(View.VISIBLE);
-		} else {
-			holder.iv_chetieitem_mashangqiang.setVisibility(View.GONE);
-		}
 		if (TextUtils.equals(obj.getFlag_type(),"O")){
-			holder.tv_chetieitem_time.setText(obj.getTime_end_sell()+"起抢购");
-		} else {
-			holder.tv_chetieitem_time.setText(obj.getTime_end_sell()+"前抢购");
-		}
-		if (TextUtils.equals(obj.getFlag_type(),"O")){
-			holder.tv_chetieitem_status.setText("即将开始");
+			holder.iv_taskchetieitem_status.setImageResource(R.drawable.chetieyuyuezhong);
 		} else if (TextUtils.equals(obj.getFlag_type(),"Y")){
-			holder.tv_chetieitem_status.setText("抢购中");
+			holder.iv_taskchetieitem_status.setImageResource(R.drawable.chetiejinxingzhong);
 		} else if (TextUtils.equals(obj.getFlag_type(),"E")){
-			holder.tv_chetieitem_status.setText("已结束");
-		} else if (TextUtils.equals(obj.getFlag_type(),"N")){
-			holder.tv_chetieitem_status.setText("已抢完");
+			holder.iv_taskchetieitem_status.setImageResource(R.drawable.chetieyijieshu);
+		}
+
+		if ("Y".equals(obj.getFlag_join())){
+			holder.iv_taskchetieitem_me.setVisibility(View.VISIBLE);
+		} else {
+			holder.iv_taskchetieitem_me.setVisibility(View.GONE);
 		}
 
 		return convertView;
@@ -129,18 +109,14 @@ public class CheTieAdapter extends BaseAdapter {
 
 	class ViewHolder {
 
-		private ImageView iv_chetieitem_image;
-		private ImageView iv_chetieitem_mashangqiang;
-		private TextView tv_chetieitem_time;
-		private	 TextView tv_chetieitem_status;
-		private	 TextView tv_chetieitem_name;
-		private	 TextView tv_chetieitem_timeshouyi;
-		private	 TextView tv_chetieitem_money;
-		private	 TextView tv_chetieitem_people;
-		private	 TextView tv_chetieitem_yuqishouyi;
-		private	 TextView tv_chetieitem_day;
-		private	 TextView tv_chetieitem_percent;
-		private ProgressBar progress_chetieitem;
+		private  ImageView iv_taskchetieitem_image;
+		private  ImageView iv_taskchetieitem_status;
+		private  ImageView iv_taskchetieitem_me;
+		private  TextView tv_taskchetieitem_time;
+		private	 TextView tv_taskchetieitem_name;
+		private	 TextView tv_taskchetieitem_rishouyi;
+		private	 TextView tv_taskchetieitem_money;
+		private	 TextView tv_taskchetieitem_people;
 
 	}
 }

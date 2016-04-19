@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.request.AddBankCardReq;
@@ -23,8 +23,7 @@ import com.yichang.kaku.response.BaseResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class AddBankCardActivity extends BaseActivity implements OnClickListener {
 
@@ -213,41 +212,28 @@ public class AddBankCardActivity extends BaseActivity implements OnClickListener
 
     private void addBankCard() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         AddBankCardReq req = new AddBankCardReq();
         req.code = "5005";
-        req.id_driver = Utils.getIdDriver();
         req.driver_bank = et_bankcard_name.getText().toString().trim();
         req.card_bank = et_bankcard_no.getText().toString().trim();
         req.name_bank = tv_bankcard_bank.getText().toString().trim();
 
-        KaKuApiProvider.addNewBankCard(req, new BaseCallback<BaseResp>(BaseResp.class) {
+        KaKuApiProvider.addNewBankCard(req, new KakuResponseListener<BaseResp>(this, BaseResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, BaseResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("addNewBankCard res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         AddBankCardActivity.this.finish();
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
-
     }
 
     @Override

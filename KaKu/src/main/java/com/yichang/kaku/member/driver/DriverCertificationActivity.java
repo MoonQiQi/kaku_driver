@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.request.DriverCertificationReq;
@@ -18,8 +18,7 @@ import com.yichang.kaku.response.DriverCertificationResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class DriverCertificationActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener, AdapterView.OnItemClickListener {
     private TextView title, left, right;
@@ -119,7 +118,6 @@ public class DriverCertificationActivity extends BaseActivity implements OnClick
                 SaveInfo();
             }
 
-
         }
     }
 
@@ -139,7 +137,6 @@ public class DriverCertificationActivity extends BaseActivity implements OnClick
 
     public void SaveInfo() {
         Utils.NoNet(context);
-        showProgressDialog();
 /*        final String name = et_certification_name.getText().toString().trim();
         final String id = et_certification_id.getText().toString().trim();*/
 /*todo */
@@ -149,9 +146,10 @@ public class DriverCertificationActivity extends BaseActivity implements OnClick
         req.card_driver = et_certification_id.getText().toString().trim();
         req.name_real = et_certification_name.getText().toString().trim();
 
-        KaKuApiProvider.submitDriverCertification(req, new BaseCallback<DriverCertificationResp>(DriverCertificationResp.class) {
+        KaKuApiProvider.submitDriverCertification(req, new KakuResponseListener<DriverCertificationResp>(this, DriverCertificationResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DriverCertificationResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("submitDriverCertification res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -161,21 +159,13 @@ public class DriverCertificationActivity extends BaseActivity implements OnClick
                         Intent intent = new Intent();
                         intent.putExtra("flag", "认证中");
                         intent.putExtra("certifi_name", et_certification_name.getText().toString().trim());
-                        intent.putExtra("certifi_ID",et_certification_id.getText().toString().trim() );
+                        intent.putExtra("certifi_ID", et_certification_id.getText().toString().trim());
                         setResult(111, intent);
                         finish();
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
-
     }
 
     @Override

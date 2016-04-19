@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -42,8 +42,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +188,7 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle("提示");
             builder.setMessage("是否取消订单？");
-            builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+            builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -198,7 +197,7 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
                 }
             });
 
-            builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+            builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -245,15 +244,15 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
 
     private void payOrder() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         WXPayInfoReq req = new WXPayInfoReq();
         req.code = "30021";
         req.no_bill = no_order;
 
-        KaKuApiProvider.getWXPayInfo(req, new BaseCallback<WXPayInfoResp>(WXPayInfoResp.class) {
+        KaKuApiProvider.getWXPayInfo(req, new KakuResponseListener<WXPayInfoResp>(this, WXPayInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, WXPayInfoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
 
                 if (t != null) {
                     LogUtil.E("getWXPayInfo res: " + t.res);
@@ -264,10 +263,6 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -328,13 +323,13 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
 
     public void OrderDetail() {
         Utils.NoNet(context);
-        showProgressDialog();
         OrderDetailReq req = new OrderDetailReq();
         req.code = "40022";
         req.id_order = KaKuApplication.id_orderA;
-        KaKuApiProvider.OrderDetail(req, new BaseCallback<OrderDetailResp>(OrderDetailResp.class) {
+        KaKuApiProvider.OrderDetail(req, new KakuResponseListener<OrderDetailResp>(this, OrderDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("orderdetail res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -372,8 +367,8 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
                         tv_orderA_peoname.setText(t.order.getName_driver());
                         tv_orderA_peophone.setText(t.order.getPhone_driver());
                         String substring1 = t.order.getTime_order().substring(0, 10);
-                        String substring2 = t.order.getTime_order().substring(11,19);
-                        tv_A_yuyueshijian.setText(substring1+"\n"+"     "+substring2);
+                        String substring2 = t.order.getTime_order().substring(11, 19);
+                        tv_A_yuyueshijian.setText(substring1 + "\n" + "     " + substring2);
                         String star = t.order.getNum_star();
                         float starFloat = Float.valueOf(star);
                         star_A_shop.setRating(starFloat);
@@ -493,13 +488,8 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -507,7 +497,7 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("提示");
         builder.setMessage("确认拨打:" + phone + "？");
-        builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+        builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -517,7 +507,7 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
             }
         });
 
-        builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+        builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -550,13 +540,13 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
 
     public void QuXiaoDingDan() {
         Utils.NoNet(context);
-        showProgressDialog();
         QuXiaoDingDanReq req = new QuXiaoDingDanReq();
         req.code = "40015";
         req.id_order = KaKuApplication.id_orderA;
-        KaKuApiProvider.QuXiaoDingDan(req, new BaseCallback<QuXiaoDingDanResp>(QuXiaoDingDanResp.class) {
+        KaKuApiProvider.QuXiaoDingDan(req, new KakuResponseListener<QuXiaoDingDanResp>(this, QuXiaoDingDanResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, QuXiaoDingDanResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("quxiaodingdan res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -566,13 +556,8 @@ public class OrderDetailAActivity extends BaseActivity implements OnClickListene
                     }
                     LogUtil.showShortToast(context, t.msg);
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

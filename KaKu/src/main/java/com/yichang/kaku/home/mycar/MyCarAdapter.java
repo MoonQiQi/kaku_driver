@@ -77,7 +77,6 @@ public class MyCarAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         BitmapUtil.getInstance(mContext).download(holder.iv_mycaritem_image, KaKuApplication.qian_zhui + obj.getImage_brand());
-        //BitmapUtil.getInstance(mContext).download(holder.iv_mycaritem_icon,KaKuApplication.qian_zhui+obj.getImage_model());
         holder.tv_mycaritem_pinpai.setText(obj.getNick_name());
         String milseage = obj.getTravel_mileage().toString().trim();
         String timeProduction = obj.getTime_production().toString().trim();
@@ -121,7 +120,7 @@ public class MyCarAdapter extends BaseAdapter {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setTitle("提示");
                     builder.setMessage("是否删除？");
-                    builder.setNegativeButton("是", new android.content.DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -131,7 +130,7 @@ public class MyCarAdapter extends BaseAdapter {
                         }
                     });
 
-                    builder.setPositiveButton("否", new android.content.DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -173,6 +172,7 @@ public class MyCarAdapter extends BaseAdapter {
 
     public void setButtonState(IChangeButtonState changeButtonState) {
         this.changeButtonState = changeButtonState;
+
     }
 
     private IChangeButtonState changeButtonState;

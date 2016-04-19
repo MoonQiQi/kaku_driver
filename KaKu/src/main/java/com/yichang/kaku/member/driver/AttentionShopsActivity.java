@@ -12,11 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.ShopDetailActivity;
+import com.yichang.kaku.home.shop.ShopDetailActivity;
 import com.yichang.kaku.obj.AttentionShopObj;
 import com.yichang.kaku.request.AttentionShopsReq;
 import com.yichang.kaku.response.AttentionShopsResp;
@@ -25,8 +25,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +33,7 @@ import java.util.List;
 public class AttentionShopsActivity extends BaseActivity implements OnClickListener, AdapterView.OnItemClickListener {
     //titleBar,返回，购物车，标题,标题栏布局
     private TextView left, right, title;
-
-
-
     private XListView xListView;
-
     private final static int STEP = 5;
     private int start = 0, pageindex = 0, pagesize = STEP;
     private final static int INDEX = 5;// 一屏显示的个数
@@ -86,12 +81,10 @@ public class AttentionShopsActivity extends BaseActivity implements OnClickListe
 
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
 
-
     }
 
     private void getPointHistoryInfo(int pageindex, int pagesize) {
 
-       //Utils.NoNet(context);
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
 
@@ -100,7 +93,6 @@ public class AttentionShopsActivity extends BaseActivity implements OnClickListe
             setNoDataLayoutState(ll_container);
 
         }
-        showProgressDialog();
 
         AttentionShopsReq req = new AttentionShopsReq();
         req.code = "10022";
@@ -108,38 +100,23 @@ public class AttentionShopsActivity extends BaseActivity implements OnClickListe
         req.start = String.valueOf(pageindex);
         req.len = String.valueOf(pagesize);
 
-        KaKuApiProvider.getAttentionShops(req, new BaseCallback<AttentionShopsResp>(AttentionShopsResp.class) {
+        KaKuApiProvider.getAttentionShops(req, new KakuResponseListener<AttentionShopsResp>(this, AttentionShopsResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AttentionShopsResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getMemberPointInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
                         setData(t.shops);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
-                    //LogUtil.showShortToast(context, t.msg);
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
-
-
     }
-
-
 
     private void setData(List<AttentionShopObj> shops) {
         if (shops != null) {
@@ -219,7 +196,6 @@ public class AttentionShopsActivity extends BaseActivity implements OnClickListe
 
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("关注店铺");
-
 
     }
 

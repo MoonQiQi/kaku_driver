@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.callback.ShareContentCustomizeDemo;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
@@ -34,8 +34,7 @@ import com.yichang.kaku.response.DiscoveryShareResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,11 +194,12 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
         DiscoveryDetailReq req = new DiscoveryDetailReq();
         req.code = "7002";
         req.id_news = id_news;
-        KaKuApiProvider.getDiscoveryDetailUrl(req, new BaseCallback<DiscoveryDetailResp>(DiscoveryDetailResp.class) {
+        KaKuApiProvider.getDiscoveryDetailUrl(req, new KakuResponseListener<DiscoveryDetailResp>(this, DiscoveryDetailResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers,
-                                     DiscoveryDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+
                 // TODO Auto-generated method stub
                 if (t != null) {
                     LogUtil.E("discovery_detail res: " + t.res);
@@ -215,15 +215,9 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-                stopProgressDialog();
-            }
+
         });
     }
 
@@ -281,11 +275,11 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
         req.code = code;
         req.id_driver = Utils.getIdDriver();
         req.id_news = id_news;
-        KaKuApiProvider.addDiscoveryFavor(req, new BaseCallback<DiscoveryAddFavorResp>(DiscoveryAddFavorResp.class) {
+        KaKuApiProvider.addDiscoveryFavor(req, new KakuResponseListener<DiscoveryAddFavorResp>(this, DiscoveryAddFavorResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers,
-                                     DiscoveryAddFavorResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 if (t != null) {
                     if (Constants.RES.equals(t.res)) {
@@ -298,12 +292,6 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-                stopProgressDialog();
-            }
         });
     }
 
@@ -315,9 +303,10 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
         req.id_driver = Utils.getIdDriver();
         req.id_news = id_news;
 
-        KaKuApiProvider.cancelDiscoveryFavor(req, new BaseCallback<DiscoveryCancelFavorResp>(DiscoveryCancelFavorResp.class) {
+        KaKuApiProvider.cancelDiscoveryFavor(req, new KakuResponseListener<DiscoveryCancelFavorResp>(this, DiscoveryCancelFavorResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DiscoveryCancelFavorResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("cancelDiscoveryFavor res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -330,10 +319,6 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }
@@ -343,11 +328,11 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
         DiscoveryShareReq req = new DiscoveryShareReq();
         req.code = "7008";
         req.id_news = id_news;
-        KaKuApiProvider.getShareInfos(req, new BaseCallback<DiscoveryShareResp>(DiscoveryShareResp.class) {
+        KaKuApiProvider.getShareInfos(req, new KakuResponseListener<DiscoveryShareResp>(this, DiscoveryShareResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers,
-                                     DiscoveryShareResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 stopProgressDialog();
                 if (t != null) {
@@ -363,12 +348,7 @@ public class DiscoveryDetailActivity extends BaseActivity implements OnClickList
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-                stopProgressDialog();
-            }
+
         });
     }
 

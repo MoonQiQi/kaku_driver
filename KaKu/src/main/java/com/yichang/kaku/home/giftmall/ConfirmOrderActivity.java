@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -37,10 +38,9 @@ import com.yichang.kaku.response.ConfirmOrderResp;
 import com.yichang.kaku.response.GenerateOrderResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.InputPwdPopWindow;
+import com.yichang.kaku.view.popwindow.InputPwdPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
     //商品总额 //减积分//减余额//实付款
     private TextView tv_confirmorder_totalprice, tv_point_pricepoint, tv_balance_pricepoint, tv_confirmorder_pricebill;
     //使用积分、积分总额、积分抵扣金额
-    private CheckBox cbx_point_toggle;
+    private CheckBox cbx_point_toggle, cb_point_xianchanggoumai;
     private TextView tv_point_total, tv_point_available;
     //使用余额、余额总额、余额抵扣金额
     private CheckBox cbx_balance_toggle;
@@ -120,6 +120,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
     private Float fPriceGoods, fRealPayPrice;
     private Boolean isPwdPopWindowShow = false;
     private boolean isCancleSetPwd;
+    private boolean isNow = false;
 
 
     @Override
@@ -127,6 +128,11 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmorder);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         init();
     }
 
@@ -157,27 +163,24 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
     }
 
     private void getOrderInfo() {
-        //list = new ArrayList<>();
         String id_goods_shopcars = getIntent().getStringExtra("id_goods_shopcars");
 
         Utils.NoNet(context);
         showProgressDialog();
 
         ConfirmOrderReq req = new ConfirmOrderReq();
-        //todo 测试用id_driver字段
         req.code = "3007";
-//        req.id_driver = "1";
         req.id_driver = Utils.getIdDriver();
         req.id_goods_shopcars = id_goods_shopcars;
 
-        KaKuApiProvider.getConfirmOrderInfo(req, new BaseCallback<ConfirmOrderResp>(ConfirmOrderResp.class) {
+        KaKuApiProvider.getConfirmOrderInfo(req, new KakuResponseListener<ConfirmOrderResp>(this, ConfirmOrderResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ConfirmOrderResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
-
-//                    LogUtil.E("getConfirmOrderInfo res: " + t.res);
+                    LogUtil.E("getConfirmOrderInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-//设置确认订单页面数据
+                        //设置确认订单页面数据
                         setData(t);
                     } else {
                         if (Constants.RES_TEN.equals(t.res)) {
@@ -190,17 +193,13 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
-
 
     }
 
     private void setData(ConfirmOrderResp t) {
         if (t.shopcar != null) {
+            list.clear();
             list.addAll(t.shopcar);
         }
 
@@ -314,17 +313,15 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
 
         tv_bottombar_pay = (TextView) findViewById(R.id.tv_bottombar_pay);
         tv_bottombar_pay.setOnClickListener(this);
+        tv_bottombar_pay.setEnabled(true);
     }
 
     private void initPointPrice() {
 
-        //cbx_point_toggle, tv_point_total, ;
         tv_point_available = (TextView) findViewById(R.id.tv_point_available);
         tv_point_total = (TextView) findViewById(R.id.tv_point_total);
 
-
         cbx_point_toggle = (CheckBox) findViewById(R.id.cbx_point_toggle);
-        // cbx_point_toggle.setOnClickListener(this);
         cbx_point_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -341,7 +338,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                     tv_point_available.setTextColor(Color.parseColor("#d10000"));
                     //先选择余额
                     if (isBalanceChecked) {
-                        fPointDeduction=fPointLimit;
+                        fPointDeduction = fPointLimit;
                         fRealPayPrice = fPriceGoods - fPointDeduction;
                         if (fBalanceDeduction >= fRealPayPrice) {
 
@@ -354,7 +351,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                         //fRealPayPrice=fRealPayPrice-fPointDeduction;
 
                     } else {
-                        fPointDeduction=fPointLimit;
+                        fPointDeduction = fPointLimit;
                         fRealPayPrice = fPriceGoods - fPointDeduction;
                     }
 
@@ -370,7 +367,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                     tv_point_available.setTextColor(Color.parseColor("#999999"));
 
 
-//实付款=实付款+积分抵扣金额
+                    //实付款=实付款+积分抵扣金额
                     fRealPayPrice = fRealPayPrice + fPointDeduction;
                     if (isBalanceChecked) {
                         //如果余额支付勾选中，则判断余额金额
@@ -389,7 +386,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                         }
                     }
 
-                    fPointDeduction=0f;
+                    fPointDeduction = 0f;
                     tv_point_pricepoint.setText("-￥0.00");
                     tv_confirmorder_pricebill.setText("￥" + getFomatFloatString(fRealPayPrice));
 
@@ -457,7 +454,7 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
 
                         fRealPayPrice = fRealPayPrice + fBalanceDeduction;
 
-                        fBalanceDeduction=0f;
+                        fBalanceDeduction = 0f;
 
                         tv_balance_pricepoint.setText("-￥0.00");
 
@@ -531,9 +528,9 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
         int id = v.getId();
 
         if (R.id.tv_left == id) {
-            finish();
             Intent intent = new Intent(getApplicationContext(), ShopCartActivity.class);
             startActivity(intent);
+            finish();
         } else if (R.id.tv_bottombar_pay == id) {
 //            与服务器交互生成订单
             MobclickAgent.onEvent(context, "CommitCarOrder");
@@ -579,13 +576,6 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                     public void confirmPwd(Boolean isConfirmed) {
                         if (isConfirmed) {
                             //如果使用过余额，则判断是否进入收银台
-                            /*if(fRealPayPrice>0.0f){
-                                //实付款大于0，需要进入收银台
-                                generateOrderId();
-
-                            }else if(fRealPayPrice==0.0f){
-                                generateOrderId();
-                            }*/
                             isPwdPopWindowShow = false;
                             generateOrderId();
                         }
@@ -605,9 +595,13 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                 });
 
                 input.show();
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE |
+                        WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
             }
-        }, 200);
+        }, 0);
     }
 
     @Override
@@ -617,32 +611,24 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
             tv_address_name.setText(data.getStringExtra("name"));
             tv_address_phone.setText(data.getStringExtra("phone"));
             tv_address_address.setText(data.getStringExtra("addr"));
-        }else if(resultCode == 125){
+        } else if (resultCode == 125) {
             //新建地址未保存时，不更改控件显示内容
         }
     }
 
     private void generateOrderId() {
 
-        if (TextUtils.isEmpty(type_pay)) {
-            LogUtil.showShortToast(context, "请选择支付方式");
-            return;
-        }
-        if (TextUtils.isEmpty(tv_address_address.getText().toString().trim()) || TextUtils.isEmpty(tv_address_name.getText().toString().trim()) || TextUtils.isEmpty(tv_address_phone.getText().toString().trim())) {
-            LogUtil.showShortToast(context, "请选择正确的收货地址");
-            return;
-        }
-        /*if (isInvoiceChecked) {
-            if (TextUtils.isEmpty(var_invoice)) {
-                LogUtil.showShortToast(context, "请输入发票抬头");
+        if (!isNow) {
+
+            if (TextUtils.isEmpty(tv_address_address.getText().toString().trim()) || TextUtils.isEmpty(tv_address_name.getText().toString().trim()) || TextUtils.isEmpty(tv_address_phone.getText().toString().trim())) {
+                LogUtil.showShortToast(context, "请选择正确的收货地址");
                 return;
             }
-        }*/
+        }
 
         Utils.NoNet(context);
         showProgressDialog();
-
-
+        tv_bottombar_pay.setEnabled(false);
         GenerateOrderReq req = new GenerateOrderReq();
         req.code = "3008";
         req.id_driver = Utils.getIdDriver();
@@ -683,22 +669,18 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
 //为实付款赋值，在支付完成回调页上显示
         KaKuApplication.realPayment = getFomatFloatString(fRealPayPrice);
 
-        LogUtil.E("chaih req" + req);
-
-        KaKuApiProvider.generateOrderInfo(req, new BaseCallback<GenerateOrderResp>(GenerateOrderResp.class) {
+        KaKuApiProvider.generateOrderInfo(req, new KakuResponseListener<GenerateOrderResp>(this, GenerateOrderResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, GenerateOrderResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 //stopProgressDialog();
                 if (t != null) {
                     LogUtil.E("generateOrderInfo res: " + t.toString());
-
+                    tv_bottombar_pay.setEnabled(true);
                     if (Constants.RES.equals(t.res)) {
                         //todo 判断是否进入收银台
 
                         if (fRealPayPrice == 0f) {
-                            /*Intent intent = new Intent(context, TruckOrderDetailActivity.class);
-                            intent.putExtra("idbill", t.id_bill);
-                            startActivity(intent);*/
                             //变更订单类型为truck
                             KaKuApplication.payType = "TRUCK";
                             Intent intent = new Intent(context, AlipayCallBackActivity.class);
@@ -712,24 +694,14 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
                             intent.putExtra("price_bill", getFomatFloatString(fRealPayPrice));
                             startActivity(intent);
                         }
-
-                        //intent.putExtra("price_bill", price_bill);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
                 stopProgressDialog();
             }
-        });
 
+        });
 
     }
 
@@ -758,13 +730,13 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
             ll_address.setVisibility(View.VISIBLE);
             tv_notify.setVisibility(View.INVISIBLE);
 
-            if(!TextUtils.isEmpty(KaKuApplication.name_addr)){
+            if (!TextUtils.isEmpty(KaKuApplication.name_addr)) {
                 tv_address_name.setText(KaKuApplication.name_addr);
             }
-            if(!TextUtils.isEmpty(KaKuApplication.phone_addr)){
+            if (!TextUtils.isEmpty(KaKuApplication.phone_addr)) {
                 tv_address_phone.setText(KaKuApplication.phone_addr);
             }
-            if(!TextUtils.isEmpty(KaKuApplication.dizhi_addr)){
+            if (!TextUtils.isEmpty(KaKuApplication.dizhi_addr)) {
                 tv_address_address.setText(KaKuApplication.dizhi_addr);
             }
 
@@ -792,18 +764,15 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
 
         int totalHeight = 0;
         for (int i = 0; i < listAdapter.getCount(); i++) {
-            LogUtil.E("listAdapter.getCount():" + listAdapter.getCount());
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
 
             totalHeight += listItem.getMeasuredHeight();
-            LogUtil.E("totalHeight" + i + ":" + totalHeight);
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         //params.height += 5;
-        LogUtil.E("params.height:" + params.height);
         listView.setLayoutParams(params);
     }
 
@@ -811,9 +780,9 @@ public class ConfirmOrderActivity extends BaseActivity implements OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
             Intent intent = new Intent(getApplicationContext(), ShopCartActivity.class);
             startActivity(intent);
+            finish();
         }
         return false;
     }

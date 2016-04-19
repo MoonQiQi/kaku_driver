@@ -12,10 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -29,8 +28,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,10 +173,11 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.getDiscoveryFavorList(req, new BaseCallback<DiscoveryListResp>(DiscoveryListResp.class) {
+        KaKuApiProvider.getDiscoveryFavorList(req, new KakuResponseListener<DiscoveryListResp>(this, DiscoveryListResp.class) {
 
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DiscoveryListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 // TODO Auto-generated method stub
                 stopProgressDialog();
                 if (t != null) {
@@ -186,7 +185,7 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                     if (Constants.RES.equals(t.res)) {
                         setData(t.newss);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
+                        if (Constants.RES_TEN.equals(t.res)) {
                             Utils.Exit(context);
                             finish();
                         }
@@ -196,12 +195,7 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg,
-                                  Throwable error) {
-                // TODO Auto-generated method stub
-                stopProgressDialog();
-            }
+
         });
     }
 
@@ -307,9 +301,10 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
         req.id_driver = Utils.getIdDriver();
         req.id_news = obj.getId_news();
 
-        KaKuApiProvider.cancelDiscoveryFavor(req, new BaseCallback<DiscoveryCancelFavorResp>(DiscoveryCancelFavorResp.class) {
+        KaKuApiProvider.cancelDiscoveryFavor(req, new KakuResponseListener<DiscoveryCancelFavorResp>(this, DiscoveryCancelFavorResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, DiscoveryCancelFavorResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("cancelDiscoveryFavor res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -326,7 +321,7 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                         }
 
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
+                        if (Constants.RES_TEN.equals(t.res)) {
                             Utils.Exit(context);
                             finish();
                             LogUtil.showShortToast(context, t.msg);
@@ -336,10 +331,6 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }

@@ -307,12 +307,14 @@ public class TruckOrderReturnActivity extends BaseActivity implements OnClickLis
                 HttpClient client = new DefaultHttpClient();
                 // 设置上传参数
                 List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+                formparams.add(new BasicNameValuePair("id_driver", Utils.getIdDriver()));
+                formparams.add(new BasicNameValuePair("sid", Utils.getSid()));
                 formparams.add(new BasicNameValuePair("code", "30014"));
                 formparams.add(new BasicNameValuePair("id_bill",mId_bill));
                 formparams.add(new BasicNameValuePair("describe_repair", String.valueOf(et_fanxiu.getText().toString().trim())));
                 formparams.add(new BasicNameValuePair("image_repair", file));
                 LogUtil.E("----"+formparams.toString());
-                HttpPost post = new HttpPost(UrlCtnt.BASEIP);
+                HttpPost post = new HttpPost(UrlCtnt.BASEIP+"bill/bill_repair_apply");
                 UrlEncodedFormEntity entity;
                 try {
                     entity = new UrlEncodedFormEntity(formparams, "UTF-8");

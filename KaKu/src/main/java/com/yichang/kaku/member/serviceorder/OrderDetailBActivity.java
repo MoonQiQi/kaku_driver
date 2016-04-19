@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -35,8 +35,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,13 +190,13 @@ public class OrderDetailBActivity extends BaseActivity implements OnClickListene
 
     public void OrderDetail() {
         Utils.NoNet(context);
-        showProgressDialog();
         OrderDetailReq req = new OrderDetailReq();
         req.code = "40022";
         req.id_order = KaKuApplication.id_orderB;
-        KaKuApiProvider.OrderDetail(req, new BaseCallback<OrderDetailResp>(OrderDetailResp.class) {
+        KaKuApiProvider.OrderDetail(req, new KakuResponseListener<OrderDetailResp>(this, OrderDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("orderdetail res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -266,8 +265,8 @@ public class OrderDetailBActivity extends BaseActivity implements OnClickListene
                             iv_B_fu.setVisibility(View.GONE);
                         }
                         String substring1 = t.order.getTime_order().substring(0, 10);
-                        String substring2 = t.order.getTime_order().substring(11,19);
-                        tv_B_yuyueshijian.setText(substring1+"\n"+"     "+substring2);
+                        String substring2 = t.order.getTime_order().substring(11, 19);
+                        tv_B_yuyueshijian.setText(substring1 + "\n" + "     " + substring2);
                         tv_B_yuyuema.setText(t.order.getCode_order());
                         Bitmap creatMyCode = Utils.createQRCode(t.order.getCode_order());
                         iv_B_yuyuema.setImageBitmap(creatMyCode);
@@ -356,13 +355,8 @@ public class OrderDetailBActivity extends BaseActivity implements OnClickListene
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

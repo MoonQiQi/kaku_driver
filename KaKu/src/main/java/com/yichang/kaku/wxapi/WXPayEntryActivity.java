@@ -15,7 +15,6 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -23,16 +22,7 @@ import com.yichang.kaku.global.MainActivity;
 import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
 import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
-import com.yichang.kaku.payhelper.alipay.AlipayCallBackActivity;
-import com.yichang.kaku.request.ServiceOrderPayReq;
-import com.yichang.kaku.request.TruckOrderPayReq;
-import com.yichang.kaku.response.ServiceOrderPayResp;
-import com.yichang.kaku.response.TruckOrderPayResp;
-import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     //titleBar
@@ -135,17 +125,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 case 0:
                     KaKuApplication.WXPayResult = "success";
                     Utils.NoNet(context);
-                    //showProgressDialog();
-
-                    /*if (KaKuApplication.payType == "SERVICE") {
-                        notifyServiceOrder();
-                    } else if (KaKuApplication.payType == "TRUCK") {
-                        notifyTruckOrder();
-                    }else if (KaKuApplication.payType == "STICKER") {
-
-                        gotoCheTieOrderListActivity();
-                        KaKuApplication.payType = "";
-                    }*/
                     break;
                 case -1:
                     textView.setText("支付失败");
@@ -186,14 +165,15 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         }
     }
 
-    private void notifyServiceOrder() {
+    /*private void notifyServiceOrder() {
         ServiceOrderPayReq req = new ServiceOrderPayReq();
         req.code = "40012";
         req.no_order = KaKuApplication.id_order;
 
-        KaKuApiProvider.payServiceOrder(req, new BaseCallback<ServiceOrderPayResp>(ServiceOrderPayResp.class) {
+        KaKuApiProvider.payServiceOrder(req, new KakuResponseListener<ServiceOrderPayResp>(this, ServiceOrderPayResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ServiceOrderPayResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 stopProgressDialog();
                 if (t != null) {
                     LogUtil.E("payTruckOrder res: " + t.res);
@@ -206,11 +186,12 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
+                super.onFailed(what, url, tag, message, responseCode, networkMillis);
                 stopProgressDialog();
                 KaKuApplication.id_order = "";
-
             }
+
         });
     }
 
@@ -219,9 +200,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         req.code = "3009";
         req.no_bill = KaKuApplication.id_bill;
 
-        KaKuApiProvider.payTruckOrder(req, new BaseCallback<TruckOrderPayResp>(TruckOrderPayResp.class) {
+        KaKuApiProvider.payTruckOrder(req, new KakuResponseListener<TruckOrderPayResp>(this, TruckOrderPayResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, TruckOrderPayResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
 
                 if (t != null) {
                     LogUtil.E("payTruckOrder res: " + t.res);
@@ -235,13 +217,16 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
+            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
+                super.onFailed(what, url, tag, message, responseCode, networkMillis);
                 stopProgressDialog();
                 KaKuApplication.id_bill = "";
-                // KaKuApplication.payType = "";
             }
+
+
         });
-    }
+    }*/
+
     private void gotoCheTieOrderListActivity() {
         Intent intent =new Intent(context,CheTieOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

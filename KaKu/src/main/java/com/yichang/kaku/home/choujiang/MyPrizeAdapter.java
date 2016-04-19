@@ -10,18 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
-import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.JiangPinObj;
-import com.yichang.kaku.request.LingQuPrizeReq;
-import com.yichang.kaku.response.LingQuPrizeResp;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.LogUtil;
-import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,31 +151,4 @@ public class MyPrizeAdapter extends BaseAdapter {
 
     }
 
-    public void LingQuPrize(String id_wheel_win, final ImageView iv, final JiangPinObj obj){
-        Utils.NoNet(mContext);
-        LingQuPrizeReq req = new LingQuPrizeReq();
-        req.code = "70023";
-        req.id_wheel_win = id_wheel_win;
-        req.name_addr = "";
-        req.phone_addr = "";
-        req.addr = "";
-        KaKuApiProvider.LingQuPrize(req, new BaseCallback<LingQuPrizeResp>(LingQuPrizeResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, LingQuPrizeResp t) {
-                if (t != null) {
-                    LogUtil.E("lingquprize res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        LogUtil.showShortToast(mContext, t.msg);
-                        iv.setImageResource(R.drawable.lingquzhong);
-                        obj.setFlag_exchange("I");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
-        });
-    }
 }

@@ -21,6 +21,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
+import com.yichang.kaku.view.WaitDialog;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class QuestionDetailActivity extends BaseActivity implements OnClickListe
     private boolean isDriverSelf;
     //问题id
     private String id_question1;
-
+    private WaitDialog waitDialog = new WaitDialog(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,6 @@ public class QuestionDetailActivity extends BaseActivity implements OnClickListe
 
         lv_question = (ListView) findViewById(R.id.lv_question);
         lv_question.setOnItemClickListener(this);
-        //setPullState(false);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class QuestionDetailActivity extends BaseActivity implements OnClickListe
        /* QuestionDetailReq req=new QuestionDetailReq();
         req.code="9007";*/
 
-        showProgressDialog();
+        waitDialog.show();
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
                 .p("code", "9007")
@@ -119,19 +119,19 @@ public class QuestionDetailActivity extends BaseActivity implements OnClickListe
                 lv_question.setAdapter(adapter);
 
 
-                stopProgressDialog();
+                waitDialog.dismiss();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
             }
         });
     }
 
     private void sendAcceptAnswer(String id_question2) {
-        showProgressDialog();
+        waitDialog.show();
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
                 .p("code", "90012")
@@ -146,12 +146,12 @@ public class QuestionDetailActivity extends BaseActivity implements OnClickListe
                     LogUtil.showShortToast(context, obj.msg);
                 }
 
-                stopProgressDialog();
+                waitDialog.dismiss();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
             }
         });

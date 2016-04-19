@@ -8,30 +8,29 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.home.HomeFragment;
 import com.yichang.kaku.home.faxian.FindFragment;
-import com.yichang.kaku.request.CheckUpdateReq;
-import com.yichang.kaku.response.CheckUpdateResp;
-import com.yichang.kaku.zhaohuo.ZoneFragment;
 import com.yichang.kaku.member.MemberFragment;
 import com.yichang.kaku.member.login.LoginActivity;
 import com.yichang.kaku.request.AutoLoginReq;
+import com.yichang.kaku.request.CheckUpdateReq;
 import com.yichang.kaku.response.AutoLoginResp;
+import com.yichang.kaku.response.CheckUpdateResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.BottomTabFragment;
 import com.yichang.kaku.view.BottomTabFragment.OnTabClickCallback;
-import com.yichang.kaku.view.PrizePopWindow;
 import com.yichang.kaku.view.TitleFragment;
+import com.yichang.kaku.view.popwindow.MainPopWindow;
+import com.yichang.kaku.view.popwindow.UpDatePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yichang.kaku.zhaohuo.ZhaoFragment;
+import com.yolanda.nohttp.Response;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -41,13 +40,13 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     public static TitleFragment titleFragment;
     private boolean isShow = false;
     private String android_url;
-    private UpdateAppManager updateManager;
     private String versionName;
+    private Boolean isPwdPopWindowShow = false;
 
     @Override
     protected void initViews() {
         setContentView(R.layout.activity_main);
-        KaKuApplication.initTraceService(this, Utils.getPhone());
+        //KaKuApplication.initTraceService(this, Utils.getPhone());
         bottomTabFragment = (BottomTabFragment) fragMgr.findFragmentById(R.id.bottom_tabs);
         int index = getIntent().getIntExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_UNKONWN);
         switch (index) {
@@ -73,15 +72,6 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == RESULT_OK) {
-            Bundle bundle = intent.getExtras();
-        }
-    }
-
-    @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         this.startService(new Intent(this, Service1.class));
@@ -91,14 +81,24 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     @Override
     protected void onStart() {
         super.onStart();
-        AutoLogin();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        isShow = false;
         JPushInterface.onResume(context);
+
+        if (!"Zone".equals(KaKuApplication.WhichFrag) &&
+                !"Member".equals(KaKuApplication.WhichFrag) &&
+                !"Find".equals(KaKuApplication.WhichFrag)) {
+            AutoLogin();
+        }
     }
 
     @Override
@@ -129,9 +129,9 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     public void onZoneTabClick() {
         // TODO Auto-generated method stub
         MobclickAgent.onEvent(context, "Zone");
-        ZoneFragment zoneFragment = (ZoneFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_ZONE);
+        ZhaoFragment zoneFragment = (ZhaoFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_ZONE);
         if (zoneFragment == null)
-            zoneFragment = new ZoneFragment();
+            zoneFragment = new ZhaoFragment();
         /*
          * setTitleName(R.id.frgmt_title, "兑换"); setTitleImage(R.id.frgmt_title,
 		 * R.drawable.gouwucheicon); setTitleLeftImage(R.id.frgmt_title,
@@ -169,8 +169,8 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
         FindFragment knowFragment = (FindFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_KNOW);
         if (knowFragment == null)
             knowFragment = new FindFragment();
-		/*
-		 * setTitleName(R.id.frgmt_title, "发现");
+        /*
+         * setTitleName(R.id.frgmt_title, "发现");
 		 * setTitleImage(R.id.frgmt_title,0);
 		 * setTitleLeftImage(R.id.frgmt_title, 0);
 		 */
@@ -220,11 +220,14 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     public void AutoLogin() {
         AutoLoginReq req = new AutoLoginReq();
         req.code = "1001";
-        KaKuApiProvider.autologin(req, new BaseCallback<AutoLoginResp>(AutoLoginResp.class) {
+        KaKuApiProvider.autologin(req, new KakuResponseListener<AutoLoginResp>(this, AutoLoginResp.class) {
+
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AutoLoginResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("antologinmain res: " + t.res);
+                    LogUtil.E("flag_show：" + t.flag_show);
                     if (Constants.RES.equals(t.res)) {
                         KaKuApplication.flag_show = t.flag_show;
                         KaKuApplication.hongbao_title = t.title;
@@ -238,6 +241,20 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
                         editor.putString(Constants.NAMEDRIVE, t.driver.getName_driver());
                         editor.putString(Constants.SID, t.driver.getSid());
                         editor.commit();
+                        if ((!"0".equals(KaKuApplication.flag_show)) && (!isShow)) {
+                            getWindow().getDecorView().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!"Zone".equals(KaKuApplication.WhichFrag) &&
+                                            !"Member".equals(KaKuApplication.WhichFrag) &&
+                                            !"Find".equals(KaKuApplication.WhichFrag)) {
+                                        new MainPopWindow(MainActivity.this).show();
+                                        isShow = true;
+                                    }
+                                }
+                            }, 0);
+                        }
+
                     } else if (Constants.RES_TWO.equals(t.res)) {
                         LogUtil.showShortToast(MainActivity.this, t.msg);
                     } else {
@@ -250,28 +267,15 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
                         editor.commit();
                     }
 
-                        if (!TextUtils.isEmpty(KaKuApplication.flag_show) && !TextUtils.equals("0", KaKuApplication.flag_show) && !isShow) {
-                            getWindow().getDecorView().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new PrizePopWindow(MainActivity.this, KaKuApplication.flag_show).show();
-                                    isShow = true;
-                                }
-                            }, 500);
-                        }
-                    }
                 }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
             }
+
         });
     }
 
     public void Update() {
         try {
-            PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             versionName = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -279,63 +283,44 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
         CheckUpdateReq req = new CheckUpdateReq();
         req.code = "10010";
         req.version_android = versionName;
-        KaKuApiProvider.checkUpdate(req, new BaseCallback<CheckUpdateResp>(CheckUpdateResp.class) {
+        KaKuApiProvider.checkUpdate(req, new KakuResponseListener<CheckUpdateResp>(context, CheckUpdateResp.class) {
+
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, CheckUpdateResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("update res: " + t.res);
                     if (Constants.RES_ONE.equals(t.res)) {
                         android_url = t.android_url;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("发现新版本!");
-                        //builder.setMessage(getResources().getString(R.string.update));
-                        builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
+                        if (!"Zone".equals(KaKuApplication.WhichFrag) &&
+                                !"Member".equals(KaKuApplication.WhichFrag) &&
+                                !"Find".equals(KaKuApplication.WhichFrag)) {
+                            showPopWindow(true, android_url);
+                        }
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                //DownLoad(android_url);
-                                updateManager = new UpdateAppManager(MainActivity.this, android_url);
-                                updateManager.checkUpdateInfo();
-                            }
-                        });
-
-                        builder.setPositiveButton("稍后再说", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.create().show();
                     } else if (Constants.RES_NINE.equals(t.res)) {
                         android_url = t.android_url;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("发现新版本！");
-                        //builder.setMessage(getResources().getString(R.string.update));
-                        builder.setCancelable(false);
-                        builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                                //DownLoad(android_url);
-                                updateManager = new UpdateAppManager(MainActivity.this, android_url);
-                                updateManager.checkUpdateInfo();
-                            }
-                        });
-
-                        builder.create().show();
+                        if (!"Zone".equals(KaKuApplication.WhichFrag) &&
+                                !"Member".equals(KaKuApplication.WhichFrag) &&
+                                !"Find".equals(KaKuApplication.WhichFrag)) {
+                            showPopWindow(false, android_url);
+                        }
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
             }
         });
     }
 
+    private void showPopWindow(final boolean flag, final String android_url) {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                UpDatePopWindow input =
+                        new UpDatePopWindow(MainActivity.this, flag, android_url);
+                input.show();
+            }
+        }, 0);
+    }
 }

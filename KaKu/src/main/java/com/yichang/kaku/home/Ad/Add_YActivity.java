@@ -25,28 +25,29 @@ import com.umeng.analytics.MobclickAgent;
 import com.wly.android.widget.AdGalleryHelper;
 import com.wly.android.widget.Advertising;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.member.recommend.MemberRecommendActivity;
 import com.yichang.kaku.member.cash.YueActivity;
+import com.yichang.kaku.member.recommend.MemberRecommendActivity;
 import com.yichang.kaku.obj.RollsAddObj;
 import com.yichang.kaku.obj.ShareContentObj;
 import com.yichang.kaku.request.AdCalendarReq;
+import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.StickerShareReq;
 import com.yichang.kaku.response.AdCalendarResp;
+import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.StickerShareResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.CalendarView;
-import com.yichang.kaku.view.OneKeySharePopWindow;
 import com.yichang.kaku.view.RiseNumberTextView;
+import com.yichang.kaku.view.popwindow.OneKeySharePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +82,6 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
     private ImageView iv_history;
     private String mPhotoDate;
 
-
     private LinearLayout ll_yaoqing;
 
     @Override
@@ -94,33 +94,13 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
 
     private void init() {
         // TODO Auto-generated method stub
-        Intent intent = getIntent();
-        bundle = intent.getExtras();
-        name_advert = bundle.getString("name_advert");//广告名称
-        day_earnings = bundle.getString("day_earnings");//每日收益
-        time_begin = bundle.getString("time_begin");//开始日期
-        time_end = bundle.getString("time_end");//结束日期
-        num_driver = bundle.getString("num_driver");//参与人数
-        free_remind = bundle.getString("free_remind");//每日免费提现次数
-        image_advert = bundle.getString("image_advert");//车贴图片
-        image_size = bundle.getString("image_size");//车贴规格
-        day_continue = bundle.getString("day_continue");//持续天数
-        day_remaining = bundle.getString("day_remaining");//剩余天数
-        total_earning = bundle.getString("total_earning");//预计总收益
-        flag_type = bundle.getString("flag_type");
-        now_earnings = bundle.getString("now_earnings");//当前收益
-        rollsadd_list = (List<RollsAddObj>) bundle.getSerializable("rollsadd_list");
+
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("任务详情");
         right = (TextView) findViewById(R.id.tv_right);
-        /*right.setVisibility(View.VISIBLE);
-        right.setText("邀好友");*/
         right.setOnClickListener(this);
-
-        SetText();
-        autoAdvance(rollsadd_list);
 
         iv_history = (ImageView) findViewById(R.id.iv_history);
         iv_history.setOnClickListener(this);
@@ -129,8 +109,6 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         initCalendarView();
 
         getCalendarData(String.valueOf(cal.get(Calendar.MONTH) + 1), String.valueOf(cal.get(Calendar.YEAR)));
-
-
         ll_yaoqing = (LinearLayout) findViewById(R.id.ll_yaoqing);
         ll_yaoqing.setOnClickListener(this);
     }
@@ -139,25 +117,22 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
-
+        GetAdd();
     }
 
     private void getCalendarData(String month, String year) {
 
-        Utils.NoNet(context);
-        showProgressDialog();
-
         AdCalendarReq req = new AdCalendarReq();
         req.code = "600140";
-        //todo req.id_driver = Utils.getIdDriver();
         req.id_driver = Utils.getIdDriver();
-        req.id_advert = "1";
+        req.id_advert = KaKuApplication.id_advert;
         req.month = month;
         req.year = year;
 
-        KaKuApiProvider.getCalendarList(req, new BaseCallback<AdCalendarResp>(AdCalendarResp.class) {
+        KaKuApiProvider.getCalendarList(req, new KakuResponseListener<AdCalendarResp>(this, AdCalendarResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AdCalendarResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getCalendarList res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -174,16 +149,8 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-                tv_shouyi_dangqianshouyiqian.withNumber(Float.parseFloat(now_earnings)).start();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
     }
 
 
@@ -255,8 +222,7 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // TODO Auto-generated method stub
-                            Intent intent = new Intent(Add_YActivity.this, AdImageActivity.class);
-                            startActivity(intent);
+                            ShenQingXiaYiLun();
                         }
                     });
 
@@ -295,20 +261,15 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         if (R.id.tv_left == id) {
             goToHome();
         } else if (R.id.tv_right == id) {
-            //// TODO: 2016/1/6  分享
-            //startActivity(new Intent(this,MemberRecommendActivity.class));
-            //MobclickAgent.onEvent(context, "JinYuanBao");
-            getStickerShareInfo();
+            // TODO: 2016/1/6  分享
+            startActivity(new Intent(this, CheTieListActivity.class));
+            //getStickerShareInfo();
         } else if (R.id.btn_add_y == id) {
             MobclickAgent.onEvent(context, "ShenQingXiaYiLun");
-            Intent intent = new Intent(context, AdImageActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            ShenQingXiaYiLun();
         } else if (R.id.rela_addn_button_y == id) {
             MobclickAgent.onEvent(context, "ShenQingXiaYiLun");
-            Intent intent = new Intent(context, AdImageActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            ShenQingXiaYiLun();
         } else if (R.id.iv_history == id) {
             MobclickAgent.onEvent(context, "TimeList");
             //todo 跳转到时间轴列表
@@ -330,8 +291,6 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
             }
         } else if (R.id.tv_shuoming_5 == id) {
             startActivity(new Intent(this, YueActivity.class));
-        } else if (R.id.tv_shuoming_8 == id) {
-            startActivity(new Intent(this, MemberRecommendActivity.class));
         } else if (R.id.tv_shuoming_10 == id) {
             Utils.Call(this, "400-6867585");
         } else if (R.id.tv_shuoming_lottery == id) {
@@ -339,6 +298,61 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         } else if (R.id.ll_yaoqing == id) {
             startActivity(new Intent(context, MemberRecommendActivity.class));
         }
+    }
+
+    public void ShenQingXiaYiLun() {
+        if ("A".equals(KaKuApplication.flag_recommended) || "B".equals(KaKuApplication.flag_recommended)) {
+            LogUtil.showShortToast(Add_YActivity.this, "今日拍照已生效，无需重复拍照");
+        } else {
+            KaKuApplication.flag_nochetietv = "wu";
+            KaKuApplication.flag_code = "60018";
+            Intent intent = new Intent(context, AdImageActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+    }
+
+    public void GetAdd() {
+        showProgressDialog();
+        GetAddReq req = new GetAddReq();
+        req.code = "60011";
+        req.id_driver = Utils.getIdDriver();
+        req.id_advert = KaKuApplication.id_advert;
+        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(this, GetAddResp.class) {
+
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("getadd res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        KaKuApplication.flag_recommended = t.advert.getFlag_recommended();
+                        KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
+                        KaKuApplication.flag_position = t.advert.getFlag_position();
+                        KaKuApplication.flag_heart = t.advert.getFlag_show();
+                        name_advert = t.advert.getName_advert();
+                        day_earnings = t.advert.getDay_earnings();
+                        time_begin = t.advert.getTime_begin();
+                        time_end = t.advert.getTime_end();
+                        num_driver = t.advert.getNum_driver();
+                        free_remind = t.advert.getFree_remind();
+                        image_advert = t.advert.getImage_advert();
+                        image_size = t.advert.getImage_size();
+                        day_continue = t.advert.getDay_continue();
+                        day_remaining = t.advert.getDay_remaining();
+                        total_earning = t.advert.getTotal_earnings();
+                        now_earnings = t.advert.getNow_earnings();
+                        rollsadd_list = t.rolls;
+                        SetText();
+                        autoAdvance(rollsadd_list);
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+
+        });
     }
 
     public void SetText() {
@@ -355,7 +369,6 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         tv_shuoming_1 = (TextView) findViewById(R.id.tv_shuoming_1);
         tv_shuoming_4 = (TextView) findViewById(R.id.tv_shuoming_4);
         tv_shuoming_5 = (TextView) findViewById(R.id.tv_shuoming_5);
-        tv_shuoming_8 = (TextView) findViewById(R.id.tv_shuoming_8);
         tv_shuoming_10 = (TextView) findViewById(R.id.tv_shuoming_10);
 
         tv_shuoming_lottery = (TextView) findViewById(R.id.tv_shuoming_lottery);
@@ -367,11 +380,7 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         styles.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_shuoming_5.setText(styles);
         tv_shuoming_5.setOnClickListener(this);
-        String stringss = "【邀请好友】，获取更多收益。";
-        SpannableStringBuilder styless = new SpannableStringBuilder(stringss);
-        styless.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shuoming_8.setText(styless);
-        tv_shuoming_8.setOnClickListener(this);
+
         String stringsss = "如有疑问，请拨打【400-6867585】。";
         SpannableStringBuilder stylesss = new SpannableStringBuilder(stringsss);
         stylesss.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 8, stringsss.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -397,11 +406,11 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         tv_shouyi_canyu.setText(num_driver + "人参与");
         tv_shouyi_meiriqian.setText("¥ " + day_earnings);
         tv_shouyi_shengyutian.setText(day_remaining + "天");
-        tv_shuoming_1.setText("每天收益" + day_earnings + "元，共计" + day_continue + "天。");
         iv_shouqi_y.setImageResource(R.drawable.btn_gengduoxiangqing);
         renwushuoming_y.setVisibility(View.VISIBLE);
         chetiexinxi_y.setVisibility(View.VISIBLE);
         BitmapUtil.getInstance(context).download(iv_tietieyangshi, KaKuApplication.qian_zhui + image_advert);
+        tv_shouyi_dangqianshouyiqian.withNumber(Float.parseFloat(now_earnings)).start();
     }
 
     private void autoAdvance(List<RollsAddObj> imgList) {
@@ -447,15 +456,14 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
 
         Utils.NoNet(context);
         showProgressDialog();
-
         StickerShareReq req = new StickerShareReq();
         req.code = "60019";
-
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getStickerShareInfo(req, new BaseCallback<StickerShareResp>(StickerShareResp.class) {
+        KaKuApiProvider.getStickerShareInfo(req, new KakuResponseListener<StickerShareResp>(this, StickerShareResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, StickerShareResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getCalendarList res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -465,13 +473,6 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
                 stopProgressDialog();
             }
         });

@@ -11,6 +11,7 @@ public class ShopMallProductDetailObj {
     private String type_goods;
     private String num_goods;
     private String price_goods;
+    private String price_goods_buy;
     private String eval_goods;
     private String num_exchange;
     private String promotion_goods;
@@ -24,20 +25,6 @@ public class ShopMallProductDetailObj {
 
     public void setUrl_goods(String url_goods) {
         this.url_goods = url_goods;
-    }
-
-    @Override
-    public String toString() {
-        return "ShopMallProductDetailObj{" +
-                "name_goods='" + name_goods + '\'' +
-                ", image_goods='" + image_goods + '\'' +
-                ", type_goods='" + type_goods + '\'' +
-                ", num_goods='" + num_goods + '\'' +
-                ", price_goods='" + price_goods + '\'' +
-                ", eval_goods='" + eval_goods + '\'' +
-                ", num_exchange='" + num_exchange + '\'' +
-                ", promotion_goods='" + promotion_goods + '\'' +
-                '}';
     }
 
     public String getName_goods() {
@@ -102,5 +89,29 @@ public class ShopMallProductDetailObj {
 
     public void setPromotion_goods(String promotion_goods) {
         this.promotion_goods = promotion_goods;
+    }
+
+    public String getPrice_goods_buy() {
+        return price_goods_buy;
+    }
+
+    public void setPrice_goods_buy(String price_goods_buy) {
+        this.price_goods_buy = price_goods_buy;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopMallProductDetailObj{" +
+                "name_goods='" + name_goods + '\'' +
+                ", image_goods='" + image_goods + '\'' +
+                ", type_goods='" + type_goods + '\'' +
+                ", num_goods='" + num_goods + '\'' +
+                ", price_goods='" + price_goods + '\'' +
+                ", price_goods_buy='" + price_goods_buy + '\'' +
+                ", eval_goods='" + eval_goods + '\'' +
+                ", num_exchange='" + num_exchange + '\'' +
+                ", promotion_goods='" + promotion_goods + '\'' +
+                ", url_goods='" + url_goods + '\'' +
+                '}';
     }
 }

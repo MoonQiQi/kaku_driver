@@ -87,9 +87,14 @@ public class CheTieOrderAdapter extends BaseAdapter {
         style2.setSpan(new ForegroundColorSpan(Color.rgb(0, 0, 0)), 4, string_shouyi.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.tv_wodechetieitem_yuqishouyi.setText(style2);
 
+
         if (TextUtils.equals(obj.getState_bill(), "A")) {
+            if ("Y".equals(obj.getFlag_operate())){
+                holder.iv_wodechetieitem_zhifu.setVisibility(View.VISIBLE);
+            } else {
+                holder.iv_wodechetieitem_zhifu.setVisibility(View.GONE);
+            }
             holder.tv_wodechetieitem_status.setText("待支付");
-            holder.iv_wodechetieitem_zhifu.setVisibility(View.VISIBLE);
             holder.iv_wodechetieitem_zhifu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -101,11 +106,15 @@ public class CheTieOrderAdapter extends BaseAdapter {
             holder.tv_wodechetieitem_status.setText("待发货");
             holder.iv_wodechetieitem_zhifu.setVisibility(View.GONE);
             holder.iv_wodechetieitem_wancheng.setVisibility(View.GONE);
-        } else if (TextUtils.equals(obj.getState_bill(), "C")) {
-            holder.tv_wodechetieitem_status.setText("");
+        } else if (TextUtils.equals(obj.getState_bill(), "E")) {
+            holder.tv_wodechetieitem_status.setText("已完成");
             holder.iv_wodechetieitem_zhifu.setVisibility(View.GONE);
-            holder.iv_wodechetieitem_wancheng.setVisibility(View.VISIBLE);
+            holder.iv_wodechetieitem_wancheng.setVisibility(View.GONE);
         } else if (TextUtils.equals(obj.getState_bill(), "D")) {
+            holder.tv_wodechetieitem_status.setText("待确认");
+            holder.iv_wodechetieitem_zhifu.setVisibility(View.GONE);
+            holder.iv_wodechetieitem_wancheng.setVisibility(View.GONE);
+        } else if (TextUtils.equals(obj.getState_bill(), "G")) {
             holder.tv_wodechetieitem_status.setText("已取消");
             holder.iv_wodechetieitem_zhifu.setVisibility(View.GONE);
             holder.iv_wodechetieitem_wancheng.setVisibility(View.GONE);

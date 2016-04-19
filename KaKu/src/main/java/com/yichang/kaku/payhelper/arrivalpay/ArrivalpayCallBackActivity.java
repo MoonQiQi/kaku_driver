@@ -16,7 +16,6 @@ import com.yichang.kaku.global.MainActivity;
 import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
 import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
-import com.yichang.kaku.payhelper.alipay.AlipayCallBackActivity;
 
 public class ArrivalpayCallBackActivity extends BaseActivity {
 

@@ -10,7 +10,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.yichang.kaku.R;
 
@@ -41,10 +43,10 @@ public class UpdateAppManager {
     private Dialog dialog;
     // 下载应用的进度条  
     private ProgressBar progressBar;
-    // 进度条的当前刻度值  
+    private TextView tv_progressbar;
+    private ImageView iv_progressbar;
+    // 进度条的当前刻度值
     private int curProgress;
-    // 用户是否取消下载  
-    private boolean isCancel;
 
     public UpdateAppManager(Context context,String kaku_url) {
         this.context = context;
@@ -57,6 +59,10 @@ public class UpdateAppManager {
             switch (msg.what) {
                 case UPDARE_TOKEN:
                     progressBar.setProgress(curProgress);
+                    tv_progressbar.setText(curProgress+"%");
+                    int fukuan = progressBar.getWidth();
+
+                    iv_progressbar.scrollTo( - ( fukuan * curProgress / 100 ) ,0);
                     break;
 
                 case INSTALL_TOKEN:
@@ -79,6 +85,8 @@ public class UpdateAppManager {
     private void showDownloadDialog() {
         View view = LayoutInflater.from(context).inflate(R.layout.progressbar, null);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        tv_progressbar = (TextView) view.findViewById(R.id.tv_progressbar);
+        iv_progressbar = (ImageView) view.findViewById(R.id.iv_progressbar);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("软件版本更新");
         builder.setCancelable(false);

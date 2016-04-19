@@ -11,9 +11,17 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
+import com.yichang.kaku.callback.KakuResponseListener;
+import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ZhaoHuoObj;
+import com.yichang.kaku.request.CallReq;
+import com.yichang.kaku.response.CallResp;
 import com.yichang.kaku.tools.BitmapUtil;
+import com.yichang.kaku.tools.LogUtil;
+import com.yichang.kaku.tools.Utils;
+import com.yichang.kaku.webService.KaKuApiProvider;
+import com.yolanda.nohttp.Response;
 
 import java.util.List;
 
@@ -90,8 +98,9 @@ public class ZhaoHuoAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     MobclickAgent.onEvent(mContext, "ZhaoHuoCall");
-                    mCallBack.call(obj.getPhone_supply().split(",")[0]);
-                    mCallBack.callToService(obj.getId_supply());
+                    call_string = obj.getPhone_supply().split(",")[0];
+                    Utils.Call(mContext, call_string);
+                    //Call(obj.getId_supply());
                 }
             });
         }
@@ -109,15 +118,25 @@ public class ZhaoHuoAdapter extends BaseAdapter {
         RelativeLayout rela_zhaohuo_item;
     }
 
-    public interface ZhaoHuoAdapterCallBack{
-        void call(String mPhone);
-        void callToService(String id_supply);
+    public void Call(String id_supply) {
+        CallReq req = new CallReq();
+        req.code = "6004";
+        req.id_driver = Utils.getIdDriver();
+        req.id_supply = id_supply;
+        KaKuApiProvider.Call(req, new KakuResponseListener<CallResp>(mContext, CallResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("call res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+
+                    } else {
+                        LogUtil.showShortToast(mContext, t.msg);
+                    }
+                }
+            }
+
+        });
     }
-
-    private ZhaoHuoAdapterCallBack mCallBack;
-
-    public void setZhaoHuoCallBack(ZhaoHuoAdapterCallBack callBack){
-        this.mCallBack = callBack;
-    }
-
 }

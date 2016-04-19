@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.MemberCouponObj;
@@ -22,8 +22,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,37 +111,27 @@ public class MemberCouponsActivity extends BaseActivity implements OnClickListen
             setNoDataLayoutState(ll_container);
         }
 
-        showProgressDialog();
-
         MemberCouponsReq req = new MemberCouponsReq();
         req.code = "10024";
         req.id_driver = Utils.getIdDriver();
         req.start = String.valueOf(pageindex);
         req.len = String.valueOf(pagesize);
 
-        KaKuApiProvider.getCouponList(req, new BaseCallback<MemberCouponsResp>(MemberCouponsResp.class) {
+        KaKuApiProvider.getCouponList(req, new KakuResponseListener<MemberCouponsResp>(this, MemberCouponsResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MemberCouponsResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getCouponList res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.coupons);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }

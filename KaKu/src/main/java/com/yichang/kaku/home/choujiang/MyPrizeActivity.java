@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.JiangPinObj;
@@ -20,8 +20,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,35 +71,26 @@ public class MyPrizeActivity extends BaseActivity implements OnClickListener,Ada
 			//setNoDataLayoutState(layout_net_none);
 			return;
 		}
-		showProgressDialog();
 		MyPrizeReq req = new MyPrizeReq();
 		req.code = "70021";
 		req.id_driver = Utils.getIdDriver();
 		req.start = String.valueOf(pageIndex);
 		req.len = String.valueOf(pageSize);
-		KaKuApiProvider.MyPrize(req, new BaseCallback<MyPrizeResp>(MyPrizeResp.class) {
+		KaKuApiProvider.MyPrize(req, new KakuResponseListener<MyPrizeResp>(this,MyPrizeResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, MyPrizeResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("choujiang res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
 						setData(t.wheel_wins);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 					onLoadStop();
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 
@@ -210,4 +200,10 @@ public class MyPrizeActivity extends BaseActivity implements OnClickListener,Ada
 			startActivity(intent);
 		}
 	}
+
+	public static void gotoMyPrize(){
+			Intent intent=new Intent(context,MyPrizeActivity.class);
+			context.startActivity(intent);
+		}
+
 }

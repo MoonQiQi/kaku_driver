@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.BankCardObj;
 import com.yichang.kaku.request.AddrMorenReq;
@@ -16,10 +16,8 @@ import com.yichang.kaku.response.AddrMorenResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class BankCardAdapter extends BaseAdapter {
@@ -154,9 +152,10 @@ public class BankCardAdapter extends BaseAdapter {
         req.code = "10017";
         req.id_addr = id_addr;
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.MorenAddr(req, new BaseCallback<AddrMorenResp>(AddrMorenResp.class) {
+        KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(mContext, AddrMorenResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, AddrMorenResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("morenaddr res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -170,10 +169,6 @@ public class BankCardAdapter extends BaseAdapter {
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 }

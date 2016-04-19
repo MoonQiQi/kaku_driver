@@ -1,11 +1,7 @@
 package com.yichang.kaku.member;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,10 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.member.cash.YueActivity;
@@ -25,13 +20,10 @@ import com.yichang.kaku.member.driver.PointRulesActivity;
 import com.yichang.kaku.obj.RecommendedsObj;
 import com.yichang.kaku.request.JiangLiMingXiReq;
 import com.yichang.kaku.response.JiangLiMingXiResp;
-import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,15 +140,14 @@ public class JiangLiMingXiActivity extends BaseActivity implements OnClickListen
         } else {
             setNoDataLayoutState(ll_container);
         }
-        showProgressDialog();
         JiangLiMingXiReq req = new JiangLiMingXiReq();
         req.code = "10033";
-       req.id_driver = Utils.getIdDriver();
-        //req.id_driver = "1";
+        req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.JiangLiMingXi(req, new BaseCallback<JiangLiMingXiResp>(JiangLiMingXiResp.class) {
+        KaKuApiProvider.JiangLiMingXi(req, new KakuResponseListener<JiangLiMingXiResp>(this, JiangLiMingXiResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, JiangLiMingXiResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("jainglimingxi res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -167,27 +158,17 @@ public class JiangLiMingXiActivity extends BaseActivity implements OnClickListen
                         //奖励积分
                         tv_prize_point.setText(t.points);
                         //奖励现金
-                        tv_prize_cash.setText("￥"+t.money_balance);
+                        tv_prize_cash.setText("￥" + t.money_balance);
 //                        String string = "合计   " + t.points;
 //                        SpannableStringBuilder style = new SpannableStringBuilder(string);
 //                        style.setSpan(new ForegroundColorSpan(Color.rgb(0, 188, 135)), 4, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         //tv_jianglimingxi_zongji.setText(style);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
-            }
         });
     }
 
@@ -207,55 +188,5 @@ public class JiangLiMingXiActivity extends BaseActivity implements OnClickListen
 
         JiangLiMingXiAdapter adapter = new JiangLiMingXiAdapter(JiangLiMingXiActivity.this, jiangli_list);
         xListView.setAdapter(adapter);
-
-
-
-        //xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
-        //xListView.setSelection(pageindex);
-        //xListView.setPullRefreshEnable(true);
-       // xListView.setXListViewListener(new XListView.IXListViewListener() {
-/*
-            @Override
-            public void onRefresh() {
-                if (!Utils.checkNetworkConnection(context)) {
-                    Toast.makeText(BaseActivity.context, "当前无网络，请检查重试", Toast.LENGTH_SHORT).show();
-                    xListView.stopRefresh();
-                    return;
-                }
-                setPullState(false);
-            }
-
-            @Override
-            public void onLoadMore() {
-                if (!Utils.checkNetworkConnection(context)) {
-                    Toast.makeText(BaseActivity.context, "当前无网络，请检查重试", Toast.LENGTH_SHORT).show();
-                    xListView.stopLoadMore();
-                    return;
-                }
-                setPullState(true);
-            }
-        });*/
     }
-
-   /* private void setPullState(boolean isUp) {
-        if (isUp) {
-            isShowProgress = true;
-            start++;
-            pageindex = start * STEP;
-        } else {
-            start = 0;
-            pageindex = 0;
-            if (jiangli_list != null) {
-                jiangli_list.clear();
-            }
-        }
-        GetInfo(pageindex, pagesize);
-    }
-
-    private void onLoadStop() {
-        xListView.stopRefresh();
-        xListView.stopLoadMore();
-        xListView.setRefreshTime(DateUtil.dateFormat());
-    }*/
-
 }

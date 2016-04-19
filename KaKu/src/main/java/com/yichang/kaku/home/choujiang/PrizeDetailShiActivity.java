@@ -13,20 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.choujiang.MyPrizeActivity;
-import com.yichang.kaku.home.choujiang.OkPrizeActivity;
 import com.yichang.kaku.request.XianChangLingQuReq;
 import com.yichang.kaku.response.XianChangLingQuResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class PrizeDetailShiActivity extends BaseActivity implements OnClickListener{
 	
@@ -162,35 +159,24 @@ public class PrizeDetailShiActivity extends BaseActivity implements OnClickListe
 	}
 
 	public void XianChangLingQu(){
-		showProgressDialog();
 		XianChangLingQuReq req = new XianChangLingQuReq();
 		req.code = "70020";
 		req.id_wheel_win = id_wheel_win;
-		KaKuApiProvider.XianChangLingQu(req, new BaseCallback<XianChangLingQuResp>(XianChangLingQuResp.class) {
+		KaKuApiProvider.XianChangLingQu(req, new KakuResponseListener<XianChangLingQuResp>(this,XianChangLingQuResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, XianChangLingQuResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("xianchang res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
 						Intent intent = new Intent(context,MyPrizeActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
-						LogUtil.showShortToast(context, t.msg);
 						finish();
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-
 			}
 		});
 	}

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.PointHistoryObj;
@@ -21,8 +21,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,6 @@ public class MyPointInfoActivity extends BaseActivity implements OnClickListener
     private void getPointHistoryInfo(int pageindex, int pagesize) {
 
         Utils.NoNet(context);
-        showProgressDialog();
 
         PointHistoryReq req = new PointHistoryReq();
         req.code = "10021";
@@ -73,34 +71,22 @@ public class MyPointInfoActivity extends BaseActivity implements OnClickListener
         req.start = String.valueOf(pageindex);
         req.len = String.valueOf(pagesize);
 
-        KaKuApiProvider.getMemberPointInfo(req, new BaseCallback<PointHistoryResp>(PointHistoryResp.class) {
+        KaKuApiProvider.getMemberPointInfo(req, new KakuResponseListener<PointHistoryResp>(this, PointHistoryResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, PointHistoryResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getMemberPointInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        setData(t.point_his,t.point_now);
+                        setData(t.point_his, t.point_now);
                         setData(t.historys);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
-
-
     }
 //设置积分历史
     private void setData(String point_his, String point_now) {

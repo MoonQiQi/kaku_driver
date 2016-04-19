@@ -25,7 +25,6 @@ public abstract class BaseCallback<T> extends AsyncHttpResponseHandler {
             String json = new String(responseBody);
 
             t = (T) Json2ObjHelper.gson.fromJson(json, clazz);
-            //if(Constants.RES_TEN.equals(((BaseResp)t).res)){
             //如果是违章查询接口，则不判定，违章查询接口未实现BaseResp,未实现BaseResp的接口全部不判定
             if(!"com.yichang.kaku.response.BaseResp".equals(clazz.getSuperclass().getName())){
                 onSuccessful(statusCode, headers, t);

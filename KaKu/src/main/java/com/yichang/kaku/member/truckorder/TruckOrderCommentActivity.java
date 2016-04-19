@@ -8,10 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.Selection;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +24,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -40,8 +37,8 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
 import com.yichang.kaku.webService.UrlCtnt;
+import com.yolanda.nohttp.Response;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -181,36 +178,24 @@ public class TruckOrderCommentActivity extends BaseActivity implements OnClickLi
 
     private void getCommentInfo() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         TruckOrderCommentReq req = new TruckOrderCommentReq();
         req.code = "30017";
         req.id_bill = id_bill;
-        KaKuApiProvider.getCommentProductInfo(req, new BaseCallback<TruckOrderCommentResp>(TruckOrderCommentResp.class) {
+        KaKuApiProvider.getCommentProductInfo(req, new KakuResponseListener<TruckOrderCommentResp>(this, TruckOrderCommentResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, TruckOrderCommentResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getorder res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.shopcar);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
-
     }
 
     private void setData(List<ConfirmOrderProductObj> shopcar) {

@@ -1,6 +1,5 @@
 package com.yichang.kaku.home.giftmall;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -31,7 +29,7 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -40,14 +38,12 @@ import com.yichang.kaku.request.ShopMallAdd2CartReq;
 import com.yichang.kaku.request.ShopMallProductsReq;
 import com.yichang.kaku.response.ShopMallAdd2CartResp;
 import com.yichang.kaku.response.ShopMallProductsResp;
-import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.DensityUtils;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.PullToRefreshView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,13 +87,7 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_mall);
-
-    }
-
-    @Override
-    protected void onStart() {
         init();
-        super.onStart();
     }
 
     private void init() {
@@ -183,10 +173,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
         right = (ImageView) findViewById(R.id.tv_right);
-        /*right.setVisibility(View.VISIBLE);
-        //right.setText("购物车");
-        right.setText("");
-        right.setBackgroundResource(R.drawable.gwc);*/
         right.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("好礼商城");
@@ -195,26 +181,19 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
 
     private void getProductsInfoLst(final int pageIndex, int pageSize, String srule) {
 
-        //pageSize=20;
-        //list=new ArrayList<>();
         Utils.NoNet(context);
-        showProgressDialog();
 
         ShopMallProductsReq req = new ShopMallProductsReq();
         req.code = "3001";
         req.id_driver = Utils.getIdDriver();
-        //每次读取记录条数
         req.len = String.valueOf(pageSize);
-        // 排序规则
         req.sort = srule;
-        //开始位置
         req.start = String.valueOf(pageIndex);
-        // TODO CHAIH 货品类型，为筛选功能设定
         req.type_goods = "0";
-        //读取货品数据
-        KaKuApiProvider.getShopMallProductsLst(req, new BaseCallback<ShopMallProductsResp>(ShopMallProductsResp.class) {
+        KaKuApiProvider.getShopMallProductsLst(req, new KakuResponseListener<ShopMallProductsResp>(this, ShopMallProductsResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ShopMallProductsResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getProductsLst res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -229,10 +208,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -350,7 +325,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
         if (Utils.Many()) {
             return;
         }
-        LogUtil.showShortToast(context, "点击");
     }
 
     private void setData(List<ShopMallProductObj> list) {
@@ -358,16 +332,13 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
         // TODO Auto-generated method stub
         if (list != null) {
             this.list.addAll(list);
-            LogUtil.E("list长度" + this.list.size());
         }
         ShopMallProductAdapter adapter = new ShopMallProductAdapter();
 
         gv_shopmall_products.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         gv_shopmall_products.requestFocus();
-        LogUtil.E("pageindex" + pageindex);
         gv_shopmall_products.setItemChecked(pageindex + 1, true);
-
 
         gv_shopmall_products.setSelection(pageindex + 1);
 
@@ -381,7 +352,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
             isShowProgress = true;
             start++;
             pageindex = start * STEP;
-            LogUtil.E("setPullState:pageindex=" + pageindex + "||start=" + start + "||STEP=" + STEP);
         } else {
             start = 0;
             pageindex = 0;
@@ -389,8 +359,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
                 list.clear();
             }
         }
-
-        LogUtil.E("pageindex=" + pageindex + "||pagesize=" + pagesize + "||sortRule=" + sortRule);
         getProductsInfoLst(pageindex, pagesize, sortRule);
     }
 
@@ -399,10 +367,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
     class ShopMallProductAdapter extends BaseAdapter {
 
         private int num = 0;
-
-        /*public ShopMallProductAdapter(AbsListView listView) {
-            super(listView);
-        }*/
 
         @Override
         public int getCount() {
@@ -454,7 +418,13 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
             holder.iv_img.setImageURI(Uri.parse(KaKuApplication.qian_zhui + obj.getImage_goods()));
 
             holder.tv_desc.setText(obj.getName_goods());
-            holder.tv_price.setText(obj.getPrice_goods());
+            holder.tv_price.setText(obj.getPrice_goods_buy());
+
+            if ("1".equals(obj.getType_goods())){
+                holder.iv_add.setVisibility(View.GONE);
+            } else {
+                holder.iv_add.setVisibility(View.VISIBLE);
+            }
 
             final View finalConvertView = holder.iv_img;
 
@@ -473,9 +443,10 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
                     req.id_driver = Utils.getIdDriver();
                     req.id_goods = obj.getId_goods();
 
-                    KaKuApiProvider.addProductToCart(req, new BaseCallback<ShopMallAdd2CartResp>(ShopMallAdd2CartResp.class) {
+                    KaKuApiProvider.addProductToCart(req, new KakuResponseListener<ShopMallAdd2CartResp>(context, ShopMallAdd2CartResp.class) {
                         @Override
-                        public void onSuccessful(int statusCode, Header[] headers, ShopMallAdd2CartResp t) {
+                        public void onSucceed(int what, Response response) {
+                            super.onSucceed(what, response);
                             if (t != null) {
                                 LogUtil.E("getProductsLst res: " + t.res);
                             }
@@ -484,10 +455,7 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
                             startAnimation(finalConvertView);
                         }
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                            stopProgressDialog();
-                        }
+
                     });
 
                 }
@@ -498,8 +466,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
             return convertView;
         }
 
-
-
         class ViewHolder {
             private SimpleDraweeView iv_img;
             private TextView tv_desc;
@@ -507,7 +473,6 @@ public class ShopMallActivity extends BaseActivity implements View.OnClickListen
             private ImageView iv_add;
 
         }
-
 
     }
 

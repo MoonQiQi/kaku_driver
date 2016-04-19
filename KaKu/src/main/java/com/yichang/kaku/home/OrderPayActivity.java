@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -29,8 +29,7 @@ import com.yichang.kaku.response.WXPayInfoResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,16 +68,17 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
         req.code = "80013";
         req.no_bill = mNo_bill;
 
-        KaKuApiProvider.getOrderTimeLimit(req, new BaseCallback<OrderTimeLimitResp>(OrderTimeLimitResp.class) {
+        KaKuApiProvider.getOrderTimeLimit(req, new KakuResponseListener<OrderTimeLimitResp>(this, OrderTimeLimitResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderTimeLimitResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getDriverInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
                         tv_order_invalid_time.setText("请在" + t.time_limit + "内完成支付，否则订单会失效哦~");
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
+                        if (Constants.RES_TEN.equals(t.res)) {
                             Utils.Exit(context);
                             finish();
                         }
@@ -88,10 +88,6 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                 stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -123,7 +119,7 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
         title.setText("卡库收银台");
 
         right = (TextView) findViewById(R.id.tv_right);
-        right.setVisibility(View.VISIBLE);
+        right.setVisibility(View.GONE);
         right.setText("订单中心");
         right.setOnClickListener(this);
     }
@@ -140,7 +136,7 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("");
             builder.setMessage("确认要放弃付款吗？");
-            builder.setNegativeButton("继续支付", new android.content.DialogInterface.OnClickListener() {
+            builder.setNegativeButton("继续支付", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -148,7 +144,7 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                 }
             });
 
-            builder.setPositiveButton("放弃支付", new android.content.DialogInterface.OnClickListener() {
+            builder.setPositiveButton("放弃支付", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -174,15 +170,15 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
 
     private void getOrderState() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         OrderOverTimeReq req = new OrderOverTimeReq();
         req.code = "80011";
         req.no_bill = mNo_bill;
 
-        KaKuApiProvider.isOrderOverTime(req, new BaseCallback<OrderOverTimeResp>(OrderOverTimeResp.class) {
+        KaKuApiProvider.isOrderOverTime(req, new KakuResponseListener<OrderOverTimeResp>(this, OrderOverTimeResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderOverTimeResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("isOrderOverTime res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -207,20 +203,10 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                         //finish();
                     }
                 } else {
-                    if (Constants.RES_TEN.equals(t.res)){
-                        Utils.Exit(context);
-                        finish();
-                    }
                     LogUtil.showShortToast(context, t.msg);
-                    stopProgressDialog();
                 }
-                //stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
 
@@ -250,17 +236,16 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
 
         KaKuApplication.payType = "TRUCK";
         Utils.NoNet(context);
-        showProgressDialog();
 
         WXPayInfoReq req = new WXPayInfoReq();
         req.code = "30021";
         req.no_bill = mNo_bill;
         //req.fee
 
-        KaKuApiProvider.getWXPayInfo(req, new BaseCallback<WXPayInfoResp>(WXPayInfoResp.class) {
+        KaKuApiProvider.getWXPayInfo(req, new KakuResponseListener<WXPayInfoResp>(this, WXPayInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, WXPayInfoResp t) {
-
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getWXPayInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -278,10 +263,7 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
+
         });
     }
 
@@ -314,7 +296,6 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
 
 
         try {
-            stopProgressDialog();
             context.startActivity(intent);
 
         } catch (Exception e) {
@@ -328,15 +309,15 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
     private void aliPay() {
 
         Utils.NoNet(context);
-        showProgressDialog();
 
         OrderOverTimeReq req = new OrderOverTimeReq();
         req.code = "80011";
         req.no_bill = mNo_bill;
 
-        KaKuApiProvider.isOrderOverTime(req, new BaseCallback<OrderOverTimeResp>(OrderOverTimeResp.class) {
+        KaKuApiProvider.isOrderOverTime(req, new KakuResponseListener<OrderOverTimeResp>(this, OrderOverTimeResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderOverTimeResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("isOrderOverTime res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -355,13 +336,8 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                         //finish();
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }
@@ -374,7 +350,7 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("");
             builder.setMessage("确认要放弃付款吗？");
-            builder.setNegativeButton("继续支付", new android.content.DialogInterface.OnClickListener() {
+            builder.setNegativeButton("继续支付", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -382,7 +358,7 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                 }
             });
 
-            builder.setPositiveButton("放弃支付", new android.content.DialogInterface.OnClickListener() {
+            builder.setPositiveButton("放弃支付", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

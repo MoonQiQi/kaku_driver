@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -28,8 +28,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,39 +139,26 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
             setNoDataLayoutState(ll_container);
         }
 
-        showProgressDialog();
-
         TruckOrderListReq req = new TruckOrderListReq();
         req.code = "30015";
-
         req.id_driver = Utils.getIdDriver();
-
         req.state_bill = state;
         req.start = String.valueOf(pageindex);
         req.len = String.valueOf(pagesize);
 
-        KaKuApiProvider.getTruckOrderList(req, new BaseCallback<TruckOrderListResp>(TruckOrderListResp.class) {
+        KaKuApiProvider.getTruckOrderList(req, new KakuResponseListener<TruckOrderListResp>(this, TruckOrderListResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, TruckOrderListResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getTruckOrderList res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         setData(t.bills);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
     }
@@ -354,7 +340,7 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
         if (Utils.Many()){
             return;
         }
-        LogUtil.E("onItemClick position:"+position);
+        LogUtil.E("onItemClick position:" + position);
         Intent intent = new Intent(getApplicationContext(), TruckOrderDetailActivity.class);
         /*todo 修改idbill为nobill*/
         intent.putExtra("idbill", list_truckorder.get(position - 1).getId_bill());
@@ -381,6 +367,4 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
         intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_MEMBER);
         startActivity(intent);
     }
-
-
 }

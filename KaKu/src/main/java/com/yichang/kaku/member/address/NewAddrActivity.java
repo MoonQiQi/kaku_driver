@@ -10,18 +10,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.logistics.province.ProvinceActivity;
 import com.yichang.kaku.request.NewAddrReq;
 import com.yichang.kaku.response.NewAddrResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class NewAddrActivity extends BaseActivity implements OnClickListener {
 
@@ -175,7 +173,6 @@ public class NewAddrActivity extends BaseActivity implements OnClickListener {
         //KaKuApplication.isEditAddr = false;
         //
         Utils.NoNet(context);
-        showProgressDialog();
         NewAddrReq req = new NewAddrReq();
         req.code = "10015";
         req.id_driver = Utils.getIdDriver();
@@ -184,34 +181,20 @@ public class NewAddrActivity extends BaseActivity implements OnClickListener {
         req.addr = KaKuApplication.dizhi_addr;
         req.name_addr = KaKuApplication.name_addr;
         req.phone_addr = KaKuApplication.phone_addr;
-        KaKuApiProvider.NewAddr(req, new BaseCallback<NewAddrResp>(NewAddrResp.class) {
+        KaKuApiProvider.NewAddr(req, new KakuResponseListener<NewAddrResp>(this, NewAddrResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, NewAddrResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("newaddr res: " + t.res);
                     if (Constants.RES.equals(t.res) || Constants.RES_TWO.equals(t.res)) {
                         finish();
 
-                    }else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-    }
-
-    public void ChooseArea() {
-        Intent intent = new Intent(context, ProvinceActivity.class);
-        startActivity(intent);
     }
 }

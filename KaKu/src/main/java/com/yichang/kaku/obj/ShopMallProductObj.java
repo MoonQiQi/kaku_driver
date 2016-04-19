@@ -6,23 +6,7 @@ package com.yichang.kaku.obj;
  */
 public class ShopMallProductObj {
 
-    private String id_goods,sort_goods,name_goods,image_goods,type_goods,num_goods,price_goods,num_exchange,time_create,promotion_goods;
-
-    @Override
-    public String toString() {
-        return "ShopMallProductObj{" +
-                "id_goods='" + id_goods + '\'' +
-                ", sort_goods='" + sort_goods + '\'' +
-                ", name_goods='" + name_goods + '\'' +
-                ", image_goods='" + image_goods + '\'' +
-                ", type_goods='" + type_goods + '\'' +
-                ", num_goods='" + num_goods + '\'' +
-                ", price_goods='" + price_goods + '\'' +
-                ", num_exchange='" + num_exchange + '\'' +
-                ", time_create='" + time_create + '\'' +
-                ", promotion_goods='" + promotion_goods + '\'' +
-                '}';
-    }
+    private String id_goods,sort_goods,name_goods,image_goods,type_goods,num_goods,price_goods,num_exchange,time_create,promotion_goods,price_goods_buy;
 
     public String getId_goods() {
         return id_goods;
@@ -102,5 +86,30 @@ public class ShopMallProductObj {
 
     public void setPromotion_goods(String promotion_goods) {
         this.promotion_goods = promotion_goods;
+    }
+
+    public String getPrice_goods_buy() {
+        return price_goods_buy;
+    }
+
+    public void setPrice_goods_buy(String price_goods_buy) {
+        this.price_goods_buy = price_goods_buy;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopMallProductObj{" +
+                "id_goods='" + id_goods + '\'' +
+                ", sort_goods='" + sort_goods + '\'' +
+                ", name_goods='" + name_goods + '\'' +
+                ", image_goods='" + image_goods + '\'' +
+                ", type_goods='" + type_goods + '\'' +
+                ", num_goods='" + num_goods + '\'' +
+                ", price_goods='" + price_goods + '\'' +
+                ", num_exchange='" + num_exchange + '\'' +
+                ", time_create='" + time_create + '\'' +
+                ", promotion_goods='" + promotion_goods + '\'' +
+                ", price_goods_buy='" + price_goods_buy + '\'' +
+                '}';
     }
 }

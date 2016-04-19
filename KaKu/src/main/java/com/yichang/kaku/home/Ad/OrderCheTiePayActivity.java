@@ -14,21 +14,18 @@ import android.widget.TextView;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.payhelper.alipay.AlipayHelper;
 import com.yichang.kaku.payhelper.wxpay.PayActivity;
-import com.yichang.kaku.request.OrderOverTimeReq;
 import com.yichang.kaku.request.WXPayInfoReq;
-import com.yichang.kaku.response.OrderOverTimeResp;
 import com.yichang.kaku.response.WXPayInfoResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class OrderCheTiePayActivity extends BaseActivity implements OnClickListener {
 
@@ -58,7 +55,7 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
 
     private void init() {
         initTitleBar();
-
+        KaKuApplication.payType = "STICKER";
         mPrice_bill = getIntent().getStringExtra("price_bill");
         mNo_bill = getIntent().getStringExtra("no_bill");
         //为支付完成页赋值
@@ -73,8 +70,7 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
         rela_wxpay.setOnClickListener(this);
 
 
-
-        ll_warning= (LinearLayout) findViewById(R.id.ll_warning);
+        ll_warning = (LinearLayout) findViewById(R.id.ll_warning);
         ll_warning.setVisibility(View.GONE);
 
     }
@@ -139,22 +135,21 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
         Intent intent = new Intent(context, CheTieOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     private void wxPay() {
 
-        KaKuApplication.payType = "STICKER";
         Utils.NoNet(context);
-        showProgressDialog();
 
         WXPayInfoReq req = new WXPayInfoReq();
         req.code = "30021";
         req.no_bill = mNo_bill;
-        //req.fee
 
-        KaKuApiProvider.getWXPayInfo(req, new BaseCallback<WXPayInfoResp>(WXPayInfoResp.class) {
+        KaKuApiProvider.getWXPayInfo(req, new KakuResponseListener<WXPayInfoResp>(this, WXPayInfoResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, WXPayInfoResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
 
                 if (t != null) {
                     LogUtil.E("getWXPayInfo res: " + t.res);
@@ -164,16 +159,10 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
                         //发起支付失败
                         LogUtil.showShortToast(context, t.msg);
                         gotoCheTieOrderListActivity();
-                        finish();
                     }
-                    //LogUtil.showShortToast(context, t.msg);
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
@@ -218,36 +207,10 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
 
 
     private void aliPay() {
-
-        Utils.NoNet(context);
-        showProgressDialog();
-
-        OrderOverTimeReq req = new OrderOverTimeReq();
-        req.code = "80011";
-        req.no_bill = mNo_bill;
-
-        KaKuApiProvider.isOrderOverTime(req, new BaseCallback<OrderOverTimeResp>(OrderOverTimeResp.class) {
-            @Override
-            public void onSuccessful(int statusCode, Header[] headers, OrderOverTimeResp t) {
-                if (t != null) {
-                    LogUtil.E("isOrderOverTime res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        KaKuApplication.payType = "STICKER";
-                        //支付宝支付
-                        AlipayHelper helper = new AlipayHelper(OrderCheTiePayActivity.this);
-                        //todo dou
-                        helper.pay("卡库养车" + mNo_bill, "车品订单", mPrice_bill, mNo_bill);
-
-                    }
-                }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
-        });
+        //支付宝支付
+        AlipayHelper helper = new AlipayHelper(OrderCheTiePayActivity.this);
+        //todo dou
+        helper.pay("卡库养车" + mNo_bill, "车贴订单", mPrice_bill, mNo_bill);
 
     }
 

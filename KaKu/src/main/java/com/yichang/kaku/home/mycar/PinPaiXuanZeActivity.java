@@ -19,13 +19,13 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.faxian.ReMenAdapter;
 import com.yichang.kaku.home.text.ClearEditText;
 import com.yichang.kaku.home.text.MyGridView;
-import com.yichang.kaku.home.faxian.ReMenAdapter;
 import com.yichang.kaku.obj.CarData2Obj;
 import com.yichang.kaku.obj.CarData3Obj;
 import com.yichang.kaku.obj.CarData4Obj;
@@ -40,8 +40,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -356,7 +355,7 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		Utils.NoNet(context);
-		LogUtil.E("flag:"+flag);
+		LogUtil.E("flag:" + flag);
 		if (Utils.Many()){
 			return;
 		}
@@ -419,18 +418,19 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 		}
 		PinPaiXuanZeReq req = new PinPaiXuanZeReq();
 		req.code = "2008";
-		KaKuApiProvider.PinPaiXuanZe(req, new BaseCallback<PinPaiXuanZeResp>(PinPaiXuanZeResp.class) {
+		KaKuApiProvider.PinPaiXuanZe(req, new KakuResponseListener<PinPaiXuanZeResp>(this, PinPaiXuanZeResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, PinPaiXuanZeResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("pinpaixuanze res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
-						if (t.brands.size()==0) {
+						if (t.brands.size() == 0) {
 							return;
 						}
 						customList = t.brands;
 						list_remen = t.brands_hot;
-						adapter_remen = new ReMenAdapter(context,list_remen);
+						adapter_remen = new ReMenAdapter(context, list_remen);
 						gv_remen.setAdapter(adapter_remen);
 						SourceDateList = filledData(customList);
 						Collections.sort(SourceDateList, pinyinComparator);
@@ -446,9 +446,9 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 							public void onScroll(AbsListView view, int firstVisibleItem,
 												 int visibleItemCount, int totalItemCount) {
 
-									int section = getSectionForPosition(firstVisibleItem);
-									int nextSection = getSectionForPosition(firstVisibleItem);
-									int nextSecPosition = getPositionForSection(+nextSection);
+								int section = getSectionForPosition(firstVisibleItem);
+								int nextSection = getSectionForPosition(firstVisibleItem);
+								int nextSecPosition = getPositionForSection(+nextSection);
 								/*if (firstVisibleItem != lastFirstVisibleItem) {
 									ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout
 											.getLayoutParams();
@@ -457,8 +457,8 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 									*//*title.setText(SourceDateList.get(
 											getPositionForSection(section)).getSortLetters());*//*
 								}*/
-									if (nextSecPosition == firstVisibleItem + 1) {
-										View childView = view.getChildAt(0);
+								if (nextSecPosition == firstVisibleItem + 1) {
+									View childView = view.getChildAt(0);
 									/*if (childView != null) {
 										int titleHeight = titleLayout.getHeight();
 										int bottom = childView.getBottom();
@@ -475,20 +475,15 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 											}
 										}
 									}*/
-									}
-									lastFirstVisibleItem = firstVisibleItem;
 								}
+								lastFirstVisibleItem = firstVisibleItem;
+							}
 						});
 					}
 				}
 				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg,
-								  Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 
@@ -529,13 +524,14 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 		req.id_model = id_model;
 		req.id_actuate = id_actuate;
 		req.id_fuel = id_fuel;
-		KaKuApiProvider.XuanChe(req, new BaseCallback<XuanCheResp>(XuanCheResp.class) {
+		KaKuApiProvider.XuanChe(req, new KakuResponseListener<XuanCheResp>(this, XuanCheResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, XuanCheResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("xuanche2 res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
-						if ("Y".equals(t.flag_jump)){
+						if ("Y".equals(t.flag_jump)) {
 							SaveCar(t.id_car);
 							stopProgressDialog();
 							finish();
@@ -554,11 +550,11 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 						BitmapUtil.getInstance(context).download(iv2_pinpai_pinpai, KaKuApplication.qian_zhui + t.brand.getImage_brand());
 						img_url = t.brand.getImage_brand();
 						list_data2 = t.datas2;
-						adapter_step2 = new Step2Adapter(context,list_data2);
+						adapter_step2 = new Step2Adapter(context, list_data2);
 						lv_pinpai_step2.setAdapter(adapter_step2);
 						Utils.setListViewHeightBasedOnChildren(lv_pinpai_step2);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
+						if (Constants.RES_TEN.equals(t.res)) {
 							Utils.Exit(context);
 							finish();
 						}
@@ -568,10 +564,7 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
+
 		});
 	}
 
@@ -586,13 +579,14 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 		req.id_model = id_model;
 		req.id_actuate = id_actuate;
 		req.id_fuel = id_fuel;
-		KaKuApiProvider.XuanChe(req, new BaseCallback<XuanCheResp>(XuanCheResp.class) {
+		KaKuApiProvider.XuanChe(req, new KakuResponseListener<XuanCheResp>(this, XuanCheResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, XuanCheResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("xuanche3 res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
-						if ("Y".equals(t.flag_jump)){
+						if ("Y".equals(t.flag_jump)) {
 							SaveCar(t.id_car);
 							stopProgressDialog();
 							finish();
@@ -610,14 +604,14 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 						tv2_pinpai_line5.setText(t.brand.getName_actuate());
 						BitmapUtil.getInstance(context).download(iv2_pinpai_pinpai, KaKuApplication.qian_zhui + t.brand.getImage_brand());
 						list_data3 = t.datas3;
-						adapter_step3 = new Step3Adapter(context,list_data3);
+						adapter_step3 = new Step3Adapter(context, list_data3);
 						lv_pinpai_step3.setAdapter(adapter_step3);
 						Utils.setListViewHeightBasedOnChildren(lv_pinpai_step3);
-					}else if (Constants.RES_ONE.equals(t.res)){
+					} else if (Constants.RES_ONE.equals(t.res)) {
 						finish();
 						LogUtil.showShortToast(context, t.msg);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
+						if (Constants.RES_TEN.equals(t.res)) {
 							Utils.Exit(context);
 							finish();
 						}
@@ -627,10 +621,6 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 
@@ -645,13 +635,14 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 		req.id_model = id_model;
 		req.id_actuate = id_actuate;
 		req.id_fuel = id_fuel;
-		KaKuApiProvider.XuanChe(req, new BaseCallback<XuanCheResp>(XuanCheResp.class) {
+		KaKuApiProvider.XuanChe(req, new KakuResponseListener<XuanCheResp>(this, XuanCheResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, XuanCheResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("xuanche4 res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
-						if ("Y".equals(t.flag_jump)){
+						if ("Y".equals(t.flag_jump)) {
 							SaveCar(t.id_car);
 							stopProgressDialog();
 							finish();
@@ -669,14 +660,14 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 						tv2_pinpai_line5.setText(t.brand.getName_actuate());
 						BitmapUtil.getInstance(context).download(iv2_pinpai_pinpai, KaKuApplication.qian_zhui + t.brand.getImage_brand());
 						list_data4 = t.datas4;
-						adapter_step4 = new Step4Adapter(context,list_data4);
+						adapter_step4 = new Step4Adapter(context, list_data4);
 						lv_pinpai_step4.setAdapter(adapter_step4);
 						Utils.setListViewHeightBasedOnChildren(lv_pinpai_step4);
-					} else if (Constants.RES_ONE.equals(t.res)){
+					} else if (Constants.RES_ONE.equals(t.res)) {
 						finish();
 						LogUtil.showShortToast(context, t.msg);
 					} else {
-						if (Constants.RES_TEN.equals(t.res)){
+						if (Constants.RES_TEN.equals(t.res)) {
 							Utils.Exit(context);
 							finish();
 						}
@@ -686,10 +677,6 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 
@@ -704,22 +691,23 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 		req.time_production = "";
 		req.travel_mileage = "";
 
-		KaKuApiProvider.submitMyCarDetail(req, new BaseCallback<CarDetailSubmitResp>(CarDetailSubmitResp.class) {
+		KaKuApiProvider.submitMyCarDetail(req, new KakuResponseListener<CarDetailSubmitResp>(this, CarDetailSubmitResp.class) {
 					@Override
-					public void onSuccessful(int statusCode, Header[] headers, CarDetailSubmitResp t) {
+					public void onSucceed(int what, Response response) {
+						super.onSucceed(what, response);
 						if (t != null) {
 							LogUtil.E("savecar res: " + t.res);
 							if (Constants.RES.equals(t.res)) {
-								Intent intent = new Intent(context,MyCarActivity.class);
+								Intent intent = new Intent(context, MyCarActivity.class);
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 								finish();
-								LogUtil.showShortToast(context,t.msg);
-							} else if (Constants.RES_ONE.equals(t.res)){
+								LogUtil.showShortToast(context, t.msg);
+							} else if (Constants.RES_ONE.equals(t.res)) {
 								finish();
 								LogUtil.showShortToast(context, t.msg);
 							} else {
-								if (Constants.RES_TEN.equals(t.res)){
+								if (Constants.RES_TEN.equals(t.res)) {
 									Utils.Exit(context);
 									finish();
 								}
@@ -729,11 +717,6 @@ public class PinPaiXuanZeActivity extends BaseActivity implements OnClickListene
 						stopProgressDialog();
 					}
 
-					@Override
-					public void onFailure(int statusCode, Header[] headers, String msg, Throwable
-							error) {
-						stopProgressDialog();
-					}
 				}
 		);
 	}

@@ -38,7 +38,6 @@ public class AlipayCallBackActivity extends BaseActivity {
         btn_result_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (KaKuApplication.payType.equals("SERVICE")) {
                     gotoShopListActivity("");
                     KaKuApplication.payType = "";
@@ -51,7 +50,6 @@ public class AlipayCallBackActivity extends BaseActivity {
                     gotoCheTieOrderListActivity();
                     KaKuApplication.payType = "";
                 }
-                finish();
             }
         });
         btn_result_home = (Button) findViewById(R.id.btn_result_home);
@@ -67,7 +65,6 @@ public class AlipayCallBackActivity extends BaseActivity {
         });
         iniTitleBar();
     }
-
 
     private void iniTitleBar() {
 
@@ -99,6 +96,7 @@ public class AlipayCallBackActivity extends BaseActivity {
         Intent intent = new Intent(context, CheTieOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     private void gotoTruckOrderListActivity(String state) {
@@ -107,6 +105,7 @@ public class AlipayCallBackActivity extends BaseActivity {
         KaKuApplication.truck_order_state = state;
         //intent.putExtra("state", "");
         startActivity(intent);
+        finish();
     }
 
     private void gotoShopListActivity(String state) {
@@ -115,6 +114,7 @@ public class AlipayCallBackActivity extends BaseActivity {
         KaKuApplication.color_order = state;
         KaKuApplication.state_order = state;
         startActivity(intent);
+        finish();
     }
 
 

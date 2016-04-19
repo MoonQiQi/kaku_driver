@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
 import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
 import com.yichang.kaku.tools.LogUtil;
@@ -79,29 +80,18 @@ public class AlipayHelper {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
                             /*Toast.makeText(mActivity, "支付失败",
                                     Toast.LENGTH_SHORT).show();*/
-                            if (KaKuApplication.payType == "TRUCK") {
+                            if (KaKuApplication.payType.equals("TRUCK")) {
                                 gotoTruckOrderListActivity();
-                            } else if (KaKuApplication.payType == "SERVICE") {
+                            } else if (KaKuApplication.payType.equals("SERVICE")) {
                                 gotoShopListActivity();
-                            }else if (KaKuApplication.payType == "STICKER") {
+                            } else if (KaKuApplication.payType.equals("STICKER")) {
                                 gotoCheTieOrderListActivity();
-                                KaKuApplication.payType = "";
                             }
 
 
                         }
                     }
 
-                    /*if (KaKuApplication.payType == "TRUCK") {
-                        mActivity.finish();
-                        KaKuApplication.truck_order_state="";
-                        mActivity.startActivity(new Intent(mActivity, TruckOrderListActivity.class));
-
-                    }else if (KaKuApplication.payType == "SERVICE"){
-                        mActivity.finish();
-                        KaKuApplication.color_order="";
-                        mActivity.startActivity(new Intent(mActivity, ServiceOrderListActivity.class));
-                    }*/
                     break;
                 }
                 case SDK_CHECK_FLAG: {
@@ -116,11 +106,13 @@ public class AlipayHelper {
 
         ;
     };
+
     private void gotoCheTieOrderListActivity() {
-        Intent intent =new Intent(mActivity,AlipayCallBackActivity.class);
+        Intent intent = new Intent(mActivity, CheTieOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mActivity.startActivity(intent);
     }
+
     private void gotoTruckOrderListActivity() {
         Intent intent = new Intent(mActivity, TruckOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

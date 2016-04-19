@@ -5,14 +5,8 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-/**
- * Created by xiaosu on 2015/11/10.
- */
-public class IllegalResp implements Parcelable {
+public class IllegalResp extends BaseResp {
 
-    public int Code;
-    public int res;
-    public String Msg;
     /**
      * Cities : [{"CarCodeLen":0,"CarEngineLen":99,"CarNumberPrefix":"京","CarOwnerLen":0,"CityId":11,"CityName":"北京","Name":"北京"}]
      * ProvinceID : 11
@@ -133,24 +127,12 @@ public class IllegalResp implements Parcelable {
         };
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.Code);
-        dest.writeString(this.Msg);
-        dest.writeTypedList(Data);
-    }
 
     public IllegalResp() {
     }
 
     protected IllegalResp(Parcel in) {
-        this.Code = in.readInt();
-        this.Msg = in.readString();
+        this.msg = in.readString();
         this.Data = in.createTypedArrayList(Province.CREATOR);
     }
 

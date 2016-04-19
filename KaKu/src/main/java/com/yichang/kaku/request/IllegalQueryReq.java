@@ -11,7 +11,6 @@ public class IllegalQueryReq extends BaseReq {
     //carcode'    车架号
     //cardrivenumber' 发动机号
 
-    public String id_driver;
     public String carnumber;
     public String carcode;
     public String cardrivenumber;

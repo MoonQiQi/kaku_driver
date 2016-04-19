@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.wly.android.widget.AdGalleryHelper;
 import com.wly.android.widget.Advertising;
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -31,8 +31,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +63,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
 
     private void init() {
         // TODO Auto-generated method stub
+
         left=(TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
         iv_shopdetail_image= (ImageView) findViewById(R.id.iv_shopdetail_image);
@@ -110,7 +110,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
             intent.putExtra("e_lon",lon);
             startActivity(intent);
         } else if (R.id.rela_shopdetail_phone == id){
-            Utils.Call(ShopDetailActivity.this,phone_shop);
+            Utils.Call(ShopDetailActivity.this, phone_shop);
         } else if (R.id.iv_shopdetail_guanzhu == id){
             if ("N".equals(flag_guanzhu)) {
                 CollectShop();
@@ -132,14 +132,14 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
     }
 
     public void ShopDetail(){
-        showProgressDialog();
         ShopDetailReq req = new ShopDetailReq();
         req.code = "8005";
         req.id_shop = KaKuApplication.id_shop;
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.ShopDetail(req, new BaseCallback<ShopDetailResp>(ShopDetailResp.class) {
+        KaKuApiProvider.ShopDetail(req, new KakuResponseListener<ShopDetailResp>(this, ShopDetailResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, ShopDetailResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("shopdetail res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -149,18 +149,18 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
                         url_ad = rolls_list.get(0).getUrl_roll();
                         name_ad = rolls_list.get(0).getName_roll();
                         tv_shopdetail_shopname.setText(t.shop.getName_shop());
-                        tv_shopdetail_shoptime.setText("营业时间："+t.shop.getHour_shop_begin()+"-"+t.shop.getHour_shop_end());
+                        tv_shopdetail_shoptime.setText("营业时间：" + t.shop.getHour_shop_begin() + "-" + t.shop.getHour_shop_end());
                         tv_shopdetail_addr.setText(t.shop.getAddr_shop());
                         tv_shopdetail_phone.setText(t.shop.getMobile_shop());
                         tv_shopdetail_content.setText(t.eval.getContent_eval());
-                        tv_shopdetail_pingjiatime.setText(t.eval.getName_driver()+"  "+t.eval.getTime_eval());
-                        lat=t.shop.getVar_lat();
-                        lon=t.shop.getVar_lon();
+                        tv_shopdetail_pingjiatime.setText(t.eval.getName_driver() + "  " + t.eval.getTime_eval());
+                        lat = t.shop.getVar_lat();
+                        lon = t.shop.getVar_lon();
                         phone_shop = t.shop.getMobile_shop();
                         name_shop = t.shop.getName_shop();
                         addr_shop = t.shop.getAddr_shop();
                         image_shop = t.shop.getImage_shop();
-                        if ("Y".equals(t.shop.getIs_collection())){
+                        if ("Y".equals(t.shop.getIs_collection())) {
                             iv_shopdetail_guanzhu.setImageResource(R.drawable.yiguanzhu);
                         } else {
                             iv_shopdetail_guanzhu.setImageResource(R.drawable.weiguanzhu);
@@ -172,7 +172,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
                             iv_shopdetail_guanzhu.setImageResource(R.drawable.weiguanzhu);
                             flag_guanzhu = "N";
                         }
-                        if (TextUtils.isEmpty(t.eval.getContent_eval())){
+                        if (TextUtils.isEmpty(t.eval.getContent_eval())) {
                             rela_shopdetail_pingjia.setVisibility(View.GONE);
                             tv_shopdetail_more.setTextColor(getResources().getColor(R.color.color_word));
                             tv_shopdetail_more.setText("新店入驻，我来评价");
@@ -183,97 +183,70 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
 
                         String star2 = t.eval.getStar_eval();
                         String star1 = t.shop.getNum_star();
-                        if (!TextUtils.isEmpty(star1)){
+                        if (!TextUtils.isEmpty(star1)) {
                             float starFloat1 = Float.valueOf(star1);
                             star_shopdetail.setRating(starFloat1);
                         }
-                        if (!TextUtils.isEmpty(star2)){
+                        if (!TextUtils.isEmpty(star2)) {
                             float starFloat2 = Float.valueOf(star2);
                             star_shopdetail.setRating(starFloat2);
                         }
                         BitmapUtil.getInstance(context).download(iv_shopdetail_image, KaKuApplication.qian_zhui + t.shop.getImage_shop());
                         BitmapUtil.getInstance(context).download(iv_shopdetail_image2, KaKuApplication.qian_zhui + t.shop.getImage_shop_up());
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void CollectShop() {
         Utils.NoNet(context);
-        showProgressDialog();
         CollectShopReq req = new CollectShopReq();
         req.code = "4004";
         req.id_driver = Utils.getIdDriver();
         req.id_shop = KaKuApplication.id_shop;
-        KaKuApiProvider.CollectShop(req, new BaseCallback<CollectShopResp>(CollectShopResp.class) {
+        KaKuApiProvider.CollectShop(req, new KakuResponseListener<CollectShopResp>(this, CollectShopResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, CollectShopResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("collectshop res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         iv_shopdetail_guanzhu.setImageResource(R.drawable.yiguanzhu);
                         flag_guanzhu = "Y";
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                     }
                     LogUtil.showShortToast(context, t.msg);
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 
     public void CancleCollect() {
         Utils.NoNet(context);
-        showProgressDialog();
         CancleCollectReq req = new CancleCollectReq();
         req.code = "4005";
         req.id_driver = Utils.getIdDriver();
         req.id_shop = KaKuApplication.id_shop;
-        KaKuApiProvider.CancleCollect(req, new BaseCallback<CancleCollectResp>(CancleCollectResp.class) {
+        KaKuApiProvider.CancleCollect(req, new KakuResponseListener<CancleCollectResp>(this, CancleCollectResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, CancleCollectResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("canclecollect res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
                         iv_shopdetail_guanzhu.setImageResource(R.drawable.weiguanzhu);
                         flag_guanzhu = "N";
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                     }
                     LogUtil.showShortToast(context, t.msg);
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
     }
 

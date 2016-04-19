@@ -24,7 +24,8 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
 import com.yichang.kaku.tools.okhttp.Params;
 import com.yichang.kaku.tools.okhttp.RequestCallback;
-import com.yichang.kaku.view.widget.PicturePickPopWindow;
+import com.yichang.kaku.view.WaitDialog;
+import com.yichang.kaku.view.popwindow.PicturePickPopWindow;
 import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class ApplyToJoinActivity extends BaseActivity implements PicturePickPopW
     private StringBuffer id_brands,name_brands;
     private String intro;
     private String bitmapStr;
-
+    private WaitDialog waitDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,7 @@ public class ApplyToJoinActivity extends BaseActivity implements PicturePickPopW
         EventBus.getDefault().register(this);
         application = (KaKuApplication) getApplication();//开始定位
         application.startLocate();
+        //waitDialog=new WaitDialog(this);
     }
 
     private void initView() {
@@ -223,7 +225,7 @@ public class ApplyToJoinActivity extends BaseActivity implements PicturePickPopW
     public void photoCutCallback(Bitmap bitmap) {
         iv_shop.setImageBitmap(bitmap);
 
-        showProgressDialog();
+        waitDialog.show();
 
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
@@ -235,12 +237,12 @@ public class ApplyToJoinActivity extends BaseActivity implements PicturePickPopW
             @Override
             public void onSuccess(ImageUploadResp obj, String result) {
                 bitmapStr = obj.path;
-                stopProgressDialog();
+                waitDialog.dismiss();
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
             }
         });
@@ -297,7 +299,7 @@ public class ApplyToJoinActivity extends BaseActivity implements PicturePickPopW
             return;
         }
 
-        showProgressDialog();
+        waitDialog.show();
 
         Params.builder builder = new Params.builder();
         builder.p("sid", Utils.getSid())
@@ -319,13 +321,13 @@ public class ApplyToJoinActivity extends BaseActivity implements PicturePickPopW
         OkHttpUtil.postAsync(UrlCtnt.BASEIP, builder.build(), new RequestCallback<BrandListResp>(this, BrandListResp.class) {
             @Override
             public void onSuccess(BrandListResp obj, String result) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("信息保存成功");
             }
 
             @Override
             public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
+                waitDialog.dismiss();
                 showShortToast("网络连接失败，请稍后再试");
             }
         });

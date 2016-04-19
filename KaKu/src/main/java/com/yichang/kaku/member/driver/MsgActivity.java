@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.obj.MemberMsgObj;
@@ -22,8 +22,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,6 @@ public class MsgActivity extends BaseActivity implements OnClickListener, Adapte
 
     private void getHistoryMessages(int pageindex, int pagesize) {
 
-       // Utils.NoNet(context);
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
 
@@ -94,7 +92,6 @@ public class MsgActivity extends BaseActivity implements OnClickListener, Adapte
             setNoDataLayoutState(ll_container);
 
         }
-        showProgressDialog();
 
         MemberMsgReq req = new MemberMsgReq();
         req.code = "10023";
@@ -102,43 +99,28 @@ public class MsgActivity extends BaseActivity implements OnClickListener, Adapte
         req.start = String.valueOf(pageindex);
         req.len = String.valueOf(pagesize);
 
-        KaKuApiProvider.getServiceNotices(req, new BaseCallback<MemberMsgResp>(MemberMsgResp.class) {
+        KaKuApiProvider.getServiceNotices(req, new KakuResponseListener<MemberMsgResp>(this, MemberMsgResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MemberMsgResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getServiceNotices res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
 
                         setData(t.notices);
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)){
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                     onLoadStop();
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
-
-
     }
-
-
 
     private void setData(List<MemberMsgObj> notices) {
         if (notices != null) {
             list.addAll(notices);
         }
-
 
         if (list.size() == 0) {
 
@@ -208,7 +190,6 @@ public class MsgActivity extends BaseActivity implements OnClickListener, Adapte
 
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("我的消息");
-
 
     }
 

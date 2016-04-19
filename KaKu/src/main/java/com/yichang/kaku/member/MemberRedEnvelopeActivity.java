@@ -13,23 +13,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
-import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.home.MyPrizeActivity;
-import com.yichang.kaku.member.recommend.MemberSendMsgActivity;
 import com.yichang.kaku.obj.ShareContentObj;
-import com.yichang.kaku.request.MemberRecommendReq;
 import com.yichang.kaku.request.RedEnvelopeShareReq;
-import com.yichang.kaku.response.MemberRecommendResp;
 import com.yichang.kaku.response.RedEnvelopeShareResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.OneKeySharePopWindow;
-import com.yichang.kaku.view.RedEnvelopeSharePopWindow;
+import com.yichang.kaku.view.popwindow.RedEnvelopeSharePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class MemberRedEnvelopeActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener {
     //    titleBar
@@ -94,20 +87,20 @@ public class MemberRedEnvelopeActivity extends BaseActivity implements OnClickLi
 
     private void getRedEnvelopeContent() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         RedEnvelopeShareReq req = new RedEnvelopeShareReq();
         req.code = "10036";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getRedEnvelopeShareContent(req, new BaseCallback<RedEnvelopeShareResp>(RedEnvelopeShareResp.class) {
+        KaKuApiProvider.getRedEnvelopeShareContent(req, new KakuResponseListener<RedEnvelopeShareResp>(this, RedEnvelopeShareResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, RedEnvelopeShareResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     smsContent = t.content;
                     smsUrl = t.url;
-                    smsTitle=t.title;
-                    LogUtil.E("getMemberRecommendInfo smsTitle: " + smsTitle+"smsContent"+smsContent+"smsUrl"+smsUrl);
+                    smsTitle = t.title;
+                    LogUtil.E("getMemberRecommendInfo smsTitle: " + smsTitle + "smsContent" + smsContent + "smsUrl" + smsUrl);
 
                     /*LogUtil.E("getMemberRecommendInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -120,13 +113,8 @@ public class MemberRedEnvelopeActivity extends BaseActivity implements OnClickLi
                         LogUtil.showShortToast(context, t.msg);
                     }*/
                 }
-                stopProgressDialog();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
-            }
         });
 
     }

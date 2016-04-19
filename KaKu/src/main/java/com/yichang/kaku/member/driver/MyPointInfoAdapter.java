@@ -6,19 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.obj.ConfirmOrderProductObj;
 import com.yichang.kaku.obj.PointHistoryObj;
-import com.yichang.kaku.obj.TruckOrderObj;
-import com.yichang.kaku.tools.BitmapUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyPointInfoAdapter extends BaseAdapter {

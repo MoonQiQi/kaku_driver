@@ -86,16 +86,16 @@ public class ShopPingJiaAdapter extends BaseAdapter {
 		}
 
 		if (!"".equals(obj.getImage_evaluation1())){
-			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia1,KaKuApplication.qian_zhui+obj.getImage_evaluation1());
+			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia1,KaKuApplication.qian_zhuikong+obj.getImage_evaluation1());
 		}
 		if (!"".equals(obj.getImage_evaluation2())){
-			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia2,KaKuApplication.qian_zhui+obj.getImage_evaluation2());
+			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia2,KaKuApplication.qian_zhuikong+obj.getImage_evaluation2());
 		}
 		if (!"".equals(obj.getImage_evaluation3())){
-			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia3,KaKuApplication.qian_zhui+obj.getImage_evaluation3());
+			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia3,KaKuApplication.qian_zhuikong+obj.getImage_evaluation3());
 		}
 		if (!"".equals(obj.getImage_evaluation4())){
-			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia4,KaKuApplication.qian_zhui+obj.getImage_evaluation4());
+			BitmapUtil.getInstance(mContext).download(holder.iv_shoppingjia4,KaKuApplication.qian_zhuikong+obj.getImage_evaluation4());
 		}
 		if (TextUtils.isEmpty(obj.getName_driver())){
 			holder.tv_shoppingjia_name.setText("**");

@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.member.JiangLiMingXiActivity;
@@ -22,10 +22,9 @@ import com.yichang.kaku.request.MemberRecommendReq;
 import com.yichang.kaku.response.MemberRecommendResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.OneKeySharePopWindow;
+import com.yichang.kaku.view.popwindow.OneKeySharePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 public class MemberRecommendActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener {
     //    titleBar
@@ -56,15 +55,15 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
 
     private void getRecommendInfo() {
         Utils.NoNet(context);
-        showProgressDialog();
 
         MemberRecommendReq req = new MemberRecommendReq();
         req.code = "10032";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getMemberRecommendInfo(req, new BaseCallback<MemberRecommendResp>(MemberRecommendResp.class) {
+        KaKuApiProvider.getMemberRecommendInfo(req, new KakuResponseListener<MemberRecommendResp>(this,MemberRecommendResp.class) {
             @Override
-            public void onSuccessful(int statusCode, Header[] headers, MemberRecommendResp t) {
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getMemberRecommendInfo res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
@@ -82,15 +81,6 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
                                 return true;
                             }
                         });
-                        /*wv_recommend.setWebChromeClient(new WebChromeClient() {
-                            public void onProgressChanged(WebView view, int progress) {
-                                //Activity和Webview根据加载程度决定进度条的进度大小
-                                //当加载到100%的时候 进度条自动消失
-                                LotteryActivity.this.setProgress(progress * 100);
-                            }
-                        });*/
-                        //wv_recommend.addJavascriptInterface(this, "androidObj");
-        /*getLotteryUrl();*/
 
                         wv_recommend.addJavascriptInterface(new Object() {
 
@@ -117,22 +107,11 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
                         smsContent = t.content;
                         smsUrl = t.url;
                     } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-                stopProgressDialog();
             }
         });
-
     }
 
 

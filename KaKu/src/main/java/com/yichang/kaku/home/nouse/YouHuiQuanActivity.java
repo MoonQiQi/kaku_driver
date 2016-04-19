@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.BaseCallback;
+import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
@@ -22,8 +22,7 @@ import com.yichang.kaku.response.YouHuiQuanResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-
-import org.apache.http.Header;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +95,6 @@ public class YouHuiQuanActivity extends BaseActivity implements OnClickListener,
 	}
 
 	public void GetYouHuiQuan(){
-		//Utils.NoNet(context);
 		if (!Utils.checkNetworkConnection(context)) {
 			setNoDataLayoutState(layout_net_none);
 
@@ -105,14 +103,14 @@ public class YouHuiQuanActivity extends BaseActivity implements OnClickListener,
 			setNoDataLayoutState(ll_container);
 
 		}
-		showProgressDialog();
 		YouHuiQuanReq req = new YouHuiQuanReq();
 		req.code = "40010";
 		req.id_driver = Utils.getIdDriver();
 		req.total_price = KaKuApplication.money+"";
-		KaKuApiProvider.GetYouHuiQuan(req, new BaseCallback<YouHuiQuanResp>(YouHuiQuanResp.class) {
+		KaKuApiProvider.GetYouHuiQuan(req, new KakuResponseListener<YouHuiQuanResp>(this, YouHuiQuanResp.class) {
 			@Override
-			public void onSuccessful(int statusCode, Header[] headers, YouHuiQuanResp t) {
+			public void onSucceed(int what, Response response) {
+				super.onSucceed(what, response);
 				if (t != null) {
 					LogUtil.E("youhuiquan res: " + t.res);
 					if (Constants.RES.equals(t.res)) {
@@ -127,23 +125,14 @@ public class YouHuiQuanActivity extends BaseActivity implements OnClickListener,
 
 							setNoDataLayoutState(ll_container);
 						}
-						adapter = new YouHuiQuanAdapter(context,list_youhuiquan);
+						adapter = new YouHuiQuanAdapter(context, list_youhuiquan);
 						lv_youhuiquan.setAdapter(adapter);
-					}else {
-						if (Constants.RES_TEN.equals(t.res)){
-							Utils.Exit(context);
-							finish();
-						}
+					} else {
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
-				stopProgressDialog();
 			}
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String msg, Throwable error) {
-				stopProgressDialog();
-			}
 		});
 	}
 
