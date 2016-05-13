@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_qiangimage"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_quanzifabu_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="诱人的标题会有更多人看哦"
+                android:maxLength="20"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/color_word"
+                android:textSize="16sp" />
+
+            <View style="@style/Line_h" />
+
+            <EditText
+                android:id="@+id/et_quanzifabu_content"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@null"
+                android:hint="编写有意思的内容，分享给卡车人"
+                android:maxLength="1000"
+                android:padding="15dp"
+                android:gravity="top"
+                android:textColor="@color/black"
+                android:textColorHint="@color/color_word"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/gv_fabuquanzi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="30dp"
+            android:paddingBottom="30dp"
+            android:horizontalSpacing="2dp"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:verticalSpacing="2dp" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

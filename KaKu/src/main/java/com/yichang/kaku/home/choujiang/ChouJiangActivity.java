@@ -20,7 +20,7 @@ import com.yichang.kaku.response.ChouJiangResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class ChouJiangActivity extends BaseActivity implements OnClickListener {
 
@@ -90,7 +90,7 @@ public class ChouJiangActivity extends BaseActivity implements OnClickListener {
         ChouJiangReq req = new ChouJiangReq();
         req.code = "700241";
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.ChouJiang(req, new KakuResponseListener<ChouJiangResp>(this,ChouJiangResp.class) {
+        KaKuApiProvider.ChouJiang(req, new KakuResponseListener<ChouJiangResp>(this, ChouJiangResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
@@ -104,6 +104,13 @@ public class ChouJiangActivity extends BaseActivity implements OnClickListener {
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
+
 }

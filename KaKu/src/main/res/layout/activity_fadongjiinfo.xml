@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_fadongjiinfo"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:id="@+id/scroll_fadongji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_color"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_fadongji1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="发动机品牌"
+                android:textColor="@color/color_word"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rela_fadongji1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white">
+
+                <com.yichang.kaku.view.widget.MyGridView
+                    android:id="@+id/gv_fadongji1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:numColumns="3" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_fadongji2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="发动机排放"
+                android:textColor="@color/color_word"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rela_fadongji2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <com.yichang.kaku.view.widget.MyGridView
+                    android:id="@+id/gv_fadongji2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:numColumns="3" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_fadongji3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="发动机马力"
+                android:textColor="@color/color_word"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rela_fadongji3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <com.yichang.kaku.view.widget.MyGridView
+                    android:id="@+id/gv_fadongji3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:numColumns="3" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_fadongji4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="发动机系列"
+                android:textColor="@color/color_word"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rela_fadongji4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <com.yichang.kaku.view.widget.MyGridView
+                    android:id="@+id/gv_fadongji4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:numColumns="3" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_fadongji_next"
+                style="@style/Btn_Red"
+                android:layout_marginTop="10dp"
+                android:text="下一步"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

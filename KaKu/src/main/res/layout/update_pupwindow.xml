@@ -14,9 +14,9 @@
         android:padding="10dp">
 
         <RelativeLayout
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
             <ImageView
                 android:id="@+id/iv_update_bg"
@@ -29,8 +29,8 @@
                 android:id="@+id/iv_update_liji"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_above="@+id/iv_update_yihouzaishuo"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="30dp"
                 android:src="@drawable/update_liji" />
 
@@ -45,22 +45,23 @@
 
             <ImageView
                 android:id="@+id/iv_update_faxian"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/update_faxian" />
 
             <TextView
-                android:text="@string/update_info"
-                android:textSize="14sp"
+                android:id="@+id/tv_update_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/iv_update_faxian"
+                android:layout_below="@+id/iv_update_faxian"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="10dp"
                 android:lineSpacingMultiplier="1.2"
                 android:textColor="@color/black"
-                android:layout_below="@+id/iv_update_faxian"
-                android:layout_alignLeft="@+id/iv_update_faxian"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

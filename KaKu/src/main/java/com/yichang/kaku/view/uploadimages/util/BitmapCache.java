@@ -1,12 +1,5 @@
 package com.yichang.kaku.view.uploadimages.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,8 +8,15 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.yichang.kaku.member.serviceorder.PingJiaOrderActivity;
+import com.yichang.kaku.home.shop.PingJiaOrderActivity;
 import com.yichang.kaku.tools.BitmapUtil;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
 
 public class BitmapCache extends Activity {
 

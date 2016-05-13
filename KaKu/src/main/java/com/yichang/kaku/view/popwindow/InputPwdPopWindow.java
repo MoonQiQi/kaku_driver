@@ -23,7 +23,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 /**
  * Created by xiaosu on 2015/12/3.
@@ -49,14 +49,14 @@ public class InputPwdPopWindow extends PopupWindow {
         final View view = context.inflate(R.layout.layout_input_pwd_confirm);
         setContentView(view);
 
-        LinearLayout ll_pwd_container= (LinearLayout) view.findViewById(R.id.ll_pwd_container);
+        LinearLayout ll_pwd_container = (LinearLayout) view.findViewById(R.id.ll_pwd_container);
 
         sEdit = (SecurityPasswordEditText) view.findViewById(R.id.et_s_pwd);
         sEdit.setSecurityEditCompleListener(new SecurityPasswordEditText.SecurityEditCompleListener() {
             @Override
             public void onNumCompleted(String num) {
                 strPwd = num;
-                if(num.length()==6){
+                if (num.length() == 6) {
 
                     checkCode(num);
                 }
@@ -64,7 +64,7 @@ public class InputPwdPopWindow extends PopupWindow {
         });
 
 
-        ImageView iv_close= (ImageView) view.findViewById(R.id.iv_close);
+        ImageView iv_close = (ImageView) view.findViewById(R.id.iv_close);
 
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +100,7 @@ public class InputPwdPopWindow extends PopupWindow {
         req.code = "5008";
         req.id_driver = Utils.getIdDriver();
         req.pay_pass = code;
-        req.sign = genAppSign(req.id_driver);
+        req.sign = genAppSign(code);
 
         KaKuApiProvider.checkWithDrawCode(req, new KakuResponseListener<BaseResp>(context, BaseResp.class) {
             @Override
@@ -122,15 +122,24 @@ public class InputPwdPopWindow extends PopupWindow {
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
 
     }
 
-    private String genAppSign(String id_driver) {
+    private String genAppSign(String code) {
         StringBuilder sb = new StringBuilder();
         //拼接签名字符串
         sb.append("id_driver=");
-        sb.append(id_driver);
+        sb.append(Utils.getIdDriver());
+
+        sb.append("&pay_pass=");
+        sb.append(code);
 
         sb.append("&key=");
         sb.append(Constants.MSGKEY);

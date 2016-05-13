@@ -19,7 +19,7 @@ public class IllegalPopWindow extends PopupWindow {
         super(context);
         this.context = context;
 
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#77000000")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#B2000000")));
         setOutsideTouchable(false);
         setFocusable(true);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);

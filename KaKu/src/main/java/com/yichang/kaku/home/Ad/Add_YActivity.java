@@ -1,29 +1,26 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
-import com.wly.android.widget.AdGalleryHelper;
-import com.wly.android.widget.Advertising;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
@@ -31,64 +28,54 @@ import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
 import com.yichang.kaku.member.cash.YueActivity;
-import com.yichang.kaku.member.recommend.MemberRecommendActivity;
-import com.yichang.kaku.obj.RollsAddObj;
-import com.yichang.kaku.obj.ShareContentObj;
-import com.yichang.kaku.request.AdCalendarReq;
+import com.yichang.kaku.obj.DayObj;
 import com.yichang.kaku.request.GetAddReq;
-import com.yichang.kaku.request.StickerShareReq;
-import com.yichang.kaku.response.AdCalendarResp;
 import com.yichang.kaku.response.GetAddResp;
-import com.yichang.kaku.response.StickerShareResp;
-import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.CalendarView;
 import com.yichang.kaku.view.RiseNumberTextView;
-import com.yichang.kaku.view.popwindow.OneKeySharePopWindow;
+import com.yichang.kaku.view.popwindow.HongSeWindow;
+import com.yichang.kaku.view.popwindow.YuEPopWindow;
+import com.yichang.kaku.view.popwindow.YuYueWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class Add_YActivity extends BaseActivity implements OnClickListener {
 
     private TextView left, title;
     private TextView right;
-    private Bundle bundle;
-    private String name_advert, day_earnings, time_begin, time_end, num_driver, free_remind, image_advert,
-            image_size, day_continue, day_remaining, total_earning, flag_type, now_earnings;
-    private TextView tv_shouyi_name, tv_shouyi_time, tv_shouyi_zongshouyi, tv_shouyi_canyu,
-            tv_shouyi_meiriqian, tv_shouyi_shengyutian, tv_shuoming_1, tv_shuoming_4, tv_chetiexinxi_1, tv_shuoming_5, tv_shuoming_8, tv_shuoming_10;
-    private TextView tv_shuoming_lottery;
-    private RiseNumberTextView tv_shouyi_dangqianshouyiqian;
-    private ImageView iv_tietieyangshi, iv_shouqi_y;
-    private RelativeLayout rela_chetiexinxi, rela_addn_button;
-    private AdGalleryHelper mGalleryHelper;
-    private List<RollsAddObj> rollsadd_list = new ArrayList<RollsAddObj>();
-    private Button btn_add;
-    private ScrollView scroll_add_y;
-    private View renwushuoming_y, chetiexinxi_y;
-    private boolean flag_zhankai = true;
-
-    private CalendarView calendar;
-    private ImageButton calendarLeft;
-    private TextView calendarCenter;
-    private ImageButton calendarRight;
-    private SimpleDateFormat format;
-    private ImageView iv_history;
-    private String mPhotoDate;
-
-    private LinearLayout ll_yaoqing;
+    private ImageView iv_Y_zhizhen, iv_Y_state, iv_Y_riliyou, iv_Y_rilizuo, tv_Y_tixian;
+    private TextView tv_Y_jinrishouyi, tv_Y_shengyutianshu, tv_Y_zhangfu, tv_Y_totalmoney, tv_Y_yue;
+    private RiseNumberTextView tv_Y_shouyi;
+    private Button btn_Y_paizhao;
+    private RelativeLayout rela_gengduopingjia, tv_woyaopingjiachetie;
+    private LinearLayout rela_chetiedaiyan;
+    private GridView gv_calendar;
+    private List<DayObj> list_calendar = new ArrayList<>();
+    private int x1, x2;
+    private int index_x;
+    private Boolean isPwdPopWindowShow = false;
+    private TextView tv_Ypingjia_phone1, tv_Ypingjia_phone2, tv_Ypingjia_phone3;
+    private TextView tv_Ypingjia_time1, tv_Ypingjia_time2, tv_Ypingjia_time3;
+    private TextView tv_Ypingjia_content1, tv_Ypingjia_content2, tv_Ypingjia_content3;
+    private RelativeLayout rela_Y_eval1, rela_Y_eval2, rela_Y_eval3;
+    private ImageView iv_Y_quanbushouyi, iv_Y_paizhaolishi, iv_Y_i;
+    private String ketixian, buketixian;
+    private ListView lv_Y_pingjia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_y);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         init();
     }
 
@@ -101,159 +88,41 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         title.setText("任务详情");
         right = (TextView) findViewById(R.id.tv_right);
         right.setOnClickListener(this);
+        iv_Y_i = (ImageView) findViewById(R.id.iv_Y_i);
+        iv_Y_i.setOnClickListener(this);
+        iv_Y_zhizhen = (ImageView) findViewById(R.id.iv_Y_zhizhen);
+        iv_Y_state = (ImageView) findViewById(R.id.iv_Y_state);
+        iv_Y_riliyou = (ImageView) findViewById(R.id.iv_Y_riliyou);
+        iv_Y_rilizuo = (ImageView) findViewById(R.id.iv_Y_rilizuo);
+        tv_Y_shouyi = (RiseNumberTextView) findViewById(R.id.tv_Y_shouyi);
+        tv_Y_zhangfu = (TextView) findViewById(R.id.tv_Y_zhangfu);
+        tv_Y_totalmoney = (TextView) findViewById(R.id.tv_Y_totalmoney);
+        tv_Y_yue = (TextView) findViewById(R.id.tv_Y_yue);
+        tv_Y_tixian = (ImageView) findViewById(R.id.tv_Y_tixian);
+        tv_Y_tixian.setOnClickListener(this);
+        tv_woyaopingjiachetie = (RelativeLayout) findViewById(R.id.tv_woyaopingjiachetie);
+        tv_woyaopingjiachetie.setOnClickListener(this);
+        tv_Y_jinrishouyi = (TextView) findViewById(R.id.tv_Y_jinrishouyi);
+        tv_Y_shengyutianshu = (TextView) findViewById(R.id.tv_Y_shengyutianshu);
+        btn_Y_paizhao = (Button) findViewById(R.id.btn_Y_paizhao);
+        btn_Y_paizhao.setOnClickListener(this);
+        rela_chetiedaiyan = (LinearLayout) findViewById(R.id.rela_chetiedaiyan);
+        rela_chetiedaiyan.setOnClickListener(this);
+        rela_gengduopingjia = (RelativeLayout) findViewById(R.id.rela_gengduopingjia);
+        rela_gengduopingjia.setOnClickListener(this);
+        gv_calendar = (GridView) findViewById(R.id.gv_calendar);
+        lv_Y_pingjia = (ListView) findViewById(R.id.lv_Y_pingjia);
+        iv_Y_quanbushouyi = (ImageView) findViewById(R.id.iv_Y_quanbushouyi);
+        iv_Y_quanbushouyi.setOnClickListener(this);
+        iv_Y_paizhaolishi = (ImageView) findViewById(R.id.iv_Y_paizhaolishi);
+        iv_Y_paizhaolishi.setOnClickListener(this);
 
-        iv_history = (ImageView) findViewById(R.id.iv_history);
-        iv_history.setOnClickListener(this);
-
-        Calendar cal = Calendar.getInstance();
-        initCalendarView();
-
-        getCalendarData(String.valueOf(cal.get(Calendar.MONTH) + 1), String.valueOf(cal.get(Calendar.YEAR)));
-        ll_yaoqing = (LinearLayout) findViewById(R.id.ll_yaoqing);
-        ll_yaoqing.setOnClickListener(this);
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         GetAdd();
-    }
-
-    private void getCalendarData(String month, String year) {
-
-        AdCalendarReq req = new AdCalendarReq();
-        req.code = "600140";
-        req.id_driver = Utils.getIdDriver();
-        req.id_advert = KaKuApplication.id_advert;
-        req.month = month;
-        req.year = year;
-
-        KaKuApiProvider.getCalendarList(req, new KakuResponseListener<AdCalendarResp>(this, AdCalendarResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getCalendarList res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        calendar.setDateStatusMap(t.calendars);
-                        mPhotoDate = t.start_photo;
-                        if (mPhotoDate.length() == 2) {
-                            if (mPhotoDate.substring(0, 1).equals("0")) {
-                                mPhotoDate = mPhotoDate.substring(1, 2);
-                            }
-                        }
-                        String[] ya = calendar.getYearAndmonth().split("-");
-                        calendarCenter.setText(ya[0] + "年" + ya[1] + "月");
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-            }
-        });
-    }
-
-
-    private void initCalendarView() {
-
-        format = new SimpleDateFormat("yyyy-MM-dd");
-        //获取日历控件对象
-        calendar = (CalendarView) findViewById(R.id.calendar);
-        calendar.setSelectMore(false); //单选
-
-
-        calendarLeft = (ImageButton) findViewById(R.id.calendarLeft);
-        calendarCenter = (TextView) findViewById(R.id.calendarCenter);
-        calendarRight = (ImageButton) findViewById(R.id.calendarRight);
-        /*try {
-            //设置日历日期
-			Date date = format.parse("2015-01-01");
-			calendar.setCalendarData(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}*/
-
-        //获取日历中年月 ya[0]为年，ya[1]为月（格式大家可以自行在日历控件中改）
-        String[] ya = calendar.getYearAndmonth().split("-");
-        calendarCenter.setText(ya[0] + "年" + ya[1] + "月");
-
-        calendarLeft.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //点击上一月 同样返回年月
-                String leftYearAndmonth = calendar.clickLeftMonth();
-                String[] ya = leftYearAndmonth.split("-");
-                getCalendarData(ya[1], ya[0]);
-                //calendarCenter.setText(ya[0] + "年" + ya[1] + "月");
-            }
-        });
-
-        calendarRight.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //点击下一月
-                String rightYearAndmonth = calendar.clickRightMonth();
-                String[] ya = rightYearAndmonth.split("-");
-                getCalendarData(ya[1], ya[0]);
-                //calendarCenter.setText(ya[0] + "年" + ya[1] + "月");
-            }
-        });
-
-        //设置控件监听，可以监听到点击的每一天（大家也可以在控件中根据需求设定）
-        calendar.setOnItemClickListener(new CalendarView.OnItemClickListener() {
-
-            @Override
-            public void OnItemClick(String s, String downDate) {
-                /*if (calendar.isSelectMore()) {
-                    Toast.makeText(getApplicationContext(), format.format(selectedStartDate) + "到" + format.format(selectedEndDate), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), format.format(downDate), Toast.LENGTH_SHORT).show();
-                }*/
-
-                if (downDate.equals(mPhotoDate)) {
-                    //最佳拍照日，弹出拍照对话框
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Add_YActivity.this);
-                    builder.setTitle("提示");
-                    builder.setMessage("拍照激活下一轮？");
-                    builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                            ShenQingXiaYiLun();
-                        }
-                    });
-
-                    builder.setPositiveButton("否", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                            dialog.dismiss();
-                        }
-                    });
-                    if (!isFinishing()) {
-
-                        builder.create().show();
-                    }
-
-                } else {
-
-                    if (!"NODATA".equals(s)) {
-                        //无数据的数据块不响应点击事件
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
     }
 
 
     @Override
     public void onClick(View v) {
-        Utils.NoNet(context);
         if (Utils.Many()) {
             return;
         }
@@ -261,54 +130,37 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         if (R.id.tv_left == id) {
             goToHome();
         } else if (R.id.tv_right == id) {
-            // TODO: 2016/1/6  分享
+            MobclickAgent.onEvent(context, "CheTieList");
             startActivity(new Intent(this, CheTieListActivity.class));
-            //getStickerShareInfo();
-        } else if (R.id.btn_add_y == id) {
+        } else if (R.id.tv_Y_tixian == id) {
+            MobclickAgent.onEvent(context, "TiXian");
+            startActivity(new Intent(this, YueActivity.class));
+        } else if (R.id.btn_Y_paizhao == id) {
             MobclickAgent.onEvent(context, "ShenQingXiaYiLun");
             ShenQingXiaYiLun();
-        } else if (R.id.rela_addn_button_y == id) {
-            MobclickAgent.onEvent(context, "ShenQingXiaYiLun");
-            ShenQingXiaYiLun();
-        } else if (R.id.iv_history == id) {
-            MobclickAgent.onEvent(context, "TimeList");
-            //todo 跳转到时间轴列表
-            Intent intent = new Intent(context, ImageHistoryActivity.class);
+        } else if (R.id.rela_chetiedaiyan == id) {
+            MobclickAgent.onEvent(context, "CheTieDaiLi");
+            CheTieDaiLi();
+        } else if (R.id.rela_gengduopingjia == id) {
+            MobclickAgent.onEvent(context, "CheTiePingjiaList");
+            AdPingJiaList();
+        } else if (R.id.tv_woyaopingjiachetie == id) {
+            MobclickAgent.onEvent(context, "CheTieWoYaoPingJia");
+            PingJiaAd();
+        } else if (R.id.iv_Y_quanbushouyi == id) {
+            MobclickAgent.onEvent(context, "QuanBuShouYi");
+            Intent intent = new Intent(this, CalendarActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
-        } else if (R.id.iv_shouqi_y == id) {
-            if (flag_zhankai) {
-                iv_shouqi_y.setImageResource(R.drawable.btn_gengduoxiangqing);
-                renwushuoming_y.setVisibility(View.GONE);
-                chetiexinxi_y.setVisibility(View.GONE);
-                flag_zhankai = false;
-            } else if (!flag_zhankai) {
-                iv_shouqi_y.setImageResource(R.drawable.btn_shouqixiangqing);
-                renwushuoming_y.setVisibility(View.VISIBLE);
-                chetiexinxi_y.setVisibility(View.VISIBLE);
-                flag_zhankai = true;
-            }
-        } else if (R.id.tv_shuoming_5 == id) {
-            startActivity(new Intent(this, YueActivity.class));
-        } else if (R.id.tv_shuoming_10 == id) {
-            Utils.Call(this, "400-6867585");
-        } else if (R.id.tv_shuoming_lottery == id) {
-            startActivity(new Intent(this, LotteryActivity.class));
-        } else if (R.id.ll_yaoqing == id) {
-            startActivity(new Intent(context, MemberRecommendActivity.class));
-        }
-    }
-
-    public void ShenQingXiaYiLun() {
-        if ("A".equals(KaKuApplication.flag_recommended) || "B".equals(KaKuApplication.flag_recommended)) {
-            LogUtil.showShortToast(Add_YActivity.this, "今日拍照已生效，无需重复拍照");
-        } else {
-            KaKuApplication.flag_nochetietv = "wu";
-            KaKuApplication.flag_code = "60018";
-            Intent intent = new Intent(context, AdImageActivity.class);
+        } else if (R.id.iv_Y_paizhaolishi == id) {
+            MobclickAgent.onEvent(context, "PaiZhaoLiShi");
+            Intent intent = new Intent(this, ImageHistoryActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
+        } else if (R.id.iv_Y_i == id) {
+            ShowTixianPop();
         }
     }
 
@@ -325,26 +177,15 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
                 super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getadd res: " + t.res);
+                    LogUtil.E("day:" + t.calendars.get(Integer.parseInt(t.index_x)).week.get(Integer.parseInt(t.index_y)).getDate());
                     if (Constants.RES.equals(t.res)) {
+                        KaKuApplication.id_advert = t.advert.getId_advert();
                         KaKuApplication.flag_recommended = t.advert.getFlag_recommended();
                         KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
                         KaKuApplication.flag_position = t.advert.getFlag_position();
                         KaKuApplication.flag_heart = t.advert.getFlag_show();
-                        name_advert = t.advert.getName_advert();
-                        day_earnings = t.advert.getDay_earnings();
-                        time_begin = t.advert.getTime_begin();
-                        time_end = t.advert.getTime_end();
-                        num_driver = t.advert.getNum_driver();
-                        free_remind = t.advert.getFree_remind();
-                        image_advert = t.advert.getImage_advert();
-                        image_size = t.advert.getImage_size();
-                        day_continue = t.advert.getDay_continue();
-                        day_remaining = t.advert.getDay_remaining();
-                        total_earning = t.advert.getTotal_earnings();
-                        now_earnings = t.advert.getNow_earnings();
-                        rollsadd_list = t.rolls;
-                        SetText();
-                        autoAdvance(rollsadd_list);
+                        KaKuApplication.code_my = t.advert.getCode_recommended();
+                        SetText(t);
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
@@ -352,96 +193,203 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
-    public void SetText() {
-        title.setText(name_advert);
-        renwushuoming_y = findViewById(R.id.renwushuoming_y);
-        chetiexinxi_y = findViewById(R.id.chetiexinxi_y);
-        scroll_add_y = (ScrollView) findViewById(R.id.scroll_add_y);
-        tv_shouyi_time = (TextView) findViewById(R.id.tv_shouyi_time);
-        tv_shouyi_zongshouyi = (TextView) findViewById(R.id.tv_shouyi_zongshouyi);
-        tv_shouyi_dangqianshouyiqian = (RiseNumberTextView) findViewById(R.id.tv_shouyi_dangqianshouyiqian);
-        tv_shouyi_canyu = (TextView) findViewById(R.id.tv_shouyi_canyu);
-        tv_shouyi_meiriqian = (TextView) findViewById(R.id.tv_shouyi_meiriqian);
-        tv_shouyi_shengyutian = (TextView) findViewById(R.id.tv_shouyi_shengyutian);
-        tv_shuoming_1 = (TextView) findViewById(R.id.tv_shuoming_1);
-        tv_shuoming_4 = (TextView) findViewById(R.id.tv_shuoming_4);
-        tv_shuoming_5 = (TextView) findViewById(R.id.tv_shuoming_5);
-        tv_shuoming_10 = (TextView) findViewById(R.id.tv_shuoming_10);
+    public void SetText(final GetAddResp t) {
 
-        tv_shuoming_lottery = (TextView) findViewById(R.id.tv_shuoming_lottery);
-        tv_shuoming_lottery.setOnClickListener(this);
+        index_x = Integer.parseInt(t.index_x);
+        iv_Y_riliyou.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index_x == t.calendars.size() - 1) {
+                    return;
+                }
 
-        String strings = "收益可前往【我】-【我的余额】查看。";
-        SpannableStringBuilder styles = new SpannableStringBuilder(strings);
-        styles.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 9, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styles.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shuoming_5.setText(styles);
-        tv_shuoming_5.setOnClickListener(this);
+                index_x++;
+                LogUtil.E("date:" + t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate());
+                String yue = t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate().substring(5, 7);
+                tv_Y_yue.setText(yue + "月");
 
-        String stringsss = "如有疑问，请拨打【400-6867585】。";
-        SpannableStringBuilder stylesss = new SpannableStringBuilder(stringsss);
-        stylesss.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 8, stringsss.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shuoming_10.setText(stylesss);
-        tv_shuoming_10.setOnClickListener(this);
+                int index_y = Integer.parseInt(t.index_y);
+                list_calendar = t.calendars.get(index_x).week;
+                CalendarAdapter adapter_calendar = new CalendarAdapter(Add_YActivity.this, list_calendar, index_y);
+                gv_calendar.setAdapter(adapter_calendar);
+            }
+        });
 
-        iv_tietieyangshi = (ImageView) findViewById(R.id.iv_tietieyangshi);
-        iv_shouqi_y = (ImageView) findViewById(R.id.iv_shouqi_y);
-        iv_shouqi_y.setOnClickListener(this);
-        rela_chetiexinxi = (RelativeLayout) findViewById(R.id.rela_chetiexinxi);
-        rela_addn_button = (RelativeLayout) findViewById(R.id.rela_addn_button_y);
-        rela_addn_button.setOnClickListener(this);
-        btn_add = (Button) findViewById(R.id.btn_add_y);
-        btn_add.setOnClickListener(this);
-        rela_chetiexinxi.setClickable(false);
+        iv_Y_rilizuo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index_x == 0) {
+                    return;
+                }
+                --index_x;
+                LogUtil.E("date:" + t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate());
+                String yue = t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate().substring(5, 7);
+                tv_Y_yue.setText(yue + "月");
 
-        scroll_add_y.smoothScrollTo(0, 0);
-        tv_shouyi_time.setText(time_begin + "至" + time_end);
-        String string = "预期总收益：¥ " + total_earning;
-        SpannableStringBuilder style = new SpannableStringBuilder(string);
-        style.setSpan(new AbsoluteSizeSpan(18, true), 6, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shouyi_zongshouyi.setText(style);
-        tv_shouyi_canyu.setText(num_driver + "人参与");
-        tv_shouyi_meiriqian.setText("¥ " + day_earnings);
-        tv_shouyi_shengyutian.setText(day_remaining + "天");
-        iv_shouqi_y.setImageResource(R.drawable.btn_gengduoxiangqing);
-        renwushuoming_y.setVisibility(View.VISIBLE);
-        chetiexinxi_y.setVisibility(View.VISIBLE);
-        BitmapUtil.getInstance(context).download(iv_tietieyangshi, KaKuApplication.qian_zhui + image_advert);
-        tv_shouyi_dangqianshouyiqian.withNumber(Float.parseFloat(now_earnings)).start();
-    }
+                int index_y = Integer.parseInt(t.index_y);
+                list_calendar = t.calendars.get(index_x).week;
+                CalendarAdapter adapter_calendar = new CalendarAdapter(Add_YActivity.this, list_calendar, index_y);
+                gv_calendar.setAdapter(adapter_calendar);
+            }
+        });
 
-    private void autoAdvance(List<RollsAddObj> imgList) {
-        // TODO Auto-generated method stub
-        if (imgList == null) {
-            return;
-        }
-        if (imgList.size() <= 0) {
-            return;
-        }
-        List<Advertising> list = new ArrayList<Advertising>();
+        ketixian = t.advert.getNow_earnings_0();
+        buketixian = t.advert.getNow_earnings_1();
 
-        for (RollsAddObj obj : imgList) {
-            Advertising advertising = new Advertising(null, obj.getImage_roll(), null);
-            advertising.setPicURL(KaKuApplication.qian_zhui + obj.getImage_roll());
-            list.add(advertising);
+        String yue = t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate().substring(5, 7);
+        tv_Y_yue.setText(yue + "月");
+        index_x = Integer.parseInt(t.index_x);
+        int index_y = Integer.parseInt(t.index_y);
+        list_calendar = t.calendars.get(index_x).week;
+        CalendarAdapter adapter_calendar = new CalendarAdapter(Add_YActivity.this, list_calendar, index_y);
+        gv_calendar.setAdapter(adapter_calendar);
+
+        if ("Y".equals(t.advert.getFlag_advert())) {
+            rela_chetiedaiyan.setVisibility(View.VISIBLE);
+        } else {
+            rela_chetiedaiyan.setVisibility(View.GONE);
         }
 
-        if (list.size() > 0) {
-            mGalleryHelper = new AdGalleryHelper(context, list, Constants.AUTO_SCROLL_DURATION, true, false, false);
-            rela_chetiexinxi.addView(mGalleryHelper.getLayout());
-            mGalleryHelper.startAutoSwitch();
+        if ("1".equals(t.advert.getFlag_agent())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("恭喜您获得车贴代理资格，每邀请好友奖励30元哦~");
+            builder.setNegativeButton("去看看", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+                    CheTieDaiLi();
+                }
+            });
+
+            builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+        } else if ("2".equals(t.advert.getFlag_agent())) {
+            showYuYueWindow();
+        } else if ("3".equals(t.advert.getFlag_agent())) {
+            showHongSeWindow();
         }
+
+
+        if (t.advert.getNow_earnings().contains(".")) {
+            tv_Y_shouyi.withNumber(Float.parseFloat(t.advert.getNow_earnings())).start();
+        } else {
+            tv_Y_shouyi.withNumber(Integer.parseInt(t.advert.getNow_earnings())).start();
+        }
+        title.setText(t.advert.getName_advert());
+        tv_Y_totalmoney.setText("¥" + t.advert.getEarnings_total());
+        tv_Y_zhangfu.setText(t.advert.getDay_growth());
+
+        String day = t.advert.getDay_remaining() + " 天";
+        SpannableStringBuilder style_day = new SpannableStringBuilder(day);
+        style_day.setSpan(new AbsoluteSizeSpan(22, true), 0, day.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_Y_shengyutianshu.setText(style_day);
+
+        String jinri = t.advert.getDay_earnings() + " 元";
+        SpannableStringBuilder style_jinri = new SpannableStringBuilder(jinri);
+        style_jinri.setSpan(new AbsoluteSizeSpan(22, true), 0, jinri.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_Y_jinrishouyi.setText(style_jinri);
+
+        float degree = Float.parseFloat(t.advert.getNow_earnings()) / Float.parseFloat(t.advert.getTotal_earnings());
+        RotateAnimation animation = new RotateAnimation(0f, degree * 120f, Animation.RELATIVE_TO_SELF, 1f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(2000);
+        animation.setFillAfter(true);
+        iv_Y_zhizhen.setAnimation(animation);
+
+        CheTiePingJiaAdapter adapter = new CheTiePingJiaAdapter(context, t.evals);
+        lv_Y_pingjia.setAdapter(adapter);
+        Utils.setListViewHeightBasedOnChildren(lv_Y_pingjia);
+
     }
 
     private void goToHome() {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
         startActivity(intent);
         finish();
+    }
+
+    public void ShenQingXiaYiLun() {
+        if ("A".equals(KaKuApplication.flag_recommended) || "B".equals(KaKuApplication.flag_recommended)) {
+            LogUtil.showShortToast(Add_YActivity.this, "今日拍照已生效，无需重复拍照");
+        } else {
+            KaKuApplication.flag_nochetietv = "wu";
+            KaKuApplication.flag_code = "60018";
+            Intent intent = new Intent(context, AdImageActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+    }
+
+    private void PingJiaAd() {
+        startActivity(new Intent(this, PingJiaAdActivity.class));
+    }
+
+    private void AdPingJiaList() {
+        startActivity(new Intent(this, AdPingJiaListActivity.class));
+    }
+
+    private void CheTieDaiLi() {
+        startActivity(new Intent(this, CheTieDaiLiActivity.class));
+    }
+
+    private void showYuYueWindow() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                YuYueWindow popWindow =
+                        new YuYueWindow(Add_YActivity.this);
+                popWindow.show();
+
+            }
+        }, 0);
+    }
+
+    private void showHongSeWindow() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                HongSeWindow popWindow =
+                        new HongSeWindow(Add_YActivity.this);
+                popWindow.show();
+
+            }
+        }, 0);
+    }
+
+    private void ShowTixianPop() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                YuEPopWindow popWindow =
+                        new YuEPopWindow(Add_YActivity.this, ketixian, buketixian);
+                popWindow.show();
+
+            }
+        }, 0);
     }
 
     @Override
@@ -452,43 +400,4 @@ public class Add_YActivity extends BaseActivity implements OnClickListener {
         return false;
     }
 
-    private void getStickerShareInfo() {
-
-        Utils.NoNet(context);
-        showProgressDialog();
-        StickerShareReq req = new StickerShareReq();
-        req.code = "60019";
-        req.id_driver = Utils.getIdDriver();
-
-        KaKuApiProvider.getStickerShareInfo(req, new KakuResponseListener<StickerShareResp>(this, StickerShareResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getCalendarList res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        showShare(t);
-
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-        });
-    }
-
-    private void showShare(StickerShareResp t) {
-        if (oneKeySharePopWindow == null) {
-            shareContent.url = t.url;
-            shareContent.content = t.content;
-            oneKeySharePopWindow = new OneKeySharePopWindow(this, shareContent);
-            oneKeySharePopWindow.setIsShortUrl(false);
-        }
-        oneKeySharePopWindow.show();
-
-    }
-
-    private ShareContentObj shareContent = new ShareContentObj();
-    private OneKeySharePopWindow oneKeySharePopWindow;
 }

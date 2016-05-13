@@ -1,492 +1,303 @@
 package com.yichang.kaku.home.weizhang;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.request.CityInfoReq;
-import com.yichang.kaku.request.IllegalDriverInfoReq;
+import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.obj.WeiZhangCityObj;
+import com.yichang.kaku.obj.WeiZhangResultObj;
+import com.yichang.kaku.request.ExitReq;
 import com.yichang.kaku.request.IllegalQueryReq;
-import com.yichang.kaku.response.IllegalDirverInfoResp;
 import com.yichang.kaku.response.IllegalQueryResp;
-import com.yichang.kaku.response.IllegalResp;
+import com.yichang.kaku.response.WeiZhangCityResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.view.LicenseChoosePop;
-import com.yichang.kaku.view.popwindow.ChooseCityListPopWindow;
 import com.yichang.kaku.view.popwindow.IllegalPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
-/**
- * Created by xiaosu on 2015/11/9.
- * 违章查询
- */
-public class IllegalQueryActivity extends BaseActivity implements AdapterView.OnItemClickListener, ChooseCityListPopWindow.OnProvinceChooseListener {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final int CITY_REQUEST = 1000;
-    private IllegalResp resp;
 
-    private TextView license_plate_number;
-    private LicenseChoosePop licenseChoosePop;
-    private View rl_carEngine;
-    private TextView name_city;
-    private View rl_vehicle_frame;
-    private EditText carNum;
-    private EditText vehicle_frame;
-    private EditText engineNum;
-    private View line_vehicle_frame;
-    private LinearLayout ll_look_for;
+public class IllegalQueryActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private int groupPosition = 0;
-    private int childPosition = 0;
-    private View lineCar;
-    private ChooseCityListPopWindow chooseCityListPopWindow;
-    private View rl_license;
-
-    private Boolean isChooseCity=false;
+    private TextView left, right, title;
+    private TextView tv_weizhang_provincename, tv_weizhang_chepaijian;
+    private EditText et_weizhang_carnum, et_weizhang_chejiahao, et_weizhang_fadongjihao;
+    private LinearLayout line_weizhang_wenhao;
+    private Button btn_weizhang_search;
+    private GridView gv_weizhang_city;
+    private RelativeLayout rela_weizhang_grid, rela_weizhang_chejiahao, rela_weizhang_fadongjihao;
+    private WeiZhangProvinceAdapter adapter;
+    private List<WeiZhangResultObj> list_province = new ArrayList<>();
+    private List<WeiZhangCityObj> list_city = new ArrayList<>();
+    private String city_no;
+    private String type = "province";
+    SharedPreferences.Editor editor = KaKuApplication.editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_illegal_query);
-        initView();
-
-        getCityInfo();
+        init();
     }
 
-    private void getIllegalDriverInfo() {
-        showProgressDialog();
 
-        IllegalDriverInfoReq req = new IllegalDriverInfoReq();
-        req.code = "9000";
-        req.id_driver = Utils.getIdDriver();
-
-
-        KaKuApiProvider.getIllegalDriverInfo(req, new KakuResponseListener<IllegalDirverInfoResp>(this, IllegalDirverInfoResp.class) {
+    public void init() {
+        left = (TextView) findViewById(R.id.tv_left);
+        left.setOnClickListener(this);
+        title = (TextView) findViewById(R.id.tv_mid);
+        title.setText("查违章");
+        tv_weizhang_provincename = (TextView) findViewById(R.id.tv_weizhang_provincename);
+        tv_weizhang_provincename.setOnClickListener(this);
+        tv_weizhang_chepaijian = (TextView) findViewById(R.id.tv_weizhang_chepaijian);
+        et_weizhang_carnum = (EditText) findViewById(R.id.et_weizhang_carnum);
+        et_weizhang_carnum.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (Constants.RES.equals(t.res)) {
-                    stopProgressDialog();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    if (TextUtils.isEmpty(t.driver.getCarnumber()) && TextUtils.isEmpty(t.driver.getCarcode()) && TextUtils.isEmpty(t.driver.getCarcode())) {
-//省市
-
-
-                    } else {
-                        name_city.setText(t.driver.getCarci());
-                        //车牌短内容
-                        license_plate_number.setText(t.driver.getCarno());
-                        //车牌号
-                        carNum.setText(t.driver.getCarnumber());
-                        //车架号
-                        if (TextUtils.isEmpty(t.driver.getCarcode())) {
-                            rl_vehicle_frame.setVisibility(View.GONE);
-                            vehicle_frame.setText("");
-
-                        } else {
-                            rl_vehicle_frame.setVisibility(View.VISIBLE);
-                            vehicle_frame.setText(t.driver.getCarcode());
-                        }
-                        //发动机号
-                        if (TextUtils.isEmpty(t.driver.getCardrivenumber())) {
-                            rl_carEngine.setVisibility(View.GONE);
-                            engineNum.setText("");
-                        } else {
-                            rl_carEngine.setVisibility(View.VISIBLE);
-                            engineNum.setText(t.driver.getCardrivenumber());
-                        }
-
-                        mCarNo = t.driver.getCarno();
-                        mCarPro = "";
-                        mCarCi = t.driver.getCarci();
-                    }
-                }
-            }
-
-        });
-    }
-
-    private void getCityInfo() {
-        CityInfoReq cityInfoReq = new CityInfoReq();
-        cityInfoReq.code = "9001";
-        KaKuApiProvider.CityQuery(cityInfoReq, new KakuResponseListener<IllegalResp>(this, IllegalResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                LogUtil.E("cityinfo:"+t.res);
-                if ("0".equals(t.res)) {
-                    resp = t;
-                    refreshView();
-                    getIllegalDriverInfo();
-                }
             }
 
             @Override
-            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
-                super.onFailed(what, url, tag, message, responseCode, networkMillis);
-                stopProgressDialog();
-                new AlertDialog.
-                        Builder(IllegalQueryActivity.this).
-                        setTitle("城市信息获取失败").
-                        setMessage("重新获取数据？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {//点击确定重新获取数据
-                        getCityInfo();
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {//点击取消退出页面
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        IllegalQueryActivity.this.finish();
-                    }
-                }).setCancelable(false).
-                        show();
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_weizhang_carnum.removeTextChangedListener(this);//解除文字改变事件
+                et_weizhang_carnum.setText(s.toString().toUpperCase());//转换
+                et_weizhang_carnum.setSelection(s.toString().length());//重新设置光标位置
+                et_weizhang_carnum.addTextChangedListener(this);//重新绑
             }
 
-        });
-    }
-
-    private void initView() {
-        ((TextView) findView(R.id.tv_mid)).setText("违章查询");
-        /**结束页面*/
-        findView(R.id.tv_left).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                onBackPressed();
+            public void afterTextChanged(Editable s) {
+
             }
         });
-        lineCar = findView(R.id.line_car);
-
-        license_plate_number = (TextView) findViewById(R.id._license_plate_number);
-        name_city = (TextView) findViewById(R.id.name_city);
-        rl_carEngine = findViewById(R.id.rl_carEngine);
-        rl_vehicle_frame = findViewById(R.id.rl_vehicle_frame);
-        carNum = (EditText) findViewById(R.id.carNum);
-        vehicle_frame = (EditText) findViewById(R.id._vehicle_frame);
-        engineNum = (EditText) findViewById(R.id.engineNum);
-        line_vehicle_frame = findViewById(R.id.line_vehicle_frame);
-        rl_license = findViewById(R.id.rl_license);
-
-        ll_look_for = (LinearLayout) findViewById(R.id.ll_look_for);
-        ll_look_for.setOnClickListener(new View.OnClickListener() {
+        et_weizhang_chejiahao = (EditText) findViewById(R.id.et_weizhang_chejiahao);
+        et_weizhang_chejiahao.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                getWindow().getDecorView().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        new IllegalPopWindow(IllegalQueryActivity.this).show();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    }
-                }, 200);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_weizhang_chejiahao.removeTextChangedListener(this);//解除文字改变事件
+                et_weizhang_chejiahao.setText(s.toString().toUpperCase());//转换
+                et_weizhang_chejiahao.setSelection(s.toString().length());//重新设置光标位置
+                et_weizhang_chejiahao.addTextChangedListener(this);//重新绑
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-    }
+        et_weizhang_fadongjihao = (EditText) findViewById(R.id.et_weizhang_fadongjihao);
+        et_weizhang_fadongjihao.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    /**
-     * 选择城市
-     *
-     * @param view
-     */
-    public void queryCity(View view) {
-        if (this.resp == null)
-            return;
+            }
 
-        if (this.chooseCityListPopWindow == null) {
-            chooseCityListPopWindow = new ChooseCityListPopWindow(this, this.resp.Data, this);
-            chooseCityListPopWindow.setListener(this);
-        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_weizhang_fadongjihao.removeTextChangedListener(this);//解除文字改变事件
+                et_weizhang_fadongjihao.setText(s.toString().toUpperCase());//转换
+                et_weizhang_fadongjihao.setSelection(s.toString().length());//重新设置光标位置
+                et_weizhang_fadongjihao.addTextChangedListener(this);//重新绑
+            }
 
-        chooseCityListPopWindow.show();
-    }
+            @Override
+            public void afterTextChanged(Editable s) {
 
-    /**
-     * 选择牌照
-     *
-     * @param view
-     */
-    public void chooseLicense(View view) {
-        if (resp == null) {
-            return;
-        }
-        if (licenseChoosePop == null) {
-            licenseChoosePop = new LicenseChoosePop(this, this.resp.Data.get(this.groupPosition).Cities, new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> paramAdapterView, View paramView, int paramInt, long paramLong) {
-                    if (childPosition != paramInt) {
-                        childPosition = paramInt;
-                        clearInput();
-                        refreshView();
-                    }
-                    IllegalQueryActivity.this.licenseChoosePop.dismiss();
-                }
-            });
-            licenseChoosePop.setWidth(rl_license.getMeasuredWidth());
+            }
+        });
+        line_weizhang_wenhao = (LinearLayout) findViewById(R.id.line_weizhang_wenhao);
+        line_weizhang_wenhao.setOnClickListener(this);
+        btn_weizhang_search = (Button) findViewById(R.id.btn_weizhang_search);
+        btn_weizhang_search.setOnClickListener(this);
+        rela_weizhang_grid = (RelativeLayout) findViewById(R.id.rela_weizhang_grid);
+        rela_weizhang_chejiahao = (RelativeLayout) findViewById(R.id.rela_weizhang_chejiahao);
+        rela_weizhang_fadongjihao = (RelativeLayout) findViewById(R.id.rela_weizhang_fadongjihao);
+        gv_weizhang_city = (GridView) findViewById(R.id.gv_weizhang_city);
+        gv_weizhang_city.setOnItemClickListener(this);
+        if ("".equals(Utils.getCityName())) {
+            tv_weizhang_provincename.setText("选择城市");
         } else {
-            licenseChoosePop.updateData(resp.Data.get(this.groupPosition).Cities);
+            tv_weizhang_provincename.setText(Utils.getCityName());
         }
-        licenseChoosePop.updateHeight();
-        licenseChoosePop.showAsDropDown(rl_license, 0, 1);
+        tv_weizhang_chepaijian.setText(Utils.getCityJian());
+        et_weizhang_carnum.setText(Utils.getCarNumber());
+        et_weizhang_fadongjihao.setText(Utils.getCarDriveNumber());
+        et_weizhang_chejiahao.setText(Utils.getCarCode());
+        city_no = Utils.getCityCode();
+        getInfo();
     }
 
-    /**
-     * 查询违规信息
-     *
-     * @param view
-     */
-    public void query(View view) {
-
-        String _carNum = carNum.getText().toString();
-        String _vehicle_frame = vehicle_frame.getText().toString();
-        String _engineNum = engineNum.getText().toString();
-        if (isChooseCity){
-            //选择省市后校验输入字符，默认值不校验
-            if (invalid(_carNum, _vehicle_frame, _engineNum)) return;
+    @Override
+    public void onClick(View v) {
+        Utils.NoNet(context);
+        if (Utils.Many()) {
+            return;
         }
+        int id = v.getId();
+        if (R.id.tv_left == id) {
+            finish();
+        } else if (R.id.line_weizhang_wenhao == id) {
+            ShowPop();
+        } else if (R.id.btn_weizhang_search == id) {
+            if ("".equals(tv_weizhang_provincename.getText().toString().trim())) {
+                LogUtil.showShortToast(context, "请选择查询省份");
+                return;
+            } else if ("".equals(et_weizhang_carnum.getText().toString().trim())) {
+                LogUtil.showShortToast(context, "请输入车牌号码");
+                return;
+            }
+            Query();
+        } else if (R.id.tv_weizhang_provincename == id) {
+            rela_weizhang_grid.setVisibility(View.VISIBLE);
+            adapter = new WeiZhangProvinceAdapter(context, list_province);
+            gv_weizhang_city.setAdapter(adapter);
+        }
+    }
 
-
+    public void getInfo() {
         showProgressDialog();
+        ExitReq req = new ExitReq();
+        req.code = "9001";
+        KaKuApiProvider.CityQuery(req, new KakuResponseListener<WeiZhangCityResp>(this, WeiZhangCityResp.class) {
 
-        final IllegalQueryReq illegalQueryReq = new IllegalQueryReq();
-        illegalQueryReq.code = "9002";
-        illegalQueryReq.id_driver = Utils.getIdDriver();
-        illegalQueryReq.carcode = _vehicle_frame;
-        illegalQueryReq.cardrivenumber = _engineNum;
-        illegalQueryReq.carnumber = license_plate_number.getText().toString() + _carNum;
-        illegalQueryReq.carno = mCarNo;
-        illegalQueryReq.carpro = mCarPro;
-        illegalQueryReq.carci = mCarCi;
-
-        KaKuApiProvider.IllegalQuery(illegalQueryReq, new KakuResponseListener<IllegalQueryResp>(this, IllegalQueryResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
-                if (t.res.equals("0")) {
-                    startActivity(new Intent(IllegalQueryActivity.this, IllegalQueryResultActivity.class).
-                            putExtra("carNum", illegalQueryReq.carnumber).
-                            putExtra("info", t));
+                if ("200".equals(t.resultcode)) {
+                    LogUtil.E(t.result.toString());
+                    SetText(t);
                 } else {
-                    if (Constants.RES_TEN.equals(t.res)) {
-                        Utils.Exit(context);
-                        finish();
-                    }
-                    LogUtil.showShortToast(context, t.msg);
+                    LogUtil.showShortToast(context, t.reason);
                 }
+
                 stopProgressDialog();
             }
 
             @Override
-            public void onFailed(int what, String url, Object tag, CharSequence message, int responseCode, long networkMillis) {
-                super.onFailed(what, url, tag, message, responseCode, networkMillis);
-                stopProgressDialog();
-                showShortToast("网络状态不好，请稍后再试");
+            public void onFailed(int i, Response response) {
+
             }
 
         });
     }
 
-    private boolean invalid(String carNum, String _vehicle_frame, String _engineNum) {
-        IllegalResp.Cities city = resp.Data.get(groupPosition).Cities.get(childPosition);
+    public void SetText(WeiZhangCityResp t) {
+        list_province = t.result;
+        adapter = new WeiZhangProvinceAdapter(context, list_province);
+        gv_weizhang_city.setAdapter(adapter);
 
-        if (TextUtils.isEmpty(carNum)) {
-            showShortToast("请输入车牌号");
-            return true;
-        }
-
-        if (new String(carNum + getText(license_plate_number)).length() != 7) {
-            showShortToast("车牌号的长度为7位");
-            return true;
-        }
-
-      /*  if (city.CarCodeLen != 0 && TextUtils.isEmpty(_vehicle_frame)) {
-            showShortToast("请输入车架号");
-            return true;
-        }*/
-
-        if (city.CarCodeLen != 0) {
-            if (TextUtils.isEmpty(_vehicle_frame)) {
-
-                showShortToast("请输入车架号");
-                return true;
-            } else {
-                if (city.CarCodeLen != 99) {
-
-                    if (_vehicle_frame.length() != city.CarCodeLen) {
-                        showShortToast("请输入车架号后" + city.CarCodeLen + "位");
-                        return true;
-                    }
-                }
-            }
-        }
-        if (city.CarEngineLen != 0) {
-            if (TextUtils.isEmpty(_engineNum)) {
-
-                showShortToast("请输入发动机号");
-                return true;
-            } else {
-                if (city.CarEngineLen != 99) {
-                    if (_engineNum.length() != city.CarEngineLen) {
-                        showShortToast("请输入发动机号后" + city.CarEngineLen + "位");
-                        return true;
-                    }
-                }
-            }
-        }
-        /*if (city.CarEngineLen != 0 && TextUtils.isEmpty(_engineNum)) {
-            showShortToast("请输入发动机号");
-            return true;
-        }*/
-        return false;
     }
-
-    private String mCarNo;
-    private String mCarPro;
-    private String mCarCi;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        isChooseCity=true;
-
-        Object obj = this.chooseCityListPopWindow.performClick(position);
-
-        if (obj instanceof IllegalResp.Province && (this.groupPosition != position)) {
-            this.groupPosition = position;
-            clearInput();
-            IllegalResp.Province province = (IllegalResp.Province) obj;
-            name_city.setText(province.ProvinceName);
-        } else if (obj instanceof IllegalResp.Cities && chooseCityListPopWindow.isProvincePresent() && this.groupPosition != position) {
-            this.groupPosition = position;
-            this.childPosition = 0;
-            clearInput();
-            IllegalResp.Cities city = (IllegalResp.Cities) obj;
-
-            //mCarPro=city.
-            for (IllegalResp.Province pro : resp.Data) {
-                if (pro.Cities.contains(city)) {
-                    name_city.setText(pro.ProvinceName);
-                    break;
+        if (R.id.gv_weizhang_city == parent.getId()) {
+            if ("province".equals(type)) {
+                tv_weizhang_provincename.setText(list_province.get(position).getProvince());
+                tv_weizhang_chepaijian.setText(list_province.get(position).citys.get(0).getAbbr());
+                list_city = list_province.get(position).getCitys();
+                WeiZhangCityAdapter adapter = new WeiZhangCityAdapter(context, list_city);
+                gv_weizhang_city.setAdapter(adapter);
+                type = "city";
+            } else if ("city".equals(type)) {
+                city_no = list_city.get(position).getCity_code();
+                if (0 == list_city.get(position).getEngine()) {
+                    rela_weizhang_fadongjihao.setVisibility(View.GONE);
+                } else {
+                    rela_weizhang_fadongjihao.setVisibility(View.VISIBLE);
+                    et_weizhang_fadongjihao.setHint("请输入全部发动机号");
                 }
-            }
-            refreshView();
-        } else if (obj instanceof IllegalResp.Cities) {
-            this.childPosition = position;
-            refreshView();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            /*选择了不同的城市就会清空上一次输入的数据*/
-            if (groupPosition != data.getIntExtra("groupPosition", 0) || childPosition != data.getIntExtra("childPosition", 0)) {
-                clearInput();
-                groupPosition = data.getIntExtra("groupPosition", 0);
-                childPosition = data.getIntExtra("childPosition", 0);
-                refreshView();
+                if (0 == list_city.get(position).getClassa()) {
+                    rela_weizhang_chejiahao.setVisibility(View.GONE);
+                } else {
+                    et_weizhang_chejiahao.setVisibility(View.VISIBLE);
+                    et_weizhang_chejiahao.setHint("请输入全部车架号");
+                }
+                type = "province";
+                tv_weizhang_provincename.setText(list_city.get(position).getCity_name());
+                rela_weizhang_grid.setVisibility(View.GONE);
+                et_weizhang_chejiahao.setText("");
+                et_weizhang_fadongjihao.setText("");
+                et_weizhang_carnum.setText("");
             }
         }
     }
 
-    /**
-     * 清空输入的数据
-     */
-    private void clearInput() {
-        engineNum.setText("");
-        vehicle_frame.setText("");
-        carNum.setText("");
-    }
+    public void Query() {
+        showProgressDialog();
+        IllegalQueryReq req = new IllegalQueryReq();
+        req.carnumber = tv_weizhang_chepaijian.getText().toString().trim() + et_weizhang_carnum.getText().toString().trim();
+        req.carcode = et_weizhang_chejiahao.getText().toString().trim();
+        req.cardrivenumber = et_weizhang_fadongjihao.getText().toString().trim();
+        req.city_code = city_no;
+        editor.putString("carnumber", et_weizhang_carnum.getText().toString().trim());
+        editor.putString("carcode", req.carcode);
+        editor.putString("cardrivenumber", req.cardrivenumber);
+        editor.putString("city_code", req.city_code);
+        editor.putString("city_name", tv_weizhang_provincename.getText().toString().trim());
+        editor.putString("city_jian", tv_weizhang_chepaijian.getText().toString().trim());
+        editor.commit();
+        KaKuApiProvider.IllegalQuery(req, new KakuResponseListener<IllegalQueryResp>(this, IllegalQueryResp.class) {
 
-    private void refreshView() {
-
-        if (resp == null) {
-            return;
-        }
-
-        IllegalResp.Cities city = resp.Data.get(groupPosition).Cities.get(childPosition);
-        license_plate_number.setText(city.CarNumberPrefix);
-
-        mCarNo = city.CarNumberPrefix;
-        mCarPro = "";
-        mCarCi = city.CityName;
-
-        /*两个有可能都为空*/
-        if (city.CarEngineLen == 0 && city.CarCodeLen == 0) {
-            updateMargin(new View[]{lineCar}, 0);
-            rl_carEngine.setVisibility(View.GONE);
-
-            rl_vehicle_frame.setVisibility(View.GONE);
-            vehicle_frame.setText("");
-            engineNum.setText("");
-            return;
-        }
-
-        if (city.CarEngineLen == 0) {//长度未0表示不需要输入
-            rl_carEngine.setVisibility(View.GONE);
-            engineNum.setText("");
-            updateMargin(new View[]{line_vehicle_frame}, 0);
-        } else if (city.CarEngineLen == 99) {//长度为99表示不需要限制长度
-            rl_carEngine.setVisibility(View.VISIBLE);
-            engineNum.setFilters(new InputFilter[]{});//清除长度限制
-
-            engineNum.setHint("请输入发动机号");
-
-            updateMargin(new View[]{line_vehicle_frame}, getResources().getDimensionPixelOffset(R.dimen.x30));
-        } else {//其他情况需要限制对应长度
-
-            engineNum.setHint("请输入发动机号后" + city.CarEngineLen + "位");
-
-            rl_carEngine.setVisibility(View.VISIBLE);
-            /*设置长度*/
-            engineNum.setFilters(new InputFilter[]{new InputFilter.LengthFilter(city.CarEngineLen)});
-
-            updateMargin(new View[]{line_vehicle_frame}, getResources().getDimensionPixelOffset(R.dimen.x30));
-        }
-
-        if (city.CarCodeLen == 0) {
-            rl_vehicle_frame.setVisibility(View.GONE);
-            vehicle_frame.setText("");
-
-        } else if (city.CarCodeLen == 99) {
-            vehicle_frame.setHint("请输入车架号");
-            rl_vehicle_frame.setVisibility(View.VISIBLE);
-            vehicle_frame.setFilters(new InputFilter[]{});
-        } else {
-            vehicle_frame.setHint("请输入车架号后" + city.CarCodeLen + "位");
-            rl_vehicle_frame.setVisibility(View.VISIBLE);
-            vehicle_frame.setFilters(new InputFilter[]{new InputFilter.LengthFilter(city.CarCodeLen)});
-        }
-    }
-
-    public void updateMargin(View[] targets, int margin) {
-        for (View target : targets) {
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) target.getLayoutParams();
-            if (layoutParams.leftMargin == margin) {
-                continue;
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("query res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        Intent intent = new Intent(context, IllegalQueryResultActivity.class);
+                        intent.putExtra("t", t);
+                        startActivity(intent);
+                    } else {
+                        if (Constants.RES_TEN.equals(t.res)) {
+                            Utils.Exit(context);
+                            finish();
+                        }
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
             }
-            layoutParams.leftMargin = margin;
-            target.setLayoutParams(layoutParams);
-        }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+        });
     }
 
-    @Override
-    public void provinceChoose(int position) {
-        clearInput();
-        groupPosition = position;
-        name_city.setText(resp.Data.get(this.groupPosition).ProvinceName);
 
-        license_plate_number.setText(resp.Data.get(this.groupPosition).Cities.get(0).CarNumberPrefix);
-        refreshView();
+    public void ShowPop() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new IllegalPopWindow(IllegalQueryActivity.this).show();
+
+            }
+        }, 0);
     }
+
+
 }

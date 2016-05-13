@@ -28,7 +28,7 @@ public class UpdateAppManager {
     private static final String FILE_SEPARATOR = "/";
     // 外存sdcard存放路径  
     private static final String FILE_PATH = Environment.getExternalStorageDirectory() + FILE_SEPARATOR +"kaku" + FILE_SEPARATOR;
-    // 下载应用存放全路径  
+    // 下载应用存放全路径
     private static final String FILE_NAME = FILE_PATH + "kaku.apk";
     // 更新应用版本标记  
     private static final int UPDARE_TOKEN = 0x29;

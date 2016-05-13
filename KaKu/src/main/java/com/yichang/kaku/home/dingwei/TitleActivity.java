@@ -2,14 +2,12 @@ package com.yichang.kaku.home.dingwei;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -17,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,7 +54,6 @@ import com.yichang.kaku.webService.UrlCtnt;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -90,6 +88,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
     private PoiSearchAdapter adapter;
     private boolean flag_location = false;
     private View view_title1;
+    private ImageView iv_dingwei_fjdz;
 
     /**
      * 搜索关键字输入窗口
@@ -114,10 +113,10 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
         init();
 
         tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
-            mLocationClient = new LocationClient(context);
-            mMyLocationListener = new MyLocationListener();
-            mLocationClient.registerLocationListener(mMyLocationListener);
-            mVibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+        mLocationClient = new LocationClient(context);
+        mMyLocationListener = new MyLocationListener();
+        mLocationClient.registerLocationListener(mMyLocationListener);
+        mVibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
 
         // 初始化搜索模块，注册搜索事件监听
         mPoiSearch = PoiSearch.newInstance();
@@ -161,13 +160,11 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
                 searchButtonProcess();
             }
         });
-
         initLocation();
 
         showProgressDialog();
         Params.builder builder = new Params.builder();
-        builder.p("sid", Utils.getSid())
-                .p("code", "90013");
+        builder.p("sid", Utils.getSid()).p("code", "90013");
 
         OkHttpUtil.postAsync(UrlCtnt.BASEIP + "login/area_list_0", builder.build(), new RequestCallback<CityResp>(this, CityResp.class) {
             @Override
@@ -252,12 +249,17 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
             }
         });
 
+        mPoiSearch.searchInCity((new PoiCitySearchOption())
+                .city(getKeyWord())
+                .keyword("高速")
+                .pageNum(load_Index));
+        sb = new StringBuilder();
+
     }
 
     private String getKeyWord() {
         String text = getText(tv_city);
         String s = text.replace("辖区", "").replace("地区", "").replace("辖县", "");
-        Log.d("xiaosu", s);
         return s;
     }
 
@@ -305,6 +307,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
                 .keyword(editSearchKey.getText().toString())
                 .pageNum(load_Index));
         sb = new StringBuilder();
+        iv_dingwei_fjdz.setVisibility(View.GONE);
     }
 
     public void goToNextPage(View v) {
@@ -318,7 +321,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
         left.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
         rl_search = findViewById(R.id.rl_search);
-
+        iv_dingwei_fjdz = (ImageView) findViewById(R.id.iv_dingwei_fjdz);
         tv_city = findView(R.id.tv_city);
 
         title.setText("切换位置");
@@ -331,10 +334,10 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
             lon = location.getLongitude() + "";
             lat = location.getLatitude() + "";
         }
-        SharedPreferences.Editor editor = KaKuApplication.editor;
+        /*SharedPreferences.Editor editor = KaKuApplication.editor;
         editor.putString(Constants.LAT, lat);
         editor.putString(Constants.LON, lon);
-        editor.commit();
+        editor.commit();*/
         ll_dingwei_lishi = (LinearLayout) findViewById(R.id.ll_dingwei_lishi);
         tv_dingwei_dingwei = (TextView) findViewById(R.id.tv_dingwei_dingwei);
         tv_dingwei_dingwei.setOnClickListener(this);
@@ -344,14 +347,13 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                LogUtil.E("PPPPPPPPPPPPP:" + ppp.get(position).location.latitude);
-                KaKuApplication.address = ppp.get(position).address;
+                KaKuApplication.address = ppp.get(position).city;
                 KaKuApplication.city = ppp.get(position).city;
                 KaKuApplication.addr_string = ppp.get(position).address;
-                SharedPreferences.Editor editor = KaKuApplication.editor;
+                /*SharedPreferences.Editor editor = KaKuApplication.editor;
                 editor.putString(Constants.LAT, ppp.get(position).location.latitude + "");
                 editor.putString(Constants.LON, ppp.get(position).location.longitude + "");
-                editor.commit();
+                editor.commit();*/
                 finish();
             }
         });
@@ -371,29 +373,9 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
         }
     }
 
-    public void Show() {
-        SharedPreferences sp = getSharedPreferences("history_strs1", 0);
-        save_history = sp.getString("history1", "");
-        if ("".equals(save_history)) {
-            return;
-        }
-        list_string = Arrays.asList(save_history.split(","));
-        List arrayList = new ArrayList(list_string);
-        adapter_lishi = new DingWeiLiShiAdapter(this, arrayList);
-        listView.setAdapter(adapter_lishi);
-
-    }
-
-    public void QingKong() {
-        SharedPreferences sp = getSharedPreferences("history_strs1", 0);
-        sp.edit().putString("history1", "").commit();
-        listView.setVisibility(View.GONE);
-        view_title1.setVisibility(View.GONE);
-    }
-
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
-        int span = 1000;
+        int span = 2000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setLocationMode(tempMode);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType(tempcoor);//可选，默认gcj02，设置返回的定位结果坐标系，
@@ -421,7 +403,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
             ppp = result.getAllPoi();
             if (ppp != null && ppp.size() != 0) {
                 for (PoiInfo poiInfo : ppp) {
-                    Log.i("yxx", "==1=poi===城市：" + poiInfo.city + "名字：" + poiInfo.name + "地址：" + poiInfo.address);
+                    LogUtil.E("==1=poi===城市：" + poiInfo.city + "名字：" + poiInfo.name + "地址：" + poiInfo.address);
                 }
                 adapter = new PoiSearchAdapter(this, ppp);
                 listView.setAdapter(adapter);
@@ -438,8 +420,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
                 strInfo += ",";
             }
             strInfo += "找到结果";
-            Toast.makeText(TitleActivity.this, strInfo, Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(TitleActivity.this, strInfo, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -452,7 +433,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
             Toast.makeText(TitleActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT)
                     .show();
         } else {
-            Log.i("yxx", "==2=poi===" + result.getName() + ": " + result.getAddress());
+            LogUtil.E("==2=poi===" + result.getName() + ": " + result.getAddress());
         }
     }
 
@@ -553,22 +534,20 @@ public class TitleActivity extends BaseActivity implements OnClickListener, OnGe
             }
             sb.append("\nlocationdescribe : ");// 位置语义化信息
             sb.append(location.getLocationDescribe());
-            //sb.toString();
-            if (!TextUtils.isEmpty(location.getAddrStr())) {
-                stopProgressDialog();
-                KaKuApplication.address = location.getAddrStr();
+            if (!TextUtils.isEmpty(location.getCity())) {
+                KaKuApplication.address = location.getCity();
                 KaKuApplication.addr_string = location.getAddrStr();
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+                intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
                 startActivity(intent);
                 finish();
             }
-            if (location.getLatitude() > 0) {
+            /*if (location.getLatitude() > 0) {
                 SharedPreferences.Editor editor = KaKuApplication.editor;
                 editor.putString(Constants.LAT, location.getLatitude() + "");
                 editor.putString(Constants.LON, location.getLongitude() + "");
                 editor.commit();
-            }
+            }*/
             if (!TextUtils.isEmpty(location.getAddrStr()) && location.getLatitude() > 0) {
                 mLocationClient.stop();
             }

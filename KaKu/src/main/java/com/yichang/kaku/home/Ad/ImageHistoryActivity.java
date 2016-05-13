@@ -1,10 +1,10 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,146 +14,109 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ImageHisObj;
-import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.ImageHisReq;
-import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.ImageHisResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageHistoryActivity extends BaseActivity implements OnClickListener{
-	
-	private TextView left,right,title;
-	private ListView lv_imagehis;
-	private List<ImageHisObj> list_imagehis = new ArrayList<ImageHisObj>();
-	private ImageHistoryAdapter adapter;
+public class ImageHistoryActivity extends BaseActivity implements OnClickListener {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_imagehistory);
-		init();
-	}
-	
-	private void init() {
-		// TODO Auto-generated method stub
-		left=(TextView) findViewById(R.id.tv_left);
-		left.setOnClickListener(this);
-		title=(TextView) findViewById(R.id.tv_mid);
-		title.setText("上传图片历史");
-		lv_imagehis= (ListView) findViewById(R.id.lv_imagehis);
+    private TextView left, right, title;
+    private ListView lv_imagehis;
+    private List<ImageHisObj> list_imagehis = new ArrayList<ImageHisObj>();
+    private ImageHistoryAdapter adapter;
+    private ImageView iv_imagehis_no;
 
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_imagehistory);
+        init();
+    }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		GetList();
-	}
+    private void init() {
+        // TODO Auto-generated method stub
+        left = (TextView) findViewById(R.id.tv_left);
+        left.setOnClickListener(this);
+        title = (TextView) findViewById(R.id.tv_mid);
+        title.setText("上传图片历史");
+        lv_imagehis = (ListView) findViewById(R.id.lv_imagehis);
+        iv_imagehis_no = (ImageView) findViewById(R.id.iv_imagehis_no);
 
-	@Override
-	public void onClick(View v) {
-		Utils.NoNet(context);
-		if (Utils.Many()){
-			return;
-		}
-		int id = v.getId();
-		if (R.id.tv_left == id) {
-			GetAdd();
-		} 
-	}
+    }
 
-	public void GetList(){
-		showProgressDialog();
-		ImageHisReq req = new ImageHisReq();
-		req.code = "60016";
-		req.id_driver = Utils.getIdDriver();
-		req.id_advert = KaKuApplication.id_advert;
-		KaKuApiProvider.getImageList(req, new KakuResponseListener<ImageHisResp>(this,ImageHisResp.class) {
-			@Override
-			public void onSucceed(int what, Response response) {
-				super.onSucceed(what, response);
-				if (t != null) {
-					LogUtil.E("getimagelist res: " + t.res);
-					if (Constants.RES.equals(t.res)) {
-						list_imagehis = t.driver_advert;
-						adapter = new ImageHistoryAdapter(context,list_imagehis);
-						lv_imagehis.setAdapter(adapter);
-					}  else {
-						LogUtil.showShortToast(context, t.msg);
-					}
-				}
-				stopProgressDialog();
-			}
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GetList();
+    }
 
-		});
-	}
+    @Override
+    public void onClick(View v) {
+        Utils.NoNet(context);
+        if (Utils.Many()) {
+            return;
+        }
+        int id = v.getId();
+        if (R.id.tv_left == id) {
+            GetAdd();
+        }
+    }
 
-	public void GetAdd(){
-		GetAddReq req = new GetAddReq();
-		req.code = "60011";
-		req.id_driver = Utils.getIdDriver();
-		req.id_advert = KaKuApplication.id_advert;
-		KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(this,GetAddResp.class) {
+    public void GetList() {
+        showProgressDialog();
+        ImageHisReq req = new ImageHisReq();
+        req.code = "60016";
+        req.id_driver = Utils.getIdDriver();
+        req.id_advert = KaKuApplication.id_advert;
+        KaKuApiProvider.getImageList(req, new KakuResponseListener<ImageHisResp>(this, ImageHisResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("getimagelist res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        if (t.driver_advert.size() == 0) {
+                            iv_imagehis_no.setVisibility(View.VISIBLE);
+                        } else {
+                            iv_imagehis_no.setVisibility(View.GONE);
+                        }
 
-			@Override
-			public void onSucceed(int what, Response response) {
-				super.onSucceed(what, response);
-				if (t != null) {
-					LogUtil.E("getadd res: " + t.res);
-					if (Constants.RES.equals(t.res)) {
-						KaKuApplication.id_advert = t.advert.getId_advert();
-						KaKuApplication.flag_position = t.advert.getFlag_position();
-						KaKuApplication.flag_show = t.advert.getFlag_show();
+                        list_imagehis = t.driver_advert;
+                        adapter = new ImageHistoryAdapter(context, list_imagehis);
+                        lv_imagehis.setAdapter(adapter);
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
 
-						GoToAdd(t.advert.getFlag_type());
-					} else {
-						LogUtil.showShortToast(context, t.msg);
-					}
-				}
-			}
+            @Override
+            public void onFailed(int i, Response response) {
 
-		});
-	}
+            }
 
-	public void GoToAdd(String flag_type){
-		Intent intent = new Intent();
-		if ("N".equals(flag_type)){
-			intent.setClass(context,Add_NActivity.class);
-		} else if ("Y".equals(flag_type)){
-			intent.setClass(context,Add_YActivity.class);
-		} else if ("E".equals(flag_type)){
-			intent.setClass(context,Add_EActivity.class);
-		} else if ("I".equals(flag_type)){
-			intent.setClass(context,Add_IActivity.class);
-		} else if ("F".equals(flag_type)){
-			intent.setClass(context,Add_FActivity.class);
-		} else if ("P".equals(flag_type)){
-			intent.setClass(context,Add_PActivity.class);
-		} else if ("A".equals(flag_type)){
-			intent.setClass(context,CheTieListActivity.class);
-		} else if ("M".equals(flag_type)){
-			intent.setClass(context,Add_MActivity.class);
-		}
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-		finish();
-	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-	{
-		if (keyCode == KeyEvent.KEYCODE_BACK )
-		{
-			GetAdd();
-		}
-		return false;
-	}
+        });
+    }
+
+    public void GetAdd() {
+        Utils.GetAdType(baseActivity);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            GetAdd();
+        }
+        return false;
+    }
 
 }

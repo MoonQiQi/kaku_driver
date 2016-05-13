@@ -31,8 +31,6 @@ public class ConfirmOrderAdapter extends BaseAdapter {
 		}
 	}
 
-
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -73,8 +71,8 @@ public class ConfirmOrderAdapter extends BaseAdapter {
 
 		BitmapUtil.getInstance(mContext).download(holder.iv_confirmorder_product,KaKuApplication.qian_zhui+obj.getImage_goods());
 
-		holder.tv_confirmorder_num.setText("×"+obj.getNum_shopcar());
-		holder.tv_price.setText(obj.getPrice_goods());
+		holder.tv_confirmorder_num.setText("× "+obj.getNum_shopcar());
+		holder.tv_price.setText(obj.getPrice_goods_buy());
 		holder.tv_title.setText(obj.getName_goods());
 		return convertView;
 	}

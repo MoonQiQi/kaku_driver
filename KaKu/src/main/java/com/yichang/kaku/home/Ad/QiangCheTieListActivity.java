@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.popwindow.ValidatePopWindow;
 import com.yichang.kaku.view.popwindow.YiYuanPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +103,7 @@ public class QiangCheTieListActivity extends BaseActivity implements OnClickList
         showProgressDialog();
         CheTieListReq req = new CheTieListReq();
         req.code = "60031";
-        KaKuApiProvider.getCheTieList(req , new KakuResponseListener<CheTieListResp>(this,CheTieListResp.class) {
+        KaKuApiProvider.getQiangCheTieList(req , new KakuResponseListener<CheTieListResp>(this,CheTieListResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
@@ -124,6 +124,11 @@ public class QiangCheTieListActivity extends BaseActivity implements OnClickList
                     }
                 }
                 stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -186,7 +191,6 @@ public class QiangCheTieListActivity extends BaseActivity implements OnClickList
                 if (t != null) {
                     LogUtil.E("getCalendarList res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        //isImgShow = Boolean.parseBoolean(t.flag_show);
                         LogUtil.E("chaih t.flag_show:"+t.flag_show);
                         if ("Y".equals(t.flag_show)) {
                             isImgShow = true;
@@ -202,6 +206,11 @@ public class QiangCheTieListActivity extends BaseActivity implements OnClickList
                 }
 
                 stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -320,7 +329,7 @@ public class QiangCheTieListActivity extends BaseActivity implements OnClickList
     private void goToHome() {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
         startActivity(intent);
         finish();
     }

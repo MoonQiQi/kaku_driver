@@ -22,7 +22,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.popwindow.RedEnvelopeSharePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class MemberRedEnvelopeActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener {
     //    titleBar
@@ -101,18 +101,12 @@ public class MemberRedEnvelopeActivity extends BaseActivity implements OnClickLi
                     smsUrl = t.url;
                     smsTitle = t.title;
                     LogUtil.E("getMemberRecommendInfo smsTitle: " + smsTitle + "smsContent" + smsContent + "smsUrl" + smsUrl);
-
-                    /*LogUtil.E("getMemberRecommendInfo res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-
-                    } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
-                        LogUtil.showShortToast(context, t.msg);
-                    }*/
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });

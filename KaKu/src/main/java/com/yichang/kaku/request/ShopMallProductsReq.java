@@ -7,5 +7,6 @@ public class ShopMallProductsReq extends BaseReq implements Serializable {
 	public String len;
 	public String sort;
 	public String type_goods;
-	public String id_driver;
+	public String id_goods_type;
+	public String name_goods;
 }

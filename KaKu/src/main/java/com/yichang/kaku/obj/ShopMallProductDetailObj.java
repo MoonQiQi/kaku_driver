@@ -8,16 +8,19 @@ public class ShopMallProductDetailObj {
 
     private String name_goods;
     private String image_goods;
-    private String type_goods;
+    private String flag_shopcar;
     private String num_goods;
     private String price_goods;
     private String price_goods_buy;
     private String eval_goods;
     private String num_exchange;
     private String promotion_goods;
-
+    private String remark_medal;
+    private String flag_medal;
+    private String flag_point;
+    private String name_model;
+    private String name_goods_model;
     private String url_goods;
-
 
     public String getUrl_goods() {
         return url_goods;
@@ -41,14 +44,6 @@ public class ShopMallProductDetailObj {
 
     public void setImage_goods(String image_goods) {
         this.image_goods = image_goods;
-    }
-
-    public String getType_goods() {
-        return type_goods;
-    }
-
-    public void setType_goods(String type_goods) {
-        this.type_goods = type_goods;
     }
 
     public String getNum_goods() {
@@ -99,18 +94,71 @@ public class ShopMallProductDetailObj {
         this.price_goods_buy = price_goods_buy;
     }
 
+    public String getFlag_shopcar() {
+        return flag_shopcar;
+    }
+
+    public void setFlag_shopcar(String flag_shopcar) {
+        this.flag_shopcar = flag_shopcar;
+    }
+
+    public String getRemark_medal() {
+        return remark_medal;
+    }
+
+    public void setRemark_medal(String remark_medal) {
+        this.remark_medal = remark_medal;
+    }
+
+    public String getFlag_medal() {
+        return flag_medal;
+    }
+
+    public void setFlag_medal(String flag_medal) {
+        this.flag_medal = flag_medal;
+    }
+
+    public String getFlag_point() {
+        return flag_point;
+    }
+
+    public void setFlag_point(String flag_point) {
+        this.flag_point = flag_point;
+    }
+
+    public String getName_model() {
+        return name_model;
+    }
+
+    public void setName_model(String name_model) {
+        this.name_model = name_model;
+    }
+
+    public String getName_goods_model() {
+        return name_goods_model;
+    }
+
+    public void setName_goods_model(String name_goods_model) {
+        this.name_goods_model = name_goods_model;
+    }
+
     @Override
     public String toString() {
         return "ShopMallProductDetailObj{" +
                 "name_goods='" + name_goods + '\'' +
                 ", image_goods='" + image_goods + '\'' +
-                ", type_goods='" + type_goods + '\'' +
+                ", flag_shopcar='" + flag_shopcar + '\'' +
                 ", num_goods='" + num_goods + '\'' +
                 ", price_goods='" + price_goods + '\'' +
                 ", price_goods_buy='" + price_goods_buy + '\'' +
                 ", eval_goods='" + eval_goods + '\'' +
                 ", num_exchange='" + num_exchange + '\'' +
                 ", promotion_goods='" + promotion_goods + '\'' +
+                ", remark_medal='" + remark_medal + '\'' +
+                ", flag_medal='" + flag_medal + '\'' +
+                ", flag_point='" + flag_point + '\'' +
+                ", name_model='" + name_model + '\'' +
+                ", name_goods_model='" + name_goods_model + '\'' +
                 ", url_goods='" + url_goods + '\'' +
                 '}';
     }

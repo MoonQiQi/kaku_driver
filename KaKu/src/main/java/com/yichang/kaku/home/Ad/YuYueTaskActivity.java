@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.os.Bundle;
 import android.view.View;

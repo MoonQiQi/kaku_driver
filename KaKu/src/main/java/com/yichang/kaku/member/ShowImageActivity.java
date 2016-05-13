@@ -38,11 +38,8 @@ public class ShowImageActivity extends BaseActivity implements OnClickListener {
     private void init() {
         // TODO Auto-generated method stub
         List<Bitmap> bimpList = KaKuApplication.mBimpList;
-        /*iv_show_image= (ImageView) findViewById(R.id.iv_show_image);
-        iv_show_image.setImageBitmap(bimpList.get(0));*/
 
         pager = (ViewPagerFixed) findViewById(R.id.gallery);
-        //pager = (ViewPagerFixed) findViewById(Res.getWidgetID("gallery"));
         pager.setOnPageChangeListener(pageChangeListener);
         for (int i = 0; i < bimpList.size(); i++) {
             initListViews(bimpList.get(i));
@@ -50,7 +47,6 @@ public class ShowImageActivity extends BaseActivity implements OnClickListener {
 
         adapter = new MyPageAdapter(listViews);
         pager.setAdapter(adapter);
-        //pager.setPageMargin((int) getResources().getDimensionPixelOffset(Res.getDimenID("ui_10_dip")));
         int id = getIntent().getIntExtra("position", 0);
         pager.setCurrentItem(id);
 

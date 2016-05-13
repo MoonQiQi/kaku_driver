@@ -26,7 +26,7 @@ import com.yichang.kaku.response.ShopCartProductsResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
         editLst = (List<ShopCartProductObj>) getIntent().getSerializableExtra("list");
         if (editLst != null) {
             setData(editLst);
-        }else {
+        } else {
             finish();
         }
     }
@@ -94,6 +94,7 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
             setResult(2);
             finish();
         }
+        cbx_shopcart_edit_selected.setChecked(false);
         ShopCartEditAdapter adapter = new ShopCartEditAdapter(context, editLst);
         lv_shopcart_edit_list.setAdapter(adapter);
     }
@@ -144,7 +145,6 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
 
         } else if (R.id.tv_shopcart_edit_del == id) {
             //todo 删除
-
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -220,6 +220,11 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -227,8 +232,6 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
     private void refreshListView() {
         editLst.clear();
         Utils.NoNet(context);
-        //showProgressDialog();
-
         ShopCartProductsReq req = new ShopCartProductsReq();
         req.code = "3005";
         req.id_driver = Utils.getIdDriver();
@@ -253,6 +256,12 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
 
@@ -311,9 +320,6 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
             strNum += editLst.get(i).getNum_shopcar() + ",";
         }
 
-        LogUtil.E("strIdDriver" + strIdDriver);
-        LogUtil.E("strNum" + strNum);
-
         Utils.NoNet(context);
         showProgressDialog();
         ShopCartEditUpdateReq req = new ShopCartEditUpdateReq();
@@ -329,7 +335,6 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
                 if (t != null) {
                     LogUtil.E("updateShopCart res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        // LogUtil.showShortToast(context, t.msg);
                         Intent intent = new Intent();
                         setResult(1);
                         finish();
@@ -340,13 +345,18 @@ public class ShopCartEditActivity extends BaseActivity implements OnClickListene
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (Utils.Many()){
+        if (Utils.Many()) {
             return;
         }
         int parentId = parent.getId();

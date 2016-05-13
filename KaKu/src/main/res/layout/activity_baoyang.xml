@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_baoyang"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_color"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_brand"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_baoyang_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@+id/iv_baoyang_brand"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_baoyang_xilie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_baoyang_brand"
+                    android:layout_below="@+id/tv_baoyang_brand"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_huanche"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/baoyang_huanche" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_oil"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_baoyang_oilname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/iv_baoyang_oil"
+                    android:layout_toRightOf="@+id/iv_baoyang_oil"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_baoyang_oilxilie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_baoyang_oilname"
+                    android:layout_below="@+id/tv_baoyang_oilname"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_genghuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_baoyang_oilname"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/genghuan" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_jgpx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/pxbeijing"
+                    android:padding="15dp"
+                    android:src="@drawable/jgpx" />
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_pjpx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/pxbeijing"
+                    android:padding="15dp"
+                    android:src="@drawable/pjpx" />
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_jlpx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/pxbeijing"
+                    android:padding="15dp"
+                    android:src="@drawable/jlpx" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <ListView
+                android:id="@+id/lv_baoyang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="15dp" />
+
+            <ImageView
+                android:id="@+id/iv_baoyang_zwdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/zwdp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

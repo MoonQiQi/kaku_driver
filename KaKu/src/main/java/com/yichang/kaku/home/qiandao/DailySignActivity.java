@@ -4,56 +4,50 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.choujiang.ChouJiangActivity;
 import com.yichang.kaku.home.giftmall.ShopMallActivity;
-import com.yichang.kaku.request.DailySignReq;
+import com.yichang.kaku.request.ExitReq;
+import com.yichang.kaku.request.QianDaoTiXingReq;
 import com.yichang.kaku.response.DailySignResp;
+import com.yichang.kaku.response.ExitResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class DailySignActivity extends BaseActivity implements OnClickListener {
 
     private TextView left, title, right;
-
-    private TextView tv_today_rewards, tv_points, tv_today_date, tv_day_sign;
-
-    private TextView tv_extra_points, tv_days;
-    private TextView btn_exchange;
-    //private CheckBox cbx_rewards_toggle;
-    //是否开启提醒功能
-    private boolean isRemindChecked = false;
-
-    private ImageView iv_day_9, iv_day_8, iv_day_7, iv_day_6, iv_day_4, iv_day_3, iv_day_2, iv_day_1;
-    private ImageView iv_day_29, iv_day_28, iv_day_27, iv_day_26, iv_day_25, iv_day_24, iv_day_23, iv_day_22, iv_day_21;
-    private ImageView iv_day_19, iv_day_18, iv_day_17, iv_day_16, iv_day_15, iv_day_14, iv_day_13, iv_day_12, iv_day_11;
-
-    private List<ImageView> imageViewList = new ArrayList<>();
-
-    private TextView tv_reward_five, tv_reward_ten, tv_reward_twenty, tv_reward_thirty;
-    private TextView tv_reward_five_point, tv_reward_ten_point, tv_reward_twenty_point, tv_reward_thirty_point;
-    private LinearLayout ll_reward_five, ll_reward_ten, ll_reward_twenty, ll_reward_thirty;
-
+    private TextView tv_qiandao_day, tv_qiandao_lianxutianshu, tv_qiandao_content, tv_qiandao_wodejifen;
+    private ImageView iv_qiandao_duihuan, tv_qiandao_left, tv_qiandao_right, tv_qiandao_tixing;
+    private TextView tv_qiandao_5, tv_qiandao_10, tv_qiandao_20, tv_qiandao_30;
+    private TextView iv_qiandao_quan1, iv_qiandao_quan2, iv_qiandao_quan3, iv_qiandao_quan4, iv_qiandao_quan5,
+            iv_qiandao_quan6, iv_qiandao_quan7, iv_qiandao_quan8, iv_qiandao_quan9, iv_qiandao_quan10,
+            iv_qiandao_quan11, iv_qiandao_quan12, iv_qiandao_quan13, iv_qiandao_quan14, iv_qiandao_quan15,
+            iv_qiandao_quan16, iv_qiandao_quan17, iv_qiandao_quan18, iv_qiandao_quan19, iv_qiandao_quan20,
+            iv_qiandao_quan21, iv_qiandao_quan22, iv_qiandao_quan23, iv_qiandao_quan24, iv_qiandao_quan25,
+            iv_qiandao_quan26, iv_qiandao_quan27, iv_qiandao_quan28, iv_qiandao_quan29, iv_qiandao_quan30;
+    private List<TextView> textViewList = new ArrayList<>();
+    private String flag_sign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,328 +60,252 @@ public class DailySignActivity extends BaseActivity implements OnClickListener {
 
     private void init() {
         // TODO Auto-generated method stub
-        KaKuApplication.isShowRemoveImg_discovery = false;
-        initTitleBar();
-
-        initImageViews();
-
-        tv_reward_five = (TextView) findViewById(R.id.tv_reward_five);
-        tv_reward_ten = (TextView) findViewById(R.id.tv_reward_ten);
-        tv_reward_twenty = (TextView) findViewById(R.id.tv_reward_twenty);
-        tv_reward_thirty = (TextView) findViewById(R.id.tv_reward_thirty);
-
-        tv_reward_five_point = (TextView) findViewById(R.id.tv_reward_five_point);
-        tv_reward_ten_point = (TextView) findViewById(R.id.tv_reward_ten_point);
-        tv_reward_twenty_point = (TextView) findViewById(R.id.tv_reward_twenty_point);
-        tv_reward_thirty_point = (TextView) findViewById(R.id.tv_reward_thirty_point);
-
-        ll_reward_five = (LinearLayout) findViewById(R.id.ll_reward_five);
-        ll_reward_ten = (LinearLayout) findViewById(R.id.ll_reward_ten);
-        ll_reward_twenty = (LinearLayout) findViewById(R.id.ll_reward_twenty);
-        ll_reward_thirty = (LinearLayout) findViewById(R.id.ll_reward_thirty);
-
-        tv_today_rewards = (TextView) findViewById(R.id.tv_today_rewards);
-        tv_points = (TextView) findViewById(R.id.tv_points);
-        //设置当前日期
-        tv_today_date = (TextView) findViewById(R.id.tv_today_date);
-        //设置签到天数
-        tv_day_sign = (TextView) findViewById(R.id.tv_day_sign);
-        Calendar cal = Calendar.getInstance();
-        int y = cal.get(Calendar.YEAR);
-        int m = cal.get(Calendar.MONTH)+1;
-        int d = cal.get(Calendar.DATE);
-        tv_today_date.setText(y + "-" + m + "-" + d);
-
-        btn_exchange = (TextView) findViewById(R.id.btn_exchange);
-        btn_exchange.setOnClickListener(this);
-
-        isRemindChecked = KaKuApplication.sp.getBoolean("isRemindChecked", false);
-
-        /*cbx_rewards_toggle = (CheckBox) findViewById(R.id.cbx_rewards_toggle);
-
-        cbx_rewards_toggle.setChecked(isRemindChecked);
-        cbx_rewards_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isRemindChecked = !isRemindChecked;
-                if (isRemindChecked) {
-                    //每日提醒签到
-                    PollingUtils.startPollingService(DailySignActivity.this, 5, DailyRemindService.class, DailyRemindService.ACTION);
-
-
-                } else {
-                    PollingUtils.stopPollingService(DailySignActivity.this,  DailyRemindService.class, DailyRemindService.ACTION);
-
-                }
-                SharedPreferences.Editor editor = KaKuApplication.sp.edit();
-                editor.putBoolean("isRemindChecked", isRemindChecked);
-                editor.commit();
-            }
-        });*/
-
-        tv_extra_points = (TextView) findViewById(R.id.tv_extra_points);
-        tv_days = (TextView) findViewById(R.id.tv_days);
-
-        getDailySignInfo();
-
-
-    }
-
-    private void initImageViews() {
-        iv_day_1 = (ImageView) findViewById(R.id.iv_day_1);
-        iv_day_2 = (ImageView) findViewById(R.id.iv_day_2);
-        iv_day_3 = (ImageView) findViewById(R.id.iv_day_3);
-        iv_day_4 = (ImageView) findViewById(R.id.iv_day_4);
-        iv_day_6 = (ImageView) findViewById(R.id.iv_day_6);
-        iv_day_7 = (ImageView) findViewById(R.id.iv_day_7);
-        iv_day_8 = (ImageView) findViewById(R.id.iv_day_8);
-        iv_day_9 = (ImageView) findViewById(R.id.iv_day_9);
-
-        iv_day_11 = (ImageView) findViewById(R.id.iv_day_11);
-        iv_day_12 = (ImageView) findViewById(R.id.iv_day_12);
-        iv_day_13 = (ImageView) findViewById(R.id.iv_day_13);
-        iv_day_14 = (ImageView) findViewById(R.id.iv_day_14);
-        iv_day_15 = (ImageView) findViewById(R.id.iv_day_15);
-        iv_day_16 = (ImageView) findViewById(R.id.iv_day_16);
-        iv_day_17 = (ImageView) findViewById(R.id.iv_day_17);
-        iv_day_18 = (ImageView) findViewById(R.id.iv_day_18);
-        iv_day_19 = (ImageView) findViewById(R.id.iv_day_19);
-        iv_day_21 = (ImageView) findViewById(R.id.iv_day_21);
-        iv_day_22 = (ImageView) findViewById(R.id.iv_day_22);
-        iv_day_23 = (ImageView) findViewById(R.id.iv_day_23);
-        iv_day_24 = (ImageView) findViewById(R.id.iv_day_24);
-        iv_day_25 = (ImageView) findViewById(R.id.iv_day_25);
-        iv_day_26 = (ImageView) findViewById(R.id.iv_day_26);
-        iv_day_27 = (ImageView) findViewById(R.id.iv_day_27);
-        iv_day_28 = (ImageView) findViewById(R.id.iv_day_28);
-        iv_day_29 = (ImageView) findViewById(R.id.iv_day_29);
-
-
-        imageViewList.add(iv_day_1);
-        imageViewList.add(iv_day_2);
-        imageViewList.add(iv_day_3);
-        imageViewList.add(iv_day_4);
-
-        imageViewList.add(iv_day_6);
-        imageViewList.add(iv_day_7);
-        imageViewList.add(iv_day_8);
-        imageViewList.add(iv_day_9);
-
-        imageViewList.add(iv_day_11);
-        imageViewList.add(iv_day_12);
-        imageViewList.add(iv_day_13);
-        imageViewList.add(iv_day_14);
-        imageViewList.add(iv_day_15);
-        imageViewList.add(iv_day_16);
-        imageViewList.add(iv_day_17);
-        imageViewList.add(iv_day_18);
-        imageViewList.add(iv_day_19);
-
-        imageViewList.add(iv_day_21);
-        imageViewList.add(iv_day_22);
-        imageViewList.add(iv_day_23);
-        imageViewList.add(iv_day_24);
-        imageViewList.add(iv_day_25);
-        imageViewList.add(iv_day_26);
-        imageViewList.add(iv_day_27);
-        imageViewList.add(iv_day_28);
-        imageViewList.add(iv_day_29);
-
-    }
-
-    private void getDailySignInfo() {
-        showProgressDialog();
-        DailySignReq req = new DailySignReq();
-        req.code = "8002";
-        req.id_driver = Utils.getIdDriver();
-
-        KaKuApiProvider.getDailySignInfo(req, new KakuResponseListener<DailySignResp>(this, DailySignResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-
-                if (t != null) {
-                    LogUtil.E("getDailySignInfo res: " + t.res);
-                    //showPopWindow(t.content, 10 + "");
-
-                    if (Constants.RES_ONE.equals(t.res)) {
-                        //showPopWindow();
-                        showPopWindow(t.content, t.point);
-                    } else {
-                        //showPopWindow(t.content,t.point);
-                        Toast.makeText(DailySignActivity.this, t.msg, Toast.LENGTH_SHORT).show();
-                    }
-                    setData(t);
-                }
-                stopProgressDialog();
-            }
-
-        });
-
-
-    }
-
-    private void showPopWindow(String content, String point) {
-
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View vPopWindow = inflater.inflate(R.layout.popwindow_daily_sign, null, false);
-        final PopupWindow popWindow = new PopupWindow(vPopWindow, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, true);
-
-        ImageView iv_close = (ImageView) vPopWindow.findViewById(R.id.btn_popwindow_close);
-        TextView tv_point = (TextView) vPopWindow.findViewById(R.id.tv_popwindw_point);
-        tv_point.setText("+" + point + "积分");
-        /*TextView tv_content = (TextView) vPopWindow.findViewById(R.id.tv_popwindw_content);
-        tv_content.setText(content);*/
-        iv_close.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popWindow.dismiss();
-            }
-        });
-
-
-        popWindow.showAtLocation(this.findViewById(R.id.tv_today_date), Gravity.CENTER, 0, 0);
-    }
-
-    private void setData(DailySignResp t) {
-
-        tv_today_rewards.setText(t.point);
-        tv_points.setText(t.point_now);
-        tv_day_sign.setText(t.day_sign);
-
-        tv_reward_five.setText(t.point_sign_five);
-        tv_reward_ten.setText(t.point_sign_ten);
-        tv_reward_twenty.setText(t.point_sign_twenty);
-        tv_reward_thirty.setText(t.point_sign_thirty);
-
-        tv_days.setText(t.days);
-        tv_extra_points.setText(t.points);
-
-        setImageDailySign(t.day_sign);
-
-        //switch ()
-
-
-    }
-
-    int mDay = 0;
-
-    private void setImageDailySign(String daysign) {
-
-        Integer intDay = 0;
-        try {
-            intDay = Integer.parseInt(daysign);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (intDay == 0) {
-            /*tv_reward_five.setBackgroundResource(R.drawable.daily_sign_reward);
-            tv_reward_five.setTextColor(Color.WHITE);*/
-        } else if (intDay <= 5) {
-            if (intDay == 5) {
-                mDay = intDay - 2;
-                tv_reward_five.setTextColor(Color.WHITE);
-                tv_reward_five_point.setTextColor(Color.WHITE);
-                ll_reward_five.setBackgroundResource(R.drawable.daily_sign_reward);
-            } else {
-                mDay = intDay - 1;
-            }
-
-        } else if (intDay <= 10) {
-
-            if (intDay == 10) {
-                mDay = intDay - 3;
-                tv_reward_ten.setTextColor(Color.WHITE);
-                tv_reward_ten_point.setTextColor(Color.WHITE);
-                ll_reward_ten.setBackgroundResource(R.drawable.daily_sign_reward);
-            } else {
-                mDay = intDay - 2;
-            }
-            tv_reward_five.setTextColor(Color.WHITE);
-            tv_reward_five_point.setTextColor(Color.WHITE);
-            ll_reward_five.setBackgroundResource(R.drawable.daily_sign_reward);
-
-
-        } else if (intDay <= 20) {
-            if (intDay == 20) {
-                mDay = intDay - 4;
-                tv_reward_twenty.setTextColor(Color.WHITE);
-                tv_reward_twenty_point.setTextColor(Color.WHITE);
-                ll_reward_twenty.setBackgroundResource(R.drawable.daily_sign_reward);
-            } else {
-                mDay = intDay - 3;
-            }
-            tv_reward_ten.setTextColor(Color.WHITE);
-            tv_reward_ten_point.setTextColor(Color.WHITE);
-            ll_reward_ten.setBackgroundResource(R.drawable.daily_sign_reward);
-
-            tv_reward_five.setTextColor(Color.WHITE);
-            tv_reward_five_point.setTextColor(Color.WHITE);
-            ll_reward_five.setBackgroundResource(R.drawable.daily_sign_reward);
-
-
-        } else if (intDay <= 30) {
-            if (intDay == 30) {
-                mDay = intDay - 5;
-                tv_reward_thirty.setTextColor(Color.WHITE);
-                tv_reward_thirty_point.setTextColor(Color.WHITE);
-                ll_reward_thirty.setBackgroundResource(R.drawable.daily_sign_reward);
-
-            } else {
-                mDay = intDay - 4;
-            }
-            tv_reward_twenty.setTextColor(Color.WHITE);
-            tv_reward_twenty_point.setTextColor(Color.WHITE);
-            ll_reward_twenty.setBackgroundResource(R.drawable.daily_sign_reward);
-
-            tv_reward_ten.setTextColor(Color.WHITE);
-            tv_reward_ten_point.setTextColor(Color.WHITE);
-            ll_reward_ten.setBackgroundResource(R.drawable.daily_sign_reward);
-
-            tv_reward_five.setTextColor(Color.WHITE);
-            tv_reward_five_point.setTextColor(Color.WHITE);
-            ll_reward_five.setBackgroundResource(R.drawable.daily_sign_reward);
-
-
-        } else {
-
-        }
-
-        changeImageViewBg(mDay);
-
-
-    }
-
-    private void changeImageViewBg(int mDay) {
-        for (int i = 0; i <= mDay; i++) {
-            imageViewList.get(i).setImageResource(R.drawable.daily_signed);
-        }
-    }
-
-    private void initTitleBar() {
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("每日签到");
-
+        tv_qiandao_day = (TextView) findViewById(R.id.tv_qiandao_day);
+        tv_qiandao_lianxutianshu = (TextView) findViewById(R.id.tv_qiandao_lianxutianshu);
+        tv_qiandao_content = (TextView) findViewById(R.id.tv_qiandao_content);
+        tv_qiandao_wodejifen = (TextView) findViewById(R.id.tv_qiandao_wodejifen);
+        iv_qiandao_duihuan = (ImageView) findViewById(R.id.iv_qiandao_duihuan);
+        iv_qiandao_duihuan.setOnClickListener(this);
+        tv_qiandao_left = (ImageView) findViewById(R.id.tv_qiandao_left);
+        tv_qiandao_left.setOnClickListener(this);
+        tv_qiandao_right = (ImageView) findViewById(R.id.tv_qiandao_right);
+        tv_qiandao_right.setOnClickListener(this);
+        tv_qiandao_5 = (TextView) findViewById(R.id.tv_qiandao_5);
+        tv_qiandao_10 = (TextView) findViewById(R.id.tv_qiandao_10);
+        tv_qiandao_20 = (TextView) findViewById(R.id.tv_qiandao_20);
+        tv_qiandao_30 = (TextView) findViewById(R.id.tv_qiandao_30);
+        tv_qiandao_tixing = (ImageView) findViewById(R.id.tv_qiandao_tixing);
+        tv_qiandao_tixing.setOnClickListener(this);
+        findDay();
+        getQianDao();
     }
 
 
     @Override
     public void onClick(View v) {
         Utils.NoNet(context);
-        if (Utils.Many()){
+        if (Utils.Many()) {
             return;
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
             finish();
-        } else if (R.id.btn_exchange == id) {
-            /*跳转到车品商城*/
+        } else if (R.id.iv_qiandao_duihuan == id) {
             startActivity(new Intent(this, ShopMallActivity.class));
-            finish();
-
+        } else if (R.id.tv_qiandao_left == id) {
+            startActivity(new Intent(this, ChouJiangActivity.class));
+        } else if (R.id.tv_qiandao_right == id) {
+            startActivity(new Intent(this, GongZhongHaoActivity.class));
+        } else if (R.id.tv_qiandao_tixing == id) {
+            if ("Y".equals(flag_sign)) {
+                flag_sign = "N";
+                tv_qiandao_tixing.setImageResource(R.drawable.toggle_off);
+            } else {
+                flag_sign = "Y";
+                tv_qiandao_tixing.setImageResource(R.drawable.toggle_on);
+            }
+            TiXing();
         }
     }
+
+    public void getQianDao() {
+        showProgressDialog();
+        ExitReq req = new ExitReq();
+        req.code = "8002";
+        KaKuApiProvider.getDailySignInfo(req, new KakuResponseListener<DailySignResp>(context, DailySignResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("qiandao res: " + t.res);
+                    if (Constants.RES_ONE.equals(t.res)) {
+                        showPopWindow(t.point);
+                    } else {
+                        if (Constants.RES_TEN.equals(t.res)) {
+                            Utils.Exit(context);
+                            finish();
+                        }
+                    }
+                    SetText(t);
+                    LogUtil.showShortToast(context, t.msg);
+                }
+                stopProgressDialog();
+            }
+        });
+    }
+
+    private void showPopWindow(String point) {
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View vPopWindow = inflater.inflate(R.layout.popwindow_daily_sign, null, false);
+        final PopupWindow popWindow = new PopupWindow(vPopWindow, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, true);
+
+        ImageView iv_qiandao_cha = (ImageView) vPopWindow.findViewById(R.id.iv_qiandao_cha);
+        RelativeLayout rela_qiandao_pop = (RelativeLayout) vPopWindow.findViewById(R.id.rela_qiandao_pop);
+        ImageView iv_qiandao_qiankuang = (ImageView) vPopWindow.findViewById(R.id.iv_qiandao_qiankuang);
+        TextView tv_qiandao_poppoint = (TextView) vPopWindow.findViewById(R.id.tv_qiandao_poppoint);
+        tv_qiandao_poppoint.setText("+ " + point + "积分");
+        rela_qiandao_pop.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWindow.dismiss();
+            }
+        });
+
+        iv_qiandao_cha.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWindow.dismiss();
+            }
+        });
+        iv_qiandao_qiankuang.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DailySignActivity.this, ChouJiangActivity.class));
+                popWindow.dismiss();
+            }
+        });
+
+
+        popWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+    }
+
+    public void SetText(DailySignResp t) {
+        LogUtil.E("day_qiandao:" + t.day_sign);
+        int day_continue = Integer.parseInt(t.day_sign);
+        if (day_continue < 10) {
+            tv_qiandao_day.setText("0" + t.day_sign);
+        } else {
+            tv_qiandao_day.setText(t.day_sign);
+        }
+
+        String strings = "我的积分 " + t.point_now;
+        SpannableStringBuilder styles = new SpannableStringBuilder(strings);
+        styles.setSpan(new ForegroundColorSpan(Color.rgb(225, 0, 0)), 4, strings.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_qiandao_wodejifen.setText(styles);
+
+        tv_qiandao_5.setText("+" + t.point_sign_five);
+        tv_qiandao_10.setText("+" + t.point_sign_ten);
+        tv_qiandao_20.setText("+" + t.point_sign_twenty);
+        tv_qiandao_30.setText("+" + t.point_sign_thirty);
+        flag_sign = t.flag_sign;
+
+        if ("Y".equals(t.flag_sign)) {
+            flag_sign = "Y";
+            tv_qiandao_tixing.setImageResource(R.drawable.toggle_on);
+        } else {
+            flag_sign = "N";
+            tv_qiandao_tixing.setImageResource(R.drawable.toggle_off);
+        }
+
+        int day_num = Integer.parseInt(t.day_sign);
+        if (day_num == 1) {
+            textViewList.get(0).setBackgroundResource(R.drawable.qiandao_heiyouhui);
+        } else {
+            for (int i = 0; i < day_num; i++) {
+                if (i == 30) {
+                    textViewList.get(i).setBackgroundResource(R.drawable.qiandao_zuohei);
+                } else {
+                    textViewList.get(i).setBackgroundResource(R.drawable.qiandao_heihei);
+                }
+            }
+            textViewList.get(day_num).setBackgroundResource(R.drawable.qiandao_heihui);
+            textViewList.get(0).setBackgroundResource(R.drawable.qiandao_youhei);
+        }
+    }
+
+    public void TiXing() {
+        showProgressDialog();
+        QianDaoTiXingReq req = new QianDaoTiXingReq();
+        req.flag_sign = flag_sign;
+        req.code = "8008";
+        KaKuApiProvider.qiandaotixing(req, new KakuResponseListener<ExitResp>(context, ExitResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("qiandaotixing res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+
+                    } else {
+                        if (Constants.RES_TEN.equals(t.res)) {
+                            Utils.Exit(context);
+                            finish();
+                        }
+                    }
+                    LogUtil.showShortToast(context, t.msg);
+                }
+                stopProgressDialog();
+            }
+        });
+    }
+
+    public void findDay() {
+        iv_qiandao_quan1 = (TextView) findViewById(R.id.iv_qiandao_quan1);
+        iv_qiandao_quan2 = (TextView) findViewById(R.id.iv_qiandao_quan2);
+        iv_qiandao_quan3 = (TextView) findViewById(R.id.iv_qiandao_quan3);
+        iv_qiandao_quan4 = (TextView) findViewById(R.id.iv_qiandao_quan4);
+        iv_qiandao_quan5 = (TextView) findViewById(R.id.iv_qiandao_quan5);
+        iv_qiandao_quan6 = (TextView) findViewById(R.id.iv_qiandao_quan6);
+        iv_qiandao_quan7 = (TextView) findViewById(R.id.iv_qiandao_quan7);
+        iv_qiandao_quan8 = (TextView) findViewById(R.id.iv_qiandao_quan8);
+        iv_qiandao_quan9 = (TextView) findViewById(R.id.iv_qiandao_quan9);
+        iv_qiandao_quan10 = (TextView) findViewById(R.id.iv_qiandao_quan10);
+        iv_qiandao_quan11 = (TextView) findViewById(R.id.iv_qiandao_quan11);
+        iv_qiandao_quan12 = (TextView) findViewById(R.id.iv_qiandao_quan12);
+        iv_qiandao_quan13 = (TextView) findViewById(R.id.iv_qiandao_quan13);
+        iv_qiandao_quan14 = (TextView) findViewById(R.id.iv_qiandao_quan14);
+        iv_qiandao_quan15 = (TextView) findViewById(R.id.iv_qiandao_quan15);
+        iv_qiandao_quan16 = (TextView) findViewById(R.id.iv_qiandao_quan16);
+        iv_qiandao_quan17 = (TextView) findViewById(R.id.iv_qiandao_quan17);
+        iv_qiandao_quan18 = (TextView) findViewById(R.id.iv_qiandao_quan18);
+        iv_qiandao_quan19 = (TextView) findViewById(R.id.iv_qiandao_quan19);
+        iv_qiandao_quan20 = (TextView) findViewById(R.id.iv_qiandao_quan20);
+        iv_qiandao_quan21 = (TextView) findViewById(R.id.iv_qiandao_quan21);
+        iv_qiandao_quan22 = (TextView) findViewById(R.id.iv_qiandao_quan22);
+        iv_qiandao_quan23 = (TextView) findViewById(R.id.iv_qiandao_quan23);
+        iv_qiandao_quan24 = (TextView) findViewById(R.id.iv_qiandao_quan24);
+        iv_qiandao_quan25 = (TextView) findViewById(R.id.iv_qiandao_quan25);
+        iv_qiandao_quan26 = (TextView) findViewById(R.id.iv_qiandao_quan26);
+        iv_qiandao_quan27 = (TextView) findViewById(R.id.iv_qiandao_quan27);
+        iv_qiandao_quan28 = (TextView) findViewById(R.id.iv_qiandao_quan28);
+        iv_qiandao_quan29 = (TextView) findViewById(R.id.iv_qiandao_quan29);
+        iv_qiandao_quan30 = (TextView) findViewById(R.id.iv_qiandao_quan30);
+        textViewList.add(iv_qiandao_quan1);
+        textViewList.add(iv_qiandao_quan1);
+        textViewList.add(iv_qiandao_quan2);
+        textViewList.add(iv_qiandao_quan3);
+        textViewList.add(iv_qiandao_quan4);
+        textViewList.add(iv_qiandao_quan5);
+        textViewList.add(iv_qiandao_quan6);
+        textViewList.add(iv_qiandao_quan7);
+        textViewList.add(iv_qiandao_quan8);
+        textViewList.add(iv_qiandao_quan9);
+        textViewList.add(iv_qiandao_quan10);
+        textViewList.add(iv_qiandao_quan11);
+        textViewList.add(iv_qiandao_quan12);
+        textViewList.add(iv_qiandao_quan13);
+        textViewList.add(iv_qiandao_quan14);
+        textViewList.add(iv_qiandao_quan15);
+        textViewList.add(iv_qiandao_quan16);
+        textViewList.add(iv_qiandao_quan17);
+        textViewList.add(iv_qiandao_quan18);
+        textViewList.add(iv_qiandao_quan19);
+        textViewList.add(iv_qiandao_quan20);
+        textViewList.add(iv_qiandao_quan21);
+        textViewList.add(iv_qiandao_quan22);
+        textViewList.add(iv_qiandao_quan23);
+        textViewList.add(iv_qiandao_quan24);
+        textViewList.add(iv_qiandao_quan25);
+        textViewList.add(iv_qiandao_quan26);
+        textViewList.add(iv_qiandao_quan27);
+        textViewList.add(iv_qiandao_quan28);
+        textViewList.add(iv_qiandao_quan29);
+        textViewList.add(iv_qiandao_quan30);
+    }
+
 }

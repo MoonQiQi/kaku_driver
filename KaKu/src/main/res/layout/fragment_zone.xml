@@ -1,206 +1,125 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    >
-
-    <LinearLayout
-        android:background="@color/bg_color"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/rela_zone"
-        android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        >
-
-        <TextView
-            android:id="@+id/tv_zone_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_centerVertical="true"
-            android:textSize="16sp"
-            android:text="我的货单"
-            android:textColor="@color/color_word"
-            />
-
-        <TextView
-            android:id="@+id/tv_zone_mid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/black"
-            android:text="找货"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_zone_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:textSize="16sp"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/black"
-            android:layout_marginRight="15dp"
-            />
-
-    </RelativeLayout>
-
-    <View
-        style="@style/Line_h"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/rela_zhaohuo_chufadi"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:padding="15dp"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_zhaohuo_chufadi"
-            android:text="出发地"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/heijiantouxia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-        <View
-            style="@style/Line_v"/>
-
-        <RelativeLayout
-            android:id="@+id/rela_zhaohuo_mudidi"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:padding="15dp"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_zhaohuo_mudidi"
-                android:text="目的地"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/heijiantouxia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-        <View
-            style="@style/Line_v"/>
-
-        <RelativeLayout
-            android:id="@+id/rela_zhaohuo_chechang"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="15dp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_zhaohuo_chechang"
-                android:text="车长"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/heijiantouxia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <View
-        style="@style/Line_h"/>
-
-    <com.yichang.kaku.view.widget.XListView
-        android:id="@+id/lv_zhaohuo"
-        android:divider="@null"
-        android:layout_width="match_parent"
-        android:dividerHeight="15dp"
-        android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rela_zhaohuo_grid"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        android:background="@color/lightBlack"
-        >
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/bg_color"
-            android:layout_above="@+id/view1"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_pup_left"
+                android:id="@+id/tv_zone_mid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/white"
+                android:gravity="center"
                 android:padding="15dp"
-                android:text="返回"
-                android:textSize="16sp"
-                android:textColor="@color/color_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_pup_right"
-                android:padding="15dp"
-                android:text="完成"
-                android:textSize="16sp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/color_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_pup_mid"
-                android:padding="15dp"
-                android:text="中国"
-                android:layout_centerInParent="true"
-                android:textSize="18sp"
+                android:text="发现"
                 android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="20sp" />
 
-        </RelativeLayout>
+            <View style="@style/Line_h" />
 
-        <View
-            android:id="@+id/view1"
-            android:layout_above="@+id/gv_city"
-            style="@style/Line_h"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
 
-        <com.yichang.kaku.zhaohuo.LineGridView
-            android:id="@+id/gv_city"
-            android:numColumns="5"
-            android:background="@color/white"
-            android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/iv_faxian_mfdh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/faxian_icon_mfdh" />
+
+                <ImageView
+                    android:id="@+id/iv_faxian_czhy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/faxian_icon_czhy" />
+
+                <ImageView
+                    android:id="@+id/iv_faxian_gsgb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/faxian_icon_gsgb" />
+
+                <ImageView
+                    android:id="@+id/iv_faxian_jzb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/faxian_icon_jzb" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/tv_faxian_left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/zixun1" />
+
+                <ImageView
+                    android:id="@+id/tv_faxian_right"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/quanzi2" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <com.yichang.kaku.view.widget.XListView
+                android:id="@+id/lv_discovery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_faxian_fabu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:paddingBottom="30dp"
+            android:src="@drawable/btn_faxian_fabu"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
 

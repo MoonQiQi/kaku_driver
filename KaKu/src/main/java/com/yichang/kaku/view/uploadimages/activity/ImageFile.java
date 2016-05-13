@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.yichang.kaku.member.serviceorder.PingJiaOrderActivity;
+import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.ad.PingJiaAdActivity;
+import com.yichang.kaku.home.shop.PingJiaOrderActivity;
 import com.yichang.kaku.view.uploadimages.adapter.FolderAdapter;
 import com.yichang.kaku.view.uploadimages.util.Bimp;
 import com.yichang.kaku.view.uploadimages.util.PublicWay;
@@ -51,17 +53,22 @@ public class ImageFile extends Activity {
             //清空选择的图片
             Bimp.tempSelectBitmap.clear();
             Bimp.max = 0;
-            Intent intent = new Intent();
-            intent.setClass(mContext, PingJiaOrderActivity.class);
-            startActivity(intent);
+            if ("Ad".equals(KaKuApplication.PingJiaShopOrAd)) {
+                startActivity(new Intent(mContext, PingJiaAdActivity.class));
+            } else {
+                startActivity(new Intent(mContext, PingJiaOrderActivity.class));
+            }
         }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent();
-            intent.setClass(mContext, PingJiaOrderActivity.class);
-            startActivity(intent);
+            if ("Ad".equals(KaKuApplication.PingJiaShopOrAd)) {
+                startActivity(new Intent(mContext, PingJiaAdActivity.class));
+            } else {
+                startActivity(new Intent(mContext, PingJiaOrderActivity.class));
+            }
         }
 
         return true;

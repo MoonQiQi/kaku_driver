@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_pingjiaorder"
+        layout="@layout/activity_titlebar" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="@dimen/x30" />
+
+    <EditText
+        android:id="@+id/et_pingjiaorder_content"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/bg_edittext"
+        android:gravity="top|left"
+        android:hint="分享一下此刻心情..."
+        android:maxLength="100"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/color_word"
+        android:textColorHint="@color/color_word"
+        android:textCursorDrawable="@drawable/cursor"
+        android:textSize="15sp" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginBottom="@dimen/x30" />
+
+    <View style="@style/Line_h" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <GridView
+            android:id="@+id/noScrollgridview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:horizontalSpacing="2dp"
+            android:numColumns="4"
+            android:paddingLeft="15dp"
+            android:paddingTop="@dimen/x30"
+            android:scrollbars="none"
+            android:verticalSpacing="2dp"></GridView>
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginBottom="@dimen/x30" />
+
+    <Button
+        android:id="@+id/btn_pingjiaorder_fabiao"
+        style="@style/Btn_Orange"
+        android:text="提交" />
+
+</LinearLayout>

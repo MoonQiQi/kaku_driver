@@ -30,7 +30,7 @@ import com.yichang.kaku.tools.Base64Coder;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -209,7 +209,6 @@ public class CartCertificationActivity extends BaseActivity implements OnClickLi
             MemberCartCertificationReq req = new MemberCartCertificationReq();
             req.code = "10029";
             req.flag_type = "0";//安卓始终为0
-            req.id_driver_car = Utils.getIdCar();
             req.num_length = length;
             req.num_load = load;
             req.num_space = space;
@@ -233,6 +232,12 @@ public class CartCertificationActivity extends BaseActivity implements OnClickLi
                         }
                     }
                 }
+
+                @Override
+                public void onFailed(int i, Response response) {
+
+                }
+
             });
         } else if (R.id.tv_takephoto == id) {
             fecthFromCamear();

@@ -15,18 +15,8 @@ public class TruckOrderObj implements Serializable {
 	//列表支付
 	private String no_bill;
 	private String type_pay;
+	private String flag_recharge;
 
-	@Override
-	public String toString() {
-		return "TruckOrderObj{" +
-				"shopcar=" + shopcar +
-				", id_bill='" + id_bill + '\'' +
-				", state_bill='" + state_bill + '\'' +
-				", price_bill='" + price_bill + '\'' +
-				", no_bill='" + no_bill + '\'' +
-				", type_pay='" + type_pay + '\'' +
-				'}';
-	}
 
 	public String getNo_bill() {
 		return no_bill;
@@ -74,5 +64,26 @@ public class TruckOrderObj implements Serializable {
 
 	public void setPrice_bill(String price_bill) {
 		this.price_bill = price_bill;
+	}
+
+	public String getFlag_recharge() {
+		return flag_recharge;
+	}
+
+	public void setFlag_recharge(String flag_recharge) {
+		this.flag_recharge = flag_recharge;
+	}
+
+	@Override
+	public String toString() {
+		return "TruckOrderObj{" +
+				"shopcar=" + shopcar +
+				", id_bill='" + id_bill + '\'' +
+				", state_bill='" + state_bill + '\'' +
+				", price_bill='" + price_bill + '\'' +
+				", no_bill='" + no_bill + '\'' +
+				", type_pay='" + type_pay + '\'' +
+				", flag_recharge='" + flag_recharge + '\'' +
+				'}';
 	}
 }

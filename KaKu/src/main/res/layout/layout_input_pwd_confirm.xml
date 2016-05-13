@@ -48,7 +48,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
                 android:gravity="left"
-                android:text="您使用了虚拟资产，请输入卡库养车支付密码进行安全验证"
+                android:text="您正在使用余额，请输入卡库养车支付密码进行安全验证"
                 android:textColor="#666666"
                 android:textSize="15sp"
 

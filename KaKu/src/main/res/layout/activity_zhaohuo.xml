@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
+    <LinearLayout
+        android:id="@+id/rela_zone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_color"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_zhaohuo"
+            layout="@layout/activity_titlebar" />
+
+        <View style="@style/Line_h" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rela_zhaohuo_chufadi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_zhaohuo_chufadi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/heijiantouxia"
+                    android:text="出发地"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_v" />
+
+            <RelativeLayout
+                android:id="@+id/rela_zhaohuo_mudidi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_zhaohuo_mudidi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/heijiantouxia"
+                    android:text="目的地"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_v" />
+
+            <RelativeLayout
+                android:id="@+id/rela_zhaohuo_chechang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_zhaohuo_chechang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/heijiantouxia"
+                    android:text="车长"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View style="@style/Line_h" />
+
+        <com.yichang.kaku.view.widget.XListView
+            android:id="@+id/lv_zhaohuo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="15dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rela_zhaohuo_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightBlack"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/view1"
+            android:background="@color/bg_color">
+
+            <TextView
+                android:id="@+id/tv_pup_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="返回"
+                android:textColor="@color/color_blue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_pup_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="15dp"
+                android:text="完成"
+                android:textColor="@color/color_blue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_pup_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="15dp"
+                android:text="中国"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view1"
+            style="@style/Line_h"
+            android:layout_above="@+id/gv_city" />
+
+        <com.yichang.kaku.zhaohuo.LineGridView
+            android:id="@+id/gv_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:numColumns="5" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

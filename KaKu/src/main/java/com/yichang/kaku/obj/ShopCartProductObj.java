@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class ShopCartProductObj implements Serializable {
 
-    private String id_goods_shopcar,id_goods,name_goods,num_shopcar,image_goods,price_goods;
+    private String id_goods_shopcar,id_goods,name_goods,num_shopcar,image_goods,price_goods_buy;
     private Boolean isChecked=true;
 
     public Boolean getIsChecked() {
@@ -17,18 +17,6 @@ public class ShopCartProductObj implements Serializable {
 
     public void setIsChecked(Boolean isChecked) {
         this.isChecked = isChecked;
-    }
-
-    @Override
-    public String toString() {
-        return "ShopCartProductObj{" +
-                "id_goods_shopcar='" + id_goods_shopcar + '\'' +
-                ", id_goods='" + id_goods + '\'' +
-                ", name_goods='" + name_goods + '\'' +
-                ", num_shopcar='" + num_shopcar + '\'' +
-                ", image_goods='" + image_goods + '\'' +
-                ", price_goods='" + price_goods + '\'' +
-                '}';
     }
 
     public String getId_goods_shopcar() {
@@ -71,11 +59,24 @@ public class ShopCartProductObj implements Serializable {
         this.image_goods = image_goods;
     }
 
-    public String getPrice_goods() {
-        return price_goods;
+    public String getPrice_goods_buy() {
+        return price_goods_buy;
     }
 
-    public void setPrice_goods(String price_goods) {
-        this.price_goods = price_goods;
+    public void setPrice_goods_buy(String price_goods_buy) {
+        this.price_goods_buy = price_goods_buy;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopCartProductObj{" +
+                "id_goods_shopcar='" + id_goods_shopcar + '\'' +
+                ", id_goods='" + id_goods + '\'' +
+                ", name_goods='" + name_goods + '\'' +
+                ", num_shopcar='" + num_shopcar + '\'' +
+                ", image_goods='" + image_goods + '\'' +
+                ", price_goods_buy='" + price_goods_buy + '\'' +
+                ", isChecked=" + isChecked +
+                '}';
     }
 }

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_youhuiquan"
+        layout="@layout/activity_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rela_youhuiquan_1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_youhuiquan_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="未使用"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/view_youhuiquan1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:visibility="gone"
+                android:layout_alignLeft="@+id/tv_youhuiquan_1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/tv_youhuiquan_1"
+                android:background="@color/color_red" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_youhuiquan_2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_youhuiquan_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="已使用"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/view_youhuiquan2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:visibility="gone"
+                android:layout_alignLeft="@+id/tv_youhuiquan_2"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/tv_youhuiquan_2"
+                android:background="@color/color_red" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_youhuiquan_3"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_youhuiquan_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="已过期"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/view_youhuiquan3"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:visibility="gone"
+                android:layout_alignLeft="@+id/tv_youhuiquan_3"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/tv_youhuiquan_3"
+                android:background="@color/color_red" />
+
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View style="@style/Line_h" />
+
+    <RelativeLayout
+        android:id="@+id/rela_youhuiquan_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/lv_youhuiquan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_youhuiquan_ok"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:dividerHeight="15dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_youhuiquan_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/wuyouhuiquan"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

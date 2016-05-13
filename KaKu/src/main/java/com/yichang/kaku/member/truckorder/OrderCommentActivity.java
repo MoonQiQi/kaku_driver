@@ -25,19 +25,26 @@ import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
+import com.yichang.kaku.request.QiNiuYunTokenReq;
 import com.yichang.kaku.request.SendTruckOrderCommentReq;
+import com.yichang.kaku.response.QiNiuYunTokenResp;
 import com.yichang.kaku.response.SendTruckOrderCommentResp;
 import com.yichang.kaku.tools.Base64Coder;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
+
+import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderCommentActivity extends BaseActivity implements OnClickListener {
-    //titleBar
+
     private TextView left, right, title;
 
     private ListView lv_comment_list;
@@ -69,7 +76,8 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
 
     private int mAdapterIndex;
 
-    private Map<Integer ,Bitmap > bmpMap=new HashMap<>();
+    private Map<Integer, Bitmap> bmpMap = new HashMap<>();
+    private String token, key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +87,7 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
     }
 
     private void init() {
-//初始化进度条
+
         iniTitleBar();
 
         lv_comment_list = (ListView) findViewById(R.id.lv_comment_list);
@@ -121,11 +129,6 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
         //创建一个带有已创建bitmap的画布
         Canvas canvas = new Canvas(bitmap);
 
-        //从资源中取出一副图片
-
-        //drawable = context.getResources().getDrawable(R.);
-        //canvas.setBitmap(bitmap);
-
         //设置drawable图片的边缘，以改变图片的大小
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
 
@@ -147,10 +150,10 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
             finish();
             return;
         } else {
-            if(bmpMap.containsKey(index)){
-                bmp = (Bitmap)bmpMap.get(index);
-            }else{
-                bmp=null;
+            if (bmpMap.containsKey(index)) {
+                bmp = (Bitmap) bmpMap.get(index);
+            } else {
+                bmp = null;
             }
 
             View view = lv_comment_list.getChildAt(index);
@@ -158,23 +161,18 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
             strRating = String.valueOf(rb.getRating());
 
             comment = ((TextView) view.findViewById(R.id.et_order_comment)).getText().toString();
+            if ("".equals(comment)) {
+                comment = "好评！";
+            }
 
             ImageView image = (ImageView) view.findViewById(R.id.iv_comment_add);
-            /*image.setDrawingCacheEnabled(true);
-            *//*Bitmap bmp = Bitmap.createBitmap(image.getDrawingCache());*//*
-            image.setDrawingCacheEnabled(false);*/
-            LogUtil.E("bmp::" + bmp);
-            if(bmp!=null){
 
+            if (bmp != null) {
                 strBmp = transBitmapToString(bmp);
-            }else {
+            } else {
                 strBmp = "";
             }
-            LogUtil.E("strBmp1::" + strBmp);
-           /* if (strDefaultImg.equals(strBmp)) {
-                strBmp = "";
-            }
-            LogUtil.E("strBmp2::" + strBmp);*/
+
             id_goods = (String) image.getTag();
 
         }
@@ -185,7 +183,7 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
         req.id_bill = mId_bill;
         req.id_goods = id_goods;
         req.content_eval = comment;
-        req.image_eval = strBmp;
+        req.image_eval = key;
         req.star_eval = strRating;
 
         KaKuApiProvider.sendTruckOrderComment(req, new KakuResponseListener<SendTruckOrderCommentResp>(this, SendTruckOrderCommentResp.class) {
@@ -199,10 +197,14 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
-
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
 
             }
+
 
         });
     }
@@ -212,9 +214,9 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
         TruckOrderCommentAdapter adapter = new TruckOrderCommentAdapter(context, shopCarList);
         adapter.setCallBack(new TruckOrderCommentAdapter.ICallBack() {
             @Override
-            public void setPicToView(ImageView view,int adapterIndex) {
+            public void setPicToView(ImageView view, int adapterIndex) {
                 view_img = view;
-                mAdapterIndex=adapterIndex;
+                mAdapterIndex = adapterIndex;
                 showPopWindow(view);
             }
         });
@@ -243,10 +245,7 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
         /*点击事件*/
         if (R.id.tv_left == id) {
             finish();
-        } /*else if (R.id.btn_submit == id) {
-//            编辑头像
-            showPopWindow(v);
-        } */ else if (R.id.tv_takephoto == id) {
+        } else if (R.id.tv_takephoto == id) {
             fecthFromCamear();
 
         } else if (R.id.tv_myphoto == id) {
@@ -306,12 +305,11 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
             KaKuApplication.OrderCommentIcon = photo;
             imageView.setImageBitmap(photo);
 
-            bmpMap.put(mAdapterIndex,photo);
+            bmpMap.put(mAdapterIndex, photo);
 
             if (isTAKEPHOTO) {
                 if (photoFile.exists()) {
                     boolean isdelete = photoFile.delete();
-                    LogUtil.E("isdelete:: " + isdelete);
                 }
                 isTAKEPHOTO = false;
             }
@@ -342,8 +340,7 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
      */
     public void saveFile(Bitmap bm) throws IOException {
         if (dataFile == null)
-            dataFile = new File(this.getFilesDir(), "curImag"
-                    + Utils.getIdDriver() + ".jpg");
+            dataFile = new File(this.getFilesDir(), getPhotoFileName() + ".jpg");
         if (dataFile.exists())
             dataFile.delete();// 如果有同名文件存在先删除
         BufferedOutputStream bos = new BufferedOutputStream(
@@ -352,11 +349,12 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
         bos.flush();
         bos.close();
         imagePath = dataFile.toString();
+        QiNiuYunToken(imagePath);
         LogUtil.E("imagePath : " + imagePath);
     }
 
     /**
-     * 打开手机相机拍照
+     * 剪裁图片
      */
     private void startPhotoZoom(Uri uri, int size) {
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -396,12 +394,8 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
             case PHOTO_REQUEST_CUT:
                 if (data != null)
                     setPicToView(data, view_img);
-                //Upload();
                 break;
-
-
         }
-
 
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -424,7 +418,6 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
     private void fecthFromCamear() {
         photoFile = new File(Environment.getExternalStorageDirectory(),
                 getPhotoFileName());
-        LogUtil.E("photoFile: " + photoFile);
         // 调用系统的拍照功能
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // 指定调用相机拍照后照片的储存路径
@@ -458,4 +451,59 @@ public class OrderCommentActivity extends BaseActivity implements OnClickListene
 
         return file;
     }
+
+    public void QiNiuYunToken(final String imagePath) {
+        Utils.NoNet(context);
+        QiNiuYunTokenReq req = new QiNiuYunTokenReq();
+        req.code = "qn01";
+        req.sort = "1";
+        req.id_driver = Utils.getIdDriver();
+        KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this, QiNiuYunTokenResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("qiniuyuntoken res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        token = t.token;
+                        key = t.key;
+                        uploadImg(token, key, "1", imagePath);
+
+                    } else {
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+        });
+    }
+
+    private String uploadImg(final String token, final String key, final String sort, final String imagePath) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String file = imagePath;
+
+                UploadManager uploadManager = new UploadManager();
+                uploadManager.put(file, key, token,
+                        new UpCompletionHandler() {
+                            @Override
+                            public void complete(String arg0, ResponseInfo info, JSONObject response) {
+                                // TODO Auto-generated method stub
+                                if (info.isOK()) {
+                                }
+                            }
+                        }, null);
+            }
+        }).start();
+
+        return key;
+    }
+
 }

@@ -33,13 +33,12 @@ import com.yichang.kaku.home.giftmall.ConfirmOrderAdapter;
 import com.yichang.kaku.member.address.AddrActivity;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
 import com.yichang.kaku.request.GenerateOrderReq;
-import com.yichang.kaku.request.SeckillOrderReq;
 import com.yichang.kaku.response.GenerateOrderResp;
 import com.yichang.kaku.response.SeckillOrderResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -125,7 +124,6 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
         view_pricepoint = findViewById(R.id.view_pricepoint);
         mId_goods = getIntent().getStringExtra("id_goods");
         //获取订单数据
-        getOrderInfo();
     }
 
 
@@ -135,45 +133,6 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
 
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("确认订单");
-    }
-
-    private void getOrderInfo() {
-        //list = new ArrayList<>();
-        //String id_goods = getIntent().getStringExtra("id_goods");
-
-        Utils.NoNet(context);
-        showProgressDialog();
-
-        SeckillOrderReq req = new SeckillOrderReq();
-        //todo 测试用id_driver字段
-        req.code = "80010";
-//        req.id_driver = "1";
-        req.id_driver = Utils.getIdDriver();
-        req.id_goods = mId_goods;
-
-        KaKuApiProvider.getSeckillOrderInfo(req, new KakuResponseListener<SeckillOrderResp>(this, SeckillOrderResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-
-                    if (Constants.RES.equals(t.res)) {
-//设置确认订单页面数据
-                        setData(t);
-                    } else {
-                        if (Constants.RES_TEN.equals(t.res)) {
-                            Utils.Exit(context);
-                            finish();
-                        }
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-
-        });
-
-
     }
 
     private void setData(SeckillOrderResp t) {
@@ -471,8 +430,6 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
         GenerateOrderReq req = new GenerateOrderReq();
         req.code = "3008";
         req.id_driver = Utils.getIdDriver();
-        req.flag_seckill = "Y";
-        req.id_goods = mId_goods;
 
 
 //// TODO: 增加地址字段
@@ -480,21 +437,6 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
         req.name_addr = tv_address_name.getText().toString().trim();
         req.phone_addr = tv_address_phone.getText().toString().trim();
 
-        req.email_invoice = "";
-        req.phone_invoice = "";
-//        发票明细 0：车辆配件，1：明细，2：生活用品
-        req.type1_invoice = "";
-//        发票类型 0：纸质，1：电子，2：不开发票
-        req.type_invoice = type_invoice;
-//        发票抬头
-        req.var_invoice = var_invoice;
-//支付方式  0：微信，1：支付宝，2：银行
-        req.type_pay = "0";
-
-
-//        抵扣分值
-        req.point_bill = point_bill;
-//        积分抵扣金额
         req.price_point = price_point;
 //        总价
         req.price_goods = price_goods;
@@ -526,6 +468,11 @@ public class SeckillOrderActivity extends BaseActivity implements OnClickListene
                     }
                 }
                 //stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });

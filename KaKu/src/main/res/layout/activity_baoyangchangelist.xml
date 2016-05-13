@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_fabucheyuan"
+        layout="@layout/activity_titlebar" />
+
+    <TextView
+        android:id="@+id/tv_baoyang_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/hongsanjiaoxia"
+        android:padding="15dp"
+        android:text="所有品牌"
+        android:textColor="@color/color_red"
+        android:textSize="16sp" />
+
+    <View style="@style/Line_h" />
+
+    <GridView
+        android:id="@+id/gv_baoyang_change"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:background="@color/white"
+        android:numColumns="2" />
+
+    <com.yichang.kaku.view.widget.XListView
+        android:id="@+id/lv_baoyang_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp" />
+
+</LinearLayout>

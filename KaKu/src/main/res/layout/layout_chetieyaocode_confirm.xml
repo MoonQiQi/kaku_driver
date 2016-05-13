@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/x10"
     android:paddingTop="@dimen/x10">
 
@@ -60,14 +60,14 @@
 
             </com.yichang.kaku.view.SecurityPasswordEditText>
 
-            <Button style="@style/Btn_Red"
-                android:text="确    定"/>
+            <Button
+                style="@style/Btn_Red"
+                android:text="确    定" />
 
-            <Button style="@style/Btn_HuiDi"
+            <Button
                 android:id="@+id/btn_input_yaocode"
-                android:text="没有邀请码，我也要参加"/>
-
-
+                style="@style/Btn_HuiDi"
+                android:text="无邀请，我去买车贴" />
 
 
         </LinearLayout>

@@ -5,7 +5,7 @@
     android:background="@color/bg_color"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical"><!-- android:background="@drawable/topbar_bg" -->
+    android:orientation="vertical">
 
     <include
         android:id="@+id/title_title"
@@ -94,7 +94,6 @@
 
     </RelativeLayout>
 
-
     <LinearLayout
         android:id="@+id/ll_dingwei_lishi"
         android:layout_width="match_parent"
@@ -103,11 +102,16 @@
 
         <View style="@style/Line_h" />
 
+        <ImageView
+            android:id="@+id/iv_dingwei_fjdz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_fjdz" />
+
         <ListView
             android:id="@+id/lv_dingwei_lishi"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp" />
+            android:layout_height="wrap_content" />
 
         <View
             android:id="@+id/view_title1"

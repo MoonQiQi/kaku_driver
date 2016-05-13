@@ -1,15 +1,11 @@
 package com.yichang.kaku.global;
 
-import android.util.Log;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
+import com.yichang.kaku.tools.LogUtil;
 
 import de.greenrobot.event.EventBus;
 
-/**
- * Created by linrui on 2015/10/21.
- */
 public class LocationListner implements BDLocationListener {
 
     @Override
@@ -64,7 +60,7 @@ public class LocationListner implements BDLocationListener {
 
         sb.append("\nlocationdescribe : ");
         sb.append(location.getLocationDescribe());// 位置语义化信息
-        Log.d("xiaosu", "百度定位：" + sb.toString());
+        LogUtil.E("百度定位：" + sb.toString());
 
         EventBus.getDefault().post(location);
     }

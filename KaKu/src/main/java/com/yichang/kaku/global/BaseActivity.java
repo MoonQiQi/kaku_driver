@@ -20,6 +20,7 @@ public class BaseActivity extends FragmentActivity {
 
     public static Context context;
     public static boolean flag_base = false;
+    public BaseActivity baseActivity = BaseActivity.this;
 
     private DialogRequestProgress progressDialog;// loading对话框
     //private WaitDialog progressDialog;// loading对话框
@@ -57,15 +58,15 @@ public class BaseActivity extends FragmentActivity {
                 progressDialog.setCancelable(false);
             }
 
+            getWindow().getDecorView().postDelayed(new DismassDialogTask(progressDialog), 20000);
+
+            progressDialog.show();
+
+            getWindow().getDecorView().postDelayed(new DismassDialogTask(progressDialog), 20000);
+
+            progressDialog.show();
+
         }
-
-        getWindow().getDecorView().postDelayed(new DismassDialogTask(progressDialog), 20000);
-
-        progressDialog.show();
-
-        getWindow().getDecorView().postDelayed(new DismassDialogTask(progressDialog), 20000);
-
-        progressDialog.show();
     }
 
     class DismassDialogTask implements Runnable {

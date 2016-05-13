@@ -19,8 +19,8 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
-import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
+import com.yichang.kaku.home.ad.CheTieOrderListActivity;
+import com.yichang.kaku.home.baoyang.BaoYangOrderListActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
 import com.yichang.kaku.tools.Utils;
 
@@ -69,7 +69,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+                intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
                 startActivity(intent);
                 finish();
             }
@@ -241,7 +241,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void gotoShopListActivity(String state) {
-        Intent intent = new Intent(context, ServiceOrderListActivity.class);
+        Intent intent = new Intent(context, BaoYangOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         KaKuApplication.color_order = state;
         KaKuApplication.state_order = state;
@@ -257,14 +257,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /*if(keyCode == KeyEvent.KEYCODE_BACK) { //监控/拦截/屏蔽返回键
-            Intent intent = new Intent(context, ServiceOrderListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            KaKuApplication.state_order = "";
-            startActivity(intent);
-
-            return true;
-        }*/
         if (keyCode == KeyEvent.KEYCODE_BACK) { //监控/拦截/屏蔽返回键
             return false;
         }

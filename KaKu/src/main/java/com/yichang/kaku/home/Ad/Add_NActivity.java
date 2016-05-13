@@ -1,26 +1,27 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
-import com.wly.android.widget.AdGalleryHelper;
-import com.wly.android.widget.Advertising;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
@@ -28,22 +29,21 @@ import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
 import com.yichang.kaku.member.cash.YueActivity;
-import com.yichang.kaku.member.recommend.MemberRecommendActivity;
-import com.yichang.kaku.obj.RollsAddObj;
-import com.yichang.kaku.obj.ShareContentObj;
+import com.yichang.kaku.obj.CheTiePingJiaObj;
+import com.yichang.kaku.obj.DayObj;
 import com.yichang.kaku.request.GetAddReq;
-import com.yichang.kaku.request.StickerShareReq;
 import com.yichang.kaku.request.TaskJumpReq;
 import com.yichang.kaku.response.GetAddResp;
-import com.yichang.kaku.response.StickerShareResp;
 import com.yichang.kaku.response.TaskJumpResp;
-import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
+import com.yichang.kaku.view.RiseNumberTextView;
 import com.yichang.kaku.view.popwindow.CheTieYaoCodeWindow;
-import com.yichang.kaku.view.popwindow.OneKeySharePopWindow;
+import com.yichang.kaku.view.popwindow.HongSeWindow;
+import com.yichang.kaku.view.popwindow.YuEPopWindow;
+import com.yichang.kaku.view.popwindow.YuYueWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,24 +52,21 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
 
     private TextView left, title;
     private TextView right;
-    private Bundle bundle;
-    private String name_advert, day_earnings, time_begin, time_end, num_driver, free_remind, image_advert,
-            image_size, day_continue, day_remaining, total_earning, flag_type, now_earnings;
-    private TextView tv_shouyi_name, tv_shouyi_time, tv_shouyi_zongshouyi, tv_shouyi_dangqianshouyiqian, tv_shouyi_canyu,
-            tv_shouyi_meiriqian, tv_shouyi_shengyutian, tv_shuoming_1, tv_shuoming_4, tv_chetiexinxi_1, tv_shuoming_5, tv_shuoming_8, tv_shuoming_10;
-    private TextView tv_shuoming_lottery;
-    private ImageView iv_tietieyangshi, iv_shouqi_n;
-    private RelativeLayout rela_chetiexinxi, rela_addn_button;
-    private AdGalleryHelper mGalleryHelper;
-    private List<RollsAddObj> rollsadd_list = new ArrayList<RollsAddObj>();
-    private Button btn_add;
-    private ScrollView scroll_add_n;
-    private View renwushuoming_n, chetiexinxi_n;
-    private boolean flag_zhankai = true;
+    private ImageView iv_N_zhizhen, iv_N_state, iv_N_riliyou, iv_N_rilizuo, tv_N_tixian;
+    private TextView tv_N_jinrishouyi, tv_N_shengyutianshu, tv_N_zhangfu, tv_N_totalmoney, tv_N_yue;
+    private RiseNumberTextView tv_N_shouyi;
+    private Button btn_N_paizhao;
+    private RelativeLayout rela_gengduopingjia, tv_woyaopingjiachetie;
+    private LinearLayout rela_chetiedaiyan;
+    private GridView gv_calendar;
+    private List<DayObj> list_calendar = new ArrayList<>();
+    private List<CheTiePingJiaObj> list_chetiepingjia = new ArrayList<>();
+    private int x1, x2;
+    private int index_x;
     private Boolean isPwdPopWindowShow = false;
-
-
-    private LinearLayout ll_yaoqing;
+    private ImageView iv_Y_quanbushouyi, iv_Y_paizhaolishi, iv_Y_i;
+    private String ketixian, buketixian;
+    private ListView lv_Y_pingjia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,27 +76,99 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
         init();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if ("Y".equals(KaKuApplication.flag_mengban)) {
+            showPopWindow();
+        }
+        GetAdd();
+    }
+
     private void init() {
         // TODO Auto-generated method stub
+
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("任务详情");
         right = (TextView) findViewById(R.id.tv_right);
         right.setOnClickListener(this);
-
-        ll_yaoqing = (LinearLayout) findViewById(R.id.ll_yaoqing);
-        ll_yaoqing.setOnClickListener(this);
+        iv_Y_i = (ImageView) findViewById(R.id.iv_N_i);
+        iv_Y_i.setOnClickListener(this);
+        KaKuApplication.flag_hongsemengban = "N";
+        iv_N_zhizhen = (ImageView) findViewById(R.id.iv_N_zhizhen);
+        iv_N_state = (ImageView) findViewById(R.id.iv_N_state);
+        iv_N_riliyou = (ImageView) findViewById(R.id.iv_N_riliyou);
+        iv_N_rilizuo = (ImageView) findViewById(R.id.iv_N_rilizuo);
+        tv_N_shouyi = (RiseNumberTextView) findViewById(R.id.tv_N_shouyi);
+        tv_N_zhangfu = (TextView) findViewById(R.id.tv_N_zhangfu);
+        tv_N_totalmoney = (TextView) findViewById(R.id.tv_N_totalmoney);
+        tv_N_yue = (TextView) findViewById(R.id.tv_N_yue);
+        tv_N_tixian = (ImageView) findViewById(R.id.tv_N_tixian);
+        tv_N_tixian.setOnClickListener(this);
+        tv_woyaopingjiachetie = (RelativeLayout) findViewById(R.id.tv_woyaopingjiachetie);
+        tv_woyaopingjiachetie.setOnClickListener(this);
+        tv_N_jinrishouyi = (TextView) findViewById(R.id.tv_N_jinrishouyi);
+        tv_N_shengyutianshu = (TextView) findViewById(R.id.tv_N_shengyutianshu);
+        btn_N_paizhao = (Button) findViewById(R.id.btn_N_paizhao);
+        btn_N_paizhao.setOnClickListener(this);
+        rela_chetiedaiyan = (LinearLayout) findViewById(R.id.rela_chetiedaiyan);
+        rela_chetiedaiyan.setOnClickListener(this);
+        rela_gengduopingjia = (RelativeLayout) findViewById(R.id.rela_gengduopingjia);
+        rela_gengduopingjia.setOnClickListener(this);
+        gv_calendar = (GridView) findViewById(R.id.gv_calendar);
+        iv_Y_quanbushouyi = (ImageView) findViewById(R.id.iv_N_quanbushouyi);
+        iv_Y_quanbushouyi.setOnClickListener(this);
+        iv_Y_paizhaolishi = (ImageView) findViewById(R.id.iv_N_paizhaolishi);
+        iv_Y_paizhaolishi.setOnClickListener(this);
+        lv_Y_pingjia = (ListView) findViewById(R.id.lv_Y_pingjia);
     }
 
+
     @Override
-    protected void onStart() {
-        super.onStart();
-        if ("Y".equals(KaKuApplication.flag_mengban)){
-            showPopWindow();
-            KaKuApplication.flag_mengban = "N";
+    public void onClick(View v) {
+        if (Utils.Many()) {
+            return;
         }
-        GetAdd();
+        KaKuApplication.flag_mengban = "N";
+        KaKuApplication.flag_hongsemengban = "N";
+        int id = v.getId();
+        if (R.id.tv_left == id) {
+            goToHome();
+        } else if (R.id.tv_right == id) {
+            MobclickAgent.onEvent(context, "CheTieList");
+            startActivity(new Intent(this, CheTieListActivity.class));
+        } else if (R.id.tv_N_tixian == id) {
+            MobclickAgent.onEvent(context, "TiXian");
+            startActivity(new Intent(this, YueActivity.class));
+        } else if (R.id.btn_N_paizhao == id) {
+            MobclickAgent.onEvent(context, "ShenQingXiaYiLun");
+            Jump();
+        } else if (R.id.rela_chetiedaiyan == id) {
+            MobclickAgent.onEvent(context, "CheTieDaiLi");
+            CheTieDaiLi();
+        } else if (R.id.rela_gengduopingjia == id) {
+            MobclickAgent.onEvent(context, "CheTiePingjiaList");
+            AdPingJiaList();
+        } else if (R.id.tv_woyaopingjiachetie == id) {
+            MobclickAgent.onEvent(context, "CheTieWoYaoPingJia");
+            PingJiaAd();
+        } else if (R.id.iv_N_quanbushouyi == id) {
+            MobclickAgent.onEvent(context, "QuanBuShouYi");
+            Intent intent = new Intent(this, CalendarActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } else if (R.id.iv_N_paizhaolishi == id) {
+            MobclickAgent.onEvent(context, "PaiZhaoLiShi");
+            Intent intent = new Intent(this, ImageHistoryActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } else if (R.id.iv_N_i == id) {
+            ShowTixianPop();
+        }
     }
 
     public void GetAdd() {
@@ -115,27 +184,15 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
                 super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("getadd res: " + t.res);
-                    LogUtil.E("flag_recommended: " + t.advert.getFlag_recommended());
+                    LogUtil.E("day:" + t.calendars.get(Integer.parseInt(t.index_x)).week.get(Integer.parseInt(t.index_y)).getDate());
                     if (Constants.RES.equals(t.res)) {
+                        KaKuApplication.id_advert = t.advert.getId_advert();
                         KaKuApplication.flag_recommended = t.advert.getFlag_recommended();
                         KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
                         KaKuApplication.flag_position = t.advert.getFlag_position();
                         KaKuApplication.flag_heart = t.advert.getFlag_show();
-                        name_advert = t.advert.getName_advert();
-                        day_earnings = t.advert.getDay_earnings();
-                        time_begin = t.advert.getTime_begin();
-                        time_end = t.advert.getTime_end();
-                        num_driver = t.advert.getNum_driver();
-                        free_remind = t.advert.getFree_remind();
-                        image_advert = t.advert.getImage_advert();
-                        image_size = t.advert.getImage_size();
-                        day_continue = t.advert.getDay_continue();
-                        day_remaining = t.advert.getDay_remaining();
-                        total_earning = t.advert.getTotal_earnings();
-                        now_earnings = t.advert.getNow_earnings();
-                        rollsadd_list = t.rolls;
-                        SetText();
-                        autoAdvance(rollsadd_list);
+                        KaKuApplication.code_my = t.advert.getCode_recommended();
+                        SetText(t);
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
@@ -143,129 +200,142 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        Utils.NoNet(context);
-        if (Utils.Many()) {
-            return;
-        }
-        int id = v.getId();
-        if (R.id.tv_left == id) {
-            goToHome();
-        } else if (R.id.tv_right == id) {
-            // TODO: 2016/1/6  分享
-            startActivity(new Intent(this,CheTieListActivity.class));
-            //getStickerShareInfo();
-        } else if (R.id.btn_add_n == id) {
-            MobclickAgent.onEvent(this, "ShenQingKaiQi");
-            Jump();
-        } else if (R.id.rela_addn_button_n == id) {
-            MobclickAgent.onEvent(this, "ShenQingKaiQi");
-            Jump();
-        } else if (R.id.iv_shouqi_n == id) {
-            if (flag_zhankai) {
-                iv_shouqi_n.setImageResource(R.drawable.btn_gengduoxiangqing);
-                iv_shouqi_n.setScaleType(ImageView.ScaleType.FIT_START);
-                iv_shouqi_n.setAdjustViewBounds(true);
-                renwushuoming_n.setVisibility(View.GONE);
-                chetiexinxi_n.setVisibility(View.GONE);
-                flag_zhankai = false;
-            } else if (!flag_zhankai) {
-                iv_shouqi_n.setImageResource(R.drawable.btn_shouqixiangqing);
-                iv_shouqi_n.setScaleType(ImageView.ScaleType.FIT_START);
-                iv_shouqi_n.setAdjustViewBounds(true);
-                renwushuoming_n.setVisibility(View.VISIBLE);
-                chetiexinxi_n.setVisibility(View.VISIBLE);
-                flag_zhankai = true;
+    public void SetText(final GetAddResp t) {
+
+        index_x = Integer.parseInt(t.index_x);
+        iv_N_riliyou.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index_x == t.calendars.size() - 1) {
+                    return;
+                }
+                index_x++;
+                LogUtil.E("date:" + t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate());
+                String yue = t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate().substring(5, 7);
+                tv_N_yue.setText(yue + "月");
+
+                int index_y = Integer.parseInt(t.index_y);
+                list_calendar = t.calendars.get(index_x).week;
+                CalendarAdapter adapter_calendar = new CalendarAdapter(Add_NActivity.this, list_calendar, index_y);
+                gv_calendar.setAdapter(adapter_calendar);
+
             }
-        } else if (R.id.tv_shuoming_5 == id) {
-            startActivity(new Intent(this, YueActivity.class));
-        }  else if (R.id.tv_shuoming_10 == id) {
-            Utils.Call(this, "400-6867585");
-        } else if (R.id.tv_shuoming_lottery == id) {
-            startActivity(new Intent(this, LotteryActivity.class));
-        } else if (R.id.ll_yaoqing == id) {
-            startActivity(new Intent(context, MemberRecommendActivity.class));
+        });
+
+        iv_N_rilizuo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index_x == 0) {
+                    return;
+                }
+                --index_x;
+                LogUtil.E("date:" + t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate());
+                String yue = t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate().substring(5, 7);
+                tv_N_yue.setText(yue + "月");
+
+                int index_y = Integer.parseInt(t.index_y);
+                list_calendar = t.calendars.get(index_x).week;
+                CalendarAdapter adapter_calendar = new CalendarAdapter(Add_NActivity.this, list_calendar, index_y);
+                gv_calendar.setAdapter(adapter_calendar);
+            }
+        });
+
+        ketixian = t.advert.getNow_earnings_0();
+        buketixian = t.advert.getNow_earnings_1();
+
+        String yue = t.calendars.get(index_x).week.get(Integer.parseInt(t.index_y)).getDate().substring(5, 7);
+        tv_N_yue.setText(yue + "月");
+        index_x = Integer.parseInt(t.index_x);
+        int index_y = Integer.parseInt(t.index_y);
+        list_calendar = t.calendars.get(index_x).week;
+        CalendarAdapter adapter_calendar = new CalendarAdapter(Add_NActivity.this, list_calendar, index_y);
+        gv_calendar.setAdapter(adapter_calendar);
+
+        if ("Y".equals(t.advert.getFlag_advert())) {
+            rela_chetiedaiyan.setVisibility(View.VISIBLE);
+        } else {
+            rela_chetiedaiyan.setVisibility(View.GONE);
         }
+
+        if ("N".equals(KaKuApplication.flag_mengban)) {
+            if ("1".equals(t.advert.getFlag_agent())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("提示");
+                builder.setMessage("恭喜您获得车贴代理资格，每邀请好友奖励30元哦~");
+                builder.setNegativeButton("去看看", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        CheTieDaiLi();
+                    }
+                });
+
+                builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+            } else if ("2".equals(t.advert.getFlag_agent())) {
+                showYuYueWindow();
+            } else if ("3".equals(t.advert.getFlag_agent())) {
+                if ("Y".equals(KaKuApplication.flag_hongsemengban)) {
+                    showHongSeWindow();
+                }
+            }
+
+        }
+
+        if (t.advert.getNow_earnings().contains(".")) {
+            tv_N_shouyi.withNumber(Float.parseFloat(t.advert.getNow_earnings())).start();
+        } else {
+            tv_N_shouyi.withNumber(Integer.parseInt(t.advert.getNow_earnings())).start();
+        }
+
+        title.setText(t.advert.getName_advert());
+        tv_N_totalmoney.setText("¥ " + t.advert.getEarnings_total());
+        tv_N_zhangfu.setText(t.advert.getDay_growth());
+
+        String day = t.advert.getDay_remaining() + " 天";
+        SpannableStringBuilder style_day = new SpannableStringBuilder(day);
+        style_day.setSpan(new AbsoluteSizeSpan(22, true), 0, day.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_N_shengyutianshu.setText(style_day);
+
+        String jinri = t.advert.getDay_earnings() + " 元";
+        SpannableStringBuilder style_jinri = new SpannableStringBuilder(jinri);
+        style_jinri.setSpan(new AbsoluteSizeSpan(22, true), 0, jinri.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_N_jinrishouyi.setText(style_jinri);
+
+        float degree = Float.parseFloat(t.advert.getNow_earnings()) / Float.parseFloat(t.advert.getTotal_earnings());
+        RotateAnimation animation = new RotateAnimation(0f, degree * 120f, Animation.RELATIVE_TO_SELF, 1f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(2000);
+        animation.setFillAfter(true);
+        iv_N_zhizhen.setAnimation(animation);
+
+        CheTiePingJiaAdapter adapter = new CheTiePingJiaAdapter(context, t.evals);
+        lv_Y_pingjia.setAdapter(adapter);
+        Utils.setListViewHeightBasedOnChildren(lv_Y_pingjia);
+
     }
 
-    public void SetText() {
-        title.setText(name_advert);
-        renwushuoming_n = findViewById(R.id.renwushuoming_n);
-        chetiexinxi_n = findViewById(R.id.chetiexinxi_n);
-        scroll_add_n = (ScrollView) findViewById(R.id.scroll_add_n);
-        tv_shouyi_time = (TextView) findViewById(R.id.tv_shouyi_time);
-        tv_shouyi_zongshouyi = (TextView) findViewById(R.id.tv_shouyi_zongshouyi);
-        tv_shouyi_dangqianshouyiqian = (TextView) findViewById(R.id.tv_shouyi_dangqianshouyiqian);
-        tv_shouyi_canyu = (TextView) findViewById(R.id.tv_shouyi_canyu);
-        tv_shouyi_meiriqian = (TextView) findViewById(R.id.tv_shouyi_meiriqian);
-        tv_shouyi_shengyutian = (TextView) findViewById(R.id.tv_shouyi_shengyutian);
-        tv_shuoming_1 = (TextView) findViewById(R.id.tv_shuoming_1);
-        tv_shuoming_4 = (TextView) findViewById(R.id.tv_shuoming_4);
-        tv_shuoming_5 = (TextView) findViewById(R.id.tv_shuoming_5);
-        tv_shuoming_10 = (TextView) findViewById(R.id.tv_shuoming_10);
-        tv_shuoming_lottery = (TextView) findViewById(R.id.tv_shuoming_lottery);
-        tv_shuoming_lottery.setOnClickListener(this);
-
-        String strings = "收益可前往【我】-【我的余额】查看。";
-        SpannableStringBuilder styles = new SpannableStringBuilder(strings);
-        styles.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 9, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styles.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 5, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shuoming_5.setText(styles);
-        tv_shuoming_5.setOnClickListener(this);
-
-        String stringsss = "如有疑问，请拨打【400-6867585】。";
-        SpannableStringBuilder stylesss = new SpannableStringBuilder(stringsss);
-        stylesss.setSpan(new ForegroundColorSpan(Color.rgb(17, 155, 234)), 8, stringsss.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shuoming_10.setText(stylesss);
-        tv_shuoming_10.setOnClickListener(this);
-
-        iv_tietieyangshi = (ImageView) findViewById(R.id.iv_tietieyangshi);
-        iv_shouqi_n = (ImageView) findViewById(R.id.iv_shouqi_n);
-        iv_shouqi_n.setOnClickListener(this);
-        rela_chetiexinxi = (RelativeLayout) findViewById(R.id.rela_chetiexinxi);
-        rela_addn_button = (RelativeLayout) findViewById(R.id.rela_addn_button_n);
-        rela_addn_button.setOnClickListener(this);
-        btn_add = (Button) findViewById(R.id.btn_add_n);
-        btn_add.setOnClickListener(this);
-
-        scroll_add_n.smoothScrollTo(0, 0);
-        tv_shouyi_time.setText(time_begin + "至" + time_end);
-        String string = "预期总收益：¥ " + total_earning;
-        SpannableStringBuilder style = new SpannableStringBuilder(string);
-        style.setSpan(new AbsoluteSizeSpan(18, true), 6, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv_shouyi_zongshouyi.setText(style);
-        tv_shouyi_dangqianshouyiqian.setText(now_earnings);
-        tv_shouyi_canyu.setText(num_driver + "人参与");
-        tv_shouyi_meiriqian.setText("¥ " + day_earnings);
-        tv_shouyi_shengyutian.setText(day_remaining + "天");
-        BitmapUtil.getInstance(context).download(iv_tietieyangshi, KaKuApplication.qian_zhui + image_advert);
-    }
-
-    private void autoAdvance(List<RollsAddObj> imgList) {
-        // TODO Auto-generated method stub
-        if (imgList == null) {
-            return;
-        }
-        if (imgList.size() <= 0) {
-            return;
-        }
-        List<Advertising> list = new ArrayList<Advertising>();
-
-        for (RollsAddObj obj : imgList) {
-            Advertising advertising = new Advertising(null, obj.getImage_roll(), null);
-            advertising.setPicURL(KaKuApplication.qian_zhui + obj.getImage_roll());
-            list.add(advertising);
-        }
-
-        if (list.size() > 0) {
-            mGalleryHelper = new AdGalleryHelper(context, list, Constants.AUTO_SCROLL_DURATION, true, false, false);
-            rela_chetiexinxi.addView(mGalleryHelper.getLayout());
-            mGalleryHelper.startAutoSwitch();
-        }
+    private void goToHome() {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
+        startActivity(intent);
+        finish();
     }
 
     public void Jump() {
@@ -274,7 +344,7 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
         req.code = "60012";
         req.id_driver = Utils.getIdDriver();
         req.id_advert = KaKuApplication.id_advert;
-        KaKuApiProvider.TaskJump(req, new KakuResponseListener<TaskJumpResp>(this,TaskJumpResp.class) {
+        KaKuApiProvider.TaskJump(req, new KakuResponseListener<TaskJumpResp>(this, TaskJumpResp.class) {
 
             @Override
             public void onStart(int what) {
@@ -288,28 +358,28 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
                     LogUtil.E("taskjump res: " + t.res);
                     if (Constants.RES_ONE.equals(t.res)) {
                         showPopWindow();
-                    } else if ("A".equals(KaKuApplication.flag_recommended)){
+                    } else if ("A".equals(KaKuApplication.flag_recommended)) {
                         KaKuApplication.flag_nochetietv = "you";
                         KaKuApplication.flag_code = "60020";
-                        Intent intent = new Intent(context,AdImageActivity.class);
+                        Intent intent = new Intent(context, AdImageActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                    } else if ("B".equals(KaKuApplication.flag_recommended)){
+                    } else if ("B".equals(KaKuApplication.flag_recommended)) {
                         KaKuApplication.flag_nochetietv = "wu";
                         KaKuApplication.flag_code = "60020";
-                        Intent intent = new Intent(context,AdImageActivity.class);
+                        Intent intent = new Intent(context, AdImageActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                    } else if ("C".equals(KaKuApplication.flag_recommended) || "D".equals(KaKuApplication.flag_recommended)){
+                    } else if ("C".equals(KaKuApplication.flag_recommended) || "D".equals(KaKuApplication.flag_recommended)) {
                         KaKuApplication.flag_nochetietv = "wu";
                         KaKuApplication.flag_code = "60020";
-                        Intent intent = new Intent(context,XingShiZhengImageActivity.class);
+                        Intent intent = new Intent(context, XingShiZhengImageActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                    } else if ("".equals(KaKuApplication.flag_recommended)){
+                    } else if ("".equals(KaKuApplication.flag_recommended)) {
                         KaKuApplication.flag_nochetietv = "wu";
                         KaKuApplication.flag_code = "60018";
-                        Intent intent = new Intent(context,AdImageActivity.class);
+                        Intent intent = new Intent(context, AdImageActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {
@@ -318,16 +388,76 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
-    private void goToHome() {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
-        startActivity(intent);
-        finish();
+    private void PingJiaAd() {
+        startActivity(new Intent(this, PingJiaAdActivity.class));
     }
+
+    private void AdPingJiaList() {
+        startActivity(new Intent(this, AdPingJiaListActivity.class));
+    }
+
+    private void CheTieDaiLi() {
+        startActivity(new Intent(this, CheTieDaiLiActivity.class));
+    }
+
+    private void XiaDan() {
+        Intent intent = new Intent(this, StickerOrderActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    private void showYuYueWindow() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                YuYueWindow popWindow =
+                        new YuYueWindow(Add_NActivity.this);
+                popWindow.show();
+
+            }
+        }, 0);
+    }
+
+    private void showHongSeWindow() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                HongSeWindow popWindow =
+                        new HongSeWindow(Add_NActivity.this);
+                popWindow.show();
+
+            }
+        }, 0);
+    }
+
+    private void ShowTixianPop() {
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isPwdPopWindowShow = true;
+
+                YuEPopWindow popWindow =
+                        new YuEPopWindow(Add_NActivity.this, ketixian, buketixian);
+                popWindow.show();
+
+            }
+        }, 0);
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -336,46 +466,6 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
         }
         return false;
     }
-
-    private void getStickerShareInfo() {
-
-        Utils.NoNet(context);
-        showProgressDialog();
-        StickerShareReq req = new StickerShareReq();
-        req.code = "60019";
-        req.id_driver = Utils.getIdDriver();
-
-        KaKuApiProvider.getStickerShareInfo(req, new KakuResponseListener<StickerShareResp>(this,StickerShareResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getCalendarList res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        showShare(t);
-
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-        });
-    }
-
-    private void showShare(StickerShareResp t) {
-        if (oneKeySharePopWindow == null) {
-            shareContent.url = t.url;
-            shareContent.content = t.content;
-            oneKeySharePopWindow = new OneKeySharePopWindow(this, shareContent);
-            oneKeySharePopWindow.setIsShortUrl(false);
-        }
-        oneKeySharePopWindow.show();
-
-    }
-
-    private ShareContentObj shareContent = new ShareContentObj();
-    private OneKeySharePopWindow oneKeySharePopWindow;
 
     private void showPopWindow() {
         getWindow().getDecorView().postDelayed(new Runnable() {
@@ -409,7 +499,7 @@ public class Add_NActivity extends BaseActivity implements OnClickListener {
                 input.show();
 
             }
-        }, 200);
+        }, 0);
     }
 
 }

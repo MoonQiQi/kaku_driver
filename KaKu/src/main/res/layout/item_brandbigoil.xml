@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/tv_brandbigoil_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_brandbigoil_duihao"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_brandbigoil_name"
+            android:src="@drawable/duihao" />
+
+        <View
+            android:id="@+id/view_brandoil_item"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:layout_alignLeft="@+id/tv_brandbigoil_name"
+            android:layout_alignRight="@+id/iv_brandbigoil_duihao"
+            android:layout_below="@+id/tv_brandbigoil_name"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_red" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+

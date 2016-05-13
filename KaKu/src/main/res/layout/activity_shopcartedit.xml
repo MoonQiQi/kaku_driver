@@ -47,14 +47,6 @@
             android:padding="5dp"
             android:orientation="horizontal">
 
-            <!--<ImageView
-                android:id="@+id/iv_shopcart_edit_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:src="@drawable/shopcart_selceted_normal" />-->
-
             <CheckBox
                 android:id="@+id/cbx_shopcart_edit_selected"
 

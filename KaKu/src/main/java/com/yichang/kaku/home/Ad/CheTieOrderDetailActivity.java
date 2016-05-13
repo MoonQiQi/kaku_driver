@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,6 +169,12 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -238,10 +244,11 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
 //            A待支付B已支付，待发货C已完成D已取消
             case "A":
                 MobclickAgent.onEvent(context, "CheTieZhiFu");
-                tv_truck_paytype.setText("待支付");
+                tv_truck_paytype.setText("待付款");
 
-                setState("待支付");
+                setState("待付款");
                 btn_top.setText("取消订单");
+                btn_top.setVisibility(View.VISIBLE);
                 btn_top.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -252,7 +259,7 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                         cancleOrder(id_bill);
                     }
                 });
-                btn_bottom.setText("立即支付");
+                btn_bottom.setText("立即付款");
                 btn_bottom.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -263,6 +270,7 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                         intent.putExtra("no_bill", no_bill);
                         intent.putExtra("price_bill", price_bill);
                         startActivity(intent);
+                        finish();
                     }
                 });
                 if ("".equals(flag_recommended)) {
@@ -279,7 +287,7 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                 MobclickAgent.onEvent(context, "CheTieQuXiao");
                 setState("待发货");
                 btn_top.setText("取消订单");
-                btn_top.setVisibility(View.VISIBLE);
+                btn_top.setVisibility(View.GONE);
                 btn_top.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -447,6 +455,11 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -489,7 +502,6 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
         left.setOnClickListener(this);
 
         title = (TextView) findViewById(R.id.tv_mid);
-        //title.setText("待付款");
     }
 
     @Override
@@ -525,6 +537,12 @@ public class CheTieOrderDetailActivity extends BaseActivity implements OnClickLi
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 

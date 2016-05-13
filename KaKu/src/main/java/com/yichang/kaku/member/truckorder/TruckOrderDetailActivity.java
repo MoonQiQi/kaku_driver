@@ -34,7 +34,7 @@ import com.yichang.kaku.response.TruckOrderDetailResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,14 +62,15 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
     private Button btn_top, btn_bottom;
     private String no_bill;
     private String id_bill;
-    private LinearLayout line_address_xianchanggoumai;
-    private View view_order_xianchang;
     private List<ConfirmOrderProductObj> list = new ArrayList<>();
     //支付参数
     private String price_bill, desc, notify_url, out_trade_no;
-    private String type_receive;
     private String message;
-    private RelativeLayout rela_chepinorder_noaddr;
+    private RelativeLayout rela_point_priceyou, rela_point_pricepoint;
+    private TextView tv_order_wuliugongsi, tv_order_yundanbianhao, tv_truck_priceyun, tv_truck_priceyou, tv_baoyangorder_yiwanshan;
+    private LinearLayout line_address_xianchanggoumai;
+    private View view_wuliu1, view_wuliu2, view_orderjifenshang, view_youhuiquanshang, view_yueshang;
+    private RelativeLayout rela_order_wuliugongsi, rela_order_yundanbianhao, rela_point_moneybalance;
 
 
     @Override
@@ -90,14 +91,25 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
 
         initOrderId();
         initAddress();
+
         lv_truck_detail_list = (ListView) findViewById(R.id.lv_truck_detail_list);
-
-
+        line_address_xianchanggoumai = (LinearLayout) findViewById(R.id.line_address_xianchanggoumai);
+        tv_order_wuliugongsi = (TextView) findViewById(R.id.tv_order_wuliugongsi);
+        tv_order_yundanbianhao = (TextView) findViewById(R.id.tv_order_yundanbianhao);
         tv_truck_paytype = (TextView) findViewById(R.id.tv_truck_paytype);
         tv_order_time_create = (TextView) findViewById(R.id.tv_order_time_create);
-        line_address_xianchanggoumai = (LinearLayout) findViewById(R.id.line_address_xianchanggoumai);
-        rela_chepinorder_noaddr = (RelativeLayout) findViewById(R.id.rela_chepinorder_noaddr);
-        view_order_xianchang = findViewById(R.id.view_order_xianchang);
+        tv_truck_priceyun = (TextView) findViewById(R.id.tv_truck_priceyun);
+        tv_truck_priceyou = (TextView) findViewById(R.id.tv_truck_priceyou);
+        rela_point_priceyou = (RelativeLayout) findViewById(R.id.rela_point_priceyou);
+        rela_point_pricepoint = (RelativeLayout) findViewById(R.id.rela_point_pricepoint);
+        rela_order_wuliugongsi = (RelativeLayout) findViewById(R.id.rela_order_wuliugongsi);
+        rela_order_yundanbianhao = (RelativeLayout) findViewById(R.id.rela_order_yundanbianhao);
+        rela_point_moneybalance = (RelativeLayout) findViewById(R.id.rela_point_moneybalance);
+        view_wuliu1 = findViewById(R.id.view_wuliu1);
+        view_wuliu2 = findViewById(R.id.view_wuliu2);
+        view_yueshang = findViewById(R.id.view_yueshang);
+        view_youhuiquanshang = findViewById(R.id.view_youhuiquanshang);
+        view_orderjifenshang = findViewById(R.id.view_orderjifenshang);
         initPrice();
 
         initButton();
@@ -114,7 +126,7 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
 
     private void getOrderDetailInfo() {
         Utils.NoNet(context);
-
+        showProgressDialog();
         TruckOrderDetailReq req = new TruckOrderDetailReq();
         req.code = "30016";
         req.id_bill = id_bill;
@@ -132,7 +144,14 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
+                stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -149,15 +168,10 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
 
     private void setData(TruckOrderDetailObj order) {
         String type_pay = order.getType_pay();
-        type_receive = order.getType_receive();
-        if ("X".equals(type_receive)) {
+        if ("".equals(order.getAddr())) {
             line_address_xianchanggoumai.setVisibility(View.GONE);
-            view_order_xianchang.setVisibility(View.GONE);
-            rela_chepinorder_noaddr.setVisibility(View.VISIBLE);
         } else {
             line_address_xianchanggoumai.setVisibility(View.VISIBLE);
-            view_order_xianchang.setVisibility(View.VISIBLE);
-            rela_chepinorder_noaddr.setVisibility(View.GONE);
         }
         switch (type_pay) {
             case "1":
@@ -171,42 +185,71 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                 break;
         }
         //如果订单状态为待支付，则支付方式为待支付
-        setPageWidget(order.getState_bill());
-
+        setPageWidget(order.getState_bill(), order.getAddr());
 
         tv_truck_order_id.setText("订单号：" + order.getNo_bill());
         no_bill = order.getNo_bill();
         tv_address_name.setText(order.getName_addr());
         tv_address_phone.setText(order.getPhone_addr());
         tv_address_address.setText(order.getAddr());
-
-
+        tv_order_wuliugongsi.setText(order.getName_logistics());
+        tv_order_yundanbianhao.setText(order.getNo_logistics());
         tv_truck_totalprice.setText("￥" + order.getPrice_goods());
 
-
 //        // TODO: 2015/8/19 暂无运费 tv_order_time_create
+        tv_truck_priceyun.setText("+￥" + order.getPrice_transport());
+        tv_truck_priceyou.setText("-￥" + order.getPrice_coupon());
         tv_truck_pricepoint.setText("-￥" + order.getPrice_point());
+        tv_truck_moneybalance.setText("-￥" + order.getMoney_balance());
         tv_truck_pricebill.setText("￥" + order.getPrice_bill());
 
-        tv_truck_moneybalance.setText("￥" + order.getMoney_balance());
 //为实付款赋值，在支付完成回调页上显示
         KaKuApplication.realPayment = order.getPrice_bill();
 
         price_bill = order.getPrice_bill();
 
         tv_order_time_create.setText("下单日期：" + order.getTime_create());
-
-
+        if ("".equals(order.getName_logistics())) {
+            rela_order_wuliugongsi.setVisibility(View.GONE);
+            rela_order_yundanbianhao.setVisibility(View.GONE);
+            view_wuliu2.setVisibility(View.GONE);
+            view_wuliu1.setVisibility(View.GONE);
+        } else {
+            tv_order_wuliugongsi.setVisibility(View.VISIBLE);
+            rela_order_yundanbianhao.setVisibility(View.VISIBLE);
+            view_wuliu1.setVisibility(View.VISIBLE);
+            view_wuliu2.setVisibility(View.VISIBLE);
+        }
+        if ("".equals(order.getAddr())) {
+            line_address_xianchanggoumai.setVisibility(View.GONE);
+        } else {
+            line_address_xianchanggoumai.setVisibility(View.VISIBLE);
+        }
+        if ("0".equals(order.getPrice_point()) || "0.00".equals(order.getPrice_point())) {
+            view_orderjifenshang.setVisibility(View.GONE);
+            rela_point_pricepoint.setVisibility(View.GONE);
+        }
+        if ("0".equals(order.getMoney_balance()) || "0.00".equals(order.getMoney_balance())) {
+            view_yueshang.setVisibility(View.GONE);
+            rela_point_moneybalance.setVisibility(View.GONE);
+        }
+        if ("0".equals(order.getPrice_coupon()) || "0.00".equals(order.getPrice_coupon())) {
+            view_youhuiquanshang.setVisibility(View.GONE);
+            rela_point_priceyou.setVisibility(View.GONE);
+        }
     }
 
 
-    private void setPageWidget(String state) {
+    private void setPageWidget(String state, String addr) {
         switch (state) {
 //            待付款A，待收货B，已签收D，待评价E，已评价F，已取消G，已删除H退换货处理中Z
             case "A":
-                tv_truck_paytype.setText("待支付");
-
-                setState("待支付");
+                tv_truck_paytype.setText("待付款");
+                rela_order_wuliugongsi.setVisibility(View.GONE);
+                rela_order_yundanbianhao.setVisibility(View.GONE);
+                view_wuliu2.setVisibility(View.GONE);
+                view_wuliu1.setVisibility(View.GONE);
+                setState("待付款");
                 btn_top.setText("取消订单");
                 btn_top.setOnClickListener(new OnClickListener() {
                     @Override
@@ -214,11 +257,10 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                         if (Utils.Many()) {
                             return;
                         }
-                        //未付款，取消订单使用30012接口
                         cancleOrder(id_bill);
                     }
                 });
-                btn_bottom.setText("立即支付");
+                btn_bottom.setText("立即付款");
                 btn_bottom.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -234,7 +276,7 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                 break;
             case "B":
                 setState("待发货");
-                btn_top.setText("取消订单");
+                btn_top.setText("联系客服");
                 btn_top.setVisibility(View.VISIBLE);
                 btn_top.setOnClickListener(new OnClickListener() {
                     @Override
@@ -242,8 +284,7 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                         if (Utils.Many()) {
                             return;
                         }
-                        //已付款，申请取消订单使用30020接口
-                        requestCancleOrder(id_bill);
+                        Utils.Call(context, "400-6867585");
 
                     }
                 });
@@ -251,12 +292,22 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                 break;
             case "D":
                 setState("待收货");
-                btn_top.setVisibility(View.GONE);
-                if ("Y".equals(type_receive)) {
+                btn_top.setVisibility(View.VISIBLE);
+                btn_top.setText("联系客服");
+                btn_top.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.Many()) {
+                            return;
+                        }
+                        Utils.Call(context, "400-6867585");
+                    }
+                });
+                if (!"".equals(addr)) {
                     btn_bottom.setText("确认收货");
                     message = "是否确认收货？";
                 } else {
-                    btn_bottom.setText("现场领取");
+                    btn_bottom.setText("确认领取");
                     message = "您确认已领取到商品？";
                 }
                 btn_bottom.setOnClickListener(new OnClickListener() {
@@ -291,11 +342,7 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                 break;
             case "E":
                 setState("待评价");
-                if ("X".equals(type_receive)) {
-                    btn_top.setVisibility(View.GONE);
-                } else {
-                    btn_top.setVisibility(View.VISIBLE );
-                }
+                btn_top.setVisibility(View.GONE);
                 btn_top.setText("申请退货");
                 btn_top.setOnClickListener(new OnClickListener() {
                     @Override
@@ -338,8 +385,6 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                         if (Utils.Many()) {
                             return;
                         }
-                        //已评价订单，申请退换货使用30014接口
-
                         Intent intent = new Intent(TruckOrderDetailActivity.this, TruckOrderReturnActivity.class);
                         intent.putExtra("id_bill", id_bill);
                         startActivity(intent);
@@ -480,6 +525,11 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -500,6 +550,12 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                     LogUtil.showShortToast(context, t.msg);
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -514,7 +570,7 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
     /*待支付页面 取消订单*/
     private void cancleOrder(String id_bill) {
         Utils.NoNet(context);
-
+        showProgressDialog();
         TruckOrderCancleReq req = new TruckOrderCancleReq();
         req.code = "30012";
         req.id_bill = id_bill;
@@ -528,6 +584,12 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                     gotoTruckOrderList();
                     LogUtil.showShortToast(context, t.msg);
                 }
+                stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -550,6 +612,11 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
                     gotoTruckOrderList();
                     LogUtil.showShortToast(context, t.msg);
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -592,9 +659,7 @@ public class TruckOrderDetailActivity extends BaseActivity implements OnClickLis
     private void initTitleBar() {
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
-
         title = (TextView) findViewById(R.id.tv_mid);
-        //title.setText("待付款");
     }
 
     @Override

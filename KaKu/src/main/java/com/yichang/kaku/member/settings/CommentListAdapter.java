@@ -1,7 +1,6 @@
 package com.yichang.kaku.member.settings;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.member.serviceorder.OrderDetailAActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailBActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailCActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailDActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailEActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailFActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailGActivity;
-import com.yichang.kaku.member.serviceorder.OrderDetailZActivity;
-import com.yichang.kaku.obj.MemberMsgObj;
 import com.yichang.kaku.obj.SuggestionObj;
-import com.yichang.kaku.tools.Utils;
 
 import java.util.List;
 

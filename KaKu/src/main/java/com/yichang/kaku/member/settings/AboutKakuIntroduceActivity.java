@@ -3,7 +3,6 @@ package com.yichang.kaku.member.settings;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
@@ -37,7 +36,7 @@ public class AboutKakuIntroduceActivity extends BaseActivity implements OnClickL
         left.setOnClickListener(this);
 
         title = (TextView) findViewById(R.id.tv_mid);
-        title.setText("平台介绍");
+        title.setText("关于卡库");
 
 
     }

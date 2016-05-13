@@ -3,61 +3,41 @@ package com.yichang.kaku.obj;
 import java.io.Serializable;
 
 public class CarData2Obj implements Serializable {
-	
-	private String id_series;
-	private String id_fuel;
-	private String step2_name1;
-	private String step2_name2;
-	private String flag_show;
 
-	public String getId_series() {
-		return id_series;
-	}
+    private String name_data;
+    private String id_data;
+    private String color_type;
 
-	public void setId_series(String id_series) {
-		this.id_series = id_series;
-	}
+    public String getName_data() {
+        return name_data;
+    }
 
-	public String getId_fuel() {
-		return id_fuel;
-	}
+    public void setName_data(String name_data) {
+        this.name_data = name_data;
+    }
 
-	public void setId_fuel(String id_fuel) {
-		this.id_fuel = id_fuel;
-	}
+    public String getId_data() {
+        return id_data;
+    }
 
-	public String getStep2_name2() {
-		return step2_name2;
-	}
+    public void setId_data(String id_data) {
+        this.id_data = id_data;
+    }
 
-	public void setStep2_name2(String step2_name2) {
-		this.step2_name2 = step2_name2;
-	}
+    public String getColor_type() {
+        return color_type;
+    }
 
-	public String getStep2_name1() {
-		return step2_name1;
-	}
+    public void setColor_type(String color_type) {
+        this.color_type = color_type;
+    }
 
-	public void setStep2_name1(String step2_name1) {
-		this.step2_name1 = step2_name1;
-	}
-
-	public String getFlag_show() {
-		return flag_show;
-	}
-
-	public void setFlag_show(String flag_show) {
-		this.flag_show = flag_show;
-	}
-
-	@Override
-	public String toString() {
-		return "CarData2Obj{" +
-				"id_series='" + id_series + '\'' +
-				", id_fuel='" + id_fuel + '\'' +
-				", step2_name1='" + step2_name1 + '\'' +
-				", step2_name2='" + step2_name2 + '\'' +
-				", flag_show='" + flag_show + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "CarData2Obj{" +
+                "name_data='" + name_data + '\'' +
+                ", id_data='" + id_data + '\'' +
+                ", color_type='" + color_type + '\'' +
+                '}';
+    }
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rela_item_filter1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_chetieadapter1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/jinqu" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_filter1"
+            style="@style/Line_h"
+            android:layout_below="@+id/rela_item_filter1" />
+
+        <com.yichang.kaku.view.widget.MyGridView
+            android:id="@+id/gv_chepinadapter1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_filter1"
+            android:layout_marginTop="10dp"
+            android:numColumns="3"
+            android:scrollbars="none"/>
+
+        <View
+            android:id="@+id/view_filter2"
+            style="@style/Line_h"
+            android:layout_below="@+id/gv_chepinadapter1"
+            android:layout_marginTop="10dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+

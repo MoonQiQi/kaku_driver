@@ -14,17 +14,20 @@ import android.widget.TextView;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
+import com.yichang.kaku.callback.ShareContentCustomizeDemo;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.member.JiangLiMingXiActivity;
-import com.yichang.kaku.obj.ShareContentObj;
-import com.yichang.kaku.request.MemberRecommendReq;
+import com.yichang.kaku.request.ExitReq;
 import com.yichang.kaku.response.MemberRecommendResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.popwindow.OneKeySharePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MemberRecommendActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener {
     //    titleBar
@@ -56,11 +59,11 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
     private void getRecommendInfo() {
         Utils.NoNet(context);
 
-        MemberRecommendReq req = new MemberRecommendReq();
+        ExitReq req = new ExitReq();
         req.code = "10032";
         req.id_driver = Utils.getIdDriver();
 
-        KaKuApiProvider.getMemberRecommendInfo(req, new KakuResponseListener<MemberRecommendResp>(this,MemberRecommendResp.class) {
+        KaKuApiProvider.getMemberRecommendInfo(req, new KakuResponseListener<MemberRecommendResp>(this, MemberRecommendResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
@@ -111,6 +114,12 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -118,10 +127,8 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
     private void initTitleBar() {
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
-
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("邀请好友");
-
         right = (TextView) findViewById(R.id.tv_right);
         right.setText("分享");
         right.setVisibility(View.VISIBLE);
@@ -165,15 +172,35 @@ public class MemberRecommendActivity extends BaseActivity implements OnClickList
         }
     }
 
-    private void showShare() {
-        if (oneKeySharePopWindow == null) {
-            ShareContentObj obj = new ShareContentObj();
-            obj.url = shareContent.url;
-            obj.content = shareContent.content;
-            oneKeySharePopWindow = new OneKeySharePopWindow(this, obj);
-        }
-        oneKeySharePopWindow.show();
+    public void showShare() {
 
+        ShareSDK.initSDK(context);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.setShareContentCustomizeCallback(new ShareContentCustomizeDemo());
+        oks.disableSSOWhenAuthorize();
+        // 分享时Notification的图标和文字
+        //oks.setNotification(R.drawable.ic_launcher, "金牌维修通");
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle("卡库养车");
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl(shareContent.url);
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(shareContent.content);
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        // oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
+        oks.setUrl(shareContent.url);
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("评论。。。");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite("卡库");
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl(shareContent.url);
+
+        // 启动分享GUI
+        oks.show(context);
     }
 
 

@@ -15,18 +15,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.okhttp.Request;
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.BaseActivity;
-import com.yichang.kaku.response.ShortURLResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.tools.okhttp.OkHttpUtil;
-import com.yichang.kaku.tools.okhttp.RequestCallback;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class MemberSendMsgActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener {
     //    titleBar
@@ -38,6 +30,7 @@ public class MemberSendMsgActivity extends BaseActivity implements OnClickListen
 
     private String smsContent = "";
     private String smsUrl = "";
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,38 +41,25 @@ public class MemberSendMsgActivity extends BaseActivity implements OnClickListen
 
     private void init() {
         initTitleBar();
-
         initTextView();
-
         initButton();
 
-        smsUrl=getIntent().getStringExtra("smsUrl");
-        smsContent=getIntent().getStringExtra("smsContent");
-    }
+        smsUrl = getIntent().getStringExtra("smsUrl");
+        smsContent = getIntent().getStringExtra("smsContent");
 
-
-
-
-    /*短信内容*/
-    private void generateMsgContent() {
-        smsContent += "&phone=" + et_recommend_phone.getText().toString().trim() + "&name_user=" + et_recommend_name.getText().toString().trim();
     }
 
     private void initButton() {
 
         btn_recommend_sendmsg = (Button) findViewById(R.id.btn_recommend_sendmsg);
         btn_recommend_sendmsg.setOnClickListener(this);
-
         btn_recommend_import = (Button) findViewById(R.id.btn_recommend_import);
         btn_recommend_import.setOnClickListener(this);
     }
 
     private void initTextView() {
         et_recommend_name = (EditText) findViewById(R.id.et_recommend_name);
-        //et_recommend_name.setSelection(5);
-        //et_recommend_name.setOnFocusChangeListener(this);
         et_recommend_phone = (EditText) findViewById(R.id.et_recommend_phone);
-        // et_recommend_phone.setOnFocusChangeListener(this);
     }
 
 
@@ -122,7 +102,7 @@ public class MemberSendMsgActivity extends BaseActivity implements OnClickListen
         int id = v.getId();
         if (R.id.tv_left == id) {
             finish();
-        }  else if (R.id.btn_recommend_import == id) {
+        } else if (R.id.btn_recommend_import == id) {
             /*todo 从通讯录导入*/
             startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), 0);
         } else if (R.id.btn_recommend_sendmsg == id) {
@@ -147,39 +127,11 @@ public class MemberSendMsgActivity extends BaseActivity implements OnClickListen
 
     private void SendMsg() {
 
-       // generateMsgContent();
-        smsUrl += "&phone=" + et_recommend_phone.getText().toString().trim();
-        String temp = smsUrl+ "&type=ShortMessage";
-        try {
-            temp = URLEncoder.encode(temp, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        showProgressDialog();
-        OkHttpUtil.getAsync("http://985.so/api.php?format=json&url="+ temp, new RequestCallback<ShortURLResp>(this, ShortURLResp.class) {
-
-            @Override
-            public void onSuccess(ShortURLResp obj, String result) {
-
-            }
-
-            @Override
-            public void onSuccess1(ShortURLResp obj, String result) {
-                Uri smsToUri = Uri.parse("smsto:" + et_recommend_phone.getText().toString().trim());
-                Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
-                intent.putExtra("sms_body", smsContent+ obj.url);
-                startActivity(intent);
-                stopProgressDialog();
-            }
-
-            @Override
-            public void onInnerFailure(Request request, IOException e) {
-                stopProgressDialog();
-            }
-        });
-
+        Uri smsToUri = Uri.parse("smsto:" + et_recommend_phone.getText().toString().trim());
+        Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+        intent.putExtra("sms_body", smsContent + smsUrl);
+        startActivity(intent);
     }
-
 
     private String username, usernumber;
 

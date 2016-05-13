@@ -6,5 +6,6 @@ public class WithDrawCodeReq extends BaseReq implements Serializable {
 	public String id_driver;
 	public String vcode;
 	public String pay_pass;
+	public String sign;
 
 }

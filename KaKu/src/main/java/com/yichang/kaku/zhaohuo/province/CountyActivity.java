@@ -20,7 +20,7 @@ import com.yichang.kaku.response.AreaResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +81,11 @@ public class CountyActivity extends BaseActivity implements OnClickListener,Adap
 					}
 					LogUtil.showShortToast(context, t.msg);
 				}
+			}
+
+			@Override
+			public void onFailed(int i, Response response) {
+
 			}
 
 		});

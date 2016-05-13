@@ -14,18 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.KakuResponseListener;
-import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.AddrObj;
-import com.yichang.kaku.request.AddrMorenReq;
-import com.yichang.kaku.request.DeleteAddrReq;
-import com.yichang.kaku.response.AddrMorenResp;
-import com.yichang.kaku.response.DeleteAddrResp;
-import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
 
 import java.util.List;
 
@@ -78,6 +69,7 @@ public class AddrAdapter extends BaseAdapter {
             holder.tv_addr_name = (TextView) convertView.findViewById(R.id.tv_addr_name);
             holder.tv_addr_phone = (TextView) convertView.findViewById(R.id.tv_addr_phone);
             holder.tv_addr_addr = (TextView) convertView.findViewById(R.id.tv_addr_addr);
+            holder.tv_addr_area = (TextView) convertView.findViewById(R.id.tv_addr_area);
 
             holder.rela_addr_moren = (RelativeLayout) convertView.findViewById(R.id.rela_addr_moren);
             convertView.setTag(holder);
@@ -88,6 +80,7 @@ public class AddrAdapter extends BaseAdapter {
         holder.tv_addr_name.setText(obj.getName_addr());
         holder.tv_addr_phone.setText(obj.getPhone_addr());
         holder.tv_addr_addr.setText(obj.getAddr());
+        holder.tv_addr_area.setText(obj.getRemark_area());
         if ("Y".equals(obj.getFlag_default())) {
             holder.iv_addr_moren.setImageResource(R.drawable.check_yuan);
         } else {
@@ -97,12 +90,10 @@ public class AddrAdapter extends BaseAdapter {
         holder.iv_addr_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //增加多次点击判断
                 if (Utils.Many()) {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                LogUtil.E("上下文" + mContext);
                 builder.setTitle("提示");
                 builder.setMessage("确认删除？");
                 builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
@@ -111,7 +102,7 @@ public class AddrAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
 
-                        Delete(obj.getId_addr(), position);
+                        inface.Delete(obj.getId_addr());
 
                     }
                 });
@@ -124,37 +115,33 @@ public class AddrAdapter extends BaseAdapter {
                         dialog.dismiss();
                     }
                 });
-                //builder.create().show();
                 Dialog dialog = builder.create();
                 dialog.show();
             }
         });
 
-        /*holder.rela_addr_moren.setOnClickListener(new View.OnClickListener() {
+        holder.rela_addr_moren.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoRen(obj.getId_addr(),position);
+                inface.MoRen(obj.getId_addr());
             }
-        });*/
+        });
 
         holder.iv_addr_bianji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //增加多次点击判断
                 if (Utils.Many()) {
                     return;
                 }
-//               获取点击条目的位置
+                KaKuApplication.new_addr = "modify";
                 KaKuApplication.itemPosition = position;
                 Intent intent = new Intent(mContext, NewAddrActivity.class);
                 KaKuApplication.name_addr = obj.getName_addr();
                 KaKuApplication.phone_addr = obj.getPhone_addr();
                 KaKuApplication.dizhi_addr = obj.getAddr();
+                KaKuApplication.id_area = obj.getId_area();
+                KaKuApplication.area_addr = obj.getRemark_area();
                 KaKuApplication.id_dizhi = obj.getId_addr();
-                /*KaKuApplication.county_addr = "";
-                KaKuApplication.province_addrname = "";
-                KaKuApplication.city_addrname = "";*/
-
                 KaKuApplication.flag_addr = obj.getFlag_default();
                 KaKuApplication.isEditAddr = true;
                 mContext.startActivity(intent);
@@ -172,74 +159,23 @@ public class AddrAdapter extends BaseAdapter {
         TextView tv_addr_name;
         TextView tv_addr_phone;
         TextView tv_addr_addr;
-
+        TextView tv_addr_area;
         RelativeLayout rela_addr_moren;
 
     }
 
-    public void Delete(String id_addr, final int position) {
-        Utils.NoNet(mContext);
-        DeleteAddrReq req = new DeleteAddrReq();
-        req.code = "10016";
-        req.id_addr = id_addr;
-        KaKuApiProvider.DeleteAddr(req, new KakuResponseListener<DeleteAddrResp>(mContext, DeleteAddrResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("deleteaddr res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        list.remove(position);
-                        notifyDataSetChanged();
-                    }
-                    LogUtil.showShortToast(mContext, t.msg);
-                }
-            }
+    private AddrInterface inface;
 
-        });
-    }
-
-    private ShowProgress showProgress;
-
-    public void setShowProgress(ShowProgress showProgress) {
-        this.showProgress = showProgress;
+    public void setShowProgress(AddrInterface inface) {
+        this.inface = inface;
 
     }
 
-    public interface ShowProgress {
+    public interface AddrInterface {
 
-        public abstract void showDialog();
+         void MoRen(String id_addr);
 
-        public abstract void stopDialog();
+         void Delete(String id_addr);
     }
 
-    ;
-
-
-    public void MoRen(String id_addr, final int position) {
-
-        Utils.NoNet(mContext);
-        AddrMorenReq req = new AddrMorenReq();
-        req.code = "10017";
-        req.id_addr = id_addr;
-        req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(mContext, AddrMorenResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("morenaddr res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setFlag_default("N");
-                        }
-                        list.get(position).setFlag_default("Y");
-                        notifyDataSetChanged();
-                    }
-                    LogUtil.showShortToast(mContext, t.msg);
-                }
-            }
-
-        });
-    }
 }

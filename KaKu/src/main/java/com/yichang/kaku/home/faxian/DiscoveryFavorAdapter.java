@@ -83,7 +83,7 @@ public class DiscoveryFavorAdapter extends BaseAdapter {
         holder.tv_favor_name.setText(list.get(position).getName_news());
         holder.tv_favor_time.setText(list.get(position).getTime_pub());
         holder.tv_favor_content.setText(list.get(position).getIntro_news());
-        String image = KaKuApplication.qian_zhui + list.get(position).getThumbnail_news();
+        String image = KaKuApplication.qian_zhui + list.get(position).getThumbnail_news_new();
         BitmapUtil.getInstance(mContext).download(holder.iv_favor_image, image);
         holder.ll_discovery_remove.setOnClickListener(new View.OnClickListener() {
             @Override

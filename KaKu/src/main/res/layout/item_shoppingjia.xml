@@ -3,88 +3,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical">
 
-    <View
-        style="@style/Line_h"/>
-     
+    <View style="@style/Line_h" />
+
     <RelativeLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="15dp">
-    
+
         <TextView
             android:id="@+id/tv_shoppingjia_name"
             android:layout_width="wrap_content"
-            android:textColor="@color/color_word"
-            android:textSize="15sp"
-            android:text="名字"
-            android:layout_toLeftOf="@+id/tv_shoppingjia_time"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/x30"
-            android:layout_height="wrap_content" />
+            android:layout_toLeftOf="@+id/tv_shoppingjia_time"
+            android:text="名字"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
 
         <RatingBar
             android:id="@+id/star_shoppingjia_star"
+            style="@style/roomRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:isIndicator="true"
-            style="@style/roomRatingBar"
-            android:layout_marginTop="3dp"
             android:layout_alignParentLeft="true"
-
-            android:numStars="5"/>
+            android:layout_marginTop="3dp"
+            android:isIndicator="true"
+            android:numStars="5" />
 
         <TextView
             android:id="@+id/tv_shoppingjia_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:text="2010-10-11"
             android:textColor="@color/color_word"
-            android:textSize="15sp"
-            android:text="2010-10-11"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_shoppingjia_content"
             android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_shoppingjia_name"
             android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:text="Content"/>
+            android:text="Content"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_shoppingjia1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_below="@+id/tv_shoppingjia_content"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
+
         <ImageView
             android:id="@+id/iv_shoppingjia2"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@+id/iv_shoppingjia1"
-            android:layout_marginLeft="10dp"
             android:layout_alignBottom="@+id/iv_shoppingjia1"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_shoppingjia1" />
+
         <ImageView
             android:id="@+id/iv_shoppingjia3"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@+id/iv_shoppingjia2"
-            android:layout_marginLeft="10dp"
             android:layout_alignBottom="@+id/iv_shoppingjia1"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_shoppingjia2" />
+
         <ImageView
             android:id="@+id/iv_shoppingjia4"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@+id/iv_shoppingjia3"
-            android:layout_marginLeft="10dp"
             android:layout_alignBottom="@+id/iv_shoppingjia1"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_shoppingjia3" />
 
-  </RelativeLayout>
+    </RelativeLayout>
 
-  </LinearLayout>
+</LinearLayout>

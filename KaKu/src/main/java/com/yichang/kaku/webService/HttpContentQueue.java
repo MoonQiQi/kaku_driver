@@ -1,7 +1,7 @@
 package com.yichang.kaku.webService;
 
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.rest.RequestQueue;
 
 /**
  * Created by chaih on 2016/2/18.

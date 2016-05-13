@@ -13,10 +13,7 @@ import com.yichang.kaku.obj.IllegalInfo;
 import com.yichang.kaku.response.IllegalQueryResp;
 import com.yichang.kaku.tools.Utils;
 
-/**
- * Created by xiaosu on 2015/11/9.
- * 违章查询结果
- */
+
 public class IllegalQueryResultActivity extends BaseActivity {
 
     private TextView carNum;
@@ -24,7 +21,8 @@ public class IllegalQueryResultActivity extends BaseActivity {
     private TextView tv_count;
     private TextView tv_money;
     private ListView his_list;
-    private IllegalQueryResp illegalQueryResp;
+    private IllegalQueryResp t;
+    private int num = 0, count = 0, money = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +49,17 @@ public class IllegalQueryResultActivity extends BaseActivity {
             }
         });
 
-        illegalQueryResp = (IllegalQueryResp) getIntent().getSerializableExtra("info");
+        t = (IllegalQueryResp) getIntent().getSerializableExtra("t");
 
+        for (int i = 0; i < t.lists.size(); i++) {
+            num = t.lists.size();
+            count += Integer.parseInt(t.lists.get(i).getFen());
+            money += Integer.parseInt(t.lists.get(i).getMoney());
+        }
 
-        carNum.setText(getIntent().getStringExtra("carNum"));
-        tv_num.setText(illegalQueryResp.data_count);
-        tv_count.setText(illegalQueryResp.degree);
-        tv_money.setText(illegalQueryResp.count);
+        tv_num.setText(num + "");
+        tv_count.setText(count + "");
+        tv_money.setText(money + "");
 
         his_list.setAdapter(new InnerAdapter());
     }
@@ -66,12 +68,12 @@ public class IllegalQueryResultActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return illegalQueryResp.data.size();
+            return t.lists.size();
         }
 
         @Override
         public IllegalInfo getItem(int position) {
-            return illegalQueryResp.data.get(position);
+            return t.lists.get(position);
         }
 
         @Override
@@ -85,16 +87,16 @@ public class IllegalQueryResultActivity extends BaseActivity {
             if (convertView == null) {
                 convertView = inflate(R.layout.layout_illegal_query_result);
             }
-            //2105-12-12 2:15
-            String[] split = getItem(position).getTime().split(" ");
+
+            String[] split = getItem(position).getDate().split(" ");
             if (split != null && split.length == 2) {
                 ((TextView) convertView.findViewById(R.id.time)).setText(split[1].substring(0, split[1].lastIndexOf(":")));
                 ((TextView) convertView.findViewById(R.id.date)).setText(split[0]);
             }
-            ((TextView) convertView.findViewById(R.id.position)).setText(getItem(position).getStreet());
-            ((TextView) convertView.findViewById(R.id.reason)).setText(getItem(position).getReason());
-            ((TextView) convertView.findViewById(R.id._deduct_marks)).setText(getItem(position).getDegree());
-            ((TextView) convertView.findViewById(R.id._fine)).setText(getItem(position).getCount());
+            ((TextView) convertView.findViewById(R.id.position)).setText(getItem(position).getArea());
+            ((TextView) convertView.findViewById(R.id.reason)).setText(getItem(position).getAct());
+            ((TextView) convertView.findViewById(R.id._deduct_marks)).setText(getItem(position).getFen());
+            ((TextView) convertView.findViewById(R.id._fine)).setText(getItem(position).getMoney());
 
             return convertView;
         }

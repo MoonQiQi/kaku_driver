@@ -39,17 +39,29 @@ public class TextActivity extends BaseActivity implements OnClickListener {
         switch (mTitle) {
             case "name":
                 strTitle = "编辑收货人";
-                et_text.setText(KaKuApplication.name_addr);
+                if ("new".equals(KaKuApplication.new_addr)) {
+                    et_text.setText("");
+                } else {
+                    et_text.setText(KaKuApplication.new_nametext);
+                }
                 et_text.setInputType(InputType.TYPE_CLASS_TEXT);
                 break;
             case "phone":
                 strTitle = "编辑手机号码";
-                et_text.setText(KaKuApplication.phone_addr);
+                if ("new".equals(KaKuApplication.new_addr)) {
+                    et_text.setText("");
+                } else {
+                    et_text.setText(KaKuApplication.new_phonetext);
+                }
                 et_text.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
             case "address":
                 strTitle = "编辑详细地址";
-                et_text.setText(KaKuApplication.dizhi_addr);
+                if ("new".equals(KaKuApplication.new_addr)) {
+                    et_text.setText("");
+                } else {
+                    et_text.setText(KaKuApplication.new_addrtext);
+                }
                 et_text.setInputType(InputType.TYPE_CLASS_TEXT);
                 break;
         }
@@ -58,7 +70,6 @@ public class TextActivity extends BaseActivity implements OnClickListener {
         left.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText(strTitle);
-
         btn_text = (Button) findViewById(R.id.btn_text);
         btn_text.setOnClickListener(this);
     }
@@ -73,6 +84,7 @@ public class TextActivity extends BaseActivity implements OnClickListener {
         if (R.id.tv_left == id) {
             finish();
         } else if (R.id.btn_text == id) {
+            KaKuApplication.new_addr = "modify";
             Save();
         }
     }
@@ -121,7 +133,6 @@ public class TextActivity extends BaseActivity implements OnClickListener {
                 }
                 break;
         }
-
 
         Intent intent = new Intent();
         intent.putExtra("string", inputText);

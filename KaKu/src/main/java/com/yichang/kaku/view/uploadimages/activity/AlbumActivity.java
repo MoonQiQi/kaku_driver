@@ -18,14 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.yichang.kaku.member.serviceorder.PingJiaOrderActivity;
+import com.yichang.kaku.R;
+import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.ad.PingJiaAdActivity;
+import com.yichang.kaku.home.shop.PingJiaOrderActivity;
 import com.yichang.kaku.view.uploadimages.adapter.AlbumGridViewAdapter;
 import com.yichang.kaku.view.uploadimages.util.AlbumHelper;
 import com.yichang.kaku.view.uploadimages.util.Bimp;
 import com.yichang.kaku.view.uploadimages.util.ImageBucket;
 import com.yichang.kaku.view.uploadimages.util.ImageItem;
 import com.yichang.kaku.view.uploadimages.util.PublicWay;
-import com.yichang.kaku.view.uploadimages.util.Res;
+import com.yichang.kaku.zhaohuo.QuanZiFaBuActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +64,16 @@ public class AlbumActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(Res.getLayoutID("plugin_camera_album"));
+        //setContentView(Res.getLayoutID("plugin_camera_album"));
+        setContentView(R.layout.plugin_camera_album);
         PublicWay.activityList.add(this);
 
         mContext = this;
         //注册一个广播，这个广播主要是用于在GalleryActivity进行预览时，防止当所有图片都删除完后，再回到该页面时被取消选中的图片仍处于选中状态
         IntentFilter filter = new IntentFilter("data.broadcast.action");
         registerReceiver(broadcastReceiver, filter);
-        bitmap = BitmapFactory.decodeResource(getResources(), Res.getDrawableID("plugin_camera_no_pictures"));
+        //bitmap = BitmapFactory.decodeResource(getResources(), Res.getDrawableID("plugin_camera_no_pictures"));
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.plugin_camera_no_pictures);
         init();
         initListener();
         //这个函数主要用来控制预览和完成按钮的状态
@@ -122,7 +127,7 @@ public class AlbumActivity extends Activity {
     private class CancelListener implements OnClickListener {
         public void onClick(View v) {
             Bimp.tempSelectBitmap.clear();
-            Bimp.max=0;
+            Bimp.max = 0;
           /*  intent.setClass(mContext, PingJiaOrderActivity.class);
             startActivity(intent);*/
             finish();
@@ -141,22 +146,23 @@ public class AlbumActivity extends Activity {
             dataList.addAll(contentList.get(i).imageList);
         }
 
-        back = (Button) findViewById(Res.getWidgetID("back"));
-        cancel = (Button) findViewById(Res.getWidgetID("cancel"));
+        back = (Button) findViewById(R.id.back);
+        cancel = (Button) findViewById(R.id.cancel);
         cancel.setOnClickListener(new CancelListener());
         back.setOnClickListener(new BackListener());
-        preview = (Button) findViewById(Res.getWidgetID("preview"));
+        preview = (Button) findViewById(R.id.preview);
         preview.setOnClickListener(new PreviewListener());
         intent = getIntent();
         Bundle bundle = intent.getExtras();
-        gridView = (GridView) findViewById(Res.getWidgetID("myGrid"));
+        gridView = (GridView) findViewById(R.id.myGrid);
         gridImageAdapter = new AlbumGridViewAdapter(this, dataList,
                 Bimp.tempSelectBitmap);
         gridView.setAdapter(gridImageAdapter);
-        tv = (TextView) findViewById(Res.getWidgetID("myText"));
+        tv = (TextView) findViewById(R.id.myText);
         gridView.setEmptyView(tv);
-        okButton = (Button) findViewById(Res.getWidgetID("ok_button"));
-        okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size()
+        okButton = (Button) findViewById(R.id.ok_button);
+        //okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size()
+        okButton.setText("完成" + "(" + Bimp.tempSelectBitmap.size()
                 + "/" + PublicWay.num + ")");
     }
 
@@ -172,20 +178,23 @@ public class AlbumActivity extends Activity {
                             toggleButton.setChecked(false);
                             chooseBt.setVisibility(View.GONE);
                             if (!removeOneData(dataList.get(position))) {
-                                Toast.makeText(AlbumActivity.this, Res.getString("only_choose_num"), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(AlbumActivity.this, Res.getString("only_choose_num"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AlbumActivity.this, R.string.only_choose_num, Toast.LENGTH_SHORT).show();
                             }
                             return;
                         }
                         if (isChecked) {
                             chooseBt.setVisibility(View.VISIBLE);
                             Bimp.tempSelectBitmap.add(dataList.get(position));
-                            okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size()
+                            //okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size()
+                            okButton.setText("完成" + "(" + Bimp.tempSelectBitmap.size()
                                     + "/" + PublicWay.num + ")");
                         } else {
                             Bimp.tempSelectBitmap.remove(dataList.get(position));
-                            Bimp.max-=1;
+                            Bimp.max -= 1;
                             chooseBt.setVisibility(View.GONE);
-                            okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+                            //okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+                            okButton.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
                         }
                         isShowOkBt();
                     }
@@ -198,8 +207,9 @@ public class AlbumActivity extends Activity {
     private boolean removeOneData(ImageItem imageItem) {
         if (Bimp.tempSelectBitmap.contains(imageItem)) {
             Bimp.tempSelectBitmap.remove(imageItem);
-            Bimp.max-=1;
-            okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+            Bimp.max -= 1;
+            //okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+            okButton.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
             return true;
         }
         return false;
@@ -207,7 +217,8 @@ public class AlbumActivity extends Activity {
 
     public void isShowOkBt() {
         if (Bimp.tempSelectBitmap.size() > 0) {
-            okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+            // okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+            okButton.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
             preview.setPressed(true);
             okButton.setPressed(true);
             preview.setClickable(true);
@@ -215,7 +226,8 @@ public class AlbumActivity extends Activity {
             okButton.setTextColor(Color.WHITE);
             preview.setTextColor(Color.WHITE);
         } else {
-            okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+            // okButton.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+            okButton.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
             preview.setPressed(false);
             preview.setClickable(false);
             okButton.setPressed(false);
@@ -226,12 +238,13 @@ public class AlbumActivity extends Activity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /*if (keyCode == KeyEvent.KEYCODE_BACK) {
-            intent.setClass(AlbumActivity.this, ImageFile.class);
-            startActivity(intent);
-        }*/
-        intent.setClass(mContext, PingJiaOrderActivity.class);
-        startActivity(intent);
+        if ("Ad".equals(KaKuApplication.PingJiaShopOrAd)) {
+            startActivity(new Intent(mContext, PingJiaAdActivity.class));
+        } else if ("Quanzi".equals(KaKuApplication.PingJiaShopOrAd)) {
+            startActivity(new Intent(mContext, QuanZiFaBuActivity.class));
+        } else {
+            startActivity(new Intent(mContext, PingJiaOrderActivity.class));
+        }
         return false;
 
     }
@@ -245,7 +258,7 @@ public class AlbumActivity extends Activity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(broadcastReceiver);
-        gridImageAdapter=null;
+        gridImageAdapter = null;
         PublicWay.activityList.remove(this);
         super.onDestroy();
     }

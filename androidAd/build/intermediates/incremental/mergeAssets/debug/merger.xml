@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="F:\studio_workpace\kaku_android\androidAd\src\main\assets"/></dataSet><dataSet config="debug"><source path="F:\studio_workpace\kaku_android\androidAd\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="F:\studio_workpace\kaku_qi\androidAd\src\main\assets"/></dataSet><dataSet config="debug"><source path="F:\studio_workpace\kaku_qi\androidAd\src\debug\assets"/></dataSet></merger>

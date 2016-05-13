@@ -16,7 +16,7 @@ import com.yichang.kaku.response.AddrMorenResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.List;
 
@@ -167,6 +167,11 @@ public class BankCardAdapter extends BaseAdapter {
                     }
                     LogUtil.showShortToast(mContext, t.msg);
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });

@@ -13,6 +13,7 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
+import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ShopMallProductCommentObj;
 import com.yichang.kaku.request.GetProductCommentListReq;
 import com.yichang.kaku.response.GetProductCommentListResp;
@@ -21,7 +22,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,6 @@ public class ProductCommentListActivity extends BaseActivity implements OnClickL
     private Button btn_refresh;
     private LinearLayout ll_container;
 
-    private String mId_goods;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -61,8 +60,6 @@ public class ProductCommentListActivity extends BaseActivity implements OnClickL
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("全部评价");
         xListView = (XListView) findViewById(R.id.lv_pingjia_list);
-
-        mId_goods=getIntent().getStringExtra("id_goods");
 
         initNoDataLayout();
         setPullState(false);
@@ -122,7 +119,7 @@ public class ProductCommentListActivity extends BaseActivity implements OnClickL
         showProgressDialog();
         GetProductCommentListReq req = new GetProductCommentListReq();
         req.code = "30024";
-        req.id_goods = mId_goods;
+        req.id_goods = KaKuApplication.id_goods;
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
         KaKuApiProvider.getProductCommentList(req, new KakuResponseListener<GetProductCommentListResp>(this, GetProductCommentListResp.class) {
@@ -143,6 +140,11 @@ public class ProductCommentListActivity extends BaseActivity implements OnClickL
                     onLoadStop();
                 }
                 stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });

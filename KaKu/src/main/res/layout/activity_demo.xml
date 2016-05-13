@@ -5,9 +5,6 @@
     android:background="@color/bg_color"
     android:orientation="vertical"
      >
-     
-    <include layout="@layout/activity_titlebar"
-         android:id="@+id/title_demo" />
-    
-     
+
+
 </LinearLayout>

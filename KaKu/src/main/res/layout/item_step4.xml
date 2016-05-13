@@ -2,47 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-     >
-
-    <RelativeLayout
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_item_xuanche3"
+        android:id="@+id/tv_item_chexi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:textSize="15sp"
-        android:layout_marginLeft="15dp"
+        android:padding="15dp"
         android:textColor="@color/black"
-        />
-
-    <TextView
-        android:id="@+id/tv_item_xuanche4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        />
-
-    <TextView
-        android:id="@+id/tv_item_xuanche5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        />
-
-    </RelativeLayout>
-
-    <View
-        style="@style/Line_h"/>
+        android:textSize="15sp" />
 
 </LinearLayout>

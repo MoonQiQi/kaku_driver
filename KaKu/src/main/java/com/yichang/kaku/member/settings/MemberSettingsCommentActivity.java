@@ -1,20 +1,15 @@
 package com.yichang.kaku.member.settings;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +22,7 @@ import com.yichang.kaku.response.SubmitSuggestionResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class MemberSettingsCommentActivity extends BaseActivity implements OnClickListener {
     //    titleBar
@@ -163,7 +158,7 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
                     if (Constants.RES.equals(t.res)) {
                         strComment = "";
                         if (!TextUtils.isEmpty(t.point_get)) {
-                            showPopWindow(t.point_get);
+                            //showPopWindow(t.point_get);
                         } else {
                             startActivity(new Intent(MemberSettingsCommentActivity.this, CommentListActivity.class));
                             finish();
@@ -174,10 +169,16 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
-    private void showPopWindow(String point) {
+    /*private void showPopWindow(String point) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View vPopWindow = inflater.inflate(R.layout.popwindow_daily_sign, null, false);
@@ -186,8 +187,8 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
         ImageView iv_close = (ImageView) vPopWindow.findViewById(R.id.btn_popwindow_close);
         TextView tv_point = (TextView) vPopWindow.findViewById(R.id.tv_popwindw_point);
         tv_point.setText("+" + point + "积分");
-        /*TextView tv_content = (TextView) vPopWindow.findViewById(R.id.tv_popwindw_content);
-        tv_content.setText(content);*/
+        *//*TextView tv_content = (TextView) vPopWindow.findViewById(R.id.tv_popwindw_content);
+        tv_content.setText(content);*//*
         iv_close.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,7 +199,7 @@ public class MemberSettingsCommentActivity extends BaseActivity implements OnCli
         });
 
         popWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

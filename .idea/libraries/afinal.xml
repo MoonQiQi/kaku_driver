@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="afinal">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/androidAd/libs/afinal.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

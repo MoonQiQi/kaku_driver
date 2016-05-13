@@ -9,13 +9,102 @@
         android:id="@+id/title_chetielist"
         layout="@layout/activity_titlebar" />
 
+    <LinearLayout
+        android:id="@+id/line_chetie_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:id="@+id/rela_chetie_state1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_chetie_state1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="进行中"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/dotted_line_vertical" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_chetie_state2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_chetie_state2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="预约中"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/dotted_line_vertical" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_chetie_state3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_chetie_state3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="已完成"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_chetieview"
+        style="@style/Line_h"
+        android:visibility="gone" />
+
 
     <ListView
         android:id="@+id/lv_chetielist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:scrollbars="none"
-        android:dividerHeight="15dp"></ListView>
+        android:dividerHeight="15dp"
+        android:scrollbars="none" />
+
 
 </LinearLayout>

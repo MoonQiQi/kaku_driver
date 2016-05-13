@@ -3,133 +3,145 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:orientation="vertical"
-    ><!-- android:background="@drawable/topbar_bg" -->
+    android:orientation="vertical">
 
     <include
         android:id="@+id/titlebar_mycar"
         layout="@layout/activity_titlebar" />
-    <!--<View
-        style="@style/Line_h" android:id="@+id/view"
-        android:layout_below="@+id/titlebar_mycar"
-        android:layout_marginTop="@dimen/x30" />-->
-    <LinearLayout
-        android:id="@+id/ll_warning"
-        android:layout_below="@+id/titlebar_mycar"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#99000000"
-        android:layout_centerVertical="true"
-        android:gravity="center"
+        android:layout_height="match_parent">
 
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:visibility="gone"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bg_warning"
-            android:layout_marginLeft="15dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="您最多添加五辆车，如想再添加车辆，请先删除"
-            android:textColor="@color/white"
-
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-
-        android:layout_below="@+id/titlebar_mycar"
-
-        android:orientation="vertical">
-        <!--<View style="@style/Line_h" />-->
-        <ScrollView
-            android:id="@+id/sv_top"
+        <LinearLayout
+            android:id="@+id/line_mycar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:background="@color/bg_color"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <View
-                    style="@style/Line_h" android:background="@color/bg_color" android:layout_marginTop="15dp"/>
+                android:layout_height="wrap_content">
 
-                <!--<RelativeLayout
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >-->
+                    android:layout_height="200dp" />
 
-                <ListView
-                    android:id="@+id/lv_mycar"
+                <LinearLayout
+                    android:id="@+id/line_mycar_brand"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:dividerHeight="15dp"
-                    android:divider="#f6f6f6"></ListView>
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="160dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/iv_mycar_line1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/iv_mycar_line2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone" />
 
-        </ScrollView>
+                    <ImageView
+                        android:id="@+id/iv_mycar_line3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone" />
 
+                    <ImageView
+                        android:id="@+id/iv_mycar_line4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone" />
 
-        <include
-            android:id="@+id/layout_data_none"
-            layout="@layout/layout_data_none"
-            android:visibility="visible" />
+                    <ImageView
+                        android:id="@+id/iv_mycar_line5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone" />
 
-        <include
-            android:id="@+id/layout_net_none"
-            layout="@layout/layout_net_none"
-            android:visibility="gone" />
-        <!--   <ImageView
-                        android:id="@+id/iv_mycar_nomycar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/nomycar"
-                        android:visibility="gone"
-                        android:layout_centerInParent="true"/>
+                </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_addcar2"
+            </RelativeLayout>
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rela_mycar_zuobaoyang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/iv_mycar_nomycar"
-                android:background="@drawable/btn_green"
-                android:text="添加爱车"
-                android:visibility="gone"
-                android:textColor="@color/white" />-->
-    </LinearLayout>
+                android:background="@color/white"
+                android:padding="10dp">
 
-    <Button
-        android:id="@+id/btn_addcar"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+                <ImageView
+                    android:id="@+id/iv_mycar_zuobaoyang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/aichezuobaoyang" />
 
-        android:background="@drawable/bg_btn_red"
-        android:alpha="0.8"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:text="添加爱车"
-        android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:id="@+id/rela_mycar_tiechetie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_mycar_tiechetie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="5dp"
+                    android:padding="10dp"
+                    android:src="@drawable/aichetiechetie" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_mycar_meiyouaiche"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/meiyouaiche"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_mycar_add"
+            style="@style/Btn_Red"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:text="添加爱车" />
+
+    </RelativeLayout>
+
 </LinearLayout>

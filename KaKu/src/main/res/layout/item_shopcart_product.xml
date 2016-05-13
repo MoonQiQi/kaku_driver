@@ -6,24 +6,16 @@
     android:paddingBottom="15dp"
     android:paddingTop="15dp">
 
-<!--    <ImageView
-        android:id="@+id/iv_shopcart_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/shopcart_unselceted_normal" />-->
     <CheckBox
         android:id="@+id/cbx_shopcart_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:focusable="false"
-        android:clickable="false"
-        android:checked="true"
         android:layout_marginLeft="15dp"
         android:button="@drawable/selector_shopcart_cbx"
-        />
+        android:checked="true"
+        android:clickable="false"
+        android:focusable="false" />
 
     <ImageView
         android:id="@+id/iv_shopcart_product"
@@ -40,19 +32,18 @@
         android:id="@+id/rela_shopcart_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_shopmall_desc"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/tv_shopmall_desc">
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/tv_shopcart_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
             android:layout_marginRight="15dp"
-            android:textSize="15sp"
             android:maxLines="2"
-            android:text="1111111111111111111111111111111111111111111111111" />
+            android:textColor="#000000"
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -77,54 +68,21 @@
                 android:text="459.00"
                 android:textColor="#D20000"
                 android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/tv_shopcart_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X6"
-                android:textSize="16sp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
-                />
-
-           <!-- <RelativeLayout
-                android:layout_toRightOf="@+id/tv_shopcart_price"
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_shopcart_jianhao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:src="@drawable/jianhao"/>
-
-                <TextView
-                    android:id="@+id/tv_shopcart_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/blank"
-                    android:layout_toRightOf="@id/iv_shopcart_jianhao"
-                    android:background="@drawable/kuangk"
-                    android:gravity="center"
-                    android:text="0"/>
-
-                <ImageView
-                    android:id="@+id/iv_shopcart_jiahao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_toRightOf="@+id/tv_shopcart_num"
-                    android:src="@drawable/jia"/>
-
-            </RelativeLayout>-->
+                android:textColor="@color/black"
+                android:text="X6"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
-
     </RelativeLayout>
-    <View style="@style/Line_h"/>
+
+    <View style="@style/Line_h" />
 
 </LinearLayout>

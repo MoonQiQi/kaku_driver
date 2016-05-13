@@ -14,18 +14,15 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.home.Ad.QiangImageActivity;
+import com.yichang.kaku.home.ad.QiangImageActivity;
 import com.yichang.kaku.request.CheckCodeReq;
 import com.yichang.kaku.response.CheckCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
-/**
- * Created by xiaosu on 2015/12/3.
- */
 public class InputYaoCodeWindow extends PopupWindow {
 
     private BaseActivity context;
@@ -38,7 +35,7 @@ public class InputYaoCodeWindow extends PopupWindow {
         super(context);
         this.context = context;
 
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#77000000")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C6000000")));
         setOutsideTouchable(false);
         setFocusable(true);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -106,6 +103,11 @@ public class InputYaoCodeWindow extends PopupWindow {
                         mListener.stopDialog();
                     }
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });

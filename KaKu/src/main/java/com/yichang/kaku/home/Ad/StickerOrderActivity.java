@@ -1,7 +1,5 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,8 +22,7 @@ import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.member.address.AddrActivity;
 import com.yichang.kaku.member.cash.SetWithDrawCodeActivity;
-import com.yichang.kaku.obj.Addr2Obj;
-import com.yichang.kaku.payhelper.alipay.AlipayCallBackActivity;
+import com.yichang.kaku.payhelper.alipay.PaySuccessActivity;
 import com.yichang.kaku.request.GenerateStickerOrderReq;
 import com.yichang.kaku.request.GetCheTieDetailReq;
 import com.yichang.kaku.response.GenerateStickerOrderResp;
@@ -35,7 +32,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.popwindow.InputPwdPopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.text.DecimalFormat;
 
@@ -54,11 +51,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     //实付款  //付款按钮
     private TextView tv_bottombar_pricebill, tv_bottombar_pay;
 
-    /*收货地址字段*/
-    private String addr, phone_addr, name_addr;
-    //判断是否在修改地址
-    private boolean isSelectAddr = false;
-
 
     //商品总价，优惠价格，使用余额，实付款
     private TextView tv_order_totalprice, tv_preferential_price, tv_balance_price, tv_order_realpay;
@@ -74,7 +66,7 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     //产品标题、价格
     private TextView tv_sticker_title;
     private TextView tv_sticker_price;
-    private TextView tv_sticker_num;
+    private TextView tv_sticker_num, tv_addr_area;
     //购买数量
     private LinearLayout ll_product_num;
 
@@ -87,7 +79,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     //是否勾选了余额支付
     private boolean isBalanceChecked = false;
     //是否设置过支付密码
-    private boolean hasSetPwd = true;
     //是否可以购买多个
     private Boolean isMulti = false;
 
@@ -104,7 +95,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
     private Bundle bundle;
 
-    private Addr2Obj mAddr;
     private String mName_advert;
     private String mImage_advert;
     private String mId_advert;
@@ -116,6 +106,7 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_order);
+        init();
     }
 
     private void init() {
@@ -136,8 +127,8 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
         tv_preferential_price = (TextView) findViewById(R.id.tv_preferential_price);
         tv_balance_price = (TextView) findViewById(R.id.tv_balance_price);
         tv_order_realpay = (TextView) findViewById(R.id.tv_order_realpay);
-
-
+        KaKuApplication.IsOrderSetPass = false;
+        KaKuApplication.success_type = "chetie";
         //获取订单数据
         GetCheTieDetail();
     }
@@ -192,14 +183,9 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     private void changePriceView() {
         fPriceTotal = fPriceProduct * productNum;
         tv_order_totalprice.setText("￥" + getFomatFloatString(fPriceTotal));
-
         tv_preferential_price.setText("-￥" + getFomatFloatString(fPriceDeduction));
-
-
         tv_balance_price.setText("-￥" + getFomatFloatString(getfBalanceDeduction()));
-
         fPriceRealPay = fPriceTotal - fPriceDeduction - fBalanceDeduction;
-
         tv_bottombar_pricebill.setText("实付款:￥" + getFomatFloatString(fPriceRealPay));
         tv_order_realpay.setText("￥" + getFomatFloatString(fPriceRealPay));
 
@@ -207,7 +193,7 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
     private Float getfBalanceDeduction() {
 
-        if (isBalanceChecked) {
+        if (cbx_balance_toggle.isChecked()) {
 
             if (fMoneyBalance + fPriceDeduction - fPriceTotal >= 0) {
                 fBalanceDeduction = fPriceTotal - fPriceDeduction;
@@ -225,55 +211,51 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
     private void initTitleBar() {
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
-
         title = (TextView) findViewById(R.id.tv_mid);
         title.setText("确认订单");
     }
 
     private void getOrderInfo() {
 
-
         fMoneyBalance = Float.parseFloat(KaKuApplication.money_balance_qiang);
         isMulti = "N".equals(KaKuApplication.flag_one_qiang) ? true : false;
-        hasSetPwd = "N".equals(KaKuApplication.flag_pay_qiang) ? true : false;
+        KaKuApplication.flag_balance = "N".equals(KaKuApplication.flag_pay_qiang) ? true : false;
         fPriceProduct = Float.parseFloat(KaKuApplication.price_advert_qiang);
         fPriceDeduction = Float.parseFloat(KaKuApplication.breaks_money_qiang);
         mName_advert = KaKuApplication.name_advert_qiang;
         mImage_advert = KaKuApplication.image_advert_qiang;
         mId_advert = KaKuApplication.id_advert_qiang;
-        mAddr = KaKuApplication.addr_qiang;
-
-
-        addr = mAddr.getAddr();
-        name_addr = mAddr.getName_addr();
-        phone_addr = mAddr.getPhone_addr();
 
         tv_balance_available.setText("￥" + getFomatFloatString(fMoneyBalance));
         setViews();
         changePriceView();
+        setAddress();
     }
 
     private void setViews() {
         tv_sticker_title.setText(mName_advert);
-//        iv_sticker_product
         BitmapUtil.download(iv_sticker_product, KaKuApplication.qian_zhui + mImage_advert);
         tv_sticker_price.setText(getFomatFloatString(fPriceProduct));
 
-        setAddress();
     }
 
 
     private void setAddress() {
 
-        if (TextUtils.isEmpty(name_addr)) {
-            ll_address.setVisibility(View.INVISIBLE);
-            tv_notify.setVisibility(View.VISIBLE);
-        } else {
-            ll_address.setVisibility(View.VISIBLE);
-            tv_notify.setVisibility(View.INVISIBLE);
-            tv_address_name.setText(name_addr);
-            tv_address_phone.setText(phone_addr);
-            tv_address_address.setText(addr);
+        if (KaKuApplication.AddrObj != null) {
+
+            if (TextUtils.isEmpty(KaKuApplication.AddrObj.getName_addr())) {
+                ll_address.setVisibility(View.INVISIBLE);
+                tv_notify.setVisibility(View.VISIBLE);
+            } else {
+                ll_address.setVisibility(View.VISIBLE);
+                tv_notify.setVisibility(View.INVISIBLE);
+                tv_address_name.setText(KaKuApplication.AddrObj.getName_addr());
+                tv_address_phone.setText(KaKuApplication.AddrObj.getPhone_addr());
+                tv_address_address.setText(KaKuApplication.AddrObj.getAddr());
+                tv_addr_area.setText(KaKuApplication.AddrObj.getRemark_area());
+            }
+
         }
     }
 
@@ -283,6 +265,7 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
         tv_address_name = (TextView) findViewById(R.id.tv_address_name);
         tv_address_phone = (TextView) findViewById(R.id.tv_address_phone);
         tv_address_address = (TextView) findViewById(R.id.tv_address_address);
+        tv_addr_area = (TextView) findViewById(R.id.tv_addr_area);
 
         tv_notify = (TextView) findViewById(R.id.tv_notify);
         ll_address = (LinearLayout) findViewById(R.id.ll_address);
@@ -298,36 +281,30 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
 
     private void initBalancePrice() {
         tv_balance_available = (TextView) findViewById(R.id.tv_balance_available);
-
-
         cbx_balance_toggle = (CheckBox) findViewById(R.id.cbx_balance_toggle);
-
         cbx_balance_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (!hasSetPwd) {
-                    //todo 弹出对话框
-                    showSetPwdDialog();
-
-                } else {
-                    isBalanceChecked = cbx_balance_toggle.isChecked();
-
-                    if (isBalanceChecked) {
-                        tv_balance_available.setTextColor(Color.parseColor("#d10000"));
-                        changePriceView();
-                    } else {
-                        tv_balance_available.setTextColor(Color.parseColor("#999999"));
-                        changePriceView();
-
+                if (isChecked) {
+                    if (!KaKuApplication.flag_balance) {
+                        //todo 弹出对话框
+                        Intent intent = new Intent(StickerOrderActivity.this, SetWithDrawCodeActivity.class);
+                        intent.putExtra("isPassExist", false);
+                        intent.putExtra("flag_next_activity", "NONE");
+                        startActivity(intent);
+                        LogUtil.showShortToast(context, "为了您的资金安全，请先设置支付密码");
                     }
-
+                    isBalanceChecked = true;
+                    tv_balance_available.setTextColor(Color.parseColor("#d10000"));
+                    changePriceView();
+                } else {
+                    isBalanceChecked = false;
+                    tv_balance_available.setTextColor(Color.parseColor("#999999"));
+                    changePriceView();
                 }
-
             }
         });
-
-
     }
 
     private String getFomatFloatString(Float fMoney) {
@@ -337,46 +314,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
         return decimalFormat.format(fMoney);//format 返回的是字符串
 
     }
-
-    private void showSetPwdDialog() {
-
-        if (!isCancleSetPwd) {
-            //弹出密码设置对话框
-            AlertDialog.Builder builder = new AlertDialog.Builder(StickerOrderActivity.this);
-            builder.setCustomTitle(null);
-            builder.setMessage("为了您的资金安全，请先设置支付密码");
-            builder.setNegativeButton("去设置", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-                    Intent intent = new Intent(StickerOrderActivity.this, SetWithDrawCodeActivity.class);
-
-                    intent.putExtra("isPassExist", false);
-                    intent.putExtra("flag_next_activity", "NONE");
-                    startActivity(intent);
-                    dialog.dismiss();
-                }
-            });
-
-            builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-                    isCancleSetPwd = true;
-                    cbx_balance_toggle.setChecked(false);
-                    isCancleSetPwd = false;
-                    dialog.dismiss();
-                }
-            });
-            if (!isFinishing()) {
-
-                builder.create().show();
-            }
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -398,11 +335,9 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
                 generateOrderId();
             }
         } else if (R.id.rela_address_change == id) {
-//            修改收货人地址信息
-            isSelectAddr = true;
+            KaKuApplication.IsOrderToAddr = true;
             Intent intent = new Intent(this, AddrActivity.class);
-            intent.putExtra("flag", true);
-            startActivityForResult(intent, 120);
+            startActivity(intent);
         }
     }
 
@@ -423,7 +358,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
                             isPwdPopWindowShow = false;
                             generateOrderId();
                         }
-
                     }
 
                     @Override
@@ -444,16 +378,6 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
         }, 200);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 121) {
-            tv_address_name.setText(data.getStringExtra("name"));
-            tv_address_phone.setText(data.getStringExtra("phone"));
-            tv_address_address.setText(data.getStringExtra("addr"));
-        }
-    }
-
     private void generateOrderId() {
 
         if (TextUtils.isEmpty(tv_address_address.getText().toString().trim()) || TextUtils.isEmpty(tv_address_name.getText().toString().trim()) || TextUtils.isEmpty(tv_address_phone.getText().toString().trim())) {
@@ -467,14 +391,16 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
         req.code = "60034";
         req.id_driver = Utils.getIdDriver();
         req.id_advert = mId_advert;
+        req.flag_type = KaKuApplication.flag_dory;
         req.price_advert = getFomatFloatString(fPriceTotal);
-        req.money_balance = getFomatFloatString(fBalanceDeduction);
+        req.price_balance = getFomatFloatString(fBalanceDeduction);
         req.price_bill = getFomatFloatString(fPriceRealPay);
         req.breaks_money = getFomatFloatString(fPriceDeduction);
         req.name_addr = tv_address_name.getText().toString();
         req.phone_addr = tv_address_phone.getText().toString();
-        req.addr = tv_address_address.getText().toString();
+        req.addr = tv_addr_area.getText().toString().trim() + tv_address_address.getText().toString().trim();
         req.num_advert = String.valueOf(productNum);
+        req.sign = Utils.getHmacMd5Str(getFomatFloatString(fBalanceDeduction));
 
         KaKuApiProvider.generateStickOrder(req, new KakuResponseListener<GenerateStickerOrderResp>(this, GenerateStickerOrderResp.class) {
             @Override
@@ -488,24 +414,24 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
                         if (fPriceTotal - fPriceDeduction == 0) {
                             KaKuApplication.payType = "STICKER";
                             KaKuApplication.realPayment = "0.00";
-                            Intent intent = new Intent(context, AlipayCallBackActivity.class);
+                            Intent intent = new Intent(context, PaySuccessActivity.class);
                             startActivity(intent);
+                            finish();
                             return;
                         }
 
                         if (fPriceRealPay == 0f) {
-                            //变更订单类型为truck
                             KaKuApplication.payType = "STICKER";
                             KaKuApplication.realPayment = "0.00";
-                            Intent intent = new Intent(context, AlipayCallBackActivity.class);
+                            Intent intent = new Intent(context, PaySuccessActivity.class);
                             startActivity(intent);
-
+                            finish();
                         } else if (fPriceRealPay > 0f) {
-
                             Intent intent = new Intent(context, OrderCheTiePayActivity.class);
                             intent.putExtra("no_bill", t.no_bill);
                             intent.putExtra("price_bill", getFomatFloatString(fPriceRealPay));
                             startActivity(intent);
+                            finish();
                         }
                     } else {
                         LogUtil.showShortToast(context, t.msg);
@@ -513,56 +439,34 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
                 }
                 stopProgressDialog();
             }
-        });
-    }
 
-    @Override
-    protected void onStop() {
-        if (isSelectAddr) {
+            @Override
+            public void onFailed(int i, Response response) {
 
-            isSelectAddr = !isSelectAddr;
-        } else {
-            stopProgressDialog();
-            /*todo */
-            if (!isPwdPopWindowShow) {
-                //如果支付密码验证框关闭则关闭当前页面，否则不finish
-                //finish();
             }
-        }
-        super.onStop();
+
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        init();
-
-        //判断新建地址之后，将新建地址赋值给地址栏
-        if (KaKuApplication.flag_addr.equals("Y")) {
-            ll_address.setVisibility(View.VISIBLE);
-            tv_notify.setVisibility(View.INVISIBLE);
-
-            if (!TextUtils.isEmpty(KaKuApplication.name_addr)) {
-                tv_address_name.setText(KaKuApplication.name_addr);
-            }
-            if (!TextUtils.isEmpty(KaKuApplication.phone_addr)) {
-                tv_address_phone.setText(KaKuApplication.phone_addr);
-            }
-            if (!TextUtils.isEmpty(KaKuApplication.dizhi_addr)) {
-                tv_address_address.setText(KaKuApplication.dizhi_addr);
-            }
-            KaKuApplication.flag_addr = "";
+        if (KaKuApplication.flag_balance && KaKuApplication.IsOrderSetPass) {
+            cbx_balance_toggle.setChecked(true);
+        } else {
+            cbx_balance_toggle.setChecked(false);
         }
-
+        setAddress();
     }
 
-    public void GetCheTieDetail(){
+    public void GetCheTieDetail() {
         showProgressDialog();
         GetCheTieDetailReq req = new GetCheTieDetailReq();
         req.code = "60032";
         req.id_driver = Utils.getIdDriver();
         req.id_advert = KaKuApplication.id_advert;
-        KaKuApiProvider.getCheTieDetail(req, new KakuResponseListener<GetCheTieDetailResp>(this,GetCheTieDetailResp.class) {
+        req.flag_type = KaKuApplication.flag_dory;
+        KaKuApiProvider.getCheTieDetail(req, new KakuResponseListener<GetCheTieDetailResp>(this, GetCheTieDetailResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
@@ -578,14 +482,20 @@ public class StickerOrderActivity extends BaseActivity implements OnClickListene
                         KaKuApplication.money_balance_qiang = t.money_balance;
                         KaKuApplication.price_advert_qiang = t.advert.price_advert;
                         KaKuApplication.name_advert_qiang = t.advert.name_advert;
-                        KaKuApplication.addr_qiang = t.addr;
+                        KaKuApplication.AddrObj = t.addr;
                         getOrderInfo();
-                    }  else {
+                    } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/F:/studio_workpace/kaku_android/androidAd/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/F:/studio_workpace/kaku_qi/androidAd/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

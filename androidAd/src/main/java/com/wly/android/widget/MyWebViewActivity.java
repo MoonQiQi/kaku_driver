@@ -2,7 +2,6 @@ package com.wly.android.widget;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
@@ -10,8 +9,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-
-import de.greenrobot.event.EventBus;
 
 public class MyWebViewActivity extends Activity implements OnClickListener {
 
@@ -27,6 +24,7 @@ public class MyWebViewActivity extends Activity implements OnClickListener {
 
     private void init() {
         // TODO Auto-generated method stub
+
         left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_mid);
@@ -47,20 +45,10 @@ public class MyWebViewActivity extends Activity implements OnClickListener {
             }
         });
         String url = getIntent().getStringExtra("url");
-        Log.e("KaKu", url);
 
-        wv.addJavascriptInterface(this, "someThing");
+        wv.addJavascriptInterface(this, "androidObj");
 
         wv.loadUrl(url);
-    }
-
-    @android.webkit.JavascriptInterface
-    public void skipActivity(String some) {
-        EventBus.getDefault().post(new ToMall());
-    }
-
-    public static class ToMall {
-
     }
 
     @Override

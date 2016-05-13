@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.List;
 
@@ -57,6 +57,11 @@ public class ImageHistoryAdapter extends BaseAdapter {
         return position;
     }
 
+    public int dip2px(float dipValue) {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -69,6 +74,7 @@ public class ImageHistoryAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_tupianlishi, null);
             holder.iv_imagehis_image1 = (SimpleDraweeView) convertView.findViewById(R.id.iv_imagehis_image1);
+            holder.iv_imagehis_image2 = (SimpleDraweeView) convertView.findViewById(R.id.iv_imagehis_image2);
             holder.tv_imagehis_time = (TextView) convertView.findViewById(R.id.tv_imagehis_time);
             holder.tv_imagehis_name = (TextView) convertView.findViewById(R.id.tv_imagehis_name);
             holder.tv_imagehis_reason = (TextView) convertView.findViewById(R.id.tv_imagehis_reason);
@@ -114,8 +120,9 @@ public class ImageHistoryAdapter extends BaseAdapter {
 
         holder.tv_imagehis_time.setText(obj.getUpload_time());
         holder.tv_imagehis_reason.setText("审核失败：" + obj.getApprove_opinions());
-
         holder.iv_imagehis_image1.setImageURI(Uri.parse(KaKuApplication.qian_zhuikong + obj.getImage0_advert()));
+        holder.iv_imagehis_image2.setImageURI(Uri.parse(KaKuApplication.qian_zhuikong + obj.getImage1_advert()));
+
         holder.iv_imagehis_chongxin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +144,7 @@ public class ImageHistoryAdapter extends BaseAdapter {
         ImageView iv_imagehis_dian;
         ImageView iv_imagehis_chongxin;
         SimpleDraweeView iv_imagehis_image1;
+        SimpleDraweeView iv_imagehis_image2;
         TextView tv_imagehis_time;
         TextView tv_imagehis_name;
         TextView tv_imagehis_reason;
@@ -163,6 +171,12 @@ public class ImageHistoryAdapter extends BaseAdapter {
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
     }

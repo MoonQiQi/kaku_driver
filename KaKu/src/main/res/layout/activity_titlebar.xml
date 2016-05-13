@@ -46,4 +46,5 @@
     android:layout_height="0.5dp"
     android:layout_alignParentBottom="true"
     android:background="@drawable/dotted_line_horizontal" />
+
 </RelativeLayout>

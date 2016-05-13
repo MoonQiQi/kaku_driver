@@ -6,10 +6,12 @@ import java.io.Serializable;
 import java.util.List;
 
 public class YueResp extends BaseResp implements Serializable {
-	public List<YueObj> moneys;
+    public List<YueObj> moneys;
     public String money_income;
+    public String money_income_brand;
     public String money_deposit;
     public String money_balance;
+    public String money_balance_brand;
     public String pass_exist;
 
 }

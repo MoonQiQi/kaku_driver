@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yichang.kaku"
     android:versionCode="1"
-    android:versionName="1.5.0" >
+    android:versionName="4.0.1" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="22" />
 
     <!-- Required  一些系统要求的权限，如访问网络等 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,6 +35,10 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission-sdk-23 android:name="android.permission.NFC" />
 
     <!-- shareSDK -->
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -43,10 +48,34 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="com.yichang.kaku.permission.JPUSH_MESSAGE" />
+    // SDK 权限申明, 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名
+    // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。
+    <permission
+        android:name="com.yichang.kaku.permission.RECEIVE_MSG"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="com.yichang.kaku.permission.INCOMING_CALL"
+        android:protectionLevel="signature" />
+    // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名
+    <uses-permission android:name="com.yichang.kaku.permission.RECEIVE_MSG" />
+    // 如果没有VOIP功能可以忽略
+    <uses-permission android:name="com.yichang.kaku.permission.INCOMING_CALL" />
+    // 以上为v5.1.9r 版本增加
+
+    // 允许应用程序修改全局声音设置的权限
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <permission
         android:name="com.yichang.kaku.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
     <application
         android:name="com.yichang.kaku.global.KaKuApplication"
@@ -71,11 +100,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.illegal.IllegalQueryActivity"
+            android:name="com.yichang.kaku.home.weizhang.IllegalQueryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ChooseCityActivity"
+            android:name="com.yichang.kaku.home.join.ChooseCityActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -129,18 +158,19 @@
         <activity
             android:name="com.yichang.kaku.member.login.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.yichang.kaku.home.ChooseTimeActivity"
+            android:name="com.yichang.kaku.home.join.ChooseTimeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.FindShopLocationActivity"
+            android:name="com.yichang.kaku.home.join.FindShopLocationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <!-- 违章查询结果 -->
         <activity
-            android:name="com.yichang.kaku.home.illegal.IllegalQueryResultActivity"
+            android:name="com.yichang.kaku.home.weizhang.IllegalQueryResultActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -156,131 +186,130 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.yichang.kaku.home.MoreActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.YouHuiQuanLingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.yichang.kaku.home.mycar.PinPaiXuanZeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ChooseCarActivity"
+            android:name="com.yichang.kaku.home.sousuo.SouSuoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.mycar.CarListActivity"
+            android:name="com.yichang.kaku.home.ad.Add_NActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.mycar.OkCarActivity"
+            android:name="com.yichang.kaku.home.ad.Add_YActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.SouSuoActivity"
+            android:name="com.yichang.kaku.home.ad.Add_EActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.Add_NActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.home.Ad.Add_YActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.home.Ad.Add_EActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.home.Ad.AdImageActivity"
+            android:name="com.yichang.kaku.home.ad.AdImageActivity"
             android:hardwareAccelerated="false"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.ImageHistoryActivity"
+            android:name="com.yichang.kaku.home.ad.ImageHistoryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.Add_IActivity"
+            android:name="com.yichang.kaku.home.ad.Add_IActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.Add_FActivity"
+            android:name="com.yichang.kaku.home.ad.TaskExplainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.Add_PActivity"
+            android:name="com.yichang.kaku.home.ad.Add_FActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.TitleActivity"
+            android:name="com.yichang.kaku.home.ad.Add_PActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.PinPaiFuWuZhanActivity"
+            android:name="com.yichang.kaku.home.ad.ZongJieYiJieShuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.ReImageActivity"
-            android:hardwareAccelerated="false"
+            android:name="com.yichang.kaku.home.ad.CalendarActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.SiJiZhaoMuActivity"
+            android:name="com.yichang.kaku.home.ad.ZongJieJinXingZhongActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.ZongJieYuYueZhongActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.CheTieDaiLiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.PingJiaAdActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.AdPingJiaListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.dingwei.TitleActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.shop.PinPaiFuWuZhanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.SiJiZhaoMuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.yichang.kaku.home.FWZMapActivity"
+            android:name="com.yichang.kaku.home.shop.FWZMapActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ShopDetailActivity"
+            android:name="com.yichang.kaku.guangbo.GuangBoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ShopDetailWebActivity"
+            android:name="com.yichang.kaku.home.shop.ShopDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ShopOrderActivity"
+            android:name="com.yichang.kaku.home.shop.ShopDetailWebActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.member.serviceorder.ServiceOrderListActivity"
+            android:name="com.yichang.kaku.home.shop.ShopOrderActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangOrderListActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailAActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailBActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailCActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailDActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailEActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailFActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailGActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.OrderDetailZActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.yichang.kaku.home.giftmall.ShopCartActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.member.QRCodeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -289,10 +318,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yichang.kaku.home.giftmall.ConfirmOrderActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.serviceorder.FanXiuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -305,18 +330,80 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.FaPiaoActivity"
+            android:name="com.yichang.kaku.home.nouse.FaPiaoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yichang.kaku.home.giftmall.ShopMallActivity"
             android:label="@string/title_activity_shop_mall" />
         <activity
-            android:name="com.yichang.kaku.home.AddOilActivity"
+            android:name="com.yichang.kaku.home.baoyang.OilPingJiaActivity"
+            android:label="@string/title_activity_shop_mall" />
+        <activity
+            android:name="com.yichang.kaku.global.ClientSDKActivity"
+            android:label="@string/title_activity_shop_mall" />
+        <activity
+            android:name="com.yichang.kaku.home.nouse.AddOilActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.TimeActivity"
+            android:name="com.yichang.kaku.home.baoyang.BaoYangListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.call.CallIntroActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangOrderActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.XianXiaPayActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.member.CangKuActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.member.CangKu2Activity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangHuoDongActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.ImageFanKuiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangOrderDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.OrderBaoYangPayActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.guangbo.BoFangQiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.zero.ZeroActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.zero.ZeroingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.nouse.TimeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -340,19 +427,19 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name="com.yichang.kaku.logistics.province.ProvinceActivity"
+            android:name="com.yichang.kaku.zhaohuo.province.ProvinceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.province.CityActivity"
+            android:name="com.yichang.kaku.zhaohuo.province.CityActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.province.CountyActivity"
+            android:name="com.yichang.kaku.zhaohuo.province.CountyActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.MyHuoActivity"
+            android:name="com.yichang.kaku.zhaohuo.MyHuoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -372,40 +459,73 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.MyCheYuanActivity"
+            android:name="com.yichang.kaku.zhaohuo.MyCheYuanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.HuoYuanDetailActivity"
+            android:name="com.yichang.kaku.zhaohuo.HuoYuanDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.FaBuCheYuanActivity"
+            android:name="com.yichang.kaku.home.qiandao.GongZhongHaoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.FaBuTimeActivity"
+            android:name="com.yichang.kaku.zhaohuo.FaBuCheYuanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.LianXiJiLuActivity"
+            android:name="com.yichang.kaku.zhaohuo.FaBuTimeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.PingJiaHuoDanActivity"
+            android:name="com.yichang.kaku.zhaohuo.LianXiJiLuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.logistics.MyLoveCarActivity"
+            android:name="com.yichang.kaku.zhaohuo.PingJiaHuoDanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.call.CallMoreActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.zhaohuo.MyLoveCarActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.member.WoDeYouHuiQuanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.call.CallingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <!-- VoIP 呼叫界面 -->
+        <activity
+            android:name="com.yichang.kaku.home.call.VoIPCallActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="con.yuntongxun.ecdemo.intent.ACTION_VOICE_CALL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.yichang.kaku.member.driver.ModifyNameActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name="com.yichang.kaku.member.QRCodeActivity"
+            android:name="com.yichang.kaku.member.KeFuHelpActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.AdTempActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -415,10 +535,6 @@
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name="com.yichang.kaku.member.CartCertificationActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yichang.kaku.member.MemberCouponsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -439,33 +555,33 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.YouHuiQuanActivity"
+            android:name="com.yichang.kaku.member.YouHuiQuanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.member.serviceorder.PingJiaOrderActivity"
+            android:name="com.yichang.kaku.home.shop.PingJiaOrderActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.yichang.kaku.home.DaoHangActivity"
+            android:name="com.yichang.kaku.home.dingwei.DaoHangActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.BNDemoMainActivity"
+            android:name="com.yichang.kaku.home.dingwei.BNDemoMainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.BNDemoGuideActivity"
+            android:name="com.yichang.kaku.home.dingwei.BNDemoGuideActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Title3Activity"
+            android:name="com.yichang.kaku.home.dingwei.Title3Activity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.PingJiaActivity"
+            android:name="com.yichang.kaku.home.shop.ShopPingJiaListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -485,7 +601,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.payhelper.alipay.AlipayCallBackActivity"
+            android:name="com.yichang.kaku.payhelper.alipay.PaySuccessActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -493,7 +609,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Title2Activity"
+            android:name="com.yichang.kaku.home.dingwei.Title2Activity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -505,11 +621,55 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.yichang.kaku.home.AdActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.member.serviceorder.LookLocationActivity"
+            android:name="com.yichang.kaku.home.baoyang.BaoYangChooseOilActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.huafei.HuaFeiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangTransActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.call.CallActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangQingDanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangChooseFilterActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.ZiXuanMenDianActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.ChooseShopActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangChooseCarActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.XingShiZhengImageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.JiaShiZhengActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <!--
@@ -541,20 +701,18 @@
         <activity android:name="com.yichang.kaku.view.uploadimages.activity.ImageFile" />
         <activity android:name="com.yichang.kaku.view.uploadimages.activity.ShowAllPhoto" />
         <activity android:name="com.yichang.kaku.view.uploadimages.activity.GalleryActivity" />
-        <activity android:name="com.yichang.kaku.member.serviceorder.QuXiaoXiangQingActivity" />
-        <activity android:name="com.yichang.kaku.member.serviceorder.QuXiaoChengGongActivity" />
         <!-- 圈子相关页面 -->
         <activity
-            android:name="com.yichang.kaku.home.discovery.DiscoveryCommentActivity"
+            android:name="com.yichang.kaku.home.faxian.DiscoveryCommentActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustUnspecified" />
         <activity
-            android:name="com.yichang.kaku.home.discovery.DiscoveryDetailActivity"
+            android:name="com.yichang.kaku.home.faxian.DiscoveryDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.discovery.DiscoveryFavorActivity"
+            android:name="com.yichang.kaku.home.faxian.DiscoveryFavorActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -571,23 +729,27 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.ChouJiangActivity"
+            android:name="com.yichang.kaku.home.choujiang.ChouJiangActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.MyPrizeActivity"
+            android:name="com.yichang.kaku.home.choujiang.ChouJiangWebActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.PrizeDetailShiActivity"
+            android:name="com.yichang.kaku.home.choujiang.MyPrizeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.PrizeDetailXuActivity"
+            android:name="com.yichang.kaku.home.choujiang.PrizeDetailShiActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.OkPrizeActivity"
+            android:name="com.yichang.kaku.home.choujiang.PrizeDetailXuActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.choujiang.OkPrizeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -596,19 +758,23 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name="com.yichang.kaku.home.dailysign.DailySignActivity"
+            android:name="com.yichang.kaku.home.qiandao.DailySignActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.discovery.DiscoveryActivity"
+            android:name="com.yichang.kaku.home.faxian.DiscoveryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.seckill.HomeSeckillActivity"
+            android:name="com.yichang.kaku.home.ad.ZongJieNewJieShuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.seckill.SeckillOrderActivity"
+            android:name="com.yichang.kaku.home.miaosha.HomeSeckillActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.miaosha.SeckillOrderActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -616,11 +782,15 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.SOSActivity"
+            android:name="com.yichang.kaku.home.huafei.HuaFeiZhiFuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.SOSCallActivity"
+            android:name="com.yichang.kaku.home.jiuyuan.SOSActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.jiuyuan.SOSCallActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -637,6 +807,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yichang.kaku.home.giftmall.ProductCommentListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.giftmall.ConfirmOrderXianActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -660,7 +834,23 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.ClipImageActivity"
+            android:name="com.yichang.kaku.home.moneybook.MoneyBookActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.YellowOilActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.YellowOilOrderActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.baoyang.BaoYangPingJiaActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.ClipImageActivity"
             android:hardwareAccelerated="false"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -670,11 +860,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.LotteryActivity"
+            android:name="com.yichang.kaku.home.ad.LotteryActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.CheTieListActivity"
+            android:name="com.yichang.kaku.home.ad.CheTieListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -682,45 +872,90 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.CheTieDetailActivity"
+            android:name="com.yichang.kaku.home.ad.CheTieDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.CheTieOrderListActivity"
+            android:name="com.yichang.kaku.home.ad.CheTieOrderListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.StickerOrderActivity"
+            android:name="com.yichang.kaku.zhaohuo.ZhaoHuoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.QiangImageActivity"
+            android:name="com.yichang.kaku.home.HomeWebActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.HomeWeb2Activity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.money.MoneyRankActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.money.TuiJianJiangLiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.money.JiangLiGuiZeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.moneybook.WhiteMoneyActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.StickerOrderActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.mycar.HandCodeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.mycar.AddCarActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.mycar.CheXiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.zhaohuo.QuanZiFaBuActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.zhaohuo.QuanziDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.mycar.FaDongJiInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.QiangImageActivity"
             android:hardwareAccelerated="false"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.Ad.CheTieOrderDetailActivity"
+            android:name="com.yichang.kaku.home.ad.CheTieOrderDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.OrderCheTiePayActivity"
+            android:name="com.yichang.kaku.home.ad.QiangCheTieListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.ad.OrderCheTiePayActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yichang.kaku.member.MemberRedEnvelopeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
-        <!-- alipay sdk begin -->
-        <activity
-            android:name="com.alipay.sdk.app.H5PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <!-- alipay sdk end -->
-
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -736,22 +971,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!-- QQ客户端回调 -->
-        <!--
-        <activity
-            android:name="cn.sharesdk.tencent.qq.ResultReceiver"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter android:priority="1000">
-                <data android:scheme="tencent100371282" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
-        -->
-
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -764,11 +983,28 @@
             </intent-filter>
         </activity>
 
-        <!-- bugtag -->
+        <!-- Ping++ sdk -->
         <activity
-            android:name="com.bugtags.library.BugtagsActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:name="com.pingplusplus.android.PaymentActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 微信支付 sdk ，也是 Ping++ sdk 调用入口 -->
+        <activity-alias
+            android:name="com.yichang.kaku.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.pingplusplus.android.PaymentActivity" />
+        <!-- 支付宝 sdk -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
 
         <!-- Required  SDK核心功能 -->
         <service
@@ -776,9 +1012,6 @@
             android:enabled="true"
             android:exported="false"
             android:process=":process1" />
-
-        <!-- bugtag -->
-        <service android:name="com.bugtags.library.BugtagsService" />
 
         <!-- Required SDK 核心功能 -->
         <service
@@ -797,6 +1030,67 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
             </intent-filter>
         </service>
+        // SDK核心服务配置
+        <service
+            android:name="com.yuntongxun.ecsdk.ECClientService"
+            android:enabled="true"
+            android:process=":push" />
+        // v5.2.2r以后的清单文件需要配置下列服务
+        <service
+            android:name="com.yuntongxun.ecsdk.ECClientService$InnerService"
+            android:enabled="true"
+            android:process=":push" />
+        // 以下两项为SDK事件提醒广播
+        <receiver
+            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver"
+            android:process=":push" />
+        // v5.1.9r增加配置选项
+        <receiver
+            android:name="com.yuntongxun.ecsdk.booter.Alarm"
+            android:exported="false"
+            android:process=":push" />
+        // SDK网络改变广播
+        <receiver
+            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        // SDK广播通知配置（开机广播）
+        // 可选广播、如果应用想做开机重启，可以实现该广播通知即可
+        <receiver
+            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$BootReceiver"
+            android:process=":push" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        // 配置SDK消息通知广播 ,SDK通知会分三种提醒方式
+        // 1、直接通过设置的回调接口（OnChatReceiveListener）Push给应用
+        // 2、如果应用没有设置回调接口则采用（BroadcastReceiver）广播通知（v5.1.8版本）
+        // 此时如果应用处于未运行状态则会直接唤醒应用处理
+        // 3、如果应用未处于运行状态并且不想被唤醒应用运行则采用状态栏通知处理（SDK直接提醒，不会通知应用）,比如调用
+        // ECDevice#logout(ECDevice.NotifyMode, ECDevice.OnLogoutListener)退出接口传入后台接收消息才会有提醒
+
+        // 注意：以上在a和b的场景下，SDK都会将消息直接给应用处理，只有在c的情况SDK才会直接处理消息提醒，
+        // 所以应用需要处理a和b两种情况
+        // 声明自定义通知的广播接收器，第三方 APP 集成时，action 中的 com.yuntongxun.ecdemo 请替换为自己的包名
+        <!-- 需要权限声明 <uses-permission android:name="com.yuntongxun.ecdemo.permission.RECEIVE_MSG"/> -->
+        // 如果没有VOIP功能可以忽略
+        <!-- 需要权限声明 <uses-permission android:name="com.yuntongxun.ecdemo.permission.INCOMING_CALL"/> -->
+        <receiver
+            android:name="com.yichang.kaku.service.YuntxNotifyReceiver"
+            android:exported="false" >
+            <intent-filter>
+                // 接收push消息
+                // action匹配规则{packageName + ".action" + "功能"}
+                <action android:name="com.yuntongxun.ecdemo.action.VOIP_CALL" />
+                <action android:name="com.yuntongxun.ecdemo.action.MESSAGE" />
+                <action android:name="com.yuntongxun.ecdemo.action.NOTIFICATION_CLICK" />
+                <action android:name="com.yuntongxun.ecdemo.action.PERSON_VERSION" />
+            </intent-filter>
+        </receiver>
 
         <!-- Required SDK核心功能 -->
         <receiver
@@ -817,14 +1111,6 @@
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
                 <data android:scheme="com.yichang.kaku" />
-            </intent-filter>
-        </receiver>
-
-        <!-- bugtag -->
-
-        <receiver android:name="com.bugtags.library.BugtagsReceiver" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
@@ -869,11 +1155,6 @@
                 <data android:scheme="wx2b66d6fb76dc1aec" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.yichang.kaku.wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:launchMode="singleTop" />
 
         <receiver android:name="com.yichang.kaku.payhelper.wxpay.net.sourceforge.simcpux.AppRegister" >
             <intent-filter>
@@ -881,18 +1162,36 @@
             </intent-filter>
         </receiver>
 
-        <service
+        <!--
+            <service
             android:name="com.baidu.trace.LBSTraceService"
             android:enabled="true"
             android:exported="true" />
+        -->
+
         <service
-            android:name="com.yichang.kaku.home.dailysign.DailyRemindService"
+            android:name="com.yichang.kaku.home.qiandao.DailyRemindService"
             android:enabled="true" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+        <service android:name="com.kaolafm.sdk.core.mediaplayer.PlayerService" />
+        <service android:name="com.kaolafm.sdk.core.mediaplayer.VLCMediaPlayService" />
+        <service android:name="com.kaolafm.sdk.core.statistics.StatisticsService" />
 
+        <meta-data
+            android:name="kl_vehicle_app_key"
+            android:value="ad4f8a2f375983c768460253961c348d" />
+//申请开发所需APP_KEY配置
+        <meta-data
+            android:name="kl_vehicle_app_id"
+            android:value="tz7122" />
+//申请开发所需APP_ID配置
+        <meta-data
+            android:name="kl_vehicle_app_channel"
+            android:value="kaolafm" />
+        //开发者所需要发布的渠道名称例如（"kaolafm"）
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="RKRZFLtvGjKMGqeXjfb05IGL" />
@@ -909,7 +1208,7 @@
             android:value="55fa265367e58e44ac0017c2" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="yingyongbao" />
+            android:value="update" />
 
         <service
             android:name="com.yichang.kaku.global.Service1"

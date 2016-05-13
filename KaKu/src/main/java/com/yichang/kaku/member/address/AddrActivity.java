@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,12 +19,14 @@ import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.AddrObj;
 import com.yichang.kaku.request.AddrMorenReq;
 import com.yichang.kaku.request.AddrReq;
+import com.yichang.kaku.request.DeleteAddrReq;
 import com.yichang.kaku.response.AddrMorenResp;
 import com.yichang.kaku.response.AddrResp;
+import com.yichang.kaku.response.DeleteAddrResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,42 +38,23 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
     private Button btn_addr_new;
     private List<AddrObj> list_addr = new ArrayList<AddrObj>();
     private AddrAdapter adapter;
-
     private Boolean isComfirmOrder = false;
-
-    		/*无数据和无网络界面*/
-
     private RelativeLayout layout_data_none, layout_net_none;
     private TextView tv_desc, tv_advice;
     private Button btn_refresh;
     private LinearLayout ll_container;
-
-    //private int itemPosition=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addr);
-        init();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (KaKuApplication.isEditAddr) {
-            KaKuApplication.isEditAddr = false;
-            int itemPosition = KaKuApplication.itemPosition;
-            AddrObj obj = list_addr.get(itemPosition);
-
-            obj.setAddr(KaKuApplication.dizhi_addr);
-            obj.setName_addr(KaKuApplication.name_addr);
-            obj.setPhone_addr(KaKuApplication.phone_addr);
-
-            list_addr.set(itemPosition, obj);
-            adapter.notifyDataSetChanged();
-        }
-        GetAddr();
+        init();
     }
 
     private void init() {
@@ -87,8 +68,7 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
         lv_addr.setOnItemClickListener(this);
         btn_addr_new = (Button) findViewById(R.id.btn_addr_new);
         btn_addr_new.setOnClickListener(this);
-
-        isComfirmOrder = getIntent().getBooleanExtra("flag", false);
+        GetAddr();
     }
 
     /*初始化空白页页面布局*/
@@ -112,13 +92,9 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
-            Intent intent = new Intent();
-            intent.putExtra("name", "");
-            intent.putExtra("phone", "");
-            intent.putExtra("addr", "");
-            setResult(125, intent);
             finish();
         } else if (R.id.btn_addr_new == id) {
+            KaKuApplication.new_addr = "new";
             NewBuild();
         } else if (R.id.btn_refresh == id) {
             GetAddr();
@@ -127,76 +103,19 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        LogUtil.E("条目位置：" + position);
-        //增加多次点击判断
         if (Utils.Many()) {
             return;
         }
-        if (isComfirmOrder) {
-            Intent intent = new Intent();
-            intent.putExtra("name", list_addr.get(position).getName_addr());
-            intent.putExtra("phone", list_addr.get(position).getPhone_addr());
-            intent.putExtra("addr", list_addr.get(position).getAddr());
-            setResult(121, intent);
-            finish();
-        } else if ("Prize".equals(KaKuApplication.flag_addr)){
-            Intent intent = new Intent();
-            intent.putExtra("name", list_addr.get(position).getName_addr());
-            intent.putExtra("phone", list_addr.get(position).getPhone_addr());
-            intent.putExtra("addr", list_addr.get(position).getAddr());
-            setResult(0, intent);
-            KaKuApplication.flag_addr = "";
-            finish();
-        } else {
-            if (!Utils.checkNetworkConnection(context)) {
-                setNoDataLayoutState(layout_net_none);
-
-                return;
-            } else {
-                setNoDataLayoutState(ll_container);
-
-            }
-            final int positionf = position;
-            AddrMorenReq req = new AddrMorenReq();
-            req.code = "10017";
-            req.id_addr = list_addr.get(position).getId_addr();
-            req.id_driver = Utils.getIdDriver();
-            KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(this, AddrMorenResp.class) {
-                @Override
-                public void onSucceed(int what, Response response) {
-                    super.onSucceed(what, response);
-                    if (t != null) {
-                        LogUtil.E("morenaddr res: " + t.res);
-                        if (Constants.RES.equals(t.res)) {
-
-                            for (int i = 0; i < list_addr.size(); i++) {
-                                list_addr.get(i).setFlag_default("N");
-                            }
-                            list_addr.get(positionf).setFlag_default("Y");
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            LogUtil.showShortToast(context, t.msg);
-                        }
-                    }
-                }
-            });
+        if (KaKuApplication.IsOrderToAddr) {
+            KaKuApplication.AddrObj = list_addr.get(position);
+            MoRenAddr2(list_addr.get(position).getId_addr());
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     public void NewBuild() {
         KaKuApplication.id_dizhi = "";
         KaKuApplication.county_addr = "";
-        KaKuApplication.dizhi_addr = "";
-        KaKuApplication.name_addr = "";
-        KaKuApplication.phone_addr = "";
         KaKuApplication.flag_addr = "Y";
-        KaKuApplication.province_addrname = "";
-        KaKuApplication.city_addrname = "";
         startActivity(new Intent(this, NewAddrActivity.class));
     }
 
@@ -210,6 +129,7 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
             btn_addr_new.setVisibility(View.VISIBLE);
 
         }
+        showProgressDialog();
         AddrReq req = new AddrReq();
         req.code = "10014";
         req.id_driver = Utils.getIdDriver();
@@ -223,9 +143,7 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
                         list_addr.clear();
                         list_addr.addAll(t.addrs);
 
-                        LogUtil.E("addr size" + list_addr.size());
                         if (list_addr.size() == 0) {
-                            LogUtil.E("addr size" + list_addr.size());
                             setNoDataLayoutState(layout_data_none);
                             stopProgressDialog();
                             return;
@@ -234,14 +152,32 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
                         }
 
                         adapter = new AddrAdapter(AddrActivity.this, list_addr);
+                        adapter.setShowProgress(new AddrAdapter.AddrInterface() {
+
+                            @Override
+                            public void MoRen(String id_addr) {
+                                MoRenAddr(id_addr);
+                            }
+
+                            @Override
+                            public void Delete(String id_addr) {
+                                DeleteAddr(id_addr);
+                            }
+                        });
                         lv_addr.setAdapter(adapter);
-                        setListViewHeightBasedOnChildren(lv_addr);
                         Utils.setListViewHeightBasedOnChildren(lv_addr);
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
+                    stopProgressDialog();
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -253,23 +189,85 @@ public class AddrActivity extends BaseActivity implements OnClickListener, Adapt
         view.setVisibility(View.VISIBLE);
     }
 
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
+    public void DeleteAddr(String id_addr) {
+        Utils.NoNet(context);
+        showProgressDialog();
+        DeleteAddrReq req = new DeleteAddrReq();
+        req.code = "10016";
+        req.id_addr = id_addr;
+        KaKuApiProvider.DeleteAddr(req, new KakuResponseListener<DeleteAddrResp>(context, DeleteAddrResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("deleteaddr res: " + t.res);
+                    LogUtil.showShortToast(context, t.msg);
+                    stopProgressDialog();
+                    GetAddr();
+                }
+            }
 
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
+            @Override
+            public void onFailed(int i, Response response) {
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        params.height += 5;
+            }
 
-        listView.setLayoutParams(params);
+        });
     }
+
+    public void MoRenAddr(String id_addr) {
+        Utils.NoNet(context);
+        showProgressDialog();
+        AddrMorenReq req = new AddrMorenReq();
+        req.code = "10017";
+        req.id_addr = id_addr;
+        req.id_driver = Utils.getIdDriver();
+        KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(context, AddrMorenResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("morenaddr res: " + t.res);
+                    LogUtil.showShortToast(context, t.msg);
+                    stopProgressDialog();
+                    GetAddr();
+                }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
+        });
+    }
+
+    public void MoRenAddr2(String id_addr) {
+        Utils.NoNet(context);
+        showProgressDialog();
+        AddrMorenReq req = new AddrMorenReq();
+        req.code = "10017";
+        req.id_addr = id_addr;
+        req.id_driver = Utils.getIdDriver();
+        KaKuApiProvider.MorenAddr(req, new KakuResponseListener<AddrMorenResp>(context, AddrMorenResp.class) {
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("morenaddr res: " + t.res);
+                    LogUtil.showShortToast(context, t.msg);
+                    stopProgressDialog();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+        });
+    }
+
 }

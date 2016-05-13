@@ -20,15 +20,20 @@ import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
 import com.yichang.kaku.global.MyActivityManager;
 import com.yichang.kaku.home.OrderPayActivity;
+import com.yichang.kaku.home.giftmall.ProductDetailActivity;
+import com.yichang.kaku.home.giftmall.ShopCartActivity;
+import com.yichang.kaku.home.huafei.HuaFeiActivity;
 import com.yichang.kaku.obj.TruckOrderObj;
+import com.yichang.kaku.request.BuyAgainReq;
 import com.yichang.kaku.request.TruckOrderListReq;
+import com.yichang.kaku.response.BuyAgainResp;
 import com.yichang.kaku.response.TruckOrderListResp;
 import com.yichang.kaku.tools.DateUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,14 +136,14 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
     }
 
     private void getTruckOrderLst(int pageindex, int pagesize) {
-        // Utils.NoNet(context);
+
         if (!Utils.checkNetworkConnection(context)) {
             setNoDataLayoutState(layout_net_none);
             return;
         } else {
             setNoDataLayoutState(ll_container);
         }
-
+        showProgressDialog();
         TruckOrderListReq req = new TruckOrderListReq();
         req.code = "30015";
         req.id_driver = Utils.getIdDriver();
@@ -159,7 +164,14 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
                     }
                     onLoadStop();
                 }
+                stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -187,7 +199,6 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
         } else {
             setNoDataLayoutState(ll_container);
         }
-        LogUtil.E("list_truckorder.size:" + list_truckorder.size());
 
         TruckOrderAdapter adapter = new TruckOrderAdapter(this, list_truckorder);
         adapter.setCallback(new TruckOrderAdapter.CallBack() {
@@ -202,6 +213,11 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
                 intent.putExtra("price_bill", price_bill);
                 startActivity(intent);
 
+            }
+
+            @Override
+            public void BuyAgain(String id_addr, String flag_recharge) {
+                BuyAga(id_addr, flag_recharge);
             }
         });
 
@@ -337,10 +353,9 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (Utils.Many()){
+        if (Utils.Many()) {
             return;
         }
-        LogUtil.E("onItemClick position:" + position);
         Intent intent = new Intent(getApplicationContext(), TruckOrderDetailActivity.class);
         /*todo 修改idbill为nobill*/
         intent.putExtra("idbill", list_truckorder.get(position - 1).getId_bill());
@@ -364,7 +379,50 @@ public class TruckOrderListActivity extends BaseActivity implements OnClickListe
 
     private void gotoMemeberFragment() {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_MEMBER);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME5);
         startActivity(intent);
+    }
+
+
+    public void BuyAga(String id_bill, final String flag_recharge) {
+        showProgressDialog();
+        BuyAgainReq req = new BuyAgainReq();
+        req.code = "30029";
+        req.id_bill = id_bill;
+        KaKuApiProvider.BuyAgain(req, new KakuResponseListener<BuyAgainResp>(context, BuyAgainResp.class) {
+
+            @Override
+            public void onSucceed(int what, Response response) {
+                super.onSucceed(what, response);
+                if (t != null) {
+                    LogUtil.E("login res: " + t.res);
+                    if (Constants.RES.equals(t.res)) {
+                        if ("Y".equals(flag_recharge)) {
+                            context.startActivity(new Intent(context, HuaFeiActivity.class));
+                        } else {
+                            if ("Y".equals(t.add_can)) {
+                                context.startActivity(new Intent(context, ShopCartActivity.class));
+                            } else {
+                                KaKuApplication.id_goods = t.id_goods;
+                                context.startActivity(new Intent(context, ProductDetailActivity.class));
+                            }
+                        }
+                    } else {
+                        if (Constants.RES_TEN.equals(t.res)) {
+                            Utils.Exit(context);
+                        }
+                        LogUtil.showShortToast(context, t.msg);
+                    }
+                }
+                stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
+        });
     }
 }

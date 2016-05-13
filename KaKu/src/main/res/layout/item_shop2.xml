@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_item_shoppic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="15dp"
+                android:src="@drawable/meidian" />
+
+            <TextView
+                android:id="@+id/tv_item_shopname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@+id/tv_item_shopdan"
+                android:layout_toRightOf="@+id/iv_item_shoppic"
+                android:ellipsize="end"
+                android:maxEms="12"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/rela_item_shopstar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_item_shopname"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/iv_item_shoppic">
+
+                <RatingBar
+                    android:id="@+id/star_item_shopstar"
+                    style="@style/roomRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:isIndicator="true" />
+
+                <TextView
+                    android:id="@+id/tv_item_shopstar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/star_item_shopstar"
+                    android:textColor="@color/color_red"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/line_item_shopyewu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rela_item_shopstar"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/iv_item_shoppic"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_item_shopyewu1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_biaoqian"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/color_red"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_item_shopyewu2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/bg_biaoqian"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/color_red"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_item_shopyewu3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/bg_biaoqian"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/color_red"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_item_shopaddr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line_item_shopyewu"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/iv_item_shoppic"
+                android:ellipsize="end"
+                android:maxEms="11"
+                android:singleLine="true"
+                android:textColor="@color/color_word"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_item_shopdistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_item_shopaddr"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:textColor="@color/color_word"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_item_shopdan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="15dp"
+                android:textColor="@color/color_word"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+        <View
+            style="@style/Line_h"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

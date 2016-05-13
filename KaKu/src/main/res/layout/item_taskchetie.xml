@@ -3,123 +3,182 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-
-        <View style="@style/Line_h" />
-
-        <TextView
-            android:id="@+id/tv_taskchetieitem_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_centerVertical="true"
-            android:text="卡库养车车贴"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/iv_taskchetieitem_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
-
-    </RelativeLayout>
-
-    <View style="@style/Line_h" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/iv_taskchetieitem_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/image_bg"
-            fresco:placeholderImage="@drawable/ic_launcher" />
-
-        <TextView
-            android:id="@+id/tv_taskchetieitem_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/iv_taskchetieitem_image"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/iv_taskchetieitem_image"
-            android:text="2000-01-01"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv_taskchetieitem_rishouyi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_taskchetieitem_time"
-            android:layout_below="@+id/tv_taskchetieitem_time"
-            android:layout_marginTop="5dp"
-            android:text="日收益"
-            android:textColor="@color/color_word"
-            android:textSize="12sp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignBottom="@+id/iv_taskchetieitem_image"
-            android:layout_alignLeft="@+id/tv_taskchetieitem_rishouyi"
-            android:layout_below="@+id/tv_taskchetieitem_rishouyi"
-            android:layout_marginTop="5dp">
+            android:background="@color/white"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_taskchetieitem_people"
-                android:layout_width="wrap_content"
+                <View style="@style/Line_h" />
+
+                <TextView
+                    android:id="@+id/tv_taskchetieitem_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="卡库养车车贴"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_taskchetieitem_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="100人参与"
-                android:textColor="@color/color_word"
-                android:textSize="12sp" />
+                android:paddingBottom="10dp">
 
-            <View
-                android:id="@+id/view_taskchetieitem"
-                android:layout_width="0.5dp"
-                android:layout_height="5dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/dotted_line_vertical"/>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/iv_taskchetieitem_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/image_bg"
+                    fresco:placeholderImage="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/tv_taskchetieitem_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/iv_taskchetieitem_image"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_taskchetieitem_image"
+                    android:gravity="bottom"
+                    android:text="¥ 0"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_taskchetieitem_biaozhunshouyi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_taskchetieitem_money"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/tv_taskchetieitem_money"
+                    android:text="标准收益(¥0/天）"
+                    android:textColor="@color/color_word"
+                    android:textSize="12sp" />
 
 
-            <TextView
-                android:id="@+id/tv_taskchetieitem_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:text="0元标准收益"
-                android:textColor="@color/color_word"
-                android:textSize="12sp" />
+                <RelativeLayout
+                    android:id="@+id/line_taskchetieitem_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_taskchetieitem_money"
+                    android:layout_below="@+id/tv_taskchetieitem_money"
+                    android:layout_marginTop="13dp"
+                    android:layout_toLeftOf="@+id/iv_taskchetieitem_me">
+
+                    <TextView
+                        android:id="@+id/tv_taskchetieitem_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="3个月收益期"
+                        android:textColor="@color/color_word"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/line_taskchetieitem_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_taskchetieitem_image"
+                    android:layout_alignLeft="@+id/tv_taskchetieitem_money"
+                    android:layout_toLeftOf="@+id/iv_taskchetieitem_me">
+
+
+                    <TextView
+                        android:id="@+id/tv_taskchetieitem_people"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="0人参与"
+                        android:textColor="@color/color_word"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:id="@+id/view_taskchetieitem2"
+                        android:layout_width="0.5dp"
+                        android:layout_height="6dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/dotted_line_vertical" />
+
+
+                    <TextView
+                        android:id="@+id/tv_taskchetieitem_task"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/view_taskchetieitem2"
+                        android:text="总任务"
+                        android:textColor="@color/color_word"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+
+                <ImageView
+                    android:id="@+id/iv_taskchetieitem_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/chetiewo"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:id="@+id/iv_taskchetieitem_daili"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/btn_ljyy"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_taskchetieitem_me"
-            android:src="@drawable/chetiewo"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rela_taskchetieitem_6f"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99FFFFFF">
 
-    <View style="@style/Line_h" />
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </LinearLayout>
+

@@ -1,68 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="330dp"
-        android:layout_height="120dp"
-        android:id="@+id/rela_youhuiquanbg"
-        android:layout_margin="15dp"
+        android:id="@+id/rela_youhuiquan_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/bg_coupon_hong">
 
-        android:background="@drawable/dayouhuiquan">
-
-        <TextView
+        <ImageView
+            android:id="@+id/iv_coupon_nike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_rmb"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/tv_rmb"
-            android:paddingBottom="5dp"
-            android:text="￥"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/tv_rmb"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-            android:layout_alignParentRight="true"
-            android:paddingRight="75dp"
-            android:paddingTop="15dp"
-            android:text="50"
-            android:textColor="@color/white"
-            android:textSize="42sp" />
+            <TextView
+                android:id="@+id/tv_coupon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="卡库红包"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
-        <TextView
-            android:id="@+id/tv_condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="15dp"
-            android:gravity="right"
-            android:layout_below="@+id/tv_rmb"
-            android:paddingRight="75dp"
-            android:text="满￥100使用"
-            android:textColor="@color/white"
-            android:textSize="15sp"
+            <TextView
+                android:id="@+id/tv_coupon_xianhao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/jiangefu"
+                android:drawablePadding="2dp"
+                android:text="限尾号XXXX的手机使用"
+                android:textColor="@color/color_word"
+                android:textSize="11sp" />
 
-            />
+            <TextView
+                android:id="@+id/tv_coupon_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/jiangefu"
+                android:drawablePadding="2dp"
+                android:text="2016.01.01~2016.12.31"
+                android:textColor="@color/color_word"
+                android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/tv_deadline"
-            android:text="使用期限"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/color_word"
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_coupon_money"
+                android:textColor="@color/color_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥ 0.00"
+                android:textSize="11sp" />
+
+            <View
+                android:id="@+id/view_coupon"
+                android:layout_width="50dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/color_red" />
+
+            <TextView
+                android:id="@+id/tv_coupon_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/color_red"
+                android:text="满¥XXX可用"
+                android:textSize="11sp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
-
-</RelativeLayout>
+</LinearLayout>

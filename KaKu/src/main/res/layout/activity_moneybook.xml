@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_moneybook"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_mb_jiyibi"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rela_mb_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_mb_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9d9d9d"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_mb_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_mb_year"
+                    android:layout_marginTop="2dp"
+                    android:text="08"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:id="@+id/iv_mb_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_mb_year"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/tv_mb_month"
+                    android:src="@drawable/jzb_month" />
+
+                <ImageView
+                    android:id="@+id/iv_mb_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@+id/iv_mb_month"
+                    android:src="@drawable/jzb_line" />
+
+                <TextView
+                    android:id="@+id/tv_mb_zhichuzi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_mb_year"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@+id/iv_mb_line"
+                    android:text="支出（元）"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_mb_zhichu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_mb_zhichuzi"
+                    android:layout_below="@+id/tv_mb_zhichuzi"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_mb_shouruzi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_mb_year"
+                    android:layout_marginLeft="60dp"
+                    android:layout_toRightOf="@+id/tv_mb_zhichuzi"
+                    android:text="收入（元）"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_mb_shouru"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_mb_shouruzi"
+                    android:layout_below="@+id/tv_mb_zhichuzi"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lv_moneybook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_moneybook_nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/img_nosearch"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_mb_jiyibi"
+            style="@style/Btn_Red"
+            android:layout_alignParentBottom="true"
+            android:text="记一笔" />
+
+    </RelativeLayout>
+
+</LinearLayout>

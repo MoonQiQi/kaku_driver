@@ -17,7 +17,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class InputWithDrawCodeActivity extends BaseActivity implements OnClickListener {
 
@@ -78,16 +78,18 @@ public class InputWithDrawCodeActivity extends BaseActivity implements OnClickLi
         }
     }
 
-    private String genAppSign(String id_driver) {
+    private String genAppSign(String code) {
         StringBuilder sb = new StringBuilder();
         //拼接签名字符串
         sb.append("id_driver=");
-        sb.append(id_driver);
+        sb.append(Utils.getIdDriver());
 
+
+        sb.append("&pay_pass=");
+        sb.append(code);
 
         sb.append("&key=");
         sb.append(Constants.MSGKEY);
-        LogUtil.E("sb:" + sb);
 
         String appSign1 = MD5.getMessageDigest(sb.toString().getBytes());
         String appSign = MD5.getMessageDigest(appSign1.getBytes()).toUpperCase();
@@ -101,7 +103,7 @@ public class InputWithDrawCodeActivity extends BaseActivity implements OnClickLi
         req.code = "5008";
         req.id_driver = Utils.getIdDriver();
         req.pay_pass = code;
-        req.sign = genAppSign(req.id_driver);
+        req.sign = genAppSign(code);
 
         KaKuApiProvider.checkWithDrawCode(req, new KakuResponseListener<BaseResp>(this, BaseResp.class) {
             @Override
@@ -118,6 +120,13 @@ public class InputWithDrawCodeActivity extends BaseActivity implements OnClickLi
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 }

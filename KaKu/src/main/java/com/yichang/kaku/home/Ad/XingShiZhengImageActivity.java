@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,13 +25,13 @@ import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.QiNiuYunTokenReq;
 import com.yichang.kaku.request.UploadCheTieImageReq;
-import com.yichang.kaku.response.ExitResp;
 import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.QiNiuYunTokenResp;
+import com.yichang.kaku.response.UploadImageResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONObject;
 
@@ -41,14 +41,15 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
 
     private TextView left, right, title;
     private ImageView iv_xingshizhengimage;
+    private ImageView iv_xingshizhengimage_woqumaichetie;
     private Button btn_xingshizhengimage_tijiao;
     private final int CAMERA_WITH_DATA = 2;//拍照
     private final int CROP_RESULT_CODE = 3;//结果
     public static final String TMP_PATH7 = "clip_temp7.jpg";
-    public String token1, token2;
-    public String key1, key2;
-    public String path1, path2;
-    private Bitmap photo1, photo2;
+    public String token1;
+    public String key1;
+    public String path1;
+    private Bitmap photo1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,17 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
 
         iv_xingshizhengimage = (ImageView) findViewById(R.id.iv_xingshizhengimage);
         iv_xingshizhengimage.setOnClickListener(this);
+        iv_xingshizhengimage_woqumaichetie = (ImageView) findViewById(R.id.iv_xingshizhengimage_woqumaichetie);
+        iv_xingshizhengimage_woqumaichetie.setOnClickListener(this);
         btn_xingshizhengimage_tijiao = (Button) findViewById(R.id.btn_xingshizhengimage_tijiao);
         btn_xingshizhengimage_tijiao.setOnClickListener(this);
         btn_xingshizhengimage_tijiao.setEnabled(true);
 
+        if ("C".equals(KaKuApplication.flag_recommended)) {
+            iv_xingshizhengimage_woqumaichetie.setVisibility(View.VISIBLE);
+        } else {
+            iv_xingshizhengimage_woqumaichetie.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -88,7 +96,7 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
-            GetAdd();
+            finish();
         } else if (R.id.iv_xingshizhengimage == id) {
             KaKuApplication.flag_image = "xingshizheng";
             startCapture();
@@ -98,6 +106,11 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
                 return;
             }
             QiNiuYunToken();
+        } else if (R.id.iv_xingshizhengimage_woqumaichetie == id) {
+            KaKuApplication.flag_dory = "D";
+            Intent intent = new Intent(this, StickerOrderActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -178,6 +191,12 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -216,47 +235,34 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
         req.var_lat = Utils.getLat();
         req.var_lon = Utils.getLon();
         req.id_advert = KaKuApplication.id_advert;
-        KaKuApiProvider.uploadCheTieImage(req, new KakuResponseListener<ExitResp>(this, ExitResp.class) {
+        KaKuApiProvider.uploadCheTieImage(req, new KakuResponseListener<UploadImageResp>(this, UploadImageResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("uploadimage res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        GetAdd();
+                        KaKuApplication.flag_get = t.flag_get;
+                        KaKuApplication.money_coupon = t.money_coupon;
+                        startActivity(new Intent(context, ImageFanKuiActivity.class));
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
     }
 
     public void GetAdd() {
-        showProgressDialog();
-        GetAddReq req = new GetAddReq();
-        req.code = "60011";
-        req.id_driver = Utils.getIdDriver();
-        req.id_advert = KaKuApplication.id_advert;
-        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(this, GetAddResp.class) {
-
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getadd res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        GoToAdd(t.advert.getFlag_type());
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-
-        });
+        Utils.GetAdType(baseActivity);
     }
 
     public void GetAdd2() {
@@ -278,6 +284,7 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
                         KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
                         KaKuApplication.flag_position = t.advert.getFlag_position();
                         KaKuApplication.flag_heart = t.advert.getFlag_show();
+                        KaKuApplication.code_my = t.advert.getCode_recommended();
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
@@ -285,36 +292,18 @@ public class XingShiZhengImageActivity extends BaseActivity implements OnClickLi
                 stopProgressDialog();
             }
 
-        });
-    }
+            @Override
+            public void onFailed(int i, Response response) {
 
-    public void GoToAdd(String flag_type) {
-        Intent intent = new Intent();
-        if ("N".equals(flag_type)) {
-            intent.setClass(context, Add_NActivity.class);
-        } else if ("Y".equals(flag_type)) {
-            intent.setClass(context, Add_YActivity.class);
-        } else if ("E".equals(flag_type)) {
-            intent.setClass(context, Add_EActivity.class);
-        } else if ("I".equals(flag_type)) {
-            intent.setClass(context, Add_IActivity.class);
-        } else if ("F".equals(flag_type)) {
-            intent.setClass(context, Add_FActivity.class);
-        } else if ("P".equals(flag_type)) {
-            intent.setClass(context, Add_PActivity.class);
-        } else if ("A".equals(flag_type)) {
-            intent.setClass(context, CheTieListActivity.class);
-        } else if ("M".equals(flag_type)) {
-            intent.setClass(context, Add_MActivity.class);
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+            }
+
+        });
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            GetAdd();
+            finish();
         }
         return false;
     }

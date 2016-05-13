@@ -3,36 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:orientation="vertical"
-     >
-     
-    <include layout="@layout/activity_titlebar"
-         android:id="@+id/title_youhuiquan" />
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_container"
+    <include
+        android:id="@+id/title_youhuiquan"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:id="@+id/rela_youhuiquan_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible"
-        >
+        android:layout_height="wrap_content">
+
         <ListView
             android:id="@+id/lv_youhuiquan"
-            android:dividerHeight="15dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_youhuiquan_ok"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:dividerHeight="15dp" />
 
+        <Button
+            android:id="@+id/btn_youhuiquan_ok"
+            style="@style/Btn_Orange_Tong"
+            android:layout_alignParentBottom="true"
+            android:text="确定" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <include
-        android:id="@+id/layout_data_none"
-        layout="@layout/layout_data_none"
-        android:visibility="gone" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/layout_net_none"
-        layout="@layout/layout_net_none"
-        android:visibility="gone" />
-     
+        <ImageView
+            android:id="@+id/iv_youhuiquan_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/wuyouhuiquan"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
 </LinearLayout>

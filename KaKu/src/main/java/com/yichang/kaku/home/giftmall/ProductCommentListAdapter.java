@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.member.ShowImageActivity;
-import com.yichang.kaku.obj.PingJiaObj;
 import com.yichang.kaku.obj.ShopMallProductCommentObj;
 import com.yichang.kaku.tools.BitmapUtil;
 
@@ -56,10 +55,12 @@ public class ProductCommentListAdapter extends BaseAdapter {
         // TODO Auto-generated method stub
         return position;
     }
-    public  int dip2px( float dipValue) {
+
+    public int dip2px(float dipValue) {
         final float scale = mContext.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -84,56 +85,34 @@ public class ProductCommentListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        /*if ("".equals(obj.getImage1_eval())) {
-            holder.iv_pingjia1.setVisibility(View.GONE);
-            holder.iv_pingjia2.setVisibility(View.GONE);
-            holder.iv_pingjia3.setVisibility(View.GONE);
-            holder.iv_pingjia4.setVisibility(View.GONE);
-        } else {
-            if ("".equals(obj.getImage2_eval())) {
-                holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                holder.iv_pingjia2.setVisibility(View.GONE);
-                holder.iv_pingjia3.setVisibility(View.GONE);
-                holder.iv_pingjia4.setVisibility(View.GONE);
-            } else {
-                if ("".equals(obj.getImage3_eval())) {
-                    holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                    holder.iv_pingjia2.setVisibility(View.VISIBLE);
-                    holder.iv_pingjia3.setVisibility(View.GONE);
-                    holder.iv_pingjia4.setVisibility(View.GONE);
-                } else {
-                    if ("".equals(obj.getImage4_eval())) {
-                        holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia2.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia3.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia4.setVisibility(View.GONE);
-                    } else {
 
-                        holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia2.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia3.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia4.setVisibility(View.VISIBLE);
-
-                    }
-                }
-            }
-        }*/
         if (!"".equals(obj.getImage_eval())) {
             holder.iv_pingjia1.setVisibility(View.VISIBLE);
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia1, KaKuApplication.qian_zhui + obj.getImage_eval());
-        }else{
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia1, KaKuApplication.qian_zhuikong + obj.getImage_eval());
+        } else {
             holder.iv_pingjia1.setVisibility(View.GONE);
         }
-        /*if (!"".equals(obj.getImage2_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia2, KaKuApplication.qian_zhui + obj.getImage2_eval());
-        }
-        if (!"".equals(obj.getImage3_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia3, KaKuApplication.qian_zhui + obj.getImage3_eval());
-        }
-        if (!"".equals(obj.getImage4_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia4, KaKuApplication.qian_zhui + obj.getImage4_eval());
 
-        }*/
+        if (!"".equals(obj.getImage_eval1())) {
+            holder.iv_pingjia2.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia2, KaKuApplication.qian_zhuikong + obj.getImage_eval1());
+        } else {
+            holder.iv_pingjia2.setVisibility(View.GONE);
+        }
+
+        if (!"".equals(obj.getImage_eval2())) {
+            holder.iv_pingjia3.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia3, KaKuApplication.qian_zhuikong + obj.getImage_eval2());
+        } else {
+            holder.iv_pingjia3.setVisibility(View.GONE);
+        }
+
+        if (!"".equals(obj.getImage_eval3())) {
+            holder.iv_pingjia4.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia4, KaKuApplication.qian_zhuikong + obj.getImage_eval3());
+        } else {
+            holder.iv_pingjia4.setVisibility(View.GONE);
+        }
 
         holder.iv_pingjia1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +123,7 @@ public class ProductCommentListAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
-        /*holder.iv_pingjia2.setOnClickListener(new View.OnClickListener() {
+        holder.iv_pingjia2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getImageList(holder);
@@ -170,9 +149,9 @@ public class ProductCommentListAdapter extends BaseAdapter {
                 intent.putExtra("position", 3);
                 mContext.startActivity(intent);
             }
-        });*/
+        });
 
-        holder.tv_pingjia_time.setText(obj.getName_driver()+"  "+obj.getTime_eval());
+        holder.tv_pingjia_time.setText(obj.getName_driver() + "  " + obj.getTime_eval());
         holder.tv_pingjia_content.setText(obj.getContent_eval());
         String star = obj.getStar_eval();
         float starFloat = Float.valueOf(star);
@@ -185,25 +164,19 @@ public class ProductCommentListAdapter extends BaseAdapter {
         for (int i = 0; i < holder.rela_pingjia_images.getChildCount(); i++) {
             View view = holder.rela_pingjia_images.getChildAt(i);
             if (view.getVisibility() == View.VISIBLE) {
-                KaKuApplication.mBimpList.add(convertViewToBitmap(view,i));
+                KaKuApplication.mBimpList.add(convertViewToBitmap(view, i));
             }
         }
     }
 
-    private void setImageViewVisibility(List<ImageView> ivList, int num) {
-        for (int i = 0; i < num; i++) {
-            ivList.get(i).setVisibility(View.VISIBLE);
-        }
-    }
-
-    public  Bitmap convertViewToBitmap(View view,int sortNum) {
+    public Bitmap convertViewToBitmap(View view, int sortNum) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(dip2px(60), dip2px(60));
-        params.leftMargin=sortNum*(dip2px(10)+dip2px(60))+dip2px(15);
-        params.topMargin=dip2px(10);
+        params.leftMargin = sortNum * (dip2px(10) + dip2px(60)) + dip2px(15);
+        params.topMargin = dip2px(10);
         view.setLayoutParams(params);
         return bitmap;
     }

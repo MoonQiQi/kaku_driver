@@ -6,7 +6,17 @@ package com.yichang.kaku.obj;
  */
 public class ShopMallProductObj {
 
-    private String id_goods,sort_goods,name_goods,image_goods,type_goods,num_goods,price_goods,num_exchange,time_create,promotion_goods,price_goods_buy;
+    private String id_goods;
+    private String sort_goods;
+    private String name_goods;
+    private String image_goods;
+    private String flag_shopcar;
+    private String num_goods;
+    private String price_goods;
+    private String num_exchange;
+    private String time_create;
+    private String promotion_goods;
+    private String price_goods_buy;
 
     public String getId_goods() {
         return id_goods;
@@ -40,12 +50,12 @@ public class ShopMallProductObj {
         this.image_goods = image_goods;
     }
 
-    public String getType_goods() {
-        return type_goods;
+    public String getFlag_shopcar() {
+        return flag_shopcar;
     }
 
-    public void setType_goods(String type_goods) {
-        this.type_goods = type_goods;
+    public void setFlag_shopcar(String flag_shopcar) {
+        this.flag_shopcar = flag_shopcar;
     }
 
     public String getNum_goods() {
@@ -103,7 +113,7 @@ public class ShopMallProductObj {
                 ", sort_goods='" + sort_goods + '\'' +
                 ", name_goods='" + name_goods + '\'' +
                 ", image_goods='" + image_goods + '\'' +
-                ", type_goods='" + type_goods + '\'' +
+                ", flag_shopcar='" + flag_shopcar + '\'' +
                 ", num_goods='" + num_goods + '\'' +
                 ", price_goods='" + price_goods + '\'' +
                 ", num_exchange='" + num_exchange + '\'' +

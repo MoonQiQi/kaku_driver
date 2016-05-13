@@ -26,7 +26,7 @@ import com.yichang.kaku.response.ShopCartProductsResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -110,17 +110,17 @@ public class ShopCartActivity extends BaseActivity implements OnClickListener, A
                 LogUtil.E("strObjId:" + mId_goods_shopcars);
             }
         }*/
-        for(int i=0;i<list.size();i++){
-            ShopCartProductObj obj=list.get(i);
-            if(obj.getIsChecked()){
+        for (int i = 0; i < list.size(); i++) {
+            ShopCartProductObj obj = list.get(i);
+            if (obj.getIsChecked()) {
 
-                productNum+=Integer.parseInt(obj.getNum_shopcar());
-                totalPrice+=Integer.parseInt(obj.getNum_shopcar())*Float.parseFloat(obj.getPrice_goods());
-                strObjId+=obj.getId_goods_shopcar()+",";
+                productNum += Integer.parseInt(obj.getNum_shopcar());
+                totalPrice += Integer.parseInt(obj.getNum_shopcar()) * Float.parseFloat(obj.getPrice_goods_buy());
+                strObjId += obj.getId_goods_shopcar() + ",";
             }
 
         }
-        mId_goods_shopcars=strObjId;
+        mId_goods_shopcars = strObjId;
 
         DecimalFormat decimalFormat = new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
         strTotalPrice = decimalFormat.format(totalPrice);//format 返回的是字符串
@@ -163,6 +163,11 @@ public class ShopCartActivity extends BaseActivity implements OnClickListener, A
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
 
     }
@@ -196,7 +201,7 @@ public class ShopCartActivity extends BaseActivity implements OnClickListener, A
             if (TextUtils.isEmpty(KaKuApplication.id_goods_shopcars)) {
                 mId_goods_shopcars = "";
                 for (int i = 0; i < list.size(); i++) {
-                    totalPrice[0] += Float.parseFloat(list.get(i).getPrice_goods()) * Integer.parseInt(list.get(i).getNum_shopcar());
+                    totalPrice[0] += Float.parseFloat(list.get(i).getPrice_goods_buy()) * Integer.parseInt(list.get(i).getNum_shopcar());
                     productNum += Integer.parseInt(list.get(i).getNum_shopcar());
                     mId_goods_shopcars += list.get(i).getId_goods_shopcar() + ",";
                 }
@@ -404,7 +409,7 @@ public class ShopCartActivity extends BaseActivity implements OnClickListener, A
             ((CheckBox) child.findViewById(R.id.cbx_shopcart_select)).setChecked(isSelectAll);
             cbx_shopcart_edit_selected.setChecked(isSelectAll);
         }
-        for (int j=0;j<list.size();j++){
+        for (int j = 0; j < list.size(); j++) {
             list.get(j).setIsChecked(isSelectAll);
         }
         isSelectAll = !isSelectAll;

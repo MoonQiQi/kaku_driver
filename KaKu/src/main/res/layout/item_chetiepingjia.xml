@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp">
+
+            <TextView
+                android:id="@+id/tv_chetiepingjia_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号"
+                android:textColor="@color/color_word"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_chetiepingjia_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="2016-01-01"
+                android:textColor="@color/color_word"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_chetiepingjia_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_chetiepingjia_phone"
+                android:layout_marginTop="10dp"
+                android:text="Content"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rela_chetiepingjia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_chetiepingjia_content">
+
+                <ImageView
+                    android:id="@+id/iv_chetiepingjia1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_chetiepingjia2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignBottom="@+id/iv_chetiepingjia1"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:layout_toRightOf="@+id/iv_chetiepingjia1"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_chetiepingjia3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignBottom="@+id/iv_chetiepingjia1"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:layout_toRightOf="@+id/iv_chetiepingjia2"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_chetiepingjia4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignBottom="@+id/iv_chetiepingjia1"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:layout_toRightOf="@+id/iv_chetiepingjia3"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View style="@style/Line_h" />
+
+    </LinearLayout>
+
+</LinearLayout>

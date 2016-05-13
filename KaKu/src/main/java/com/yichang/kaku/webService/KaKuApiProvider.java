@@ -71,6 +71,12 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "personal/address/address_default", resp);
     }
 
+    //8009 首页--更多服务
+    public final static void MoreService(final ExitReq req,
+                                         final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "homepage/more_services", resp);
+    }
+
     //10018 选择区域
     public final static void Area(final AreaReq req,
                                   final KakuResponseListener resp) {
@@ -137,9 +143,8 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "personal/suggest_list", resp);
     }
 
-
     //10032 获取推荐页面信息
-    public final static void getMemberRecommendInfo(final MemberRecommendReq req,
+    public final static void getMemberRecommendInfo(final ExitReq req,
                                                     final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "personal/recommended_driver", resp);
     }
@@ -150,10 +155,28 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "personal/recommended_list", resp);
     }
 
+    //10034 我的优惠券
+    public final static void MyCoupon(final ExitReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "personal/coupon_list", resp);
+    }
+
+    //10035 客服帮助
+    public final static void KeFuHelp(final ExitReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "personal/service_help", resp);
+    }
+
     //10036 红包分享内容
     public final static void getRedEnvelopeShareContent(final RedEnvelopeShareReq req,
                                                         final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP, resp);
+    }
+
+    //10037 赚钱
+    public final static void money(final ExitReq req,
+                                   final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "personal/make_money", resp);
     }
 
     //10028 我的车辆认证
@@ -171,7 +194,7 @@ public class KaKuApiProvider extends WebApiProvider {
     //2002 我的爱车
     public final static void GetMyCar(final MyCarReq req,
                                       final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP + "car/car_list", resp);
+        postRequest(req, UrlCtnt.BASEIP + "car/car_list_new", resp);
     }
 
     //2006 我的爱车—默认
@@ -205,12 +228,6 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "homepage/shop_search", resp);
     }
 
-    //20014 选车
-    public final static void XuanChe(final XuanCheReq req,
-                                     final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP + "car/car_select", resp);
-    }
-
     //20013 提交添加的爱车信息
     public final static void submitCarInfos(final EditCarInfoReq req,
                                             final KakuResponseListener resp) {
@@ -229,13 +246,61 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "car/car_information", resp);
     }
 
+    //20017 选发动机
+    public final static void XuanFaDongJi(final XuanFaDongJiReq req,
+                                          final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "car/engine_select", resp);
+    }
+
+    //20018 发动机信息
+    public final static void FaDongJiInfo(final FaDongJiInfoReq req,
+                                          final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "car/engine_submit", resp);
+    }
+
+    //20019 车辆保存
+    public final static void SaveCar(final SaveCarReq req,
+                                     final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "car/car_save", resp);
+    }
+
+    //20021 车辆修改
+    public final static void ModifyCar(final ModifyFaDongJiReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "car/car_information_new", resp);
+    }
+
+    //20022 输码识车
+    public final static void GetHandCode(final GetHandDataReq req,
+                                         final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "car/car_code_find", resp);
+    }
+
+    //20023 保养更换爱车
+    public final static void BYChangeCar(final BYChooseCarReq req,
+                                         final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "car/car_default_new", resp);
+    }
+
+    //  3000 获取车品商城分类列表
+    public final static void getShopMallFenLeiList(final ExitReq req,
+                                                   final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/goods/goods_types", resp);
+    }
+
     //	3001 获取车品商城列表
     public final static void getShopMallProductsLst(final ShopMallProductsReq req,
                                                     final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "bill/goods/goods_list", resp);
     }
 
-    // todo   3002商品详情
+
+    //	3002 搜索中的热门商品
+    public final static void SouSuoHot(final ExitReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/goods/goods_hot", resp);
+    }
+
     //	3003 添加至购物车
     public final static void addProductToCart(final ShopMallAdd2CartReq req,
                                               final KakuResponseListener resp) {
@@ -336,15 +401,45 @@ public class KaKuApiProvider extends WebApiProvider {
     }
 
     //30025 进入现场购买订单结算页面
-    public final static void getXianChangBuyOrder(final XianChangBuyReq req,
-                                                   final KakuResponseListener resp) {
+    public final static void getXianChangBuyOrder(final ConfirmOrderReq req,
+                                                  final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "bill/bill_confirm_scene", resp);
     }
 
     //30026 现场购买订单结算页面的提交订单
     public final static void commitXianChangBuyOrder(final XianChangCommitReq req,
-                                                   final KakuResponseListener resp) {
+                                                     final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "bill/bill_submit_scene", resp);
+    }
+
+    //30028 缺货登记
+    public final static void QueHuo(final QueHuoReq req,
+                                    final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/bill_goods_stockout", resp);
+    }
+
+    //30029 再次购买
+    public final static void BuyAgain(final BuyAgainReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/bill_buy_again", resp);
+    }
+
+    //30030 充话费获取初始价格
+    public final static void HuaFei(final ExitReq req,
+                                    final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/bill_phone_recharge_price", resp);
+    }
+
+    //30031 立即充值
+    public final static void ChongZhi(final ChongZhiReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/bill_phone_recharge", resp);
+    }
+
+    //30032 立即充值支付
+    public final static void ChongZhiZhiFu(final ChongZhiZhiFuReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "bill/bill_phone_pay", resp);
     }
 
     //8003 品牌服务站
@@ -369,7 +464,25 @@ public class KaKuApiProvider extends WebApiProvider {
     //40010 获取可用优惠券
     public final static void GetYouHuiQuan(final YouHuiQuanReq req,
                                            final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP, resp);
+        postRequest(req, UrlCtnt.BASEIP + "bill/bill_coupon_list", resp);
+    }
+
+    //400107 获取可用优惠券
+    public final static void GetYouHuiQuan2(final YouHuiQuanReq req,
+                                            final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_coupon_list", resp);
+    }
+
+    //400117 保养店铺活动
+    public final static void ShopHuoDong(final BaoYangListReq req,
+                                         final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_activity", resp);
+    }
+
+    //400118 我的仓库
+    public final static void CangKu(final CangKuReq req,
+                                    final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_warehouse", resp);
     }
 
     //40011 提交保养订单
@@ -438,12 +551,6 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP, resp);
     }
 
-    //8006 评价列表
-    public final static void PingJia(final PingJiaReq req,
-                                     final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP + "homepage/shop_eval_list", resp);
-    }
-
     //40025 返修详情
     public final static void FanXiuDetail(final FanXiuDetailReq req,
                                           final KakuResponseListener resp) {
@@ -460,6 +567,180 @@ public class KaKuApiProvider extends WebApiProvider {
     public final static void ShenQingQuXiao(final ShenQingQuXiaoReq req,
                                             final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP, resp);
+    }
+
+    //40052 保养套餐详情
+    public final static void BaoYangDetail(final BaoYangDetailReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_information", resp);
+    }
+
+    //40053 保养订单确认
+    public final static void OrderSure(final BaoYangDetailReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_bill_confirm", resp);
+    }
+
+    //400116 保养订单提交
+    public final static void CommitBill(final GenerateServiceOrderReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_submit", resp);
+    }
+
+    //40055 上传滤芯图片
+    public final static void UploadFilter(final UploadFilterReq req,
+                                          final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_bill_picture", resp);
+    }
+
+    //400126 保养订单取消
+    public final static void BaoYangOrderCancle(final BaoYangOrderCancleReq req,
+                                                final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/bill_cancel", resp);
+    }
+
+    //40058 保养订单确认收货
+    public final static void BaoYangOrderShou(final BaoYangOrderCancleReq req,
+                                              final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_bill_delivery", resp);
+    }
+
+    //400121 保养订单列表
+    public final static void BaoYangOrderList(final TruckOrderListReq req,
+                                              final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/bill_list", resp);
+    }
+
+    //400123 保养评价提交
+    public final static void BaoYangPingJiaSubmit(final BaoYangPingJiaReq req,
+                                                  final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/eval_submit", resp);
+    }
+
+    //40060 获取选择滤芯图片
+    public final static void GetFilter(final GetFilterImageReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_picture", resp);
+    }
+
+    //400127 删除保养订单
+    public final static void BaoYangOrderDelete(final BaoYangOrderDeleteReq req,
+                                                final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/bill_del", resp);
+    }
+
+    //400128 保养订单确认服务
+    public final static void BaoYangOrderFuWu(final BaoYangOrderCancleReq req,
+                                              final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/bill_confirm_driver", resp);
+    }
+
+    //400113  保养方案
+    public final static void BaoYangShopDetail(final BaoYangListReq req,
+                                               final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_shop_choose", resp);
+    }
+
+    //400112 保养方案更换机油
+    public final static void BaoYangChangeOil(final BaoYangListReq req,
+                                              final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_oil_list", resp);
+    }
+
+    //400114 保养方案更换滤芯
+    public final static void BaoYangChangeFilter(final BaoYangListReq req,
+                                                 final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_filter_list", resp);
+    }
+
+    //40073 保养方案更换
+    public final static void BaoYangSubmit(final BaoYangSubmitReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_plan_submit", resp);
+    }
+
+    //40074 保养选门店列表
+    public final static void BYChooseShop(final ChooseShopReq req,
+                                          final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_shop_list", resp);
+    }
+
+    //400115 保养订单
+    public final static void BaoYangOrder(final GetBaoYangOrderReq req,
+                                          final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_confirm", resp);
+    }
+
+    //40076  提交门店申请
+    public final static void CommitMen(final CommitShopReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_shop_submit", resp);
+    }
+
+    //400125  保养清单
+    public final static void BaoYangQingDan(final ExitReq req,
+                                            final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_item_list", resp);
+    }
+
+    //400122 保养订单详情
+    public final static void BaoYangOrderDetail(final BaoYangOrderDetailReq req,
+                                                final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/bill_information", resp);
+    }
+
+    //40082 打黄油订单评价页面信息
+    public final static void OilPingJia(final OilPingJiaReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_bill_information_shop", resp);
+    }
+
+    //400101  打黄油获取当前任务状态
+    public final static void YellowOil(final YellowOilReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_state", resp);
+    }
+
+    //400102  打黄油获取当前服务价格
+    public final static void XuanZeFuWu(final XuanZeFuWuReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_price", resp);
+    }
+
+    //400104  取消服务
+    public final static void QuXiaoFuWu(final BaoYangOrderCancleReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_cancel", resp);
+    }
+
+    //400103  呼叫服务
+    public final static void HuJiaoFuWu(final HuJiaoFuWuReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_call", resp);
+    }
+
+    //400105  打黄油确认服务
+    public final static void YellowOilOrder(final YellowOilOrderReq req,
+                                            final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_confirm", resp);
+    }
+
+    //400106  打黄油轮胎，确认支付更改支付方式
+    public final static void ModifyPayType(final ModifyPayTypeReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_pay_change", resp);
+    }
+
+    //400107  打黄油提交订单
+    public final static void YellowOilSubmit(final YellowOilSubmitReq req,
+                                             final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/service_submit", resp);
+    }
+
+    //400111 保养方案
+    public final static void BaoYang(final BaoYangReq req,
+                                     final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "upkeep/upkeep_shop_state", resp);
     }
 
     //5001 我的余额
@@ -546,10 +827,22 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP, resp);
     }
 
+    //60010 车贴总结
+    public final static void CheTieZongJie(final CheTieZongJieReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_information_total", resp);
+    }
+
     //60011 任务详情
     public final static void GetAdd(final GetAddReq req,
                                     final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP + "advert/advert_information0", resp);
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_information", resp);
+    }
+
+    //600111 大日历
+    public final static void BigCalendar(final BaseReq req,
+                                         final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_information_month", resp);
     }
 
     //60012 任务跳转
@@ -606,10 +899,34 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "advert/advert_bill_recommended", resp);
     }
 
+    //60022 广告评价
+    public final static void commitAd(final AdCommitReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_eval_submit", resp);
+    }
+
+    //60023 广告评价列表
+    public final static void adPingJiaList(final AdPingJialistReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_eval_list", resp);
+    }
+
+    //60024 获取拍照反馈获得的优惠券
+    public final static void GetFanKui(final ExitReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_get_coupon", resp);
+    }
+
     //60031 获取车贴列表
+    public final static void getQiangCheTieList(final CheTieListReq req,
+                                                final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advertrob/advertrob_list", resp);
+    }
+
+    //600100 获取车贴列表
     public final static void getCheTieList(final CheTieListReq req,
                                            final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP + "advertrob/advertrob_list", resp);
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_list", resp);
     }
 
     //60032 获取车贴详情
@@ -621,7 +938,7 @@ public class KaKuApiProvider extends WebApiProvider {
     //60033 抢车贴——上传行驶证
     public final static void QiangImage(final QiangImageReq req,
                                         final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP + "advertrob/upload_license", resp);
+        postRequest(req, UrlCtnt.BASEIP + "homepage/zero_buy_submit", resp);
     }
 
     //60034 抢车贴——生成订单
@@ -654,10 +971,52 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "advertrob/advertrob_bill_delivery", resp);
     }
 
-    //70010 获取发现列表
+    //60051 记账本
+    public final static void MoneyBook(final MoneyBookReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "findgoods/account_list", resp);
+    }
+
+    //60052 添加记账本
+    public final static void WhiteMoney(final WhiteMoneyReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "findgoods/account_add", resp);
+    }
+
+    //60053 网络电话通讯记录
+    public final static void CallList(final ExitReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "findgoods/duration_list", resp);
+    }
+
+    //60054 网络电话拨打提交
+    public final static void CallSubmit(final CallSubmitReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "findgoods/duration_submit", resp);
+    }
+
+    //60055 网络电话更多列表
+    public final static void CallMore(final ExitReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "findgoods/duration_get_list", resp);
+    }
+
+    //60057 当前在线听广播人数
+    public final static void gbPeople(final ExitReq req,
+                                      final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "findgoods/fm_get_num", resp);
+    }
+
+    //70010 获取头条列表
     public final static void getDiscoveryList(final DiscoveryListReq req,
                                               final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "news/news_list", resp);
+    }
+
+    //70011 获取圈子列表
+    public final static void getDiscoveryList2(final DiscoveryListReq req,
+                                               final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "news/circle_list", resp);
     }
 
     //7002 获取发现详情页面地址
@@ -702,6 +1061,24 @@ public class KaKuApiProvider extends WebApiProvider {
         postRequest(req, UrlCtnt.BASEIP + "news/news_share", resp);
     }
 
+    //70012 圈子详情
+    public final static void getQuanziDetail(final QuanziDetailReq req,
+                                             final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "news/circle_information", resp);
+    }
+
+    //70013 圈子提交
+    public final static void QuanziSubmit(final QuanziSubmitReq req,
+                                          final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "news/circle_submit", resp);
+    }
+
+    //70015 圈子回复
+    public final static void QuanziHuifu(final QuanziHuifuReq req,
+                                         final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "news/circle_eval_submit", resp);
+    }
+
     //70020 现场领取
     public final static void XianChangLingQu(final XianChangLingQuReq req,
                                              final KakuResponseListener resp) {
@@ -739,15 +1116,28 @@ public class KaKuApiProvider extends WebApiProvider {
     }
 
     //8002 获取每日积分详情
-    public final static void getDailySignInfo(final DailySignReq req,
+    public final static void getDailySignInfo(final ExitReq req,
                                               final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "homepage/sign", resp);
     }
+
+    //8006 评价列表
+    public final static void PingJia(final PingJiaReq req,
+                                     final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "homepage/shop_eval_list", resp);
+    }
+
 
     //8007 店铺点评提交
     public final static void commitShop(final ShopCommitReq req,
                                         final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "homepage/shop_eval_submit", resp);
+    }
+
+    //8008 设置签到提醒
+    public final static void qiandaotixing(final QianDaoTiXingReq req,
+                                           final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "homepage/sign_remind", resp);
     }
 
     //9000 获取违章查询预留信息
@@ -757,7 +1147,7 @@ public class KaKuApiProvider extends WebApiProvider {
     }
 
     //9001 违章获取城市列表
-    public final static void CityQuery(final CityInfoReq req,
+    public final static void CityQuery(final ExitReq req,
                                        final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "checkillegal/city_list", resp);
     }
@@ -786,12 +1176,17 @@ public class KaKuApiProvider extends WebApiProvider {
     }
 
     //	80010 获取确认订单页面信息
-    public final static void getSeckillOrderInfo(final SeckillOrderReq req,
-                                                 final KakuResponseListener resp) {
-        postRequest(req, UrlCtnt.BASEIP, resp);
+    public final static void zero(final ExitReq req,
+                                  final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "homepage/zero_buy", resp);
     }
 
-    //	80011 获取订单是否过期
+    //	80011 0元购提交申请
+    public final static void zerocommit(final ExitReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "homepage/zero_buy_submit", resp);
+    }
+
     public final static void isOrderOverTime(final OrderOverTimeReq req,
                                              final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "bill/bill_is_late", resp);
@@ -813,5 +1208,17 @@ public class KaKuApiProvider extends WebApiProvider {
     public final static void QiNiuYunToken(final QiNiuYunTokenReq req,
                                            final KakuResponseListener resp) {
         postRequest(req, UrlCtnt.BASEIP + "base/qiniuyun_key", resp);
+    }
+
+    //	600110 获取车贴id和type
+    public final static void GetAdType(final AdTypeReq req,
+                                       final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "advert/advert_information_type", resp);
+    }
+
+    //	70026 优惠券转盘分享成功
+    public final static void ShareAfter(final ExitReq req,
+                                        final KakuResponseListener resp) {
+        postRequest(req, UrlCtnt.BASEIP + "wheel/coupon_rotary_share", resp);
     }
 }

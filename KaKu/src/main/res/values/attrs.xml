@@ -14,4 +14,21 @@
         <attr name="android:textSize" />
     </declare-styleable>
 
+    <declare-styleable name="call_control">
+        <attr name="call_direct">
+            <enum name="incoming" value="0" />
+            <enum name="outgoing" value="1" />
+            <enum name="inCall" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LoadingView">
+        <attr name="loadingView" format="reference" />
+        <attr name="errorView" format="reference" />
+        <attr name="retryView" format="reference" />
+        <attr name="emptyView" format="reference" />
+        <attr name="contentsView" format="reference" />
+        <attr name="animation" format="reference" />
+    </declare-styleable>
+
 </resources>

@@ -36,7 +36,6 @@ public class TruckOrderCommentAdapter extends BaseAdapter {
     }
 
 
-
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -67,17 +66,17 @@ public class TruckOrderCommentAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_truck_order_comment, null);
-            holder.iv_product_image= (ImageView) convertView.findViewById(R.id.iv_product_image);
-            holder.rb_comment= (RatingBar) convertView.findViewById(R.id.rb_comment);
-            holder.et_order_comment= (EditText) convertView.findViewById(R.id.et_order_comment);
+            holder.iv_product_image = (ImageView) convertView.findViewById(R.id.iv_product_image);
+            holder.rb_comment = (RatingBar) convertView.findViewById(R.id.rb_comment);
+            holder.et_order_comment = (EditText) convertView.findViewById(R.id.et_order_comment);
             //holder.iv_comment_img1= (ImageView) convertView.findViewById(R.id.iv_comment_img1);
-            holder.iv_comment_add= (ImageView) convertView.findViewById(R.id.iv_comment_add);
-            holder.tv_comment_textsize= (TextView) convertView.findViewById(R.id.tv_comment_textsize);
+            holder.iv_comment_add = (ImageView) convertView.findViewById(R.id.iv_comment_add);
+            holder.tv_comment_textsize = (TextView) convertView.findViewById(R.id.tv_comment_textsize);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        BitmapUtil.getInstance(mContext).download(holder.iv_product_image, KaKuApplication.qian_zhui+obj.getImage_goods());
+        BitmapUtil.getInstance(mContext).download(holder.iv_product_image, KaKuApplication.qian_zhui + obj.getImage_goods());
 
         holder.et_order_comment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,13 +87,14 @@ public class TruckOrderCommentAdapter extends BaseAdapter {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String comment = String.valueOf(s);
+                if ("".equals(comment)) {
+                    comment = "好评！";
+                }
                 if (comment.length() <= 500) {
-                    LogUtil.E("comment len:"+comment.length());
                     holder.tv_comment_textsize.setText(comment.length() + "/500");
-                    LogUtil.E("comment len:"+comment.length());
-                }else {
+                } else {
                     LogUtil.showShortToast(mContext, "已超出最大输入字符限制");
-                    comment=comment.substring(0,500);
+                    comment = comment.substring(0, 500);
                     holder.et_order_comment.setText(comment);
                     Editable ea = holder.et_order_comment.getEditableText();
                     Selection.setSelection(ea, ea.length());
@@ -115,11 +115,10 @@ public class TruckOrderCommentAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                callBack.setPicToView(holder.iv_comment_add,position);
+                callBack.setPicToView(holder.iv_comment_add, position);
 
             }
         });
-
 
 
         return convertView;
@@ -127,12 +126,12 @@ public class TruckOrderCommentAdapter extends BaseAdapter {
 
     private ICallBack callBack;
 
-    public void setCallBack(ICallBack callBack){
-        this.callBack=callBack;
+    public void setCallBack(ICallBack callBack) {
+        this.callBack = callBack;
     }
 
-    interface ICallBack{
-        void setPicToView(ImageView view,int adapterIndex);
+    interface ICallBack {
+        void setPicToView(ImageView view, int adapterIndex);
 
     }
 

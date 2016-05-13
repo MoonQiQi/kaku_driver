@@ -58,7 +58,7 @@ public class AdActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (com.wly.android.widget.R.id.tv_left == id) {
+        if (R.id.tv_left == id) {
             finish();
         }
     }

@@ -1,25 +1,17 @@
 package com.yichang.kaku.home;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Service;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,101 +30,67 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseFragment;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.Ad.Add_EActivity;
-import com.yichang.kaku.home.Ad.Add_FActivity;
-import com.yichang.kaku.home.Ad.Add_IActivity;
-import com.yichang.kaku.home.Ad.Add_MActivity;
-import com.yichang.kaku.home.Ad.Add_NActivity;
-import com.yichang.kaku.home.Ad.Add_PActivity;
-import com.yichang.kaku.home.Ad.Add_YActivity;
-import com.yichang.kaku.home.Ad.CheTieListActivity;
-import com.yichang.kaku.home.Ad.QiangCheTieListActivity;
-import com.yichang.kaku.home.choujiang.ChouJiangActivity;
+import com.yichang.kaku.guangbo.GuangBoActivity;
+import com.yichang.kaku.home.baoyang.BaoYangActivity;
+import com.yichang.kaku.home.baoyang.BaoYangHuoDongActivity;
+import com.yichang.kaku.home.baoyang.YellowOilActivity;
+import com.yichang.kaku.home.call.CallActivity;
 import com.yichang.kaku.home.dingwei.TitleActivity;
-import com.yichang.kaku.home.faxian.DiscoveryActivity;
-import com.yichang.kaku.home.giftmall.HomeShopMallAdapter;
+import com.yichang.kaku.home.faxian.DiscoveryDetailActivity;
 import com.yichang.kaku.home.giftmall.ProductDetailActivity;
 import com.yichang.kaku.home.giftmall.ShopMallActivity;
+import com.yichang.kaku.home.huafei.HuaFeiActivity;
+import com.yichang.kaku.home.jiuyuan.SOSActivity;
 import com.yichang.kaku.home.mycar.MyCarActivity;
-import com.yichang.kaku.home.mycar.PinPaiXuanZeActivity;
-import com.yichang.kaku.home.qiandao.DailyRemindService;
 import com.yichang.kaku.home.qiandao.DailySignActivity;
-import com.yichang.kaku.home.qiandao.PollingUtils;
-import com.yichang.kaku.home.shop.PinPaiFuWuZhanActivity;
-import com.yichang.kaku.home.shop.ShopDetailActivity;
-import com.yichang.kaku.home.shop.ShopItemAdapter;
-import com.yichang.kaku.home.text.ObservableScrollView;
+import com.yichang.kaku.home.sousuo.SouSuoActivity;
 import com.yichang.kaku.home.weizhang.IllegalQueryActivity;
 import com.yichang.kaku.member.login.LoginActivity;
-import com.yichang.kaku.obj.GoodsObj;
+import com.yichang.kaku.obj.HotActivityObj;
 import com.yichang.kaku.obj.NewsObj;
 import com.yichang.kaku.obj.RollsObj;
-import com.yichang.kaku.obj.SeckillObj;
-import com.yichang.kaku.obj.Shops_wxzObj;
-import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.HomeReq;
-import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.HomeResp;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.DensityUtils;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.wheelview.OnWheelClickedListener;
 import com.yichang.kaku.view.wheelview.WheelView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yichang.kaku.zhaohuo.ZhaoHuoActivity;
+import com.yolanda.nohttp.rest.Response;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment implements OnClickListener, AdapterView.OnItemClickListener, ScrollViewListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class HomeFragment extends BaseFragment implements OnClickListener {
 
     private RelativeLayout galleryContainer;
     private AdGalleryHelper mGalleryHelper;
     private Activity mActivity;
     private boolean flag_frag = false;
-    private LayoutInflater mInflater;
-    private TextView tv_title_home;
-    private ListView lv_home_item;
-    private List<Shops_wxzObj> list_wxz = new ArrayList<Shops_wxzObj>();
-    private ShopItemAdapter adapter;
-    private ImageView iv_title_home_left, iv_title_home_right;
-    private LinearLayout ll_title_home_left, ll_title_home_right,line_home_fuwuzhan;
-    private TextView tv_home_dayuhao2, tv_home_dayuhao3,tv_home_teyueweixiuzhan;
-    private ObservableScrollView scroll;
+    private TextView tv_title_home, tv_home_city;
+    private ImageView iv_title_home_brand, iv_homecall, iv_homeshopmall;
+    private LinearLayout ll_title_home_left, ll_title_home_right;
     private RelativeLayout rela_main_title1, rela_main_title2, rela_home_title;
     private LocationClient mLocationClient = null;
     public MyLocationListener mMyLocationListener;
-    public Vibrator mVibrator;
     private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
     private String tempcoor = "bd09ll";
-    private ImageView iv_home1, iv_home2, iv_home3, iv_home5, iv_home6, iv_home7, iv_home8;
-    private GridView grid_shopmall;
-    private TextView tv_countdown_hour, tv_countdown_min, tv_countdown_second;
-    private List<NewsObj> news_list = new ArrayList<NewsObj>();
+    private ImageView iv_home11, iv_home12, iv_home13, iv_home14;
+    private ImageView iv_home21, iv_home22, iv_home23, iv_home24;
+    private ImageView iv_home31, iv_home32, iv_home33;
+    private ImageView iv_home41, iv_home42, iv_home43, iv_home44;
+    private List<NewsObj> news_list = new ArrayList<>();
     private static int sCount = 0;
-
-    long lastTime = -1;
-
-    Runnable taskRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            if (lastTime == -1 || System.currentTimeMillis() - lastTime >= 3000) {
-                wheelView.scroll(1, 0);
-                wheelView.postDelayed(this, 3000);
-                lastTime = System.currentTimeMillis();
-            }
-        }
-    };
-    private SharedPreferences sp;
-    private boolean hasSetCountDown = false;
+    private ImageView iv_home_rxsp1, iv_home_rxsp2, iv_home_rxsp3;
+    private boolean isShowProgress;
     private boolean headlineStarted = false;
     private WheelView wheelView;
     private HeadlinesAdapter adapter1;
+    private String productId1, productId2, productId3;
+    private ListView lv_home;
+    private List<HotActivityObj> list_activity = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,12 +101,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         mLocationClient = new LocationClient(mActivity);
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
-        mVibrator = (Vibrator) mActivity.getSystemService(Service.VIBRATOR_SERVICE);
         initLocation();
-        if (!PollingUtils.isServiceRun) {
-            startDailySign();
-        }
-        sp = getActivity().getSharedPreferences("config", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -162,39 +115,38 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
     public void onStart() {
         super.onStart();
         getHome();
-        tv_title_home.setText(KaKuApplication.address);
-        if ("".equals(tv_title_home.getText().toString())) {
+        tv_home_city.setText(KaKuApplication.address);
+        if ("".equals(tv_home_city.getText().toString()) || "请选择".equals(tv_home_city.getText().toString())) {
             mLocationClient.start();
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override
     public void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        if (handler != null) {
-            handler.removeCallbacks(runnable);
-        }
         mLocationClient.stop();
     }
 
-    View rl_mall;
-
     private void init(View view) {
 
-        /*好礼商城*/
-        rl_mall = view.findViewById(R.id.rl_mall);
-
-        ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
-
-        viewTreeObserver.addOnGlobalLayoutListener(this);
-
         galleryContainer = (RelativeLayout) view.findViewById(R.id.home_gallery);
+
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+
+        double anInt;
+        anInt = (outMetrics.widthPixels) / 3.5;
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) anInt);
+        galleryContainer.setLayoutParams(params1);
+
+        double anInt2;
+        anInt2 = (outMetrics.widthPixels) / 4;
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams((int) anInt2, (int) anInt2);
+
+        double anInt3;
+        anInt3 = (outMetrics.widthPixels) / 2;
+        LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams((int) anInt3, (int) anInt2);
 
         wheelView = (WheelView) view.findViewById(R.id.home_toutiao);
         wheelView.setCyclic(true);
@@ -206,82 +158,90 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
                     startActivity(new Intent(mActivity, LoginActivity.class));
                     return;
                 }
-                MobclickAgent.onEvent(mActivity, "Home4");
-                Intent intent = new Intent(mActivity, DiscoveryActivity.class);
+                MobclickAgent.onEvent(mActivity, "toutiao");
+                KaKuApplication.id_news = news_list.get(itemIndex).getId_news();
+                Intent intent = new Intent(mActivity, DiscoveryDetailActivity.class);
                 startActivity(intent);
             }
         });
 
-        if (mInflater == null) {
-            mInflater = LayoutInflater.from(mActivity);
-        }
-
         tv_title_home = (TextView) view.findViewById(R.id.tv_title_home);
         tv_title_home.requestFocus();
-        iv_title_home_left = (ImageView) view.findViewById(R.id.iv_title_home_left);
-        iv_title_home_right = (ImageView) view.findViewById(R.id.iv_title_home_right);
-        iv_home1 = (ImageView) view.findViewById(R.id.iv_home1);
-        iv_home1.setOnClickListener(this);
-        iv_home2 = (ImageView) view.findViewById(R.id.iv_home2);
-        iv_home2.setOnClickListener(this);
-        iv_home3 = (ImageView) view.findViewById(R.id.iv_home3);
-        iv_home3.setOnClickListener(this);
-        iv_home5 = (ImageView) view.findViewById(R.id.iv_home5);
-        iv_home5.setOnClickListener(this);
-        iv_home6 = (ImageView) view.findViewById(R.id.iv_home6);
-        iv_home6.setOnClickListener(this);
-        iv_home7 = (ImageView) view.findViewById(R.id.iv_home7);
-        iv_home7.setOnClickListener(this);
-        iv_home8 = (ImageView) view.findViewById(R.id.iv_home8);
-        iv_home8.setOnClickListener(this);
+        iv_title_home_brand = (ImageView) view.findViewById(R.id.iv_title_home_brand);
+        iv_home11 = (ImageView) view.findViewById(R.id.iv_home11);
+        iv_home11.setOnClickListener(this);
+        iv_home12 = (ImageView) view.findViewById(R.id.iv_home12);
+        iv_home12.setOnClickListener(this);
+        iv_home13 = (ImageView) view.findViewById(R.id.iv_home13);
+        iv_home13.setOnClickListener(this);
+        iv_home14 = (ImageView) view.findViewById(R.id.iv_home14);
+        iv_home14.setOnClickListener(this);
+        iv_home21 = (ImageView) view.findViewById(R.id.iv_home21);
+        iv_home21.setOnClickListener(this);
+        iv_home22 = (ImageView) view.findViewById(R.id.iv_home22);
+        iv_home22.setOnClickListener(this);
+        iv_home23 = (ImageView) view.findViewById(R.id.iv_home23);
+        iv_home23.setOnClickListener(this);
+        iv_home24 = (ImageView) view.findViewById(R.id.iv_home24);
+        iv_home24.setOnClickListener(this);
+        iv_home31 = (ImageView) view.findViewById(R.id.iv_home31);
+        iv_home31.setOnClickListener(this);
+        iv_home32 = (ImageView) view.findViewById(R.id.iv_home32);
+        iv_home32.setOnClickListener(this);
+        iv_home33 = (ImageView) view.findViewById(R.id.iv_home33);
+        iv_home33.setOnClickListener(this);
+        iv_home41 = (ImageView) view.findViewById(R.id.iv_home41);
+        iv_home41.setOnClickListener(this);
+        iv_home42 = (ImageView) view.findViewById(R.id.iv_home42);
+        iv_home42.setOnClickListener(this);
+        iv_home43 = (ImageView) view.findViewById(R.id.iv_home43);
+        iv_home43.setOnClickListener(this);
+        iv_home44 = (ImageView) view.findViewById(R.id.iv_home44);
+        iv_home44.setOnClickListener(this);
+        iv_home21.setLayoutParams(params2);
+        iv_home22.setLayoutParams(params2);
+        iv_home23.setLayoutParams(params2);
+        iv_home24.setLayoutParams(params2);
+        iv_home31.setLayoutParams(params2);
+        iv_home32.setLayoutParams(params3);
+        iv_home33.setLayoutParams(params2);
+        iv_home41.setLayoutParams(params2);
+        iv_home42.setLayoutParams(params2);
+        iv_home43.setLayoutParams(params2);
+        iv_home44.setLayoutParams(params2);
+        iv_home_rxsp1 = (ImageView) view.findViewById(R.id.iv_home_rxsp1);
+        iv_home_rxsp1.setOnClickListener(this);
+        iv_home_rxsp2 = (ImageView) view.findViewById(R.id.iv_home_rxsp2);
+        iv_home_rxsp2.setOnClickListener(this);
+        iv_home_rxsp3 = (ImageView) view.findViewById(R.id.iv_home_rxsp3);
+        iv_home_rxsp3.setOnClickListener(this);
         ll_title_home_left = (LinearLayout) view.findViewById(R.id.ll_title_home_left);
         ll_title_home_left.setOnClickListener(this);
         ll_title_home_right = (LinearLayout) view.findViewById(R.id.ll_title_home_right);
         ll_title_home_right.setOnClickListener(this);
-        line_home_fuwuzhan = (LinearLayout) view.findViewById(R.id.line_home_fuwuzhan);
-        lv_home_item = (ListView) view.findViewById(R.id.lv_home_item);
-        tv_home_dayuhao2 = (TextView) view.findViewById(R.id.tv_home_dayuhao2);
-        tv_home_dayuhao2.setOnClickListener(this);
-        tv_home_dayuhao3 = (TextView) view.findViewById(R.id.tv_home_dayuhao3);
-        tv_home_dayuhao3.setOnClickListener(this);
-        tv_home_teyueweixiuzhan = (TextView) view.findViewById(R.id.tv_home_teyueweixiuzhan);
-        grid_shopmall = (GridView) view.findViewById(R.id.grid_shopmall);
-        scroll = (ObservableScrollView) view.findViewById(R.id.sv_home_main);
-        scroll.setScrollViewListener(this);
-
+        tv_home_city = (TextView) view.findViewById(R.id.tv_home_city);
+        tv_home_city.setOnClickListener(this);
+        iv_homeshopmall = (ImageView) view.findViewById(R.id.iv_homeshopmall);
+        iv_homeshopmall.setOnClickListener(this);
+        iv_homecall = (ImageView) view.findViewById(R.id.iv_homecall);
+        iv_homecall.setOnClickListener(this);
         rela_main_title2 = (RelativeLayout) view.findViewById(R.id.rela_main_title2);
         rela_main_title1 = (RelativeLayout) view.findViewById(R.id.rela_main_title);
         rela_home_title = (RelativeLayout) view.findViewById(R.id.rela_home_title);
         rela_home_title.setOnClickListener(this);
         rela_main_title2.setBackgroundColor(Color.argb(0, 0, 0, 0));
-
-        lv_home_item.setFocusable(false);
-        lv_home_item.setOnItemClickListener(this);
-        initSeckillViews(view);
-    }
-
-    private void startDailySign() {
-        boolean isRemindChecked = KaKuApplication.sp.getBoolean("isRemindChecked", false);
-
-        LogUtil.E("isRemindChecked:" + isRemindChecked);
-
-        if (isRemindChecked) {
-            //每日提醒签到
-            PollingUtils.startPollingService(mActivity, 5, DailyRemindService.class, DailyRemindService.ACTION);
-        }
-    }
-
-    private long currentTime;
-    private long startTime;
-    private long timeRemains;
-
-
-    private void initSeckillViews(View view) {
-
-        tv_countdown_hour = (TextView) view.findViewById(R.id.tv_countdown_hour);
-        tv_countdown_min = (TextView) view.findViewById(R.id.tv_countdown_min);
-        tv_countdown_second = (TextView) view.findViewById(R.id.tv_countdown_second);
-
+        lv_home = (ListView) view.findViewById(R.id.lv_home);
+        lv_home.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!Utils.isLogin()) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
+                KaKuApplication.id_baoyangshop = list_activity.get(position).getId_shop();
+                startActivity(new Intent(getActivity(), BaoYangHuoDongActivity.class));
+            }
+        });
     }
 
     @Override
@@ -297,76 +257,97 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         }
         int id = v.getId();
         if (R.id.ll_title_home_left == id) {
-            MobclickAgent.onEvent(mActivity, "WoDeAiChe");
-            if (TextUtils.isEmpty(Utils.getIdCar())) {
-                startActivity(new Intent(mActivity, MyCarActivity.class));
+            if ("".equals(Utils.getLat())) {
+                LogUtil.showShortToast(mActivity, "请打开手机定位");
                 return;
             }
-            GoToLeft();
-        } else if (R.id.ll_title_home_right == id) {
-            MobclickAgent.onEvent(mActivity, "SouSuo");
-            if (TextUtils.isEmpty(Utils.getIdCar())) {
-                startActivity(new Intent(mActivity, SouSuoActivity.class));
-                return;
-            }
-            GoToRight();
-        } else if (R.id.tv_home_dayuhao2 == id) {
-            if (TextUtils.isEmpty(Utils.getIdCar())) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("提示");
-                builder.setMessage("添加爱车，可精准推荐服务站，还送200积分哦~");
-                builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(mActivity, PinPaiXuanZeActivity.class));
-                    }
-                });
-                builder.setCancelable(false);
-                builder.create().show();
-                return;
-            }
-            GoToPinPaiFuWuZhan();
-        } else if (R.id.tv_home_dayuhao3 == id) {
-            /*todo 进入车品商城页面*/
-            MobclickAgent.onEvent(mActivity, "CarShop");
-            startActivity(new Intent(getActivity(), ShopMallActivity.class));
-        } else if (R.id.rela_home_title == id) {
             GoToTitle();
-        } else if (R.id.iv_home1 == id) {
-            //一键呼
-            MobclickAgent.onEvent(mActivity, "Home2");
-            startActivity(new Intent(getActivity(), SOSActivity.class));
-        } else if (R.id.iv_home2 == id) {
-            //查违章
-            MobclickAgent.onEvent(mActivity, "Home1");
-            startActivity(new Intent(mActivity, IllegalQueryActivity.class));
-        } else if (R.id.iv_home3 == id) {
-            //问养修
+        } else if (R.id.ll_title_home_right == id) {
+            GoToRight();
+        } else if (R.id.iv_homeshopmall == id) {
+            startActivity(new Intent(mActivity, ShopMallActivity.class));
+        } else if (R.id.rela_home_title == id) {
+            KaKuApplication.flag_addcar = "hometitle";
+            GoToLeft();
+        } else if (R.id.iv_home11 == id) {
+            //换机油
+            KaKuApplication.yellowoil = "14";
+            MobclickAgent.onEvent(mActivity, "11");
+            startActivity(new Intent(mActivity, BaoYangActivity.class));
+        } else if (R.id.iv_home12 == id) {
+            //打黄油
+            KaKuApplication.yellowoil = "11";
+            MobclickAgent.onEvent(mActivity, "12");
+            startActivity(new Intent(mActivity, YellowOilActivity.class));
+        } else if (R.id.iv_home13 == id) {
+            //轮胎服务
+            KaKuApplication.yellowoil = "12";
+            MobclickAgent.onEvent(mActivity, "13");
+            startActivity(new Intent(mActivity, YellowOilActivity.class));
+        } else if (R.id.iv_home14 == id) {
+            //优惠券
+            MobclickAgent.onEvent(mActivity, "14");
+            Intent intent = new Intent(mActivity, YouHuiQuanLingActivity.class);
+           /* intent.putExtra("url_coupon", url_coupon);
+            intent.putExtra("url_share", url_share);*/
+            startActivity(intent);
+        } else if (R.id.iv_home21 == id) {
+            //保轮
+            KaKuApplication.yellowoil = "13";
+            MobclickAgent.onEvent(mActivity, "21");
+            startActivity(new Intent(mActivity, YellowOilActivity.class));
+        } else if (R.id.iv_home22 == id) {
+            //免费电话
             LogUtil.showShortToast(mActivity, "敬请期待");
             return;
-            //MobclickAgent.onEvent(mActivity, "Home3");
-            // startActivity(new Intent(mActivity,InterlocutionActivity.class));
-        }  else if (R.id.iv_home8 == id) {
-            //车贴
-            MobclickAgent.onEvent(mActivity, "Home9");
-            GetAdd();
-        } else if (R.id.iv_home5 == id) {
-            //秒杀
-            MobclickAgent.onEvent(mActivity, "Home6");
-            /*Intent intent = new Intent(mActivity, HomeSeckillActivity.class);
-            intent.putExtra("clickTabState", seckillIndex);
-            mActivity.startActivity(intent);*/
-            startActivity(new Intent(mActivity,QiangCheTieListActivity.class));
-        } else if (R.id.iv_home7 == id) {
-            //签到
-            MobclickAgent.onEvent(mActivity, "Home8");
-            startActivity(new Intent(mActivity, DailySignActivity.class));
-        } else if (R.id.iv_home6 == id) {
-            //抽奖
-            MobclickAgent.onEvent(mActivity, "Home7");
-            startActivity(new Intent(mActivity, ChouJiangActivity.class));
+            /*MobclickAgent.onEvent(mActivity, "22");
+            startActivity(new Intent(getActivity(), CallActivity.class));*/
+        } else if (R.id.iv_home23 == id) {
+            //违章查询
+            MobclickAgent.onEvent(mActivity, "23");
+            startActivity(new Intent(mActivity, IllegalQueryActivity.class));
+        } else if (R.id.iv_home24 == id) {
+            //每日签到
+            MobclickAgent.onEvent(mActivity, "24");
+            startActivity(new Intent(getActivity(), DailySignActivity.class));
+        } else if (R.id.iv_home_rxsp1 == id) {
+            MobclickAgent.onEvent(mActivity, "re1");
+            KaKuApplication.id_goods = productId1;
+            openDetailUrl();
+        } else if (R.id.iv_home_rxsp2 == id) {
+            MobclickAgent.onEvent(mActivity, "re2");
+            KaKuApplication.id_goods = productId2;
+            openDetailUrl();
+        } else if (R.id.iv_home_rxsp3 == id) {
+            MobclickAgent.onEvent(mActivity, "re3");
+            KaKuApplication.id_goods = productId3;
+            openDetailUrl();
+        } else if (R.id.tv_home_city == id) {
+            GoToTitle();
+        } else if (R.id.iv_homecall == id) {
+            Utils.Call(mActivity, Constants.PHONE_KAKU);
+        } else if (R.id.iv_home31 == id) {
+            //贴车贴
+            Utils.GetAdType();
+        } else if (R.id.iv_home32 == id) {
+            //话费充值
+            startActivity(new Intent(getActivity(), HuaFeiActivity.class));
+        } else if (R.id.iv_home33 == id) {
+            //高速广播
+            startActivity(new Intent(getActivity(), GuangBoActivity.class));
+        } else if (R.id.iv_home41 == id) {
+            //找货源
+            startActivity(new Intent(getActivity(), ZhaoHuoActivity.class));
+        } else if (R.id.iv_home42 == id) {
+            //找货场
+            LogUtil.showShortToast(getActivity(), "敬请期待");
+            return;
+        } else if (R.id.iv_home43 == id) {
+            //找救援
+            startActivity(new Intent(getActivity(), SOSActivity.class));
+        } else if (R.id.iv_home44 == id) {
+            //更多
+            startActivity(new Intent(getActivity(), MoreActivity.class));
         }
     }
 
@@ -379,7 +360,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
             return;
         }
         List<Advertising> list = new ArrayList<Advertising>();
-
         for (RollsObj obj : imgList) {
             Advertising advertising = new Advertising(obj.getImage_roll(), obj.getUrl_roll(), null);
             advertising.setPicURL(KaKuApplication.qian_zhui + obj.getImage_roll());
@@ -387,9 +367,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         }
 
         if (list.size() > 0) {
-            mGalleryHelper = new AdGalleryHelper(mActivity, list, Constants.AUTO_SCROLL_DURATION, true, false,true);
+            mGalleryHelper = new AdGalleryHelper(mActivity, list, Constants.AUTO_SCROLL_DURATION, true, false, true);
             galleryContainer.addView(mGalleryHelper.getLayout());
-
             mGalleryHelper.startAutoSwitch();
         }
     }
@@ -402,211 +381,88 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         if (mGalleryHelper != null) {
             mGalleryHelper.stopAutoSwitch();
         }
-        wheelView.removeCallbacks(taskRunnable);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Utils.NoNet(mActivity);
-        if (!Utils.isLogin()) {
-            startActivity(new Intent(mActivity, LoginActivity.class));
-            return;
-        }
-        if (Utils.Many()) {
-            return;
-        }
-
-        int parentId = parent.getId();
-        if (TextUtils.isEmpty(Utils.getIdCar())) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("提示");
-            if (R.id.lv_home_item == parentId) {
-                builder.setMessage("添加爱车，可精准推荐服务站，还送200积分哦~");
-            }
-
-            builder.setNegativeButton("是", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(mActivity, PinPaiXuanZeActivity.class));
-                }
-            });
-            builder.setCancelable(false);
-            builder.create().show();
-            return;
-        }
-
-        if (R.id.lv_home_item == parentId) {
-            MobclickAgent.onEvent(mActivity, "BaoYang");
-            KaKuApplication.id_shop = list_wxz.get(position).getId_shop();
-        }
-
-        GoToShopDetail();
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
     }
 
     /**
      * 获取首页的数据
      */
     private void getHome() {
-        Utils.NoNet(mActivity);
         showProgressDialog();
         HomeReq req = new HomeReq();
         req.code = "8001";
         req.id_driver = Utils.getIdDriver();
         req.lat = Utils.getLat();
         req.lon = Utils.getLon();
-        KaKuApiProvider.home(req, new KakuResponseListener<HomeResp>(mActivity,HomeResp.class) {
+        KaKuApiProvider.home(req, new KakuResponseListener<HomeResp>(mActivity, HomeResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
-        // TODO Auto-generated method stub
+                // TODO Auto-generated method stub
+                LogUtil.E("home res: " + t.res);
                 if (flag_frag) {
+                    stopProgressDialog();
                     return;
                 }
-                valueView(t);
+                setData(t);
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+                stopProgressDialog();
+            }
+
         });
     }
 
-    private void valueView(HomeResp t) {
+    private void setData(HomeResp t) {
         if (t != null) {
-            LogUtil.E("home res: " + t.res);
             if (Constants.RES.equals(t.res)) {
-                if (TextUtils.equals(t.flag_enter,"N")){
-                    if (!"".equals(Utils.getIdCar())){
-                        tv_home_teyueweixiuzhan.setText("您的爱车暂未有商家入驻");
-                        tv_home_teyueweixiuzhan.setTextColor(getResources().getColor(R.color.black));
-                    }
-                } else {
-                    tv_home_teyueweixiuzhan.setText("特约服务站");
-                    tv_home_teyueweixiuzhan.setTextColor(getResources().getColor(R.color.color_red));
-                }
-                //轮播图
                 List<RollsObj> rolls_list = t.rolls;
                 if (rolls_list.size() != 0) {
                     autoAdvance(rolls_list);
                 }
 
                 if (!headlineStarted) {
+                    news_list = t.newss;
                     adapter1 = new HeadlinesAdapter(t.newss);
                     wheelView.setViewAdapter(adapter1);
                     headlineStarted = true;
-                    wheelView.postDelayed(taskRunnable, 3000);
                 } else {
                     adapter1.notifyDataChangedEvent(t.newss);
                 }
 
-                //维修站
-                if (!TextUtils.isEmpty(t.image_brand)) {
-                    BitmapUtil.getInstance(mActivity).download(iv_title_home_left, KaKuApplication.qian_zhui + t.image_brand);
+                DisplayMetrics outMetrics = new DisplayMetrics();
+                mActivity.getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+                list_activity = t.activitys_hot;
+                HomeLvAdapter adapter = new HomeLvAdapter(mActivity, list_activity, outMetrics.widthPixels / 2);
+                lv_home.setAdapter(adapter);
+                Utils.setListViewHeightBasedOnChildren(lv_home);
+
+                productId1 = t.goods_hot.get(0).getId_goods();
+                productId2 = t.goods_hot.get(1).getId_goods();
+                productId3 = t.goods_hot.get(2).getId_goods();
+                BitmapUtil.getInstance(mActivity).download(iv_home_rxsp1, KaKuApplication.qian_zhui + t.goods_hot.get(0).getImage_goods());
+                BitmapUtil.getInstance(mActivity).download(iv_home_rxsp2, KaKuApplication.qian_zhui + t.goods_hot.get(1).getImage_goods());
+                BitmapUtil.getInstance(mActivity).download(iv_home_rxsp3, KaKuApplication.qian_zhui + t.goods_hot.get(2).getImage_goods());
+                BitmapUtil.getInstance(mActivity).download(iv_title_home_brand, KaKuApplication.qian_zhui + t.image_brand);
+                if ("".equals(t.id_no)) {
+                    iv_title_home_brand.setVisibility(View.GONE);
+                    tv_title_home.setBackgroundResource(R.drawable.home__top);
+                } else {
+                    iv_title_home_brand.setVisibility(View.VISIBLE);
+                    tv_title_home.setText(t.id_no);
                 }
-                list_wxz = t.shops;
-                adapter = new ShopItemAdapter(getActivity(), list_wxz);
-                lv_home_item.setAdapter(adapter);
-                Utils.setListViewHeightBasedOnChildren(lv_home_item);
-
-                //车品商城
-                final List<GoodsObj> list = t.goods;
-                HomeShopMallAdapter adapter = new HomeShopMallAdapter(getActivity().getApplicationContext(), list);
-                int size = list.size();
-                int length = DensityUtils.dp2px(mActivity, 88);
-                DisplayMetrics dm = new DisplayMetrics();
-                mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-                float density = dm.density;
-               /* int gridviewWidth = (int) (size * (length + 1) * density);
-                int itemWidth = (int) (length * density);*/
-                int gridviewWidth = (int) (size * (length + 1));
-                int itemWidth = (int) (length);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        gridviewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-                grid_shopmall.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
-                grid_shopmall.setColumnWidth(itemWidth); // 设置列表项宽
-                grid_shopmall.setHorizontalSpacing(0); // 设置列表项水平间距
-                grid_shopmall.setStretchMode(GridView.NO_STRETCH);
-                grid_shopmall.setNumColumns(size); // 设置列数量=列表集合数
-                grid_shopmall.setAdapter(adapter);
-
-                grid_shopmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                     /*todo 添加点击详情*/
-                        Utils.NoNet(mActivity);
-                        if (!Utils.isLogin()) {
-                            startActivity(new Intent(mActivity, LoginActivity.class));
-                            return;
-                        }
-                        if (Utils.Many()) {
-                            return;
-                        }
-                        openDetailUrl(list.get(position).getId_goods());
-                    }
-                });
-
-                //setSeckillDetail(t.seckills, t.note, t.time_now);
             } else {
                 LogUtil.showShortToast(mActivity, t.msg);
             }
         }
     }
 
-    private void setSeckillDetail(List<SeckillObj> seckills, String note, String time_now) {
-
-        if (!hasSetCountDown) {
-            initCountDownTimer();
-            setCountDownTime(note, time_now);
-            hasSetCountDown = true;
-        }
-    }
-
-    private void openDetailUrl(String productId) {
-        //Intent intent = new Intent(getActivity(), TruckProductDetailActivity.class);
+    private void openDetailUrl() {
+        MobclickAgent.onEvent(getActivity(), "ChePinDetail");
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-        intent.putExtra("productId", productId);
         startActivity(intent);
-    }
-
-    @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y,
-                                int oldx, int oldy) {
-        // TODO Auto-generated method stub
-        if (y < 100) {
-
-            if (y == 0) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black);
-            } else if (y == 10) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black1);
-            } else if (y == 20) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black2);
-            } else if (y == 30) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black3);
-            } else if (y == 40) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black4);
-            } else if (y == 50) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black5);
-            } else if (y == 60) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black6);
-            } else if (y == 70) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black7);
-            } else if (y == 80) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black8);
-            } else if (y == 90) {
-                rela_main_title1.setBackgroundResource(R.drawable.gradlient_black9);
-            }
-
-        } else {
-            rela_main_title1.setBackgroundResource(R.drawable.gradlient_black9);
-        }
-
-        int num = Math.min(y, 260);
-        int alpha = Math.round(230f / 260 * num);
-        rela_main_title2.setBackgroundColor(Color.argb(alpha, 230, 0, 0));
     }
 
     public void GoToLeft() {
@@ -626,15 +482,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
         } else {
             intent.putExtra("city", location == null ? "" : location.getCity());
         }
-        startActivity(intent);
-    }
-
-    public void GoToPinPaiFuWuZhan() {
-        startActivity(new Intent(getActivity(), PinPaiFuWuZhanActivity.class));
-    }
-
-    public void GoToShopDetail() {
-        Intent intent = new Intent(mActivity, ShopDetailActivity.class);
         startActivity(intent);
     }
 
@@ -712,11 +559,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
             }
             sb.append("\nlocationdescribe : ");// 位置语义化信息
             sb.append(location.getLocationDescribe());
-            //sb.toString();
             if (!TextUtils.isEmpty(location.getAddrStr())) {
-                KaKuApplication.address = location.getAddrStr();
+                KaKuApplication.address = location.getCity();
                 KaKuApplication.addr_string = location.getAddrStr();
-                tv_title_home.setText(KaKuApplication.address);
+                tv_home_city.setText(KaKuApplication.address);
             }
             if (location.getLatitude() == 0) {
                 SharedPreferences.Editor editor = KaKuApplication.editor;
@@ -729,8 +575,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
                 editor.putString(Constants.LAT, location.getLatitude() + "");
                 editor.putString(Constants.LON, location.getLongitude() + "");
                 editor.commit();
-            }
-            if (!TextUtils.isEmpty(location.getAddrStr()) && location.getLatitude() > 0) {
                 mLocationClient.stop();
             }
         }
@@ -739,207 +583,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, Adapt
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //清空秒杀倒计时handler
-        handler.removeCallbacks(runnable);
-    }
-
-//todo 秒杀区域
-
-
-    private Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-
-            ComputeTime();
-
-            if (msecond <= 9) {
-                tv_countdown_second.setText("0" + String.valueOf(msecond));
-            } else {
-                tv_countdown_second.setText(String.valueOf(msecond));
-            }
-            if (mmin <= 9) {
-                tv_countdown_min.setText("0" + String.valueOf(mmin));
-            } else {
-
-                tv_countdown_min.setText(String.valueOf(mmin));
-            }
-            if (mhour <= 9) {
-                tv_countdown_hour.setText("0" + String.valueOf(mhour));
-            } else {
-                tv_countdown_hour.setText(String.valueOf(mhour));
-            }
-
-
-            handler.postDelayed(this, 1000);
-        }
-    };
-
-    private long mday, mhour, mmin, msecond;
-
-    /**
-     * 倒计时计算
-     */
-    private void ComputeTime() {
-        msecond--;
-
-        if (msecond < 0) {
-            mmin--;
-            msecond = 59;
-            if (mmin < 0) {
-                mmin = 59;
-                mhour--;
-                if (mhour < 0) {
-                    // 倒计时结束，一天有24个小时
-                    mhour = 23;
-                    mday--;
-
-                }
-            }
-
-        }
-
-    }
-
-    /**
-     * @param
-     * @return 该毫秒数转换为 * days * hours * minutes * seconds 后的格式
-     * @author fy.zhang
-     */
-    public void formatDuring(long mss) {
-        LogUtil.E("logn:" + mss);
-        mday = mss / (1000 * 60 * 60 * 24);
-        mhour = (mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-        mmin = (mss % (1000 * 60 * 60)) / (1000 * 60);
-        msecond = (mss % (1000 * 60)) / 1000;
-
-        /*mhour = 3;
-        mmin = 1;
-        msecond = 20;*/
-
-        /*return hours + ":" + minutes + ":" + seconds;*/
-    }
-
-    private int seckillIndex = 0;
-
-    private void setCountDownTime(String note, String time_now) {
-        String tempNote = "12";
-
-        if (Integer.parseInt(note) != 120) {
-            tempNote = note;
-
-            Integer tempInt = Integer.parseInt(tempNote);
-            if (tempInt == 12) {
-                seckillIndex = 0;
-            } else if (tempInt == 14) {
-                seckillIndex = 1;
-            } else if (tempInt == 16) {
-                seckillIndex = 2;
-            }
-            //tv_seckill_note.setText(" · " + tempNote + "点场");
-        } else {
-            tempNote = note.substring(0, note.length() - 1);
-            //tv_seckill_note.setText(" · 明日" + tempNote + "点场");
-            seckillIndex = 0;
-        }
-
-        String[] nowDateTime = time_now.split(" ");
-
-
-        //startTime=
-        /*Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");*/
-        //抢购开始的时间
-        String startDate = nowDateTime[0] + " " + tempNote + ":00:00";
-
-        //先把字符串转成Date类型
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //抢购开始时间
-        Date newStartDate = new Date();
-        //当前时间
-        Date nowDate = new Date();
-//此处会抛异常
-        try {
-            newStartDate = sdf.parse(startDate);
-
-            nowDate = sdf.parse(time_now);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-//获取开始的毫秒数
-        startTime = newStartDate.getTime();
-
-        currentTime = nowDate.getTime();
-        //根据抢购开始时间和服务器传来的当前时间计算距离开始还有多少毫秒
-        timeRemains = startTime - currentTime;
-        if (timeRemains + 7200000 < 0) {
-            //如果timeRemains小于0，则取第二天的同一时刻
-            timeRemains = timeRemains + 86400000;
-        }
-        if (timeRemains < 0) {
-            timeRemains = 7200000 + timeRemains;
-        }
-        formatDuring(timeRemains);
-        handler.postDelayed(runnable, 1000);
-    }
-
-    private void initCountDownTimer() {
-        tv_countdown_hour.setText("00");
-        tv_countdown_min.setText("00");
-        tv_countdown_second.setText("00");
-    }
-
-    public void GetAdd(){
-        showProgressDialog();
-        GetAddReq req = new GetAddReq();
-        req.code = "60011";
-        req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(mActivity,GetAddResp.class) {
-
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getadd res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        KaKuApplication.id_advert = t.advert.getId_advert();
-                        KaKuApplication.flag_recommended = t.advert.getFlag_recommended();
-                        KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
-                        KaKuApplication.flag_position = t.advert.getFlag_position();
-                        KaKuApplication.flag_heart = t.advert.getFlag_show();
-                        GoToAdd(t.advert.getFlag_type());
-                    } else {
-                        LogUtil.showShortToast(mActivity, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-
-        });
-    }
-
-    public void GoToAdd(String flag_type){
-        Intent intent = new Intent();
-        LogUtil.E("flag:"+flag_type);
-        if ("N".equals(flag_type)){
-            intent.setClass(mActivity,Add_NActivity.class);
-        } else if ("Y".equals(flag_type)){
-            intent.setClass(mActivity,Add_YActivity.class);
-        } else if ("E".equals(flag_type)){
-            intent.setClass(mActivity,Add_EActivity.class);
-        } else if ("I".equals(flag_type)){
-            intent.setClass(mActivity,Add_IActivity.class);
-        } else if ("F".equals(flag_type)){
-            intent.setClass(mActivity,Add_FActivity.class);
-        } else if ("P".equals(flag_type)){
-            intent.setClass(mActivity,Add_PActivity.class);
-        } else if ("A".equals(flag_type)){
-            intent.setClass(mActivity,CheTieListActivity.class);
-        } else if ("M".equals(flag_type)){
-            intent.setClass(mActivity,Add_MActivity.class);
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 
 }

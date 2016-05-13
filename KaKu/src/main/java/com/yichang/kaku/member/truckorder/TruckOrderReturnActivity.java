@@ -222,7 +222,6 @@ public class TruckOrderReturnActivity extends BaseActivity implements OnClickLis
         bos.flush();
         bos.close();
         imagePath = dataFile.toString();
-        LogUtil.E("imagePath : " + imagePath);
     }
 
     /**

@@ -23,7 +23,7 @@ import com.yichang.kaku.response.BaseResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class AddBankCardActivity extends BaseActivity implements OnClickListener {
 
@@ -69,7 +69,7 @@ public class AddBankCardActivity extends BaseActivity implements OnClickListener
 //初始化空白页
         initOthers();
 
-        title_member_msg=findViewById(R.id.title_member_msg);
+        title_member_msg = findViewById(R.id.title_member_msg);
 
 
     }
@@ -203,8 +203,10 @@ public class AddBankCardActivity extends BaseActivity implements OnClickListener
             } else if (et_bankcard_no.getText().length() < 16 || et_bankcard_no.getText().length() >= 20) {
                 LogUtil.showShortToast(this, "请输入正确的银行卡号");
                 return;
+            } else if ("".equals(tv_bankcard_bank.getText().toString().trim())) {
+                LogUtil.showShortToast(context, "请选择开户银行");
+                return;
             }
-            //setResult();
             addBankCard();
 
         }
@@ -233,6 +235,13 @@ public class AddBankCardActivity extends BaseActivity implements OnClickListener
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 

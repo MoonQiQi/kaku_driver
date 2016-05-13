@@ -44,7 +44,7 @@ import com.yichang.kaku.response.MobileResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -285,6 +285,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     Toast.makeText(LoginActivity.this, t.msg, Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -318,6 +324,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 stopProgressDialog();
                 LogUtil.showShortToast(context, t.msg);
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -341,7 +353,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void GoHome(LoginResp t) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
         startActivity(intent);
         finish();
     }
@@ -370,7 +382,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         sb.append("&key=");
         sb.append(Constants.MSGKEY);
-        LogUtil.E("sb:" + sb);
 
         String appSign1 = MD5.getMessageDigest(sb.toString().getBytes());
         String appSign = MD5.getMessageDigest(appSign1.getBytes()).toUpperCase();

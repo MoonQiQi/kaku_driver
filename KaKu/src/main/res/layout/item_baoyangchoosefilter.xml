@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp">
+
+        <ImageView
+            android:id="@+id/iv_baoyangchangeitem_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_baoyangchangeitem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_baoyangchangeitem_image"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/iv_baoyangchangeitem_image"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_baoyangchangeitem_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_baoyangchangeitem_name"
+            android:layout_below="@+id/tv_baoyangchangeitem_name"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_baoyangchangeitem_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_baoyangchangeitem_image"
+            android:layout_alignLeft="@+id/tv_baoyangchangeitem_name"
+            android:textColor="@color/color_red"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_baoyangchangeitem_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_baoyangchangeitem_image"
+            android:layout_toRightOf="@+id/tv_baoyangchangeitem_price"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/dqxz" />
+
+    </RelativeLayout>
+
+    <View style="@style/Line_h" />
+
+</LinearLayout>

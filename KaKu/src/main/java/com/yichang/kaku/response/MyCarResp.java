@@ -7,6 +7,4 @@ import java.util.List;
 
 public class MyCarResp extends BaseResp implements Serializable {
 	public List<MyCarObj> driver_cars;
-	public String mobile_brand;
-	public String flag_enter;
 }

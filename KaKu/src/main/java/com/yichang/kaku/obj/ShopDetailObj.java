@@ -3,7 +3,7 @@ package com.yichang.kaku.obj;
 import java.io.Serializable;
 
 public class ShopDetailObj implements Serializable {
-	
+
 	private String id_shop;
 	private String image_shop;
 	private String name_shop;
@@ -17,6 +17,8 @@ public class ShopDetailObj implements Serializable {
 	private String hour_shop_end;
 	private String is_collection;
 	private String image_shop_up;
+	private String flag_type;
+	private String num_bill;
 
 	public String getId_shop() {
 		return id_shop;
@@ -122,6 +124,22 @@ public class ShopDetailObj implements Serializable {
 		this.image_shop_up = image_shop_up;
 	}
 
+	public String getFlag_type() {
+		return flag_type;
+	}
+
+	public void setFlag_type(String flag_type) {
+		this.flag_type = flag_type;
+	}
+
+	public String getNum_bill() {
+		return num_bill;
+	}
+
+	public void setNum_bill(String num_bill) {
+		this.num_bill = num_bill;
+	}
+
 	@Override
 	public String toString() {
 		return "ShopDetailObj{" +
@@ -138,6 +156,8 @@ public class ShopDetailObj implements Serializable {
 				", hour_shop_end='" + hour_shop_end + '\'' +
 				", is_collection='" + is_collection + '\'' +
 				", image_shop_up='" + image_shop_up + '\'' +
+				", flag_type='" + flag_type + '\'' +
+				", num_bill='" + num_bill + '\'' +
 				'}';
 	}
 }

@@ -3,25 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:orientation="vertical"
-     >
-     
-    <include layout="@layout/activity_titlebar"
-         android:id="@+id/title_mycheyuan" />
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_mycheyuan"
+        layout="@layout/activity_titlebar" />
+
     <LinearLayout
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
 
         <com.yichang.kaku.view.widget.XListView
             android:id="@+id/lv_mycheyuan"
             android:layout_width="match_parent"
-            android:dividerHeight="15dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:dividerHeight="1dp" />
+
     </LinearLayout>
 
     <include
@@ -33,5 +34,5 @@
         android:id="@+id/layout_net_none"
         layout="@layout/layout_net_none"
         android:visibility="gone" />
-     
+
 </LinearLayout>

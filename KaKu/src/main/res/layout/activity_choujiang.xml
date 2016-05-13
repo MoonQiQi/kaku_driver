@@ -3,18 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    android:orientation="vertical"
-     >
-     
-    <include layout="@layout/activity_titlebar"
-         android:id="@+id/title_choujiang" />
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_choujiang"
+        layout="@layout/activity_titlebar" />
 
     <WebView
         android:id="@+id/wv_choujiang"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
-    
-     
+
 </LinearLayout>

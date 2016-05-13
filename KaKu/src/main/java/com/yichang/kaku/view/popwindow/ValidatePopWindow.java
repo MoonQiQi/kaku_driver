@@ -14,14 +14,14 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
-import com.yichang.kaku.home.Ad.LotteryActivity;
+import com.yichang.kaku.home.ad.LotteryActivity;
 import com.yichang.kaku.request.ValidateCodeReq;
 import com.yichang.kaku.response.ValidateCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 /**
  * Created by xiaosu on 2015/12/3.
@@ -116,6 +116,12 @@ public class ValidatePopWindow extends PopupWindow {
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
     }

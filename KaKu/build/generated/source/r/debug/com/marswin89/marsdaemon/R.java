@@ -8,6 +8,6 @@ package com.marswin89.marsdaemon;
 
 public final class R {
 	public static final class string {
-		public static final int app_name = 0x7f080026;
+		public static final int app_name = 0x7f090005;
 	}
 }

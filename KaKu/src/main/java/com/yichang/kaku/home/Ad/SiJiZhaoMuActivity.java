@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.yichang.kaku.response.CheckCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class SiJiZhaoMuActivity extends BaseActivity implements OnClickListener {
 	
@@ -94,6 +94,11 @@ public class SiJiZhaoMuActivity extends BaseActivity implements OnClickListener 
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
+			}
+
+			@Override
+			public void onFailed(int i, Response response) {
+
 			}
 
 		});

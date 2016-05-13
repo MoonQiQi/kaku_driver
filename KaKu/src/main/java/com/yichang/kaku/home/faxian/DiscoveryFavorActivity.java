@@ -2,6 +2,7 @@ package com.yichang.kaku.home.faxian;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -12,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
@@ -28,7 +28,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,18 +58,6 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discovery_favor);
         init();
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("ShouCang"); //统计页面
-        MobclickAgent.onResume(this);          //统计时长
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("ShouCang"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
-        MobclickAgent.onPause(this);
     }
 
     private void init() {
@@ -111,7 +99,6 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
 
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
 
-
     }
 
     @Override
@@ -122,13 +109,12 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
+            startActivity(new Intent(this, DiscoveryActivity.class));
             finish();
         } else if (R.id.tv_right == id) {
             editFavorList();
         } else if (R.id.btn_refresh == id) {
-
             setPullState(false);
-
         }
     }
 
@@ -195,6 +181,10 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
 
         });
     }
@@ -315,7 +305,6 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                             DiscoveryFavorActivity.this.finish();
                         } else {
                             if (adapter != null) {
-
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -331,6 +320,11 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
 
     }
@@ -343,4 +337,15 @@ public class DiscoveryFavorActivity extends BaseActivity implements OnClickListe
         view.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK )
+        {
+            startActivity(new Intent(this, DiscoveryActivity.class));
+            finish();
+        }
+        return false;
+    }
 }

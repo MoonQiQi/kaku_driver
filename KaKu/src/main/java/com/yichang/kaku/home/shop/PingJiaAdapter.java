@@ -83,52 +83,31 @@ public class PingJiaAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if ("".equals(obj.getImage1_eval())) {
-            holder.iv_pingjia1.setVisibility(View.GONE);
-            holder.iv_pingjia2.setVisibility(View.GONE);
-            holder.iv_pingjia3.setVisibility(View.GONE);
-            holder.iv_pingjia4.setVisibility(View.GONE);
-        } else {
-            if ("".equals(obj.getImage2_eval())) {
-                holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                holder.iv_pingjia2.setVisibility(View.GONE);
-                holder.iv_pingjia3.setVisibility(View.GONE);
-                holder.iv_pingjia4.setVisibility(View.GONE);
-            } else {
-                if ("".equals(obj.getImage3_eval())) {
-                    holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                    holder.iv_pingjia2.setVisibility(View.VISIBLE);
-                    holder.iv_pingjia3.setVisibility(View.GONE);
-                    holder.iv_pingjia4.setVisibility(View.GONE);
-                } else {
-                    if ("".equals(obj.getImage4_eval())) {
-                        holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia2.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia3.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia4.setVisibility(View.GONE);
-                    } else {
-
-                        holder.iv_pingjia1.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia2.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia3.setVisibility(View.VISIBLE);
-                        holder.iv_pingjia4.setVisibility(View.VISIBLE);
-
-                    }
-                }
-            }
-        }
         if (!"".equals(obj.getImage1_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia1, KaKuApplication.qian_zhui + obj.getImage1_eval());
+            holder.iv_pingjia1.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia1, KaKuApplication.qian_zhuikong + obj.getImage1_eval());
+        } else {
+            holder.iv_pingjia1.setVisibility(View.GONE);
         }
+
         if (!"".equals(obj.getImage2_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia2, KaKuApplication.qian_zhui + obj.getImage2_eval());
+            holder.iv_pingjia2.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia2, KaKuApplication.qian_zhuikong + obj.getImage2_eval());
+        } else {
+            holder.iv_pingjia2.setVisibility(View.GONE);
         }
+
         if (!"".equals(obj.getImage3_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia3, KaKuApplication.qian_zhui + obj.getImage3_eval());
+            holder.iv_pingjia3.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia3, KaKuApplication.qian_zhuikong + obj.getImage3_eval());
+        } else {
+            holder.iv_pingjia3.setVisibility(View.GONE);
         }
         if (!"".equals(obj.getImage4_eval())) {
-            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia4, KaKuApplication.qian_zhui + obj.getImage4_eval());
-
+            holder.iv_pingjia4.setVisibility(View.VISIBLE);
+            BitmapUtil.getInstance(mContext).download(holder.iv_pingjia4, KaKuApplication.qian_zhuikong + obj.getImage4_eval());
+        } else {
+            holder.iv_pingjia4.setVisibility(View.GONE);
         }
 
         holder.iv_pingjia1.setOnClickListener(new View.OnClickListener() {
@@ -183,12 +162,6 @@ public class PingJiaAdapter extends BaseAdapter {
             if (view.getVisibility() == View.VISIBLE) {
                 KaKuApplication.mBimpList.add(convertViewToBitmap(view,i));
             }
-        }
-    }
-
-    private void setImageViewVisibility(List<ImageView> ivList, int num) {
-        for (int i = 0; i < num; i++) {
-            ivList.get(i).setVisibility(View.VISIBLE);
         }
     }
 

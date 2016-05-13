@@ -1,7 +1,5 @@
 package com.yichang.kaku.view.uploadimages.activity;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,12 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.yichang.kaku.member.serviceorder.PingJiaOrderActivity;
+import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.ad.PingJiaAdActivity;
+import com.yichang.kaku.home.shop.PingJiaOrderActivity;
 import com.yichang.kaku.view.uploadimages.adapter.AlbumGridViewAdapter;
 import com.yichang.kaku.view.uploadimages.util.Bimp;
 import com.yichang.kaku.view.uploadimages.util.ImageItem;
 import com.yichang.kaku.view.uploadimages.util.PublicWay;
 import com.yichang.kaku.view.uploadimages.util.Res;
+
+import java.util.ArrayList;
 /**
  * 这个是显示一个文件夹里面的所有图片时的界面
  *
@@ -113,8 +115,11 @@ public class ShowAllPhoto extends Activity {
 			//清空选择的图片
 			Bimp.tempSelectBitmap.clear();
 			Bimp.max=0;
-			intent.setClass(mContext, PingJiaOrderActivity.class);
-			startActivity(intent);
+			if ("Ad".equals(KaKuApplication.PingJiaShopOrAd)) {
+				startActivity(new Intent(mContext, PingJiaAdActivity.class));
+			} else {
+				startActivity(new Intent(mContext, PingJiaOrderActivity.class));
+			}
 		}
 	}
 
@@ -171,8 +176,11 @@ public class ShowAllPhoto extends Activity {
 //					PublicWay.photoService.onActivityResult(0, -2,
 //							intent);
 //				}
-				intent.setClass(mContext, PingJiaOrderActivity.class);
-				startActivity(intent);
+				if ("Ad".equals(KaKuApplication.PingJiaShopOrAd)) {
+					startActivity(new Intent(mContext, PingJiaAdActivity.class));
+				} else {
+					startActivity(new Intent(mContext, PingJiaOrderActivity.class));
+				}
 				// Intent intent = new Intent();
 				// Bundle bundle = new Bundle();
 				// bundle.putStringArrayList("selectedDataList",

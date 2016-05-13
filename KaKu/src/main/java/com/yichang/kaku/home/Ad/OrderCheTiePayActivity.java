@@ -1,8 +1,10 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,6 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.pingplusplus.android.Pingpp;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
@@ -19,13 +27,19 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.payhelper.alipay.AlipayHelper;
+import com.yichang.kaku.payhelper.alipay.PaySuccessActivity;
 import com.yichang.kaku.payhelper.wxpay.PayActivity;
 import com.yichang.kaku.request.WXPayInfoReq;
 import com.yichang.kaku.response.WXPayInfoResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class OrderCheTiePayActivity extends BaseActivity implements OnClickListener {
 
@@ -41,6 +55,18 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
 
     private String mNo_bill;
 
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_WECHAT = "wx";
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_QPAY = "qpay";
+    /**
+     * 支付宝支付渠道
+     */
+    private static final String CHANNEL_ALIPAY = "alipay";
     private LinearLayout ll_warning;
 
     @Override
@@ -62,7 +88,7 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
         KaKuApplication.realPayment = mPrice_bill;
 
         tv_price_bill = (TextView) findViewById(R.id.tv_price_bill);
-        tv_price_bill.setText("￥" + mPrice_bill);
+        tv_price_bill.setText("￥" + Utils.numdouble(mPrice_bill));
 
         rela_alipay = (RelativeLayout) findViewById(R.id.rela_alipay);
         rela_alipay.setOnClickListener(this);
@@ -122,12 +148,13 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
 
         } else if (R.id.rela_alipay == id) {
             //payType = "alipay";
-            aliPay();
-
+            //aliPay();
+            new PaymentTask().execute(new PaymentRequest(CHANNEL_ALIPAY, mPrice_bill, mNo_bill));
         } else if (R.id.rela_wxpay == id) {
             //payType = "wxpay";
             //getOrderState();
-            wxPay();
+            //wxPay();
+            new PaymentTask().execute(new PaymentRequest(CHANNEL_WECHAT, mPrice_bill, mNo_bill));
         }
     }
 
@@ -136,6 +163,7 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+
     }
 
     private void wxPay() {
@@ -161,6 +189,11 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
                         gotoCheTieOrderListActivity();
                     }
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -242,5 +275,99 @@ public class OrderCheTiePayActivity extends BaseActivity implements OnClickListe
             return false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(PaymentRequest... pr) {
+
+            PaymentRequest paymentRequest = pr[0];
+            String data = null;
+            String json = new Gson().toJson(paymentRequest);
+            try {
+                //向Your Ping++ Server SDK请求数据
+                data = postJson(KaKuApplication.ping_url, json);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        /**
+         * 获得服务端的charge，调用ping++ sdk。
+         */
+        @Override
+        protected void onPostExecute(String data) {
+            if (null == data) {
+                return;
+            }
+            try {
+                JSONObject object = new JSONObject(data);
+                Object charges = object.get("Charges");
+                data = String.valueOf(charges);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+//            Pingpp.createPayment(ClientSDKActivity.this, data);
+            //QQ钱包调起支付方式  “qwalletXXXXXXX”需与AndroidManifest.xml中的data值一致
+            //建议填写规则:qwallet + APP_ID
+            Pingpp.createPayment(OrderCheTiePayActivity.this, data, "qwalletXXXXXXX");
+        }
+
+    }
+
+    /**
+     * onActivityResult 获得支付结果，如果支付成功，服务器会收到ping++ 服务器发送的异步通知。
+     * 最终支付成功根据异步通知为准
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //支付页面返回处理
+        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getExtras().getString("pay_result");
+                LogUtil.E("pay_result:" + result);
+                /* 处理返回值
+                 * "success" - payment succeed
+                 * "fail"    - payment failed
+                 * "cancel"  - user canceld
+                 * "invalid" - payment plugin not installed
+                 */
+                if ("success".equals(result)) {
+                    startActivity(new Intent(OrderCheTiePayActivity.this, PaySuccessActivity.class));
+                    finish();
+                }
+            }
+        }
+    }
+
+    private static String postJson(String url, String json) throws IOException {
+        MediaType type = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(type, json);
+        Request request = new Request.Builder().url(url).post(body).build();
+
+        OkHttpClient client = new OkHttpClient();
+        com.squareup.okhttp.Response response = client.newCall(request).execute();
+
+        return response.body().string();
+    }
+
+    class PaymentRequest {
+        String channel;
+        String amount;
+        String orderNo;
+
+        public PaymentRequest(String channel, String amount, String orderNo) {
+            this.channel = channel;
+            this.amount = amount;
+            this.orderNo = orderNo;
+        }
     }
 }

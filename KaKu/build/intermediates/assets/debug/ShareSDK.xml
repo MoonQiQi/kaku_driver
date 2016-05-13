@@ -120,13 +120,13 @@
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <!--AppId="100371282"
         AppKey="aed9b0303e3ed1e27bae87c33761161d"-->
-	<QQ
+	<!--<QQ
         Id="7"
         SortId="7"
         AppId="1104781103"
         AppKey="4rNHk8Ug6L65tElt"
         ShareByAppClient="true"
-        Enable="true" />
+        Enable="true" />-->
     
     <Facebook
         Id="8"

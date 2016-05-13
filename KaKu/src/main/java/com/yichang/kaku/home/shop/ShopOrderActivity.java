@@ -22,11 +22,11 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.baoyang.BaoYangOrderListActivity;
 import com.yichang.kaku.home.ConnectPeopleActivity;
 import com.yichang.kaku.home.nouse.FaPiaoActivity;
 import com.yichang.kaku.home.nouse.TimeActivity;
-import com.yichang.kaku.home.nouse.YouHuiQuanActivity;
-import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
+import com.yichang.kaku.member.YouHuiQuanActivity;
 import com.yichang.kaku.payhelper.alipay.AlipayHelper;
 import com.yichang.kaku.payhelper.arrivalpay.ArrivalpayCallBackActivity;
 import com.yichang.kaku.payhelper.wxpay.PayActivity;
@@ -37,7 +37,7 @@ import com.yichang.kaku.response.GetOrderResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.text.DecimalFormat;
 
@@ -301,6 +301,12 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
@@ -426,6 +432,11 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -511,7 +522,7 @@ public class ShopOrderActivity extends BaseActivity implements OnClickListener {
     }
 
     private void gotoShopListActivity() {
-        Intent intent = new Intent(context, ServiceOrderListActivity.class);
+        Intent intent = new Intent(context, BaoYangOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         KaKuApplication.color_order = "";
         KaKuApplication.state_order = "";

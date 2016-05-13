@@ -9,33 +9,27 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.yichang.kaku.callback.KakuResponseListener;
-import com.yichang.kaku.home.Ad.Add_EActivity;
-import com.yichang.kaku.home.Ad.Add_FActivity;
-import com.yichang.kaku.home.Ad.Add_IActivity;
-import com.yichang.kaku.home.Ad.Add_MActivity;
-import com.yichang.kaku.home.Ad.Add_NActivity;
-import com.yichang.kaku.home.Ad.Add_PActivity;
-import com.yichang.kaku.home.Ad.Add_YActivity;
-import com.yichang.kaku.home.Ad.CheTieListActivity;
+import com.yichang.kaku.home.ad.CheTieOrderListActivity;
+import com.yichang.kaku.home.baoyang.BaoYangOrderListActivity;
 import com.yichang.kaku.home.choujiang.MyPrizeActivity;
 import com.yichang.kaku.home.faxian.DiscoveryDetailActivity;
+import com.yichang.kaku.home.qiandao.DailySignActivity;
 import com.yichang.kaku.home.shop.PinPaiFuWuZhanActivity;
-import com.yichang.kaku.member.MemberCouponsActivity;
+import com.yichang.kaku.member.WoDeYouHuiQuanActivity;
+import com.yichang.kaku.member.YouHuiQuanActivity;
 import com.yichang.kaku.member.cash.YueActivity;
 import com.yichang.kaku.member.login.LoginActivity;
 import com.yichang.kaku.member.settings.CommentListActivity;
 import com.yichang.kaku.member.settings.MemberSettingsCommentActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
 import com.yichang.kaku.request.DiscoveryListReq;
-import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.response.DiscoveryListResp;
-import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.JPushResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.PushUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +38,7 @@ import cn.jpush.android.api.JPushInterface;
 
 /**
  * 自定义接收器
- * <p/>
+ * <p>
  * 如果不定义这个 Receiver，则：
  * 1) 默认用户会打开主界面
  * 2) 接收不到自定义消息
@@ -117,7 +111,13 @@ public class MessageReceiver extends BroadcastReceiver {
                 } else if ("18".equals(type)) {
                     GetAdd(context);
                 } else if ("19".equals(type)) {
-                    GetAdd(context);
+                    GoCheTieOrderList(context);
+                } else if ("20".equals(type)) {
+                    GoToYouHuiQuan(context);
+                } else if ("21".equals(type)) {
+                    GoToQianDao(context);
+                } else if ("31".equals(type)) {
+                    GoToBaoYangOrderList(context);
                 } else {
                     GoHome(context);
                 }
@@ -192,15 +192,19 @@ public class MessageReceiver extends BroadcastReceiver {
                 if (t != null) {
                     if (Constants.RES.equals(t.res)) {
                         Intent intent = new Intent(context, DiscoveryDetailActivity.class);
-                        intent.putExtra("id_news", t.newss.get(0).getId_news());
-                        intent.putExtra("is_collection", t.newss.get(0).getIs_collection());
-                        intent.putExtra("num_collection", t.newss.get(0).getNum_collection());
-                        intent.putExtra("num_comments", t.newss.get(0).getNum_comments());
+                        KaKuApplication.id_news = t.newss.get(0).getId_news();
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
@@ -218,7 +222,7 @@ public class MessageReceiver extends BroadcastReceiver {
 
     private void GoHome(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
@@ -244,7 +248,7 @@ public class MessageReceiver extends BroadcastReceiver {
     }
 
     private void GoToMyYouHuiQuan(Context context) {
-        Intent intent = new Intent(context, MemberCouponsActivity.class);
+        Intent intent = new Intent(context, YouHuiQuanActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
@@ -261,53 +265,32 @@ public class MessageReceiver extends BroadcastReceiver {
         context.startActivity(intent);
     }
 
-    public void GetAdd(final Context context) {
-        GetAddReq req = new GetAddReq();
-        req.code = "60011";
-        req.id_driver = Utils.getIdDriver();
-        req.id_advert = KaKuApplication.id_advert;
-        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(context, GetAddResp.class) {
-
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getadd res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        KaKuApplication.id_advert = t.advert.getId_advert();
-                        KaKuApplication.flag_position = t.advert.getFlag_position();
-                        KaKuApplication.flag_heart = t.advert.getFlag_show();
-                        KaKuApplication.flag_recommended = t.advert.getFlag_recommended();
-                        KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
-                        GoToAdd(t.advert.getFlag_type(), context);
-                    }
-                }
-            }
-        });
-    }
-
-    public void GoToAdd(String flag_type, Context context) {
-        Intent intent = new Intent();
-        LogUtil.E("flag:" + flag_type);
-        if ("N".equals(flag_type)) {
-            intent.setClass(context, Add_NActivity.class);
-        } else if ("Y".equals(flag_type)) {
-            intent.setClass(context, Add_YActivity.class);
-        } else if ("E".equals(flag_type)) {
-            intent.setClass(context, Add_EActivity.class);
-        } else if ("I".equals(flag_type)) {
-            intent.setClass(context, Add_IActivity.class);
-        } else if ("F".equals(flag_type)) {
-            intent.setClass(context, Add_FActivity.class);
-        } else if ("P".equals(flag_type)) {
-            intent.setClass(context, Add_PActivity.class);
-        } else if ("A".equals(flag_type)) {
-            intent.setClass(context, CheTieListActivity.class);
-        } else if ("M".equals(flag_type)) {
-            intent.setClass(context, Add_MActivity.class);
-        }
+    private void GoToYouHuiQuan(Context context) {
+        Intent intent = new Intent(context, WoDeYouHuiQuanActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        MyActivityManager.getInstance().finishAllActivity();
         context.startActivity(intent);
     }
+
+    private void GoCheTieOrderList(Context context) {
+        Intent intent = new Intent(context, CheTieOrderListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    private void GoToQianDao(Context context) {
+        Intent intent = new Intent(context, DailySignActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    private void GoToBaoYangOrderList(Context context) {
+        Intent intent = new Intent(context, BaoYangOrderListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    public void GetAdd(final Context context) {
+        Utils.GetAdType();
+    }
+
 }

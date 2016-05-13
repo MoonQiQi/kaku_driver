@@ -1,8 +1,10 @@
 package com.yichang.kaku.home;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,6 +12,12 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.pingplusplus.android.Pingpp;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yichang.kaku.R;
@@ -18,19 +26,20 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
-import com.yichang.kaku.payhelper.alipay.AlipayHelper;
-import com.yichang.kaku.payhelper.wxpay.PayActivity;
+import com.yichang.kaku.payhelper.alipay.PaySuccessActivity;
 import com.yichang.kaku.request.OrderOverTimeReq;
 import com.yichang.kaku.request.OrderTimeLimitReq;
-import com.yichang.kaku.request.WXPayInfoReq;
 import com.yichang.kaku.response.OrderOverTimeResp;
 import com.yichang.kaku.response.OrderTimeLimitResp;
-import com.yichang.kaku.response.WXPayInfoResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +49,18 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
 
     private TextView tv_price_bill;
     private RelativeLayout rela_alipay, rela_wxpay;
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_WECHAT = "wx";
+    /**
+     * 微信支付渠道
+     */
+    private static final String CHANNEL_QPAY = "qpay";
+    /**
+     * 支付宝支付渠道
+     */
+    private static final String CHANNEL_ALIPAY = "alipay";
 
     //支付的方法参数
     final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
@@ -88,19 +109,24 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
     private void init() {
         initTitleBar();
-
+        KaKuApplication.payType = "TRUCK";
         mPrice_bill = getIntent().getStringExtra("price_bill");
         mNo_bill = getIntent().getStringExtra("no_bill");
         //为支付完成页赋值
         KaKuApplication.realPayment = mPrice_bill;
 
         tv_price_bill = (TextView) findViewById(R.id.tv_price_bill);
-        tv_price_bill.setText("￥" + mPrice_bill);
+        tv_price_bill.setText("￥" + Utils.numdouble(mPrice_bill));
 
         rela_alipay = (RelativeLayout) findViewById(R.id.rela_alipay);
         rela_alipay.setOnClickListener(this);
@@ -158,13 +184,12 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
             gotoTruckOrderListActivity("");
 
         } else if (R.id.rela_alipay == id) {
-            //payType = "alipay";
-            aliPay();
+            //aliPay();
+            new PaymentTask().execute(new PaymentRequest(CHANNEL_ALIPAY, mPrice_bill, mNo_bill));
 
         } else if (R.id.rela_wxpay == id) {
-            //payType = "wxpay";
-            //getOrderState();
-            wxPay();
+            //wxPay();
+            new PaymentTask().execute(new PaymentRequest(CHANNEL_WECHAT, mPrice_bill, mNo_bill));
         }
     }
 
@@ -182,17 +207,6 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                 if (t != null) {
                     LogUtil.E("isOrderOverTime res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        ///可以支付
-
-                       /* switch (payType) {
-                            case "alipay":
-                                aliPay();
-                                break;
-                            case "wxpay":
-                        wxPay();
-                        break;
-
-                    }*/
                         getOrderTimeLimit();
                     } else if (Constants.RES_ONE.equals(t.res)) {
                         //秒杀订单超时失效
@@ -200,11 +214,15 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
                         Timer timer = new Timer();
                         timer.schedule(task, 2000);
 
-                        //finish();
                     }
                 } else {
                     LogUtil.showShortToast(context, t.msg);
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -220,9 +238,6 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
         }
     };
 
-    //支付类型 alipay，wxpay
-    private String payType;
-
     private void gotoTruckOrderListActivity(String state) {
         Intent intent = new Intent(context, TruckOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -232,114 +247,100 @@ public class OrderPayActivity extends BaseActivity implements OnClickListener {
         finish();
     }
 
-    private void wxPay() {
 
-        KaKuApplication.payType = "TRUCK";
-        Utils.NoNet(context);
+    class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
 
-        WXPayInfoReq req = new WXPayInfoReq();
-        req.code = "30021";
-        req.no_bill = mNo_bill;
-        //req.fee
+        @Override
+        protected void onPreExecute() {
 
-        KaKuApiProvider.getWXPayInfo(req, new KakuResponseListener<WXPayInfoResp>(this, WXPayInfoResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getWXPayInfo res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        wxPay(t);
-                    } else if (Constants.RES_TWO.equals(t.res)) {
-                        //秒杀订单失效
+        }
 
-                    } else {
-                        //发起支付失败
-                        LogUtil.showShortToast(context, t.msg);
-                        gotoTruckOrderListActivity("");
-                        finish();
-                    }
-                    //LogUtil.showShortToast(context, t.msg);
-                }
+        @Override
+        protected String doInBackground(PaymentRequest... pr) {
+
+            PaymentRequest paymentRequest = pr[0];
+            String data = null;
+            String json = new Gson().toJson(paymentRequest);
+            try {
+                //向Your Ping++ Server SDK请求数据
+                data = postJson(KaKuApplication.ping_url, json);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        /**
+         * 获得服务端的charge，调用ping++ sdk。
+         */
+        @Override
+        protected void onPostExecute(String data) {
+            if (null == data) {
+                return;
+            }
+            try {
+                JSONObject object = new JSONObject(data);
+                Object charges = object.get("Charges");
+                data = String.valueOf(charges);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+//            Pingpp.createPayment(ClientSDKActivity.this, data);
+            //QQ钱包调起支付方式  “qwalletXXXXXXX”需与AndroidManifest.xml中的data值一致
+            //建议填写规则:qwallet + APP_ID
+            Pingpp.createPayment(OrderPayActivity.this, data, "qwalletXXXXXXX");
+        }
 
-        });
     }
 
-    private void wxPay(WXPayInfoResp params) {
+    /**
+     * onActivityResult 获得支付结果，如果支付成功，服务器会收到ping++ 服务器发送的异步通知。
+     * 最终支付成功根据异步通知为准
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (!msgApi.isWXAppInstalled()) {
-            LogUtil.showShortToast(context, "您尚未安装微信客户端");
-            //finish();
-            return;
-        }
-        if (!msgApi.isWXAppSupportAPI()) {
-            LogUtil.showShortToast(context, "您的微信版本不支持微信支付");
-            //finish();
-            return;
-        }
-        /*todo 确定idorder by123456123*/
-        KaKuApplication.id_bill = mNo_bill;
-
-        LogUtil.E("支付参数" + params.toString());
-        Intent intent = new Intent(context, PayActivity.class);
-
-        //intent.putExtra("no_order", params.no_bill);
-        intent.putExtra("appid", params.appid);
-        intent.putExtra("noncestr", params.noncestr);
-        intent.putExtra("package", params.package0);
-        intent.putExtra("partnerid", params.partnerid);
-        intent.putExtra("prepayid", params.prepay_id);
-        intent.putExtra("timestamp", params.timestamp);
-        intent.putExtra("sign", params.sign);
-
-
-        try {
-            context.startActivity(intent);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //支付宝支付参数
-
-
-    private void aliPay() {
-
-        Utils.NoNet(context);
-
-        OrderOverTimeReq req = new OrderOverTimeReq();
-        req.code = "80011";
-        req.no_bill = mNo_bill;
-
-        KaKuApiProvider.isOrderOverTime(req, new KakuResponseListener<OrderOverTimeResp>(this, OrderOverTimeResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("isOrderOverTime res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        KaKuApplication.payType = "TRUCK";
-                        //支付宝支付
-                        AlipayHelper helper = new AlipayHelper(OrderPayActivity.this);
-                        //todo dou
-                        helper.pay("卡库养车" + mNo_bill, "车品订单", mPrice_bill, mNo_bill);
-
-                    } else if (Constants.RES_ONE.equals(t.res)) {
-                        //秒杀订单超时失效
-                        LogUtil.showShortToast(context, t.msg);
-                        Timer timer = new Timer();
-                        timer.schedule(task, 2000);
-
-                        //finish();
-                    }
+        //支付页面返回处理
+        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getExtras().getString("pay_result");
+                LogUtil.E("pay_result:" + result);
+                /* 处理返回值
+                 * "success" - payment succeed
+                 * "fail"    - payment failed
+                 * "cancel"  - user canceld
+                 * "invalid" - payment plugin not installed
+                 */
+                if ("success".equals(result)) {
+                    startActivity(new Intent(OrderPayActivity.this, PaySuccessActivity.class));
+                    finish();
                 }
+
             }
+        }
+    }
 
-        });
+    private static String postJson(String url, String json) throws IOException {
+        MediaType type = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(type, json);
+        Request request = new Request.Builder().url(url).post(body).build();
 
+        OkHttpClient client = new OkHttpClient();
+        com.squareup.okhttp.Response response = client.newCall(request).execute();
+
+        return response.body().string();
+    }
+
+    class PaymentRequest {
+        String channel;
+        String amount;
+        String orderNo;
+
+        public PaymentRequest(String channel, String amount, String orderNo) {
+            this.channel = channel;
+            this.amount = amount;
+            this.orderNo = orderNo;
+        }
     }
 
     @Override

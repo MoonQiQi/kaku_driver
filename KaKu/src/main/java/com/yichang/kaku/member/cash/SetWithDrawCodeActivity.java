@@ -17,6 +17,7 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
+import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.payhelper.wxpay.net.sourceforge.simcpux.MD5;
 import com.yichang.kaku.request.BankCardListReq;
 import com.yichang.kaku.request.WithDrawCaptchaReq;
@@ -26,7 +27,7 @@ import com.yichang.kaku.response.BaseResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class SetWithDrawCodeActivity extends BaseActivity implements OnClickListener {
 
@@ -55,11 +56,11 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
     private void init() {
         initTitleBar();
         isPassExist = getIntent().getBooleanExtra("isPassExist", true);
-        flag_next_activity=getIntent().getStringExtra("flag_next_activity");
-        ll_captcha= (LinearLayout) findViewById(R.id.ll_captcha);
-        if(isPassExist){
+        flag_next_activity = getIntent().getStringExtra("flag_next_activity");
+        ll_captcha = (LinearLayout) findViewById(R.id.ll_captcha);
+        if (isPassExist) {
             ll_captcha.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ll_captcha.setVisibility(View.GONE);
         }
         tv_get_captcha = (TextView) findViewById(R.id.tv_get_captcha);
@@ -96,9 +97,6 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
 
             @Override
             public void afterTextChanged(Editable s) {
-                /*if(s.length()<6){
-                    LogUtil.showShortToast(context,"提现密码不能小于6位");
-                }*/
 
             }
         });
@@ -155,27 +153,27 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
         if (R.id.tv_left == id) {
             finish();
         } else if (R.id.tv_right == id) {
-           if(isPassExist){
-               //首次添加密码时不需要验证码
+            if (isPassExist) {
+                //首次添加密码时不需要验证码
 
-               if (TextUtils.isEmpty(et_captcha.getText())) {
-                   LogUtil.showShortToast(context, "请填写验证码");
-                   return;
-               }
-           }
+                if (TextUtils.isEmpty(et_captcha.getText())) {
+                    LogUtil.showShortToast(context, "请填写验证码");
+                    return;
+                }
+            }
 
             if (TextUtils.isEmpty(et_withdraw_code.getText())) {
 
                 LogUtil.showShortToast(context, "请输入提现密码");
                 return;
-            }else if(et_withdraw_code.getText().toString().trim().length()<6){
+            } else if (et_withdraw_code.getText().toString().trim().length() < 6) {
                 LogUtil.showShortToast(context, "请输入6位提现密码");
                 return;
             }
             if (TextUtils.isEmpty(et_withdraw_code_check.getText())) {
                 LogUtil.showShortToast(context, "请确认提现密码");
                 return;
-            }else  if (!et_withdraw_code_check.getText().toString().trim().equals(strPassword)) {
+            } else if (!et_withdraw_code_check.getText().toString().trim().equals(strPassword)) {
                 LogUtil.showShortToast(context, "请确认提现密码");
                 return;
             }
@@ -206,17 +204,19 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
     private void setWithDrawCode() {
         Utils.NoNet(this);
 
-        WithDrawCodeReq req=new WithDrawCodeReq();
+        showProgressDialog();
+        WithDrawCodeReq req = new WithDrawCodeReq();
         req.code = "5007";
         req.id_driver = Utils.getIdDriver();
-        if(isPassExist){
+        if (isPassExist) {
 
             req.vcode = et_captcha.getText().toString().trim();
-        }else {
+        } else {
 
             req.vcode = "-1";
         }
-        req.pay_pass=strPassword;
+        req.pay_pass = strPassword;
+        req.sign = Utils.TwoMD5Big("pay_pass", strPassword);
 
         KaKuApiProvider.setWithDrawCode(req, new KakuResponseListener<BaseResp>(this, BaseResp.class) {
             @Override
@@ -225,9 +225,8 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
                 if (t != null) {
                     LogUtil.E("setWithDrawCode res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-
-                        /*startActivity(new Intent(context,InputWithDrawCodeActivity.class));
-                        finish();*/
+                        KaKuApplication.IsOrderSetPass = true;
+                        KaKuApplication.flag_balance = true;
                         LogUtil.showShortToast(context, "支付密码修改成功！");
                         switch (flag_next_activity) {
                             case "INPUT":
@@ -248,7 +247,13 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
+                    stopProgressDialog();
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -274,7 +279,7 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
                         return;
                     }
 
-                    tv_get_captcha.setText(String.valueOf(tempTime)+"秒后重新获取" );
+                    tv_get_captcha.setText(String.valueOf(tempTime) + "秒后重新获取");
                     tempTime--;
 
                     handler.sendEmptyMessageDelayed(0, 1000);
@@ -310,6 +315,12 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -350,6 +361,12 @@ public class SetWithDrawCodeActivity extends BaseActivity implements OnClickList
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
     }

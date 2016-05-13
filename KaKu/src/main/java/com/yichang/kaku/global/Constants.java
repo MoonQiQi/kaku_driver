@@ -3,19 +3,24 @@ package com.yichang.kaku.global;
 public class Constants {
 
     public static final int TAB_POSITION_UNKONWN = -1;
-    public static final int TAB_POSITION_HOME = 1;
-    public static final int TAB_POSITION_ZONE = 2;
-    public static final int TAB_POSITION_FIND = 4;
-    public static final int TAB_POSITION_MEMBER = 5;
+    public static final int TAB_POSITION_HOME1 = 1;
+    public static final int TAB_POSITION_HOME2 = 2;
+    public static final int TAB_POSITION_HOME3 = 3;
+    public static final int TAB_POSITION_HOME4 = 4;
+    public static final int TAB_POSITION_HOME5 = 5;
 
     public final static int RESULT = 100;
-    public static final String FRAGMENT_TAG_HOME = "home";
-    public static final String FRAGMENT_TAG_ZONE = "zone";
-    public static final String FRAGMENT_TAG_SHOPPING_CART = "shopping_cart";
-    public static final String FRAGMENT_TAG_KNOW = "know";
-    public static final String FRAGMENT_TAG_MEMBER = "member";
+    public static final String FRAGMENT_TAG_HOME1 = "home1";
+    public static final String FRAGMENT_TAG_HOME2 = "home2";
+    public static final String FRAGMENT_TAG_HOME3 = "home3";
+    public static final String FRAGMENT_TAG_HOME4 = "home4";
+    public static final String FRAGMENT_TAG_HOME5 = "home5";
+    public static final String PHONE_KAKU = "4006867585";
+    public static final String ICON_KAKU = "http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png";
 
     public static final String GO_TO_TAB = "gototab";
+    public static final String NAME_GUANGBO = "name_guangbo";
+    public static final String NAME_JIEMU = "name_jiemu";
 
     /**
      * 当前tab序号
@@ -43,6 +48,10 @@ public class Constants {
     public final static String PHONE = "phone";
     public final static String PASS = "pass";
     public final static String IDUSER = "iduser";
+    public final static String CALL = "call";
+    public final static String CALLNAME = "callname";
+    public final static String CALL_SHENG = "callsheng";
+    public final static String CALLTIME = "calltime";
     public final static String IDDRIVE = "iddrive";
     public final static String SID = "sid";
     public final static String IDADVERT = "idadvert";

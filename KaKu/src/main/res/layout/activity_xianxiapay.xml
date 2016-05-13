@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_serviceorderlist"
+        layout="@layout/activity_titlebar" />
+
+
+    <RelativeLayout
+        android:id="@+id/rela_xianxiapayorder_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.yichang.kaku.view.CircularImage
+            android:id="@+id/iv_xianxiapay_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:src="@drawable/icon_boy" />
+
+        <TextView
+            android:id="@+id/tv_xianxiapay_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/iv_xianxiapay_head"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <RatingBar
+            android:id="@+id/star_xianxiapay_star"
+            style="@style/roomRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_xianxiapay_name"
+            android:layout_below="@+id/tv_xianxiapay_name"
+            android:layout_marginTop="5dp"
+            android:isIndicator="true"
+            android:numStars="5" />
+
+        <TextView
+            android:id="@+id/tv_xianxiapay_dan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/star_xianxiapay_star"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/star_xianxiapay_star"
+            android:textColor="@color/color_word"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_xianxiapay_name"
+            android:layout_below="@+id/star_xianxiapay_star"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_xianxiapay_dahuangyou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dahuangyou" />
+
+            <ImageView
+                android:id="@+id/iv_xianxiapay_luntai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/luntai" />
+
+            <ImageView
+                android:id="@+id/iv_xianxiapay_baolun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/baolun" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_xianxiapay_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/call" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/xianxiapay" />
+
+</LinearLayout>

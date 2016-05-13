@@ -8,49 +8,49 @@ package com.wly.android.widget;
 
 public final class R {
 	public static final class dimen {
-		public static final int activity_horizontal_margin = 0x7f050001;
-		public static final int activity_vertical_margin = 0x7f050003;
+		public static final int activity_horizontal_margin = 0x7f050002;
+		public static final int activity_vertical_margin = 0x7f05004b;
 	}
 	public static final class drawable {
-		public static final int gallery_selector = 0x7f0200db;
-		public static final int ic_launcher = 0x7f020107;
-		public static final int jiantou = 0x7f02014a;
-		public static final int news_gallery_text_bg = 0x7f020187;
-		public static final int point_1 = 0x7f0201a8;
-		public static final int point_2 = 0x7f0201a9;
+		public static final int gallery_selector = 0x7f0201e9;
+		public static final int ic_launcher = 0x7f020245;
+		public static final int jiantou = 0x7f0202be;
+		public static final int news_gallery_text_bg = 0x7f020388;
+		public static final int point_1 = 0x7f0203b7;
+		public static final int point_2 = 0x7f0203b8;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f0a075c;
-		public static final int gallery_image = 0x7f0a04e1;
-		public static final int gallery_text = 0x7f0a04e2;
-		public static final int gallerypop = 0x7f0a04de;
-		public static final int home_gallery = 0x7f0a0507;
-		public static final int home_pop_gallery_mark = 0x7f0a04df;
-		public static final int include_lunbo = 0x7f0a01d5;
-		public static final int news_gallery_text = 0x7f0a04e0;
-		public static final int tv_left = 0x7f0a0208;
-		public static final int tv_mid = 0x7f0a0073;
-		public static final int tv_right = 0x7f0a0209;
-		public static final int view_line_h = 0x7f0a020a;
-		public static final int wv_lunbo = 0x7f0a01d6;
+		public static final int action_settings = 0x7f080aab;
+		public static final int gallery_image = 0x7f08078b;
+		public static final int gallery_text = 0x7f08078c;
+		public static final int gallerypop = 0x7f080788;
+		public static final int home_gallery = 0x7f0807d7;
+		public static final int home_pop_gallery_mark = 0x7f080789;
+		public static final int include_lunbo = 0x7f080358;
+		public static final int news_gallery_text = 0x7f08078a;
+		public static final int tv_left = 0x7f08018a;
+		public static final int tv_mid = 0x7f0800db;
+		public static final int tv_right = 0x7f08018b;
+		public static final int view_line_h = 0x7f08018c;
+		public static final int wv_lunbo = 0x7f080359;
 	}
 	public static final class layout {
-		public static final int activity_lunbodetail = 0x7f030037;
-		public static final int activity_main = 0x7f030038;
-		public static final int activity_titlebar = 0x7f030085;
-		public static final int adgallery_hellper = 0x7f030091;
-		public static final int adgallery_image = 0x7f030092;
+		public static final int activity_lunbodetail = 0x7f03005e;
+		public static final int activity_main = 0x7f03005f;
+		public static final int activity_titlebar = 0x7f0300b6;
+		public static final int adgallery_hellper = 0x7f0300d6;
+		public static final int adgallery_image = 0x7f0300d7;
 	}
 	public static final class menu {
-		public static final int main = 0x7f0b0000;
+		public static final int main = 0x7f0a0000;
 	}
 	public static final class string {
-		public static final int action_settings = 0x7f080021;
-		public static final int app_name = 0x7f080026;
-		public static final int hello_world = 0x7f080039;
+		public static final int action_settings = 0x7f090000;
+		public static final int app_name = 0x7f090005;
+		public static final int hello_world = 0x7f09002c;
 	}
 	public static final class style {
 		public static final int AppBaseTheme = 0x7f060000;
-		public static final int AppTheme = 0x7f060002;
+		public static final int AppTheme = 0x7f060001;
 	}
 }

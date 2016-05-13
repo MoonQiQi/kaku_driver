@@ -19,7 +19,7 @@ import com.yichang.kaku.response.ShopDetailWebResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class ShopDetailWebActivity extends BaseActivity implements OnClickListener{
 
@@ -84,6 +84,12 @@ public class ShopDetailWebActivity extends BaseActivity implements OnClickListen
 					}
 				}
 			}
+
+			@Override
+			public void onFailed(int i, Response response) {
+
+			}
+
 
 		});
 	}

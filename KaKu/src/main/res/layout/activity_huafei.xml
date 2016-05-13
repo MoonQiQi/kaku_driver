@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_choujiang"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_color"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_huafei" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp">
+
+                <EditText
+                    android:id="@+id/et_huafei_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edittext"
+                    android:gravity="center_vertical"
+                    android:hint="请输入手机号码"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/color_word"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/iv_huafei_lianxiren"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:src="@drawable/lianxiren" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="请仔细核对充值号码，充错号将无法退款"
+                android:textColor="@color/color_word"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tv_huafei_50"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/touming_chongzhi"
+                        android:gravity="center"
+                        android:text="50元"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="15dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tv_huafei_100"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_50yuan"
+                        android:gravity="center"
+                        android:text="100元"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_huafei_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:text="支付："
+                android:textColor="@color/color_word"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_huafei_chongzhi"
+                style="@style/Btn_Red"
+                android:layout_marginTop="15dp"
+                android:text="立即充值" />
+
+            <TextView
+                android:id="@+id/tv_huafei_shuoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:lineSpacingMultiplier="1.2"
+                android:text="1.您付款成功后，话费一般会在30分钟内冲到您的手机中如遇到特殊情况未能到账，请您耐心等待，我们会尽量快处理吗，如果超过24小时仍未发货，系统会自动退款到您的账户中。\n2.您可以拨打运营商提供的免费免费客服电话查询余额，已确认话费到账情况。移动请拨打10086，联通请拨打10010，电信请拨打10000。\n3.如果时间过长未能收到话费,请及时联系卡库养车客服：400-6867-585。"
+                android:textColor="@color/color_word"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

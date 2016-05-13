@@ -4,5 +4,6 @@ import java.io.Serializable;
 
 public class CheckUpdateResp extends BaseResp implements Serializable {
     public String android_url;
+    public String version_introduction;
 
 }

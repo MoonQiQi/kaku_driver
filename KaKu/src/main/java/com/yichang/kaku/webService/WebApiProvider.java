@@ -4,8 +4,8 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.request.BaseReq;
 import com.yichang.kaku.tools.LogUtil;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.Request;
 
 import java.lang.reflect.Field;
 

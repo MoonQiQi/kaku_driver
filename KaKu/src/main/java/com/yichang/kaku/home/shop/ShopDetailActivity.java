@@ -1,57 +1,57 @@
 package com.yichang.kaku.home.shop;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wly.android.widget.AdGalleryHelper;
-import com.wly.android.widget.Advertising;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.home.dingwei.DaoHangActivity;
-import com.yichang.kaku.member.serviceorder.PingJiaOrderActivity;
-import com.yichang.kaku.obj.RollsObj;
-import com.yichang.kaku.request.CancleCollectReq;
-import com.yichang.kaku.request.CollectShopReq;
+import com.yichang.kaku.obj.ShopService2Obj;
+import com.yichang.kaku.obj.ShopServiceObj;
 import com.yichang.kaku.request.ShopDetailReq;
-import com.yichang.kaku.response.CancleCollectResp;
-import com.yichang.kaku.response.CollectShopResp;
 import com.yichang.kaku.response.ShopDetailResp;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopDetailActivity extends BaseActivity implements OnClickListener{
+public class ShopDetailActivity extends BaseActivity implements OnClickListener {
 
-    private TextView left;
-    private RelativeLayout rela_shopdetail_addr,rela_shopdetail_phone,rela_shopdetail_pingjia;
-    private ImageView iv_shopdetail_image,iv_shopdetail_guanzhu,iv_shopdetail_image2;
-    private TextView tv_shopdetail_shopname,tv_shopdetail_shoptime,tv_shopdetail_addr,tv_shopdetail_phone,
-                      tv_shopdetail_pingjiatime,tv_shopdetail_content,tv_shopdetail_more;
+    private TextView left, title;
+    private ImageView iv_shopdetail_image, iv_shopdetail_daohang, iv_shopdetail_phone, iv_shopdetail_shopname;
+    private TextView tv_shopdetail_shopname, tv_shopdetail_shoptime, tv_shopdetail_addr, tv_shopdetail_more,
+            tv_shopdetail_pingjianum, tv_shopdingdan, tv_shoppingjia, tv_shopdetail_title;
     private RatingBar star_shopdetail;
-    private String lat,lon,flag_guanzhu;
-    private Button btn_shopdetail_dianping;
-    private String name_shop,phone_shop,addr_shop,image_shop;
-    private RelativeLayout rela_shopdetail_gallery;
-    private AdGalleryHelper mGalleryHelper;
-    private List<RollsObj> rolls_list = new ArrayList<RollsObj>();
-    private String url_ad;
-    private String name_ad;
+    private String lat, lon;
+    private String phone_shop;
+    private RelativeLayout rela_shopdetail_pingjia;
+    private ListView lv_shopdetail_one, lv_shopdetail_two;
+    private List<ShopServiceObj> list_one = new ArrayList<>();
+    private List<ShopService2Obj> list_two = new ArrayList<>();
+    private ShopDetailOneAdapter adapter_one;
+    private ShopDetailTwoAdapter adapter_two;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,29 +64,42 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
     private void init() {
         // TODO Auto-generated method stub
 
-        left=(TextView) findViewById(R.id.tv_left);
+        left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
-        iv_shopdetail_image= (ImageView) findViewById(R.id.iv_shopdetail_image);
-        iv_shopdetail_image2= (ImageView) findViewById(R.id.iv_shopdetail_image2);
-        rela_shopdetail_addr= (RelativeLayout) findViewById(R.id.rela_shopdetail_addr);
-        rela_shopdetail_addr.setOnClickListener(this);
-        rela_shopdetail_phone= (RelativeLayout) findViewById(R.id.rela_shopdetail_phone);
-        rela_shopdetail_phone.setOnClickListener(this);
-        rela_shopdetail_pingjia= (RelativeLayout) findViewById(R.id.rela_shopdetail_pingjia);
-        tv_shopdetail_shopname= (TextView) findViewById(R.id.tv_shopdetail_shopname);
-        tv_shopdetail_shoptime= (TextView) findViewById(R.id.tv_shopdetail_shoptime);
-        tv_shopdetail_addr= (TextView) findViewById(R.id.tv_shopdetail_addr);
-        tv_shopdetail_phone= (TextView) findViewById(R.id.tv_shopdetail_phone);
-        iv_shopdetail_guanzhu= (ImageView) findViewById(R.id.iv_shopdetail_guanzhu);
-        iv_shopdetail_guanzhu.setOnClickListener(this);
-        tv_shopdetail_pingjiatime= (TextView) findViewById(R.id.tv_shopdetail_pingjiatime);
-        tv_shopdetail_content= (TextView) findViewById(R.id.tv_shopdetail_content);
-        tv_shopdetail_more= (TextView) findViewById(R.id.tv_shopdetail_more);
-        tv_shopdetail_more.setOnClickListener(this);
-        star_shopdetail= (RatingBar) findViewById(R.id.star_shopdetail);
-        btn_shopdetail_dianping= (Button) findViewById(R.id.btn_shopdetail_dianping);
-        btn_shopdetail_dianping.setOnClickListener(this);
-        rela_shopdetail_gallery= (RelativeLayout) findViewById(R.id.shopdetail_gallery);
+        title = (TextView) findViewById(R.id.tv_mid);
+        title.setText("店铺详情");
+        iv_shopdetail_image = (ImageView) findViewById(R.id.iv_shopdetail_image);
+        iv_shopdetail_shopname = (ImageView) findViewById(R.id.iv_shopdetail_shopname);
+        iv_shopdetail_daohang = (ImageView) findViewById(R.id.iv_shopdetail_daohang);
+        iv_shopdetail_daohang.setOnClickListener(this);
+        iv_shopdetail_phone = (ImageView) findViewById(R.id.iv_shopdetail_phone);
+        iv_shopdetail_phone.setOnClickListener(this);
+        tv_shopdetail_shopname = (TextView) findViewById(R.id.tv_shopdetail_shopname);
+        tv_shopdetail_title = (TextView) findViewById(R.id.tv_shopdetail_title);
+        tv_shopdetail_shoptime = (TextView) findViewById(R.id.tv_shopdetail_shoptime);
+        tv_shopdetail_pingjianum = (TextView) findViewById(R.id.tv_shopdetail_pingjianum);
+        tv_shopdingdan = (TextView) findViewById(R.id.tv_shopdingdan);
+        tv_shoppingjia = (TextView) findViewById(R.id.tv_shoppingjia);
+        tv_shopdetail_addr = (TextView) findViewById(R.id.tv_shopdetail_addr);
+        star_shopdetail = (RatingBar) findViewById(R.id.star_shopdetail);
+        rela_shopdetail_pingjia = (RelativeLayout) findViewById(R.id.rela_shopdetail_pingjia);
+        rela_shopdetail_pingjia.setOnClickListener(this);
+        lv_shopdetail_two = (ListView) findViewById(R.id.lv_shopdetail_two);
+        lv_shopdetail_one = (ListView) findViewById(R.id.lv_shopdetail_one);
+        lv_shopdetail_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter_one = new ShopDetailOneAdapter(context, list_one, position);
+                lv_shopdetail_one.setAdapter(adapter_one);
+
+                tv_shopdetail_title.setText(list_one.get(position).getName_service());
+                list_two = list_one.get(position).getService_list();
+                adapter_two = new ShopDetailTwoAdapter(context, list_two);
+                lv_shopdetail_two.setAdapter(adapter_two);
+
+            }
+        });
+
     }
 
     @Override
@@ -98,44 +111,29 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
     @Override
     public void onClick(View v) {
         Utils.NoNet(context);
-        if (Utils.Many()){
+        if (Utils.Many()) {
             return;
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
             finish();
-        } else if (R.id.rela_shopdetail_addr == id){
-            Intent intent = new Intent(this,DaoHangActivity.class);
-            intent.putExtra("e_lat",lat);
-            intent.putExtra("e_lon",lon);
+        } else if (R.id.iv_shopdetail_daohang == id) {
+            Intent intent = new Intent(this, DaoHangActivity.class);
+            intent.putExtra("e_lat", lat);
+            intent.putExtra("e_lon", lon);
             startActivity(intent);
-        } else if (R.id.rela_shopdetail_phone == id){
+        } else if (R.id.iv_shopdetail_phone == id) {
             Utils.Call(ShopDetailActivity.this, phone_shop);
-        } else if (R.id.iv_shopdetail_guanzhu == id){
-            if ("N".equals(flag_guanzhu)) {
-                CollectShop();
-            } else {
-                CancleCollect();
-            }
-        } else if (R.id.tv_shopdetail_more == id){
-            startActivity(new Intent(this,ShopPingJiaActivity.class));
-        } else if (R.id.btn_shopdetail_dianping == id){
-            Intent intent = new Intent(this, PingJiaOrderActivity.class);
-            Bundle bundle = new Bundle();
-            KaKuApplication.flag_IsDetailToPingJia = true;
-            bundle.putString("image_shop",image_shop);
-            bundle.putString("name_shop",name_shop);
-            bundle.putString("addr_shop", addr_shop);
-            intent.putExtras(bundle);
-            startActivity(intent);
+        } else if (R.id.rela_shopdetail_pingjia == id) {
+            startActivity(new Intent(this, ShopPingJiaListActivity.class));
         }
     }
 
-    public void ShopDetail(){
+    public void ShopDetail() {
+        showProgressDialog();
         ShopDetailReq req = new ShopDetailReq();
         req.code = "8005";
         req.id_shop = KaKuApplication.id_shop;
-        req.id_driver = Utils.getIdDriver();
         KaKuApiProvider.ShopDetail(req, new KakuResponseListener<ShopDetailResp>(this, ShopDetailResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
@@ -143,143 +141,73 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener{
                 if (t != null) {
                     LogUtil.E("shopdetail res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        //轮播图
-                        rolls_list = t.rolls;
-                        autoAdvance(rolls_list);
-                        url_ad = rolls_list.get(0).getUrl_roll();
-                        name_ad = rolls_list.get(0).getName_roll();
-                        tv_shopdetail_shopname.setText(t.shop.getName_shop());
-                        tv_shopdetail_shoptime.setText("营业时间：" + t.shop.getHour_shop_begin() + "-" + t.shop.getHour_shop_end());
-                        tv_shopdetail_addr.setText(t.shop.getAddr_shop());
-                        tv_shopdetail_phone.setText(t.shop.getMobile_shop());
-                        tv_shopdetail_content.setText(t.eval.getContent_eval());
-                        tv_shopdetail_pingjiatime.setText(t.eval.getName_driver() + "  " + t.eval.getTime_eval());
-                        lat = t.shop.getVar_lat();
-                        lon = t.shop.getVar_lon();
-                        phone_shop = t.shop.getMobile_shop();
-                        name_shop = t.shop.getName_shop();
-                        addr_shop = t.shop.getAddr_shop();
-                        image_shop = t.shop.getImage_shop();
-                        if ("Y".equals(t.shop.getIs_collection())) {
-                            iv_shopdetail_guanzhu.setImageResource(R.drawable.yiguanzhu);
-                        } else {
-                            iv_shopdetail_guanzhu.setImageResource(R.drawable.weiguanzhu);
-                        }
-                        if ("Y".equals(t.shop.getIs_collection())) {
-                            iv_shopdetail_guanzhu.setImageResource(R.drawable.yiguanzhu);
-                            flag_guanzhu = "Y";
-                        } else {
-                            iv_shopdetail_guanzhu.setImageResource(R.drawable.weiguanzhu);
-                            flag_guanzhu = "N";
-                        }
-                        if (TextUtils.isEmpty(t.eval.getContent_eval())) {
-                            rela_shopdetail_pingjia.setVisibility(View.GONE);
-                            tv_shopdetail_more.setTextColor(getResources().getColor(R.color.color_word));
-                            tv_shopdetail_more.setText("新店入驻，我来评价");
-                        } else {
-                            rela_shopdetail_pingjia.setVisibility(View.VISIBLE);
-                            tv_shopdetail_more.setText("查看更多评价");
-                        }
-
-                        String star2 = t.eval.getStar_eval();
-                        String star1 = t.shop.getNum_star();
-                        if (!TextUtils.isEmpty(star1)) {
-                            float starFloat1 = Float.valueOf(star1);
-                            star_shopdetail.setRating(starFloat1);
-                        }
-                        if (!TextUtils.isEmpty(star2)) {
-                            float starFloat2 = Float.valueOf(star2);
-                            star_shopdetail.setRating(starFloat2);
-                        }
-                        BitmapUtil.getInstance(context).download(iv_shopdetail_image, KaKuApplication.qian_zhui + t.shop.getImage_shop());
-                        BitmapUtil.getInstance(context).download(iv_shopdetail_image2, KaKuApplication.qian_zhui + t.shop.getImage_shop_up());
+                        SetText(t);
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
+                stopProgressDialog();
             }
 
-        });
-    }
-
-    public void CollectShop() {
-        Utils.NoNet(context);
-        CollectShopReq req = new CollectShopReq();
-        req.code = "4004";
-        req.id_driver = Utils.getIdDriver();
-        req.id_shop = KaKuApplication.id_shop;
-        KaKuApiProvider.CollectShop(req, new KakuResponseListener<CollectShopResp>(this, CollectShopResp.class) {
             @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("collectshop res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        iv_shopdetail_guanzhu.setImageResource(R.drawable.yiguanzhu);
-                        flag_guanzhu = "Y";
-                    } else {
-                    }
-                    LogUtil.showShortToast(context, t.msg);
-                }
+            public void onFailed(int i, Response response) {
+
             }
 
         });
     }
 
-    public void CancleCollect() {
-        Utils.NoNet(context);
-        CancleCollectReq req = new CancleCollectReq();
-        req.code = "4005";
-        req.id_driver = Utils.getIdDriver();
-        req.id_shop = KaKuApplication.id_shop;
-        KaKuApiProvider.CancleCollect(req, new KakuResponseListener<CancleCollectResp>(this, CancleCollectResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("canclecollect res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        iv_shopdetail_guanzhu.setImageResource(R.drawable.weiguanzhu);
-                        flag_guanzhu = "N";
-                    } else {
-                    }
-                    LogUtil.showShortToast(context, t.msg);
-                }
-            }
-
-        });
-    }
-
-    private void autoAdvance(List<RollsObj> imgList) {
-        // TODO Auto-generated method stub
-        if (imgList == null) {
-            return;
-        }
-        if (imgList.size() <= 0) {
-            return;
-        }
-        List<Advertising> list = new ArrayList<Advertising>();
-
-        for (RollsObj obj : imgList) {
-            Advertising advertising = new Advertising(obj.getImage_roll(), obj.getUrl_roll(), null);
-            advertising.setPicURL(KaKuApplication.qian_zhui + obj.getImage_roll());
-            list.add(advertising);
+    public void SetText(ShopDetailResp t) {
+        if ("0".equals(t.shop.getFlag_type())) {
+            iv_shopdetail_shopname.setImageResource(R.drawable.fuwuzhanxiao);
+        } else if ("9".equals(t.shop.getFlag_type())) {
+            iv_shopdetail_shopname.setImageResource(R.drawable.shopdetailkxd);
+        } else if ("8".equals(t.shop.getFlag_type())) {
+            iv_shopdetail_shopname.setImageResource(R.drawable.shopdetailyhd);
+        } else if ("7".equals(t.shop.getFlag_type())) {
+            iv_shopdetail_shopname.setImageResource(R.drawable.shopdetailwsd);
         }
 
-        if (list.size() > 0) {
-            mGalleryHelper = new AdGalleryHelper(context, list, Constants.AUTO_SCROLL_DURATION,false,false,true);
-            rela_shopdetail_gallery.addView(mGalleryHelper.getLayout());
-
+        tv_shopdetail_shopname.setText(t.shop.getName_shop());
+        tv_shopdetail_shoptime.setText("营业时间：" + t.shop.getHour_shop_begin() + "-" + t.shop.getHour_shop_end());
+        tv_shopdetail_addr.setText(t.shop.getAddr_shop());
+        tv_shopdingdan.setText("总订单  " + t.shop.getNum_bill());
+        if ("0".equals(t.shop.getNum_eval())) {
+            tv_shopdetail_pingjianum.setText("暂无评价");
+        } else {
+            String s = t.shop.getNum_eval() + "条评价";
+            SpannableStringBuilder styless = new SpannableStringBuilder(s);
+            styless.setSpan(new ForegroundColorSpan(Color.rgb(209, 0, 0)), 0, s.length() - 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_shopdetail_pingjianum.setText(styless);
         }
-    }
+        lat = t.shop.getVar_lat();
+        lon = t.shop.getVar_lon();
+        phone_shop = t.shop.getMobile_shop();
 
-    @Override
-    public void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        if (mGalleryHelper != null) {
-            mGalleryHelper.stopAutoSwitch();
+        String star1 = t.shop.getNum_star();
+        tv_shoppingjia.setText(star1);
+        if (!TextUtils.isEmpty(star1)) {
+            float starFloat1 = Float.valueOf(star1);
+            star_shopdetail.setRating(starFloat1);
         }
+        BitmapUtil.getInstance(context).download(iv_shopdetail_image, t.shop.getImage_shop());
+
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        ShopDetailActivity.this.getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+        double anInt;
+        anInt = (outMetrics.widthPixels);
+        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams((int) anInt, (int) anInt);
+        iv_shopdetail_image.setLayoutParams(params1);
+
+        list_one = t.services;
+        adapter_one = new ShopDetailOneAdapter(context, list_one, 0);
+        lv_shopdetail_one.setAdapter(adapter_one);
+
+        tv_shopdetail_title.setText(list_one.get(0).getName_service());
+        list_two = list_one.get(0).getService_list();
+        adapter_two = new ShopDetailTwoAdapter(context, list_two);
+        lv_shopdetail_two.setAdapter(adapter_two);
+
     }
 
 }

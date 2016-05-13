@@ -21,7 +21,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class PrizeDetailXuActivity extends BaseActivity implements OnClickListener{
 	
@@ -132,6 +132,11 @@ public class PrizeDetailXuActivity extends BaseActivity implements OnClickListen
 						LogUtil.showShortToast(context, t.msg);
 					}
 				}
+			}
+
+			@Override
+			public void onFailed(int i, Response response) {
+
 			}
 
 		});

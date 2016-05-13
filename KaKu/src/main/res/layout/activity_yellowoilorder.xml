@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_yellowoilorderorder"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_color"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rela_yellowoilorderorder_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <com.yichang.kaku.view.CircularImage
+                    android:id="@+id/iv_yellowoilorder_head"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/icon_boy" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/iv_yellowoilorder_head"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <RatingBar
+                    android:id="@+id/star_yellowoilorder_star"
+                    style="@style/roomRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_yellowoilorder_name"
+                    android:layout_below="@+id/tv_yellowoilorder_name"
+                    android:layout_marginTop="5dp"
+                    android:isIndicator="true"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_dan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/star_yellowoilorder_star"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/star_yellowoilorder_star"
+                    android:textColor="@color/color_word"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_yellowoilorder_name"
+                    android:layout_below="@+id/star_yellowoilorder_star"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_yellowoilorder_dahuangyou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dahuangyou" />
+
+                    <ImageView
+                        android:id="@+id/iv_yellowoilorder_luntai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/luntai" />
+
+                    <ImageView
+                        android:id="@+id/iv_yellowoilorder_baolun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/baolun" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_yellowoilorder_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/call" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_fuwufeizi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="服务指导价"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_fuwufei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_yellowoilorder_fuwufeizi"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/et_yellowoilorder_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_yellowoilorder_fuwufeizi"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/bg_edittext_normal"
+                    android:cursorVisible="false"
+                    android:hint="请输入实际服务金额"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/color_hint"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yellowoi_zaixianzhifuzi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="在线支付"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_yellowoi_zaixianzhifuzi"
+                    android:text="可享优惠哦"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_yellowoi_zaixianzhifu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/selector_confirmorder_cbx" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yellowoi_xianxiazhifuzi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="线下支付"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_yellowoi_xianxiazhifuzi"
+                    android:text="线下支付务必让师傅确认"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_yellowoi_xianxiazhifu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/selector_confirmorder_cbx" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_keyongyue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="可用余额"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_yellowoi_yue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/selector_confirmorder_cbx" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rela_yellowoilorder_youhuiquan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="优惠券"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_youhuiquan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/iv_yellowoilorder_youhuiquan"
+                    android:text="未使用优惠券"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/iv_yellowoilorder_youhuiquan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/jinqu" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="优惠券"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_price_you"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="-¥0.00"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="余额"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_price_yu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="-¥0.00"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <LinearLayout
+                android:id="@+id/line_zero_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_shifukuan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="实付款：0元"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoilorder_querenzhifu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/color_red"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="确认支付"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

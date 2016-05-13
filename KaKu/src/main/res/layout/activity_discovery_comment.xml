@@ -13,7 +13,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
@@ -24,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
-
             android:divider="#dedede"
             android:dividerHeight="@dimen/x1" />
 
@@ -33,7 +31,6 @@
             layout="@layout/layout_data_none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:visibility="gone" />
 
         <include
@@ -41,7 +38,6 @@
             layout="@layout/layout_net_none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:visibility="gone" />
 
     </RelativeLayout>
@@ -50,15 +46,11 @@
         android:id="@+id/rela_discovery_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:background="@drawable/bg_edittext_shadow"
         android:focusable="true"
         android:focusableInTouchMode="true"
-
         android:orientation="horizontal"
-        android:padding="15dp"
-
-        >
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/tv_textsize"
@@ -70,33 +62,31 @@
             android:textSize="15sp"
             android:visibility="gone" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_discovery_comment"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/et_bg"
-                android:cursorVisible="true"
-                android:ellipsize="end"
-                android:gravity="left|top"
-                android:hint="我也说点啥..."
-                android:lines="3"
-                android:maxLength="200"
-                android:paddingLeft="5dp"
-                android:textColor="#000000"
-                android:textColorHint="#666666"
-                android:textCursorDrawable="@drawable/cursor"
-                android:textSize="15sp" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/btn_comment_send"
+                android:background="@color/white"
+                android:hint="发表评论"
+                android:imeOptions="actionSend"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/color_word" />
 
             <Button
                 android:id="@+id/btn_comment_send"
                 android:layout_width="50dp"
                 android:layout_height="35dp"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="right|bottom"
                 android:background="@drawable/bg_btn_red"
                 android:gravity="center"
@@ -104,12 +94,12 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:paddingTop="1dp"
-                android:text="发送"
+                android:text="发表"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
-        </LinearLayout>
-
+        </RelativeLayout>
 
     </RelativeLayout>
+
 </LinearLayout>

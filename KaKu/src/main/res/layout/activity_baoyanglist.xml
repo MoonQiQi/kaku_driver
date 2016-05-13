@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_baoyanglist"
+        layout="@layout/activity_titlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/line_baoyanglist_bottom"
+            android:layout_marginBottom="15dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/iv_byshopdetail_shop"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/ic_launcher" />
+
+                    <TextView
+                        android:id="@+id/tv_byshopdetail_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@+id/iv_byshopdetail_shop"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rela_byshopdetail1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tv_byshopdetail_name"
+                        android:layout_below="@+id/tv_byshopdetail_name"
+                        android:layout_marginTop="5dp">
+
+                        <RatingBar
+                            android:id="@+id/star_byshopdetail"
+                            style="@style/roomRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:isIndicator="true" />
+
+                        <TextView
+                            android:id="@+id/tv_byshopdetail_star"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/star_byshopdetail"
+                            android:textColor="@color/color_red"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_byshopdetail_dan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tv_byshopdetail_star"
+                            android:textColor="@color/color_word"
+                            android:textSize="13sp" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_byshopdetail_mffw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tv_byshopdetail_name"
+                        android:layout_below="@+id/rela_byshopdetail1"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/mffw" />
+
+                    <TextView
+                        android:id="@+id/tv_byshopdetail_juli"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/iv_byshopdetail_mffw"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/color_word"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_byshopdetail"
+                        style="@style/Line_h"
+                        android:layout_below="@+id/iv_byshopdetail_mffw"
+                        android:layout_marginTop="10dp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rela_byshopdetail2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view_byshopdetail"
+                        android:layout_marginLeft="15dp">
+
+                        <ImageView
+                            android:id="@+id/iv_byshopdetail_cu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:src="@drawable/cu" />
+
+                        <TextView
+                            android:id="@+id/tv_byshopdetail_cu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/iv_byshopdetail_cu"
+                            android:textColor="@color/color_word"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <View style="@style/Line_h" />
+
+                <View
+                    style="@style/Line_h"
+                    android:layout_marginTop="10dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tv_byshopdetail_addr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@+id/iv_byshopdetail_call"
+                        android:gravity="left"
+                        android:textColor="#666666"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_byshopdetail_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_byshopdetail_addr"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="#666666"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_byshopdetail_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/dianhualv" />
+
+                </RelativeLayout>
+
+                <View style="@style/Line_h" />
+
+                <ListView
+                    android:id="@+id/lv_baoyanglist1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:scrollbars="none" />
+
+                <ListView
+                    android:id="@+id/lv_baoyanglist2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <ListView
+                    android:id="@+id/lv_baoyanglist3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <ImageView
+                    android:id="@+id/iv_baoyang_shanchujiyou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/shanchujiyouhong" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <ImageView
+                        android:id="@+id/iv_byshopdetail_huanlvxin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/jylqqlan" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/cylqq" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/kqlqq" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/fdy" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ns" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/line_baoyanglist_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/line_baoyanglist_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/lxkf" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_baoyanglist_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:text="¥ 0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/tv_baoyanglist_money"
+                    android:layout_below="@+id/tv_baoyanglist_money"
+                    android:text="包含工时费"
+                    android:textColor="@color/color_word"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rela_baoyanglist_jiesuan"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:background="@color/color_red">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="结算"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

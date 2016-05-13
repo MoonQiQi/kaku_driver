@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.KaKuApplication;
+import com.yichang.kaku.home.baoyang.ChooseFilterActivity;
+import com.yichang.kaku.home.mycar.AddCarActivity;
 import com.yichang.kaku.member.driver.DriverInfoActivity;
 
 import java.io.ByteArrayInputStream;
@@ -22,14 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * 裁剪图片的Activity
- *
- * @author xiechengfa2000@163.com
- * @ClassName: CropImageActivity
- * @Description:
- * @date 2015-5-8 下午3:39:22
- */
 public class ClipImageActivity extends Activity implements OnClickListener {
     public static final String RESULT_PATH = "crop_image";
     private static final String KEY = "path";
@@ -78,6 +72,12 @@ public class ClipImageActivity extends Activity implements OnClickListener {
                 Intent intent = new Intent();
                 intent.putExtra(RESULT_PATH, path1);
                 setResult(RESULT_OK, intent);
+            } else if ("chetie2".equals(KaKuApplication.flag_image)) {
+                String path2 = Environment.getExternalStorageDirectory() + "/" + AdImageActivity.TMP_PATH2;
+                saveBitmap(bitmap1, path2);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path2);
+                setResult(RESULT_OK, intent);
             } else if ("ben".equals(KaKuApplication.flag_image)) {
                 String path4 = Environment.getExternalStorageDirectory() + "/" + QiangImageActivity.TMP_PATH4;
                 saveBitmap(bitmap1, path4);
@@ -107,6 +107,36 @@ public class ClipImageActivity extends Activity implements OnClickListener {
                 saveBitmap(bitmap1, path8);
                 Intent intent = new Intent();
                 intent.putExtra(RESULT_PATH, path8);
+                setResult(RESULT_OK, intent);
+            } else if ("filter1".equals(KaKuApplication.flag_image)) {
+                String path9 = Environment.getExternalStorageDirectory() + "/" + ChooseFilterActivity.FILTER_PATH1;
+                saveBitmap(bitmap1, path9);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path9);
+                setResult(RESULT_OK, intent);
+            } else if ("filter2".equals(KaKuApplication.flag_image)) {
+                String path10 = Environment.getExternalStorageDirectory() + "/" + ChooseFilterActivity.FILTER_PATH2;
+                saveBitmap(bitmap1, path10);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path10);
+                setResult(RESULT_OK, intent);
+            } else if ("filter3".equals(KaKuApplication.flag_image)) {
+                String path11 = Environment.getExternalStorageDirectory() + "/" + ChooseFilterActivity.FILTER_PATH3;
+                saveBitmap(bitmap1, path11);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path11);
+                setResult(RESULT_OK, intent);
+            } else if ("filter4".equals(KaKuApplication.flag_image)) {
+                String path12 = Environment.getExternalStorageDirectory() + "/" + ChooseFilterActivity.FILTER_PATH4;
+                saveBitmap(bitmap1, path12);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path12);
+                setResult(RESULT_OK, intent);
+            } else if ("xingshizheng2".equals(KaKuApplication.flag_image)) {
+                String path13 = Environment.getExternalStorageDirectory() + "/" + AddCarActivity.TMP_PATH11;
+                saveBitmap(bitmap1, path13);
+                Intent intent = new Intent();
+                intent.putExtra(RESULT_PATH, path13);
                 setResult(RESULT_OK, intent);
             }
         }
@@ -164,17 +194,17 @@ public class ClipImageActivity extends Activity implements OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         } */
-        bitmap  = getSmallBitmap(path);
+        bitmap = getSmallBitmap(path);
         //finally {
-            try {
-                if (is != null) {
-                    is.close();
-                    is = null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            if (is != null) {
+                is.close();
+                is = null;
             }
-       // }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // }
 
         return bitmap;
     }
@@ -227,12 +257,12 @@ public class ClipImageActivity extends Activity implements OnClickListener {
     }
 
     //计算图片的缩放值
-    public static int calculateInSampleSize(BitmapFactory.Options options,int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height/ (float) reqHeight);
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
@@ -245,7 +275,7 @@ public class ClipImageActivity extends Activity implements OnClickListener {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 50, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 80;
-        while ( (baos.toByteArray().length / 1024) > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+        while ((baos.toByteArray().length / 1024) > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
             baos.reset();//重置baos即清空baos
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
             options -= 10;//每次都减少10

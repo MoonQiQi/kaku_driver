@@ -1,7 +1,5 @@
 package com.yichang.kaku.tools.okhttp;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -12,9 +10,6 @@ import com.yichang.kaku.response.BaseResp;
 import java.io.IOException;
 
 
-/**
- * Created by 小苏 on 2015/10/21.
- */
 public abstract class RequestCallback<T extends BaseResp> implements Callback {
 
     private Class<? extends BaseResp> bean;
@@ -40,7 +35,6 @@ public abstract class RequestCallback<T extends BaseResp> implements Callback {
     public void onResponse(Response response) throws IOException {
 
         final String body = response.body().string();
-        Log.d("xiaosu", body.trim());//调试信息
         try {
             final T obj = (T) new Gson().fromJson(body, bean);
             if (null == obj.res) {
@@ -91,11 +85,30 @@ public abstract class RequestCallback<T extends BaseResp> implements Callback {
                 activity.stopProgressDialog();
 //                activity.showShortToast(obj.msg);
                 break;
+            case "2":
+                activity.stopProgressDialog();
+//                activity.showShortToast(obj.msg);
+                break;
+            case "3":
+                activity.stopProgressDialog();
+//                activity.showShortToast(obj.msg);
+                break;
+            case "4":
+                activity.stopProgressDialog();
+//                activity.showShortToast(obj.msg);
+                break;
+            case "10":
+                activity.stopProgressDialog();
+//                activity.showShortToast(obj.msg);
+                break;
+            case "100":
+                activity.stopProgressDialog();
+//                activity.showShortToast(obj.msg);
+                break;
         }
     }
 
     public void onDataParseError(String result) {
-        Log.i("OkHttpUtil", result);
         activity.stopProgressDialog();
         activity.showShortToast("网络不好，请稍后再试");
     }

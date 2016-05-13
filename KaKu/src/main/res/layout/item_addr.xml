@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_addr_phone"
@@ -27,14 +27,23 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/tv_addr_name"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_addr_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_addr_name"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_word"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_addr_addr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_addr_name"
-            android:layout_marginTop="15dp"
+            android:layout_below="@+id/tv_addr_area"
+            android:layout_marginTop="10dp"
             android:textColor="@color/color_word"
             android:textSize="15sp" />
 
@@ -50,8 +59,7 @@
         <RelativeLayout
             android:id="@+id/rela_addr_moren"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/x88"
-            >
+            android:layout_height="@dimen/x88">
 
             <ImageView
                 android:id="@+id/iv_addr_moren"
@@ -64,11 +72,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/iv_addr_moren"
-                android:text="默认地址"
                 android:gravity="center_vertical"
-                android:layout_centerVertical="true"
+                android:text="默认地址"
                 android:textColor="@color/color_word"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -78,21 +86,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
             android:src="@drawable/shanchu" />
 
         <ImageView
             android:id="@+id/iv_addr_bianji"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/iv_addr_delete"
-            android:layout_centerVertical="true"
             android:src="@drawable/bianji" />
-
 
     </RelativeLayout>
 
     <View style="@style/Line_h" />
+
 </LinearLayout>

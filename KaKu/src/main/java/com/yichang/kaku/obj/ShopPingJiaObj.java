@@ -8,10 +8,10 @@ public class ShopPingJiaObj implements Serializable {
 	private String evaluation_order;
 	private String time_evaluation;
 	private String star_order;
-	private String image_evaluation1;
-	private String image_evaluation2;
-	private String image_evaluation3;
-	private String image_evaluation4;
+	private String image1_eval;
+	private String image2_eval;
+	private String image3_eval;
+	private String image4_eval;
 
 	public String getName_driver() {
 		return name_driver;
@@ -45,36 +45,36 @@ public class ShopPingJiaObj implements Serializable {
 		this.star_order = star_order;
 	}
 
-	public String getImage_evaluation1() {
-		return image_evaluation1;
+	public String getImage1_eval() {
+		return image1_eval;
 	}
 
-	public void setImage_evaluation1(String image_evaluation1) {
-		this.image_evaluation1 = image_evaluation1;
+	public void setImage1_eval(String image1_eval) {
+		this.image1_eval = image1_eval;
 	}
 
-	public String getImage_evaluation2() {
-		return image_evaluation2;
+	public String getImage2_eval() {
+		return image2_eval;
 	}
 
-	public void setImage_evaluation2(String image_evaluation2) {
-		this.image_evaluation2 = image_evaluation2;
+	public void setImage2_eval(String image2_eval) {
+		this.image2_eval = image2_eval;
 	}
 
-	public String getImage_evaluation3() {
-		return image_evaluation3;
+	public String getImage3_eval() {
+		return image3_eval;
 	}
 
-	public void setImage_evaluation3(String image_evaluation3) {
-		this.image_evaluation3 = image_evaluation3;
+	public void setImage3_eval(String image3_eval) {
+		this.image3_eval = image3_eval;
 	}
 
-	public String getImage_evaluation4() {
-		return image_evaluation4;
+	public String getImage4_eval() {
+		return image4_eval;
 	}
 
-	public void setImage_evaluation4(String image_evaluation4) {
-		this.image_evaluation4 = image_evaluation4;
+	public void setImage4_eval(String image4_eval) {
+		this.image4_eval = image4_eval;
 	}
 
 	@Override
@@ -84,10 +84,10 @@ public class ShopPingJiaObj implements Serializable {
 				", evaluation_order='" + evaluation_order + '\'' +
 				", time_evaluation='" + time_evaluation + '\'' +
 				", star_order='" + star_order + '\'' +
-				", image_evaluation1='" + image_evaluation1 + '\'' +
-				", image_evaluation2='" + image_evaluation2 + '\'' +
-				", image_evaluation3='" + image_evaluation3 + '\'' +
-				", image_evaluation4='" + image_evaluation4 + '\'' +
+				", image1_eval='" + image1_eval + '\'' +
+				", image2_eval='" + image2_eval + '\'' +
+				", image3_eval='" + image3_eval + '\'' +
+				", image4_eval='" + image4_eval + '\'' +
 				'}';
 	}
 }

@@ -19,7 +19,7 @@ import com.yichang.kaku.response.ModifyDriverNameResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 public class ModifyNameActivity extends BaseActivity implements OnClickListener, View.OnFocusChangeListener, AdapterView.OnItemClickListener {
     private TextView title, left, right;
@@ -125,6 +125,11 @@ public class ModifyNameActivity extends BaseActivity implements OnClickListener,
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });

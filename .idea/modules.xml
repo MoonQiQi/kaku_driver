@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LibMarsdaemon/LibMarsdaemon.iml" filepath="$PROJECT_DIR$/LibMarsdaemon/LibMarsdaemon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidAd/androidAd.iml" filepath="$PROJECT_DIR$/androidAd/androidAd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KaKu/kaKu.iml" filepath="$PROJECT_DIR$/KaKu/kaKu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kaku.iml" filepath="$PROJECT_DIR$/kaku.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/lib/pingpp/pingpp.iml" />
+    </modules>
+  </component>
+</project>

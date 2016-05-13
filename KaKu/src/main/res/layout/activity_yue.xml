@@ -19,10 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="余额（元）"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_yue_yue"
@@ -34,13 +34,25 @@
             android:textStyle="bold"
             android:text="¥0.00"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/tv_yue_keyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_yue_yue"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:text="可提现：¥0.00"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
 
         <View
             android:id="@+id/view_yue"
             android:layout_width="0.5dp"
             android:layout_height="50dp"
-            android:layout_below="@+id/tv_yue_yue"
+            android:layout_below="@+id/tv_yue_keyi"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@color/white" />
@@ -48,11 +60,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_yue_yue"
+            android:layout_below="@+id/tv_yue_keyi"
             android:layout_toLeftOf="@+id/view_yue">
 
             <TextView
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/tv_yue_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,11 +90,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_yue_yue"
+            android:layout_below="@+id/tv_yue_keyi"
             android:layout_toRightOf="@+id/view_yue">
 
             <TextView
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/tv_yue_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

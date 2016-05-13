@@ -6,79 +6,133 @@
     android:orientation="vertical">
 
 
+    <!-- <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="50dp"
+         android:background="#FFF">
+
+         <TextView
+             android:id="@+id/tv_left"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentLeft="true"
+             android:layout_alignParentStart="true"
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="10dp"
+             android:drawableLeft="@drawable/jiantou"
+             android:drawablePadding="3dp"
+             android:gravity="center_vertical"
+             android:text="返回"
+             android:textColor="@color/color_back"
+             android:textSize="18sp" />
+
+         <TextView
+             android:id="@+id/tv_mid"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="登录"
+             android:textColor="@color/black"
+             android:textSize="20sp" />
+
+         <FrameLayout
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:layout_alignParentRight="true">
+
+             <ImageView
+                 android:id="@+id/tv_right"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:src="@drawable/gwc_black"
+                 android:text="保存"
+                 android:visibility="visible" />
+
+             <TextView
+                 android:id="@+id/num"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerInParent="true"
+                 android:layout_gravity="right"
+                 android:layout_marginRight="10dp"
+                 android:layout_marginTop="10dp"
+                 android:background="@drawable/mall_num_shape"
+                 android:textColor="@color/white"
+                 android:textSize="10sp"
+                 android:visibility="invisible"
+                 tools:text="9" />
+
+         </FrameLayout>
+
+         <View
+             android:id="@+id/view_line_h"
+             android:layout_width="match_parent"
+             android:layout_height="0.5dp"
+             android:layout_alignParentBottom="true"
+             android:background="@drawable/dotted_line_horizontal" />
+     </RelativeLayout>-->
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#FFF">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_left"
+        <ImageView
+            android:id="@+id/iv_shopmall_fanhui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:drawableLeft="@drawable/jiantou"
-            android:drawablePadding="3dp"
+            android:padding="8dp"
+            android:src="@drawable/jiantou" />
+
+        <EditText
+            android:id="@+id/et_shopmall_sousuo"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/tv_shopmall_quxiao"
+            android:layout_toRightOf="@+id/iv_shopmall_fanhui"
+            android:background="@drawable/btn_hui"
+            android:cursorVisible="true"
+            android:drawableLeft="@drawable/search_bar_icon_normal"
+            android:drawablePadding="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:text="返回"
-            android:textColor="@color/color_back"
+            android:hint="搜索感兴趣的内容"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/color_hint"
+            android:textCursorDrawable="@drawable/cursor" />
+
+        <TextView
+            android:id="@+id/tv_shopmall_quxiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="15dp"
+            android:text="取消"
+            android:textColor="@color/color_red"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_mid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="登录"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
-
-            <ImageView
-                android:id="@+id/tv_right"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/gwc_black"
-                android:text="保存"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/mall_num_shape"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                android:visibility="invisible"
-                tools:text="9" />
-
-        </FrameLayout>
-
-        <View
-            android:id="@+id/view_line_h"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/dotted_line_horizontal" />
     </RelativeLayout>
+
+    <View style="@style/Line_h" />
 
 
     <LinearLayout
+        android:id="@+id/line_shopmall_table"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
         android:orientation="horizontal">
-        <!--销量-->
+
         <RelativeLayout
             android:id="@+id/rela_shopmall_sales"
             android:layout_width="0dp"
@@ -95,11 +149,10 @@
                 android:text="销量"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
-            <!--android:drawableRight="@drawable/xiajiantouhei"-->
 
         </RelativeLayout>
 
-        <View style="@style/Line_v"></View>
+        <View style="@style/Line_v" />
 
         <RelativeLayout
             android:id="@+id/rela_shopmall_newest"
@@ -119,10 +172,10 @@
                 android:textSize="17sp" />
 
         </RelativeLayout>
-        -->
 
-        <View style="@style/Line_v"></View>
-        <!--价格-->
+
+        <View style="@style/Line_v" />
+
         <RelativeLayout
             android:id="@+id/rela_shopmall_price"
             android:layout_width="0dp"
@@ -142,7 +195,9 @@
                 android:textSize="17sp" />
 
         </RelativeLayout>
-        <!--筛选
+
+        <View style="@style/Line_v" />
+
         <RelativeLayout
             android:id="@+id/rela_shopmall_filter"
             android:layout_width="0dp"
@@ -155,75 +210,152 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="筛选"
-                android:textColor="@color/blank"
+                android:drawablePadding="2dp"
+                android:drawableRight="@drawable/filter_normal"
+                android:padding="10dp"
+                android:text="分类"
+                android:textColor="@color/black"
                 android:textSize="17sp" />
 
-        </RelativeLayout>-->
+        </RelativeLayout>
+
     </LinearLayout>
-    <!--分割线-->
+
     <View style="@style/Line_h" />
 
-
-    <com.yichang.kaku.view.PullToRefreshView
-        android:id="@+id/pulltofresh_shopmall_products"
+    <RelativeLayout
+        android:id="@+id/rela_chepin_grid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
 
-        android:orientation="vertical"
-        android:padding="2dp"
-        android:visibility="visible">
-
-        <GridView
-            android:id="@+id/gv_shopmall_products"
+        <com.yichang.kaku.view.PullToRefreshView
+            android:id="@+id/pulltofresh_shopmall_products"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <GridView
+                android:id="@+id/gv_shopmall_products"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:horizontalSpacing="2dp"
+                android:numColumns="2"
+                android:scrollbars="none"
+                android:verticalSpacing="2dp"
+                android:visibility="visible" />
+
+        </com.yichang.kaku.view.PullToRefreshView>
+
+        <FrameLayout
+            android:id="@+id/frame_shopcar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:background="#B2000000">
+
+            <RelativeLayout
+                android:paddingRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_gwc_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/gwc_white" />
+
+                <TextView
+                    android:id="@+id/tv_gwc_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_gwc_white"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/mall_num_shape"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:visibility="invisible"
+                    tools:text="9" />
+
+                <TextView
+                    android:text="购物车"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_gwc_num"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ListView
+                android:id="@+id/lv_expand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:scrollbars="none" />
+
+            <RelativeLayout
+                android:id="@+id/rela_chepin_b2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/lv_expand"
+                android:background="#B2000000">
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/nosearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/img_nosearch"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_chepin_lishi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_lishi_chepin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_lishi_qingkong_chepin"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
             android:gravity="center"
-            android:horizontalSpacing="2dp"
-            android:numColumns="2"
-            android:scrollbars="none"
-            android:verticalSpacing="2dp"
-            android:visibility="visible" />
+            android:text="清空搜索历史"
+            android:textColor="@color/color_red"
+            android:textSize="18sp" />
 
-    </com.yichang.kaku.view.PullToRefreshView>
+        <View style="@style/Line_h" />
 
-
-    <!-- <RelativeLayout
-         android:id="@+id/rela_shopmall_products"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_marginLeft="15dp"
-         android:layout_marginRight="15dp"
-         android:visibility="visible"
-
-         android:background="@color/white"
-         >
-
-        &lt;!&ndash; <com.handmark.pulltorefresh.library.PullToRefreshGridView&ndash;&gt;
-         <com.yichang.kaku.view.PullToRefreshView
-             android:id="@+id/gv_shopmall_products"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:visibility="visible"
-             android:numColumns="2"
-             android:gravity="center"
-             android:verticalSpacing="15dp"
-             android:horizontalSpacing="16dp"
-             android:listSelector="#00000000"
-             android:cacheColorHint="#00000000"
-             android:fadingEdge="none"
-             android:fastScrollEnabled="false"
-             android:footerDividersEnabled="false"
-             android:headerDividersEnabled="false"
-             android:smoothScrollbar="true"
-             />
-
-
-
-
-         &lt;!&ndash;</com.handmark.pulltorefresh.library.PullToRefreshGridView>&ndash;&gt;
-
-     </RelativeLayout>-->
-
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <corners android:radius="@dimen/corners" />
-    <stroke
-        android:width="0.5dp"
-        android:color="@color/color_hint" />
-</shape><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/src/main/res/drawable/tv_talk_bg_shape.xml -->

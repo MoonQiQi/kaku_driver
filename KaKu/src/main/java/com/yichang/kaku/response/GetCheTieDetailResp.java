@@ -1,13 +1,13 @@
 package com.yichang.kaku.response;
 
-import com.yichang.kaku.obj.Addr2Obj;
+import com.yichang.kaku.obj.AddrObj;
 import com.yichang.kaku.obj.CheTieDetailObj;
 
 import java.io.Serializable;
 
 public class GetCheTieDetailResp extends BaseResp implements Serializable {
     public CheTieDetailObj advert;
-    public Addr2Obj addr;
+    public AddrObj addr;
     public String flag_reco;
     public String flag_one;
     public String flag_advert;

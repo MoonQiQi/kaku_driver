@@ -24,7 +24,6 @@ import java.util.HashMap;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
@@ -65,7 +64,6 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
 
         rootView.findViewById(R.id.share_wx).setOnClickListener(this);
         rootView.findViewById(R.id.share_pyq).setOnClickListener(this);
-        rootView.findViewById(R.id.share_qq).setOnClickListener(this);
 
         setContentView(rootView);
         setFocusable(true);
@@ -147,39 +145,6 @@ public class OneKeySharePopWindow extends PopupWindow implements View.OnClickLis
                     Platform wechatMoments = ShareSDK.getPlatform(WechatMoments.NAME);
                     wechatMoments.setPlatformActionListener(new InnerPlatformActionListener("微信朋友圈"));
                     wechatMoments.share(params);
-                }
-                break;
-            case R.id.share_qq:
-                String qqUrl = shareContent.url + "&type=QQ";
-
-                if (isShortUrl) {
-                    try {
-                        qqUrl = URLEncoder.encode(qqUrl, "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    getShortURL(qqUrl, new onSuccessListener() {
-                        @Override
-                        public void onSuccess(String shortUrl) {
-                            QQ.ShareParams params = new QQ.ShareParams();
-                            params.setTitle(mTitle);
-                            params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
-                            params.setText(shareContent.content + shortUrl);
-                            params.setTitleUrl(shortUrl);
-                            Platform qq = ShareSDK.getPlatform(QQ.NAME);
-                            qq.setPlatformActionListener(new InnerPlatformActionListener("QQ")); // 设置分享事件回调
-                            qq.share(params);
-                        }
-                    });
-                } else {
-                    QQ.ShareParams params = new QQ.ShareParams();
-                    params.setTitle(mTitle);
-                    params.setImageUrl("http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=icon_share.png");
-                    params.setText(shareContent.content + shareContent.url);
-                    params.setTitleUrl(shareContent.url);
-                    Platform qq = ShareSDK.getPlatform(QQ.NAME);
-                    qq.setPlatformActionListener(new InnerPlatformActionListener("QQ")); // 设置分享事件回调
-                    qq.share(params);
                 }
                 break;
         }

@@ -7,16 +7,13 @@
         android:id="@+id/prize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/home_kulong" />
+        android:layout_centerInParent="true" />
 
     <ImageView
         android:id="@+id/iv_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/prize"
-        android:layout_alignRight="@+id/prize"
-        android:layout_marginBottom="@dimen/x30"
-        android:src="@drawable/cha_prize" />
+        android:layout_toRightOf="@+id/prize"/>
 
 </RelativeLayout>

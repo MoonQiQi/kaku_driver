@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -101,7 +101,7 @@ public class LotteryActivity extends BaseActivity implements OnClickListener {
     private void goToHome() {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+        intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
         startActivity(intent);
         finish();
     }

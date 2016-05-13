@@ -12,7 +12,6 @@ import com.yichang.kaku.R;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.DriveInfoObj;
-import com.yichang.kaku.obj.MemberDriverObj;
 import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.Utils;
 
@@ -43,7 +42,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener {
         tv_scanname = (TextView) findViewById(R.id.tv_scanname);
         tv_scanphone = (TextView) findViewById(R.id.tv_scanphone);
 
-       driver = (DriveInfoObj) getIntent().getSerializableExtra("driverInfo");
+        driver = (DriveInfoObj) getIntent().getSerializableExtra("driverInfo");
 
         iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
 
@@ -64,8 +63,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener {
 
     private void generateQRCodeImage(String codeurl) {
 
-       Bitmap creatMyCode = Utils.createQRCode(codeurl);
-        //Bitmap creatMyCode = Utils.createQRCode("www.baidu.com");
+        Bitmap creatMyCode = Utils.createQRCode(codeurl);
         iv_qrcode.setImageBitmap(creatMyCode);
     }
 

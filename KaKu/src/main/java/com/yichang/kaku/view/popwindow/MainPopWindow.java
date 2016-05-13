@@ -14,16 +14,8 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.home.Ad.AdImageActivity;
-import com.yichang.kaku.home.Ad.Add_EActivity;
-import com.yichang.kaku.home.Ad.Add_FActivity;
-import com.yichang.kaku.home.Ad.Add_IActivity;
-import com.yichang.kaku.home.Ad.Add_MActivity;
-import com.yichang.kaku.home.Ad.Add_NActivity;
-import com.yichang.kaku.home.Ad.Add_PActivity;
-import com.yichang.kaku.home.Ad.Add_YActivity;
-import com.yichang.kaku.home.Ad.CheTieListActivity;
-import com.yichang.kaku.home.Ad.XingShiZhengImageActivity;
+import com.yichang.kaku.home.ad.AdImageActivity;
+import com.yichang.kaku.home.ad.XingShiZhengImageActivity;
 import com.yichang.kaku.home.choujiang.MyPrizeActivity;
 import com.yichang.kaku.member.cash.YueActivity;
 import com.yichang.kaku.obj.ShareContentObj;
@@ -32,21 +24,16 @@ import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
-/**
- * Created by xiaosu on 2015/12/3.
- */
 public class MainPopWindow extends PopupWindow {
 
     private MainActivity context;
-    private String flag;
-
 
     public MainPopWindow(final MainActivity context) {
         super(context);
         this.context = context;
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#77000000")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#B2000000")));
         setOutsideTouchable(false);
         setFocusable(true);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -72,14 +59,11 @@ public class MainPopWindow extends PopupWindow {
             case "5":
                 iv_prize.setImageResource(R.drawable.qiangyouhongbao);
                 break;
-            case "11":
-                iv_prize.setImageResource(R.drawable.jiangpin11);
-                break;
             case "12":
                 iv_prize.setImageResource(R.drawable.jiangpin12);
                 break;
             case "13":
-                iv_prize.setImageResource(R.drawable.home_kulong);
+                //iv_prize.setImageResource(R.drawable.home_kulong);
                 break;
             case "14":
                 iv_prize.setImageResource(R.drawable.jiangpin14);
@@ -102,24 +86,24 @@ public class MainPopWindow extends PopupWindow {
             @Override
             public void onClick(View v) {
                 dismiss();
-                if ("1".equals(KaKuApplication.flag_show)||"2".equals(KaKuApplication.flag_show)){
+                if ("1".equals(KaKuApplication.flag_show) || "2".equals(KaKuApplication.flag_show)) {
                     context.startActivity(new Intent(context, MyPrizeActivity.class));
-                } else if ("3".equals(KaKuApplication.flag_show)){
-                    GetAdd("");
-                } else if ("4".equals(KaKuApplication.flag_show)){
+                } else if ("3".equals(KaKuApplication.flag_show)) {
+                    GetAdd();
+                } else if ("4".equals(KaKuApplication.flag_show)) {
                     ShareRedBag();
-                } else if ("5".equals(KaKuApplication.flag_show)){
+                } else if ("5".equals(KaKuApplication.flag_show)) {
                     context.startActivity(new Intent(context, YueActivity.class));
-                } else if ("11".equals(KaKuApplication.flag_show)){
+                } else if ("11".equals(KaKuApplication.flag_show)) {
                     KaKuApplication.flag_mengban = "Y";
-                    GetAdd("Y");
+                    GetAdd();
                 } else if ("12".equals(KaKuApplication.flag_show)) {
                     KaKuApplication.flag_recommended = "";
                     context.startActivity(new Intent(context, XingShiZhengImageActivity.class));
                 } else if ("14".equals(KaKuApplication.flag_show)) {
-                    context.startActivity(new Intent(context, AdImageActivity.class));
-                } else if ("15".equals(KaKuApplication.flag_show)){
-                    context.startActivity(new Intent(context, AdImageActivity.class));
+                    GetAdImage();
+                } else if ("15".equals(KaKuApplication.flag_show)) {
+                    GetAdImage();
                 }
             }
         });
@@ -144,12 +128,16 @@ public class MainPopWindow extends PopupWindow {
 
     }
 
-    public void GetAdd(String flag_click){
+    public void GetAdd() {
+        Utils.GetAdType(context);
+    }
+
+    public void GetAdImage() {
+        context.showProgressDialog();
         GetAddReq req = new GetAddReq();
         req.code = "60011";
         req.id_driver = Utils.getIdDriver();
         req.id_advert = KaKuApplication.id_advert;
-        req.flag_click = flag_click;
         KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(context, GetAddResp.class) {
 
             @Override
@@ -163,39 +151,20 @@ public class MainPopWindow extends PopupWindow {
                         KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
                         KaKuApplication.flag_position = t.advert.getFlag_position();
                         KaKuApplication.flag_heart = t.advert.getFlag_show();
-                        GoToAdd(t.advert.getFlag_type());
+                        KaKuApplication.code_my = t.advert.getCode_recommended();
+                        context.startActivity(new Intent(context, AdImageActivity.class));
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
+                context.stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
     }
-
-    public void GoToAdd(String flag_type){
-        Intent intent = new Intent();
-        LogUtil.E("flag:"+flag_type);
-
-        if ("N".equals(flag_type)){
-            intent.setClass(context,Add_NActivity.class);
-        } else if ("Y".equals(flag_type)){
-            intent.setClass(context,Add_YActivity.class);
-        } else if ("E".equals(flag_type)){
-            intent.setClass(context,Add_EActivity.class);
-        } else if ("I".equals(flag_type)){
-            intent.setClass(context,Add_IActivity.class);
-        } else if ("F".equals(flag_type)){
-            intent.setClass(context,Add_FActivity.class);
-        } else if ("P".equals(flag_type)){
-            intent.setClass(context,Add_PActivity.class);
-        } else if ("A".equals(flag_type)){
-            intent.setClass(context,CheTieListActivity.class);
-        } else if ("M".equals(flag_type)){
-            intent.setClass(context,Add_MActivity.class);
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-    }
-
 }

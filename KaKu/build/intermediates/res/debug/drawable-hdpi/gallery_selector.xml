@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/point_2" android:state_checked="true" android:state_enabled="true"/>
-    <item android:drawable="@drawable/point_1" android:state_checked="false" android:state_enabled="true"/>
-
-</selector><!-- From: file:/F:/studio_workpace/kaku_android/androidAd/src/main/res/drawable-hdpi/gallery_selector.xml --><!-- From: file:/F:/studio_workpace/kaku_android/KaKu/build/intermediates/exploded-aar/kaku_android/androidAd/unspecified/res/drawable-hdpi/gallery_selector.xml -->

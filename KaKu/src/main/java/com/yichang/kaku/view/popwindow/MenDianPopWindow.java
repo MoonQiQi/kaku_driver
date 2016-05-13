@@ -26,7 +26,7 @@ public class MenDianPopWindow extends PopupWindow {
         this.context = context;
         this.phone = phone;
 
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#77000000")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C6000000")));
         setOutsideTouchable(false);
         setFocusable(true);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);

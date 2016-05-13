@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_zongjie"
+        layout="@layout/activity_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F45321">
+
+                <ImageView
+                    android:id="@+id/iv_EZongJie_image"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toRightOf="@+id/iv_EZongJie_image"
+                    android:text="任务由卡库养车提供"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_EZongJie_remark"
+                    android:layout_below="@+id/tv_EZongJie_remark"
+                    android:text="在车身粘贴企业广告车贴，拍照反\n馈即可持续获得由平台所提供收益"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/bg_zongjieyijieshu" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/jieshu_xiaolaba"
+                    android:drawablePadding="3dp"
+                    android:padding="15dp"
+                    android:text="任务于2个月前已结束"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rela_EZongJie_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="15dp"
+                android:visibility="gone">
+
+                <com.yichang.kaku.view.CircularImage
+                    android:id="@+id/iv_EZongJie_head"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="30dp"
+                    android:src="@drawable/icon_boy" />
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_woderenwuzongjie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tv_EZongJie_renwushouyi"
+                    android:layout_alignLeft="@+id/tv_EZongJie_renwushouyi"
+                    android:layout_marginBottom="10dp"
+                    android:text="我的任务总结"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_renwushouyi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_EZongJie_head"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/iv_EZongJie_head"
+                    android:drawableLeft="@drawable/daqiandai"
+                    android:drawablePadding="3dp"
+                    android:gravity="bottom"
+                    android:text="N元任务收益"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/line_EZongJie_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_EZongJie_shouyitianshu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/shouyitianshutu" />
+
+                        <TextView
+                            android:id="@+id/tv_EZongJie_shouyitianshu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/iv_EZongJie_shouyitianshu"
+                            android:layout_marginLeft="3dp"
+                            android:layout_toRightOf="@+id/iv_EZongJie_shouyitianshu"
+                            android:text="N天"
+                            android:textColor="@color/color_word"
+                            android:textSize="12sp" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/tv_EZongJie_shouyitianshu"
+                            android:layout_below="@+id/tv_EZongJie_shouyitianshu"
+                            android:layout_marginTop="2dp"
+                            android:text="收益天数"
+                            android:textColor="@color/color_word"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_EZongJie_rijunshouyi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/rijunshouyitu" />
+
+                        <TextView
+                            android:id="@+id/tv_EZongJie_rijunshouyi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/iv_EZongJie_rijunshouyi"
+                            android:layout_marginLeft="3dp"
+                            android:layout_toRightOf="@+id/iv_EZongJie_rijunshouyi"
+                            android:text="N元"
+                            android:textColor="@color/color_word"
+                            android:textSize="12sp" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/tv_EZongJie_rijunshouyi"
+                            android:layout_below="@+id/tv_EZongJie_rijunshouyi"
+                            android:layout_marginTop="2dp"
+                            android:text="日均收益"
+                            android:textColor="@color/color_word"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_EZongJie1"
+                style="@style/Line_h"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/view_EZongJie2"
+                style="@style/Line_h"
+                android:layout_marginTop="15dp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_sijishouyi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:drawableLeft="@drawable/daqiandai"
+                    android:drawablePadding="3dp"
+                    android:gravity="bottom"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp"
+                    android:text="0元"
+                    android:textColor="@color/color_orange"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:text="标准收益"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            z<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_canyurenshu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:drawableLeft="@drawable/xiaogupiao"
+                    android:drawablePadding="3dp"
+                    android:gravity="bottom"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
+                    android:text="0元"
+                    android:textColor="@color/color_word"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_tian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/tv_EZongJie_canyurenshu"
+                    android:background="@color/color_orange"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:text="日均收益"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_shouyiqixian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:drawableLeft="@drawable/xiaorili"
+                    android:drawablePadding="3dp"
+                    android:gravity="bottom"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
+                    android:text="3个月"
+                    android:textColor="@color/color_word"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_jigeyue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/tv_EZongJie_shouyiqixian"
+                    android:background="@color/color_orange"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:text="收益期限"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/Line_h" />
+
+            <View
+                style="@style/Line_h"
+                android:layout_marginTop="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_biaozhun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/xiaoduihao"
+                    android:drawablePadding="5dp"
+                    android:padding="15dp"
+                    android:text="参与人数：0人"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_EZongJie_rijun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/yangjiaofu"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="15dp"
+                        android:text="车贴售价：¥0"
+                        android:textColor="@color/color_word"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_EZongJie_shoutie0yuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/tv_EZongJie_rijun"
+                        android:src="@drawable/shoutielingyuan" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_EZongJie_tuijianhaoyou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="      推荐好友粘贴并通过审核后，全额返还代理人"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <View style="@style/Line_h" />
+
+            <Button
+                android:id="@+id/btn_EZongJie_chetiedaili"
+                style="@style/Btn_Orange"
+                android:layout_marginTop="15dp"
+                android:text="代理车贴" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

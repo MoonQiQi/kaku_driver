@@ -14,9 +14,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.yichang.kaku.R;
 import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.home.HomeFragment;
-import com.yichang.kaku.home.faxian.FindFragment;
-import com.yichang.kaku.member.MemberFragment;
-import com.yichang.kaku.member.login.LoginActivity;
+import com.yichang.kaku.home.faxian.Home4Fragment;
+import com.yichang.kaku.member.Home5Fragment;
 import com.yichang.kaku.request.AutoLoginReq;
 import com.yichang.kaku.request.CheckUpdateReq;
 import com.yichang.kaku.response.AutoLoginResp;
@@ -29,8 +28,8 @@ import com.yichang.kaku.view.TitleFragment;
 import com.yichang.kaku.view.popwindow.MainPopWindow;
 import com.yichang.kaku.view.popwindow.UpDatePopWindow;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yichang.kaku.zhaohuo.ZhaoFragment;
-import com.yolanda.nohttp.Response;
+import com.yichang.kaku.zhaohuo.Home2Fragment;
+import com.yolanda.nohttp.rest.Response;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -41,6 +40,7 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     private boolean isShow = false;
     private String android_url;
     private String versionName;
+    private String version_introduction;
     private Boolean isPwdPopWindowShow = false;
 
     @Override
@@ -51,21 +51,21 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
         int index = getIntent().getIntExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_UNKONWN);
         switch (index) {
             case Constants.TAB_POSITION_UNKONWN:
-            case Constants.TAB_POSITION_HOME:
-                onHomeTabClick();
-                bottomTabFragment.setTab(Constants.TAB_POSITION_HOME);
+            case Constants.TAB_POSITION_HOME1:
+                onHomeTabClick1();
+                bottomTabFragment.setTab(Constants.TAB_POSITION_HOME1);
                 break;
-            case Constants.TAB_POSITION_ZONE:
-                onZoneTabClick();
-                bottomTabFragment.setTab(Constants.TAB_POSITION_ZONE);
+            case Constants.TAB_POSITION_HOME2:
+                onHomeTabClick2();
+                bottomTabFragment.setTab(Constants.TAB_POSITION_HOME2);
                 break;
-            case Constants.TAB_POSITION_FIND:
-                onFindTabClick();
-                bottomTabFragment.setTab(Constants.TAB_POSITION_FIND);
+            case Constants.TAB_POSITION_HOME4:
+                onHomeTabClick4();
+                bottomTabFragment.setTab(Constants.TAB_POSITION_HOME4);
                 break;
-            case Constants.TAB_POSITION_MEMBER:
-                onMemberTabClick();
-                bottomTabFragment.setTab(Constants.TAB_POSITION_MEMBER);
+            case Constants.TAB_POSITION_HOME5:
+                onHomeTabClick5();
+                bottomTabFragment.setTab(Constants.TAB_POSITION_HOME5);
                 break;
         }
 
@@ -94,9 +94,9 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
         isShow = false;
         JPushInterface.onResume(context);
 
-        if (!"Zone".equals(KaKuApplication.WhichFrag) &&
-                !"Member".equals(KaKuApplication.WhichFrag) &&
-                !"Find".equals(KaKuApplication.WhichFrag)) {
+        if (!"Home2".equals(KaKuApplication.WhichFrag) &&
+                !"Home4".equals(KaKuApplication.WhichFrag) &&
+                !"Home5".equals(KaKuApplication.WhichFrag)) {
             AutoLogin();
         }
     }
@@ -109,74 +109,52 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
 
 
     @Override
-    public void onHomeTabClick() {
+    public void onHomeTabClick1() {
         // TODO Auto-generated method stub
-        MobclickAgent.onEvent(context, "Home");
-        HomeFragment homeFragment = (HomeFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_HOME);
+        MobclickAgent.onEvent(context, "Home1");
+        HomeFragment homeFragment = (HomeFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_HOME1);
         if (homeFragment == null)
             homeFragment = new HomeFragment();
-        /*
-         * setTitleName(R.id.frgmt_title, LungPoonApplication.titleName);
-		 * setTitleImage(R.id.frgmt_title, 0);
-		 * setTitleLeftImage(R.id.frgmt_title, 0);
-		 */
         FragmentTransaction ft = fragMgr.beginTransaction();
-        switchFragment(ft, R.id.layout_content, homeFragment, Constants.FRAGMENT_TAG_HOME);
-        KaKuApplication.WhichFrag = "Home";
+        switchFragment(ft, R.id.layout_content, homeFragment, Constants.FRAGMENT_TAG_HOME1);
+        KaKuApplication.WhichFrag = "Home1";
     }
 
     @Override
-    public void onZoneTabClick() {
+    public void onHomeTabClick2() {
         // TODO Auto-generated method stub
-        MobclickAgent.onEvent(context, "Zone");
-        ZhaoFragment zoneFragment = (ZhaoFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_ZONE);
-        if (zoneFragment == null)
-            zoneFragment = new ZhaoFragment();
-        /*
-         * setTitleName(R.id.frgmt_title, "兑换"); setTitleImage(R.id.frgmt_title,
-		 * R.drawable.gouwucheicon); setTitleLeftImage(R.id.frgmt_title,
-		 * R.drawable.wujiaoxing);
-		 */
+        MobclickAgent.onEvent(context, "Home2");
+        Home4Fragment homeFragment2 = (Home4Fragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_HOME2);
+        if (homeFragment2 == null)
+            homeFragment2 = new Home4Fragment();
         FragmentTransaction ft = fragMgr.beginTransaction();
-        switchFragment(ft, R.id.layout_content, zoneFragment, Constants.FRAGMENT_TAG_ZONE);
-        KaKuApplication.WhichFrag = "Zone";
+        switchFragment(ft, R.id.layout_content, homeFragment2, Constants.FRAGMENT_TAG_HOME2);
+        KaKuApplication.WhichFrag = "Home2";
     }
 
     @Override
-    public void onMemberTabClick() {
+    public void onHomeTabClick4() {
         // TODO Auto-generated method stub
-        MobclickAgent.onEvent(context, "Member");
-        if (!Utils.isLogin()) {
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-        MemberFragment memberFragment = (MemberFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_MEMBER);
-        if (memberFragment == null)
-            memberFragment = new MemberFragment();
-        /*
-         * setTitleName(R.id.frgmt_title, "我"); setTitleImage(R.id.frgmt_title,
-		 * 0); setTitleLeftImage(R.id.frgmt_title, 0);
-		 */
+        MobclickAgent.onEvent(context, "Home4");
+        Home2Fragment homeFragment4 = (Home2Fragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_HOME4);
+        if (homeFragment4 == null)
+            homeFragment4 = new Home2Fragment();
         FragmentTransaction ft = fragMgr.beginTransaction();
-        switchFragment(ft, R.id.layout_content, memberFragment, Constants.FRAGMENT_TAG_MEMBER);
-        KaKuApplication.WhichFrag = "Member";
+        switchFragment(ft, R.id.layout_content, homeFragment4, Constants.FRAGMENT_TAG_HOME4);
+        KaKuApplication.WhichFrag = "Home4";
     }
 
     @Override
-    public void onFindTabClick() {
+    public void onHomeTabClick5() {
         // TODO Auto-generated method stub
-        MobclickAgent.onEvent(context, "Find");
+        MobclickAgent.onEvent(context, "Home5");
 
-        FindFragment knowFragment = (FindFragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_KNOW);
-        if (knowFragment == null)
-            knowFragment = new FindFragment();
-        /*
-         * setTitleName(R.id.frgmt_title, "发现");
-		 * setTitleImage(R.id.frgmt_title,0);
-		 * setTitleLeftImage(R.id.frgmt_title, 0);
-		 */
+        Home5Fragment homeFragment5 = (Home5Fragment) fragMgr.findFragmentByTag(Constants.FRAGMENT_TAG_HOME5);
+        if (homeFragment5 == null)
+            homeFragment5 = new Home5Fragment();
         FragmentTransaction ft = fragMgr.beginTransaction();
-        switchFragment(ft, R.id.layout_content, knowFragment, Constants.FRAGMENT_TAG_KNOW);
-        KaKuApplication.WhichFrag = "Know";
+        switchFragment(ft, R.id.layout_content, homeFragment5, Constants.FRAGMENT_TAG_HOME5);
+        KaKuApplication.WhichFrag = "Home5";
     }
 
     @Override
@@ -220,6 +198,13 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
     public void AutoLogin() {
         AutoLoginReq req = new AutoLoginReq();
         req.code = "1001";
+        req.var_lon = Utils.getLon();
+        req.var_lat = Utils.getLat();
+        try {
+            req.version_android = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         KaKuApiProvider.autologin(req, new KakuResponseListener<AutoLoginResp>(this, AutoLoginResp.class) {
 
             @Override
@@ -255,8 +240,8 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
                             }, 0);
                         }
 
-                    } else if (Constants.RES_TWO.equals(t.res)) {
-                        LogUtil.showShortToast(MainActivity.this, t.msg);
+                    } else if (Constants.RES_ONE.equals(t.res)) {
+
                     } else {
                         SharedPreferences.Editor editor = KaKuApplication.editor;
                         editor.putBoolean(Constants.ISLOGIN, false);
@@ -265,8 +250,8 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
                         editor.putString(Constants.NAMEDRIVE, "");
                         editor.putString(Constants.SID, "");
                         editor.commit();
+                        LogUtil.showShortToast(MainActivity.this, t.msg);
                     }
-
                 }
             }
 
@@ -289,36 +274,44 @@ public class MainActivity extends BaseFragmentActivity implements OnTabClickCall
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
                 if (t != null) {
+                    LogUtil.E("TTTT:" + t.version_introduction);
                     LogUtil.E("update res: " + t.res);
                     if (Constants.RES_ONE.equals(t.res)) {
                         android_url = t.android_url;
+                        version_introduction = t.version_introduction;
                         if (!"Zone".equals(KaKuApplication.WhichFrag) &&
                                 !"Member".equals(KaKuApplication.WhichFrag) &&
                                 !"Find".equals(KaKuApplication.WhichFrag)) {
-                            showPopWindow(true, android_url);
+                            showPopWindow(true, android_url, version_introduction);
                         }
 
                     } else if (Constants.RES_NINE.equals(t.res)) {
                         android_url = t.android_url;
+                        version_introduction = t.version_introduction;
                         if (!"Zone".equals(KaKuApplication.WhichFrag) &&
                                 !"Member".equals(KaKuApplication.WhichFrag) &&
                                 !"Find".equals(KaKuApplication.WhichFrag)) {
-                            showPopWindow(false, android_url);
+                            showPopWindow(false, android_url, version_introduction);
                         }
+                    } else if (Constants.RES.equals(t.res)) {
+
+                    } else {
+                        Utils.Exit();
                     }
                 }
             }
+
         });
     }
 
-    private void showPopWindow(final boolean flag, final String android_url) {
+    private void showPopWindow(final boolean flag, final String android_url, final String version_introduction) {
         getWindow().getDecorView().postDelayed(new Runnable() {
             @Override
             public void run() {
                 isPwdPopWindowShow = true;
 
                 UpDatePopWindow input =
-                        new UpDatePopWindow(MainActivity.this, flag, android_url);
+                        new UpDatePopWindow(MainActivity.this, flag, android_url, version_introduction);
                 input.show();
             }
         }, 0);

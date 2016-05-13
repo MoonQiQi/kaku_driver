@@ -6,19 +6,25 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.kaolafm.sdk.vehicle.GeneralCallback;
+import com.kaolafm.sdk.vehicle.KlSdkVehicle;
 import com.marswin89.marsdaemon.DaemonClient;
 import com.marswin89.marsdaemon.DaemonConfigurations;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.yichang.kaku.obj.Addr2Obj;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.yichang.kaku.obj.AddrObj;
 import com.yichang.kaku.obj.QuestionObj;
+import com.yichang.kaku.obj.Worker2Obj;
+import com.yichang.kaku.response.PinPaiFuWuZhanResp;
 import com.yichang.kaku.tools.CaptchaDownTimer;
 import com.yichang.kaku.tools.CrashHandler;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.tools.okhttp.OkHttpUtil;
+import com.yichang.kaku.webService.UrlCtnt;
 import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
@@ -27,9 +33,22 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 
 public class KaKuApplication extends Application {
+    public static Context mContext;
 
     public static final String SHARED_NAME = "KaKu";
     private DaemonClient mDaemonClient;
+    private static KaKuApplication instance;
+
+    /**
+     * 单例，返回一个实例
+     *
+     * @return
+     */
+    public static KaKuApplication getInstance() {
+        if (instance == null) {
+        }
+        return instance;
+    }
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -46,16 +65,28 @@ public class KaKuApplication extends Application {
     public static String id_car;
     public static String flag_freeze;
     //所有图片的前缀
-    public static String qian_zhui = "http://manage.360kaku.com/index.php?m=Img&a=imgAction&img=";
+    public static String qian_zhui = "http://kf.360kaku.com/index.php/Home/Img/index.html?img=";
     public static String qian_zhuikong = "";
+    public static String ping_url = UrlCtnt.BASEIP + "/basepay/webhooksPay";
+    public static String hmac_key = "7fGwNTr3b2uF5u2pd69g23bfy1hdJKag";
     //判断是否是从收货地址跳回MyCenter
     public static boolean isShopToFirst;
     //到车服务费
     public static float carmoney = 0.00f;
-    //保养花费
-    public static float money;
     //保养，循环ID
     public static String id_string;
+    public static String id_service;
+    public static String name_service;
+    public static String type_service = "0";
+    public static String id_driver_coupon;
+    public static String name_driver_coupon;
+    public static String id_service_coupon = "";
+    public static String name_service_coupon;
+    public static String id_upkeep_coupon = "";
+    public static String name_upkeep_coupon;
+    //保养花费
+    public static float money;
+    public static boolean flag_balance;
     //保养，循环数量
     public static String num_string;
     //保养，循环单价
@@ -64,6 +95,18 @@ public class KaKuApplication extends Application {
     public static String addr_string;
     public static String flag_shop = "0";
     public static String flag_show;
+    public static String new_addr;
+    public static String success_type;
+    public static String new_addrtext;
+    public static String new_nametext;
+    public static String new_phonetext;
+    public static String id_baoyangshop;
+    public static String type_baoyang;
+    public static String flag_activity;
+    public static String id_news;
+    public static int mSelectedPosition;
+    public static String id_circle;
+    public static float baoyang_money;
     //订单状态
     public static String state_order;
     public static String color_order = "";
@@ -76,16 +119,42 @@ public class KaKuApplication extends Application {
     public static String id_orderF;
     public static String id_orderG;
     public static String id_orderZ;
-    public static String fanxiu_order;
+    public static String mb_month;
+    public static String quanzitype = "left";
+    public static String mb_year;
+    public static String addcar_chepaizi;
+    public static String addcar_image;
+    public static String addcar_chepaihao;
+    public static String addcar_gongli;
+    public static String addcar_shijian;
+    public static String addcar_type;
+    public static String yellowoil;
+    public static String id_brand;
+    public static String car_code;
+    public static String id_goods_baoyang;
+    public static String id_item;
+    public static String id_item_lv;
     public static String id_drop;
     public static String id_bill_chetie;
+    public static String flag_addcar;
     public static boolean flag_IsDetailToPingJia;
+    public static boolean flag_IsQiangToOrder;
 
     public static String id_advert = "";
+    public static String id_driver_car;
+    public static String flag_car;
+    public static String id_advert_daili = "";
+    public static String flag_advert_sign = "";
     public static String WhichFrag;
     //判断是否弹出升级对话框
     public static boolean isShowDialog;
     public static boolean scanFlag;
+    public static boolean IsOrderSetPass;
+    public static PinPaiFuWuZhanResp pinpaifuwuzhanResp = null;
+    public static String PinPaiFuWuZhan_brand = "品牌";
+    public static String PinPaiFuWuZhan_city = "全部地区";
+    public static String PinPaiFuWuZhan_areaid = "";
+    public static String PinPaiFuWuZhan_brandid = "";
 
     /**
      * 注册验证码用计时器
@@ -97,12 +166,18 @@ public class KaKuApplication extends Application {
     public static String province_addrname = "";
     public static String city_addr = "";
     public static String city_addrname = "";
+    public static String flag_get;
+    public static String money_coupon;
     public static String county_addrid;
+    public static String name_area;
+    public static boolean IsOrderToAddr;
     //地址
     public static String name_addr = "";
     public static String phone_addr = "";
     public static String county_addr = "";
     public static String dizhi_addr = "";
+    public static String area_addr = "";
+    public static String id_area = "";
     public static String id_dizhi = "";
     public static String name_connect = "";
     public static String phone_connect = "";
@@ -110,6 +185,7 @@ public class KaKuApplication extends Application {
     public static String hongbao_title = "";
     public static String hongbao_content = "";
     public static String hongbao_url = "";
+    public static String flag_dory = "";
     /*标识是否为修改地址*/
     public static Boolean isEditAddr = false;
     public static int itemPosition = 0;
@@ -122,6 +198,12 @@ public class KaKuApplication extends Application {
     public static String addr_shop = "";
     public static String image_shop = "";
     public static String pingjia_shop = "";
+    public static String quanzi_title = "";
+    public static String quanzi_content = "";
+    public static String pingjia_quanzititle = "";
+    public static String pingjia_quanzicontent = "";
+    public static String PingJiaShopOrAd = "";
+    public static String pingjia_ad = "";
     public static String id_shop;
     public static String head;
     public static String lat = "";
@@ -132,6 +214,8 @@ public class KaKuApplication extends Application {
     public static String no_item;
     public static String reason_upload;
     public static String flag_image = "wu";
+    public static String ping_no;
+    public static String ping_money;
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
@@ -145,10 +229,12 @@ public class KaKuApplication extends Application {
     public static String image_advert_qiang;
     public static String name_advert_qiang;
     public static String id_advert_qiang;
-    public static Addr2Obj addr_qiang;
+    public static AddrObj addr_qiang;
+    public static AddrObj AddrObj;
 
     //车贴详情弹不弹蒙板
     public static String flag_mengban = "N";
+    public static String flag_hongsemengban;
     public static String flag_recommended = "";
     public static String flag_code = "";
     public static String flag_nochetietv = "";
@@ -156,6 +242,12 @@ public class KaKuApplication extends Application {
     public static String flag_heart = "";
     public static String flag_jiashinum = "N";
     public static String phone_driver = "";
+    public static String code_my = "";
+    public static String id_fenlei;
+    public static String id_baoyang;
+    public static String id_upkeep_bill;
+    public static String id_upkeep_picture = "";
+    public static boolean isShare;
 
     //服务订单评价
     public static Bitmap picture;
@@ -176,10 +268,16 @@ public class KaKuApplication extends Application {
     /*上传车品订单评论照片*/
     public static Bitmap OrderCommentIcon;
     public static Bitmap ImageZhong;
+    public static Bitmap ImageZhong2;
+    public static Bitmap ImageFilter1;
+    public static Bitmap ImageFilter2;
+    public static Bitmap ImageFilter3;
+    public static Bitmap ImageFilter4;
     public static Bitmap ImageJiaShiZheng;
     public static Bitmap ImageBen;
     public static Bitmap ImageChe;
     public static Bitmap ImageXingShiZheng;
+    public static Bitmap ImageXingShiZheng2;
     /*微信支付结果*/
     public static String WXPayResult = "";
     public static String APP_ID;
@@ -193,12 +291,14 @@ public class KaKuApplication extends Application {
 
     //    订单支付金额
     public static String realPayment = "";
-
+    public static Worker2Obj worker;
     //    评价订单内容
     public static String pingjiaOrderContent = "";
     public static List<Bitmap> mBimpList = new ArrayList<>();
     public static String id_goods_shopcars;
-    public static String discoveryId;
+    public static String id_goods;
+    public static String flag_coupon;
+    public static String price_service;
     //    我的爱车 添写爱车信息，用于存放编辑类型，在编辑页面中判断
     public static String editCarInfoType;
     //    我的爱车 编辑页面标题
@@ -218,11 +318,13 @@ public class KaKuApplication extends Application {
     private LBSTraceClient localLBSTraceClient;
     private static LBSTraceClient mLocalLBSTraceClient1;*/
     public static String chetie_order_to = "";
+    private ImageLoader ImageLoaderinstance = null;
 
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
+        mContext = this;
         OkHttpUtil.init(new Handler());
         NoHttp.init(this);
         SDKInitializer.initialize(getApplicationContext());
@@ -234,9 +336,13 @@ public class KaKuApplication extends Application {
         initLocation();
         //LeakCanary.install(this);
         Fresco.initialize(this);
-        CrashReport.initCrashReport(getApplicationContext(), "900022764", false);
+
+        //CrashReport.initCrashReport(getApplicationContext(), "900022764", false);
 
         Utils.setmContext(getApplicationContext());
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
+        com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(configuration);
+        initKlSdk();
 
     }
 
@@ -246,6 +352,7 @@ public class KaKuApplication extends Application {
 
         initLocationInfo(mLocationClient);
     }
+
 
     /**
      * 开始定位
@@ -343,7 +450,7 @@ public class KaKuApplication extends Application {
         mLocationClient.setLocOption(option);
     }
 
-    private DaemonConfigurations createDaemonConfigurations(){
+    private DaemonConfigurations createDaemonConfigurations() {
         DaemonConfigurations.DaemonConfiguration configuration1 = new DaemonConfigurations.DaemonConfiguration("com.yichang.kaku:process1", Service1.class.getCanonicalName(), Receiver1.class.getCanonicalName());
         DaemonConfigurations.DaemonConfiguration configuration2 = new DaemonConfigurations.DaemonConfiguration("com.yichang.kaku:process2", Service2.class.getCanonicalName(), Receiver2.class.getCanonicalName());
         DaemonConfigurations.DaemonListener listener = new MyDaemonListener();
@@ -351,7 +458,7 @@ public class KaKuApplication extends Application {
         return new DaemonConfigurations(configuration1, configuration2, listener);
     }
 
-    class MyDaemonListener implements DaemonConfigurations.DaemonListener{
+    class MyDaemonListener implements DaemonConfigurations.DaemonListener {
         @Override
         public void onPersistentStart(Context context) {
         }
@@ -363,6 +470,23 @@ public class KaKuApplication extends Application {
         @Override
         public void onWatchDaemonDaed() {
         }
+    }
+
+    private void initKlSdk() {
+        KlSdkVehicle klSdkVehicle = KlSdkVehicle.getInstance();
+        klSdkVehicle.initKlSdkVehicle(this.getApplicationContext(), new GeneralCallback<Boolean>() {
+            @Override
+            public void onResult(Boolean aBoolean) {
+            }
+
+            @Override
+            public void onError(int i) {
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+            }
+        });
     }
 
 }

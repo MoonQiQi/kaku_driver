@@ -19,10 +19,8 @@ import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
 import com.yichang.kaku.obj.TruckOrderObj;
 import com.yichang.kaku.tools.BitmapUtil;
-import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +103,7 @@ public class TruckOrderAdapter extends BaseAdapter {
         holder.iv_truck_button.setVisibility(View.VISIBLE);
         switch (obj.getState_bill()) {
             case "A":
-                holder.tv_truck_state.setText("待支付");
+                holder.tv_truck_state.setText("待付款");
                 holder.iv_truck_finish.setVisibility(View.GONE);
                 holder.iv_truck_button.setImageResource(R.drawable.mashangzhifu);
                 holder.iv_truck_button.setOnClickListener(new View.OnClickListener() {
@@ -181,14 +179,14 @@ public class TruckOrderAdapter extends BaseAdapter {
             case "F":
                 holder.tv_truck_state.setText("已评价");
                 holder.iv_truck_finish.setVisibility(View.VISIBLE);
-                holder.iv_truck_button.setImageResource(R.drawable.dingdanxiangqing);
+                holder.iv_truck_button.setImageResource(R.drawable.zaicigoumai);
                 holder.iv_truck_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (Utils.Many()) {
                             return;
                         }
-                        gotoOrderDetail(obj);
+                        callback.BuyAgain(obj.getId_bill(), obj.getFlag_recharge());
 
                     }
                 });
@@ -196,14 +194,14 @@ public class TruckOrderAdapter extends BaseAdapter {
             case "G":
                 holder.tv_truck_state.setText("已取消");
                 holder.iv_truck_finish.setVisibility(View.GONE);
-                holder.iv_truck_button.setImageResource(R.drawable.dingdanxiangqing);
+                holder.iv_truck_button.setImageResource(R.drawable.zaicigoumai);
                 holder.iv_truck_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (Utils.Many()) {
                             return;
                         }
-                        gotoOrderDetail(obj);
+                        callback.BuyAgain(obj.getId_bill(), obj.getFlag_recharge());
                     }
                 });
                 break;
@@ -266,7 +264,6 @@ public class TruckOrderAdapter extends BaseAdapter {
     private void gotoOrderDetail(TruckOrderObj obj) {
         Intent intent = new Intent(mContext, TruckOrderDetailActivity.class);
                         /*todo 修改idbill为nobill*/
-        LogUtil.E("orderDetail:" + "id_bill:" + obj.getNo_bill() + ":" + obj.getId_bill());
         intent.putExtra("idbill", obj.getId_bill());
         mContext.startActivity(intent);
     }
@@ -282,6 +279,7 @@ public class TruckOrderAdapter extends BaseAdapter {
 
         void payOrder(String no_bill, String flag_pay, String price_bill);
 
+        void BuyAgain(String id_addr, String flag_recharge);
     }
 
     class ViewHolder {
@@ -444,5 +442,6 @@ public class TruckOrderAdapter extends BaseAdapter {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
 }
 

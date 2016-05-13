@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
-import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
+import com.yichang.kaku.home.ad.CheTieOrderListActivity;
+import com.yichang.kaku.home.baoyang.BaoYangOrderListActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
 import com.yichang.kaku.tools.LogUtil;
 
@@ -68,7 +68,7 @@ public class AlipayHelper {
 
                         Toast.makeText(mActivity, "支付成功",
                                 Toast.LENGTH_SHORT).show();
-                        mActivity.startActivity(new Intent(mActivity, AlipayCallBackActivity.class));
+                        mActivity.startActivity(new Intent(mActivity, PaySuccessActivity.class));
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -122,7 +122,7 @@ public class AlipayHelper {
     }
 
     private void gotoShopListActivity() {
-        Intent intent = new Intent(mActivity, ServiceOrderListActivity.class);
+        Intent intent = new Intent(mActivity, BaoYangOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         KaKuApplication.color_order = "";
         KaKuApplication.state_order = "";
@@ -156,7 +156,8 @@ public class AlipayHelper {
                 // 构造PayTask 对象
                 PayTask alipay = new PayTask(mActivity);
                 // 调用支付接口，获取支付结果
-                String result = alipay.pay(payInfo);
+                //String result = alipay.pay(payInfo);
+                String result = "";
 
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
@@ -182,7 +183,8 @@ public class AlipayHelper {
                 // 构造PayTask 对象
                 PayTask payTask = new PayTask(mActivity);
                 // 调用查询接口，获取查询结果
-                boolean isExist = payTask.checkAccountIfExist();
+                // boolean isExist = payTask.checkAccountIfExist();
+                boolean isExist = false;
 
                 Message msg = new Message();
                 msg.what = SDK_CHECK_FLAG;

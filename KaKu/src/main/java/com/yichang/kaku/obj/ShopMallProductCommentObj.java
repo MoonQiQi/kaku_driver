@@ -11,18 +11,10 @@ public class ShopMallProductCommentObj {
     private String time_eval;
     private String content_eval;
     private String image_eval;
+    private String image_eval1;
+    private String image_eval2;
+    private String image_eval3;
     private String star_eval;
-
-    @Override
-    public String toString() {
-        return "ShopMallProductCommentObj{" +
-                "name_driver='" + name_driver + '\'' +
-                ", time_eval='" + time_eval + '\'' +
-                ", content_eval='" + content_eval + '\'' +
-                ", image_eval='" + image_eval + '\'' +
-                ", star_eval='" + star_eval + '\'' +
-                '}';
-    }
 
     public String getName_driver() {
         return name_driver;
@@ -62,5 +54,43 @@ public class ShopMallProductCommentObj {
 
     public void setStar_eval(String star_eval) {
         this.star_eval = star_eval;
+    }
+
+    public String getImage_eval1() {
+        return image_eval1;
+    }
+
+    public void setImage_eval1(String image_eval1) {
+        this.image_eval1 = image_eval1;
+    }
+
+    public String getImage_eval2() {
+        return image_eval2;
+    }
+
+    public void setImage_eval2(String image_eval2) {
+        this.image_eval2 = image_eval2;
+    }
+
+    public String getImage_eval3() {
+        return image_eval3;
+    }
+
+    public void setImage_eval3(String image_eval3) {
+        this.image_eval3 = image_eval3;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopMallProductCommentObj{" +
+                "name_driver='" + name_driver + '\'' +
+                ", time_eval='" + time_eval + '\'' +
+                ", content_eval='" + content_eval + '\'' +
+                ", image_eval='" + image_eval + '\'' +
+                ", image_eval1='" + image_eval1 + '\'' +
+                ", image_eval2='" + image_eval2 + '\'' +
+                ", image_eval3='" + image_eval3 + '\'' +
+                ", star_eval='" + star_eval + '\'' +
+                '}';
     }
 }

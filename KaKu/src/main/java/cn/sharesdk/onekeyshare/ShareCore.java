@@ -8,21 +8,23 @@
 
 package cn.sharesdk.onekeyshare;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.text.TextUtils;
+
+import com.mob.tools.utils.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.ShareSDK;
-import com.mob.tools.utils.R;
 
 /**
  * ShareCore是快捷分享的实际出口，此类使用了反射的方式，配合传递进来的HashMap，
@@ -79,7 +81,6 @@ public class ShareCore {
 		if ("Wechat".equals(platform) || "WechatMoments".equals(platform)
 				|| "WechatFavorite".equals(platform) || "ShortMessage".equals(platform)
 				|| "Email".equals(platform) || "GooglePlus".equals(platform)
-				|| "QQ".equals(platform) || "Pinterest".equals(platform)
 				|| "Instagram".equals(platform) || "Yixin".equals(platform)
 				|| "YixinMoments".equals(platform) || "QZone".equals(platform)
 				|| "Mingdao".equals(platform) || "Line".equals(platform)

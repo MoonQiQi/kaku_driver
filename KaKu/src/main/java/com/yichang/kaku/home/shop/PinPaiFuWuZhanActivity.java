@@ -2,7 +2,6 @@ package com.yichang.kaku.home.shop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -16,7 +15,7 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.SouSuoActivity;
+import com.yichang.kaku.home.sousuo.SouSuoActivity;
 import com.yichang.kaku.home.mycar.PinPaiZiAdapter;
 import com.yichang.kaku.obj.AreaObj;
 import com.yichang.kaku.obj.PinPaiXuanZeObj;
@@ -35,7 +34,7 @@ import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
 import com.yichang.kaku.zhaohuo.LineGridView;
 import com.yichang.kaku.zhaohuo.province.CityAdapter;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,16 +45,16 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
     private final static int STEP = 5;
     private int start = 0, pageindex = 0, pagesize = STEP;
     private final static int INDEX = 5;// 一屏显示的个数
-    private RelativeLayout rela_ppfwz_quanbudiqu, rela_ppfwz_pinpai, rela_ppfwz_tuijianpaixu,rela_zhaohuo_grid;
-    private TextView tv_ppfwz_quanbudiqu,tv_ppfwz_pinpai,tv_ppfwz_tuijianpaixu;
+    private RelativeLayout rela_ppfwz_quanbudiqu, rela_ppfwz_pinpai, rela_ppfwz_tuijianpaixu, rela_zhaohuo_grid;
+    private TextView tv_ppfwz_quanbudiqu, tv_ppfwz_pinpai, tv_ppfwz_tuijianpaixu;
     private XListView xListView;
     private String id_area = "";
     private String id_brand = "";
     private String flag_type = "";
     private boolean isShowProgress = false;
     private List<Shops_wxzObj> list_shop = new ArrayList<Shops_wxzObj>();
-    private TextView tv_pup_left,tv_pup_mid,tv_pup_right;
-    private String id_province,id_city,id_county;
+    private TextView tv_pup_left, tv_pup_mid, tv_pup_right;
+    private String id_province, id_city, id_county;
     private String id_type = "province";
     private LineGridView gv_city;
     private CityAdapter adapter;
@@ -86,9 +85,9 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         title.setBackgroundResource(R.drawable.sousuofuwuzhan);
         title.setText("");
         title.setOnClickListener(this);
-        tv_ppfwz_quanbudiqu= (TextView) findViewById(R.id.tv_ppfwz_quanbudiqu);
-        tv_ppfwz_pinpai= (TextView) findViewById(R.id.tv_ppfwz_pinpai);
-        tv_ppfwz_tuijianpaixu= (TextView) findViewById(R.id.tv_ppfwz_tuijianpaixu);
+        tv_ppfwz_quanbudiqu = (TextView) findViewById(R.id.tv_ppfwz_quanbudiqu);
+        tv_ppfwz_pinpai = (TextView) findViewById(R.id.tv_ppfwz_pinpai);
+        tv_ppfwz_tuijianpaixu = (TextView) findViewById(R.id.tv_ppfwz_tuijianpaixu);
         rela_ppfwz_quanbudiqu = (RelativeLayout) findViewById(R.id.rela_ppfwz_quanbudiqu);
         rela_ppfwz_quanbudiqu.setOnClickListener(this);
         rela_ppfwz_pinpai = (RelativeLayout) findViewById(R.id.rela_ppfwz_pinpai);
@@ -97,14 +96,14 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         rela_ppfwz_tuijianpaixu.setOnClickListener(this);
         xListView = (XListView) findViewById(R.id.lv_ppfwz);
         xListView.setOnItemClickListener(this);
-        tv_pup_mid= (TextView) findViewById(R.id.tv_pupp_mid);
-        tv_pup_left= (TextView) findViewById(R.id.tv_pupp_left);
+        tv_pup_mid = (TextView) findViewById(R.id.tv_pupp_mid);
+        tv_pup_left = (TextView) findViewById(R.id.tv_pupp_left);
         tv_pup_left.setOnClickListener(this);
-        tv_pup_right= (TextView) findViewById(R.id.tv_pupp_right);
+        tv_pup_right = (TextView) findViewById(R.id.tv_pupp_right);
         tv_pup_right.setOnClickListener(this);
-        gv_city = (LineGridView)findViewById(R.id.gv_shoplist_city);
+        gv_city = (LineGridView) findViewById(R.id.gv_shoplist_city);
         gv_city.setOnItemClickListener(this);
-        rela_zhaohuo_grid= (RelativeLayout) findViewById(R.id.rela_shoplist_grid);
+        rela_zhaohuo_grid = (RelativeLayout) findViewById(R.id.rela_shoplist_grid);
         rela_zhaohuo_grid.setOnClickListener(this);
         tv_pup_right.setVisibility(View.GONE);
         setPullState(false);
@@ -118,32 +117,32 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         }
         int id = v.getId();
         if (R.id.tv_left == id) {
-           finish();
+            finish();
         } else if (R.id.tv_right == id) {
             MobclickAgent.onEvent(context, "Map");
             GoToMap();
-        } else if (R.id.rela_ppfwz_quanbudiqu == id){
+        } else if (R.id.rela_ppfwz_quanbudiqu == id) {
             flag_type = "";
             GetProvince();
-        } else if (R.id.rela_ppfwz_pinpai == id){
+        } else if (R.id.rela_ppfwz_pinpai == id) {
             flag_type = "";
             PinPaiXuanZe();
-        } else if (R.id.rela_ppfwz_tuijianpaixu == id){
+        } else if (R.id.rela_ppfwz_tuijianpaixu == id) {
             flag_type = "1";
             setPullState(false);
-        } else if (R.id.tv_pupp_left == id){
+        } else if (R.id.tv_pupp_left == id) {
             rela_zhaohuo_grid.setVisibility(View.GONE);
             id_type = "province";
             tv_pup_mid.setText("品牌");
             tv_pup_right.setVisibility(View.GONE);
-        } else if (R.id.tv_pupp_right == id){
+        } else if (R.id.tv_pupp_right == id) {
             tv_ppfwz_quanbudiqu.setText(tv_name);
             rela_zhaohuo_grid.setVisibility(View.GONE);
             tv_pup_mid.setText("中国");
             tv_pup_right.setVisibility(View.GONE);
             setPullState(false);
-        } else if (R.id.tv_mid == id){
-            startActivity(new Intent(this,SouSuoActivity.class));
+        } else if (R.id.tv_mid == id) {
+            startActivity(new Intent(this, SouSuoActivity.class));
         }
     }
 
@@ -152,7 +151,6 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         showProgressDialog();
         PinPaiFuWuZhanReq req = new PinPaiFuWuZhanReq();
         req.code = "8003";
-        req.id_car = Utils.getIdCar();
         req.id_driver = Utils.getIdDriver();
         req.lat = Utils.getLat();
         req.lon = Utils.getLon();
@@ -168,12 +166,6 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 if (t != null) {
                     LogUtil.E("pinpaifuwuzhan res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        if (TextUtils.equals(t.flag_enter, "N")) {
-                            if (!"".equals(Utils.getIdCar())) {
-                                if (!isDestroyed())
-                                showPwdInputWindow(t.mobile_brand);
-                            }
-                        }
                         setData(t.shops);
                         onLoadStop();
                     } else {
@@ -181,6 +173,11 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                     }
                 }
                 stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -194,7 +191,7 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         ShopItemAdapter adapter = new ShopItemAdapter(context, list_shop);
         xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
-        xListView.setSelection(pageindex-3);
+        xListView.setSelection(pageindex - 3);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
 
             @Override
@@ -245,7 +242,7 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
         startActivity(intent);
     }
 
-    public void GetProvince(){
+    public void GetProvince() {
         AreaReq req = new AreaReq();
         req.code = "10018";
         req.id_area = "0";
@@ -269,10 +266,15 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
-    public void GetCity(String id_province){
+    public void GetCity(String id_province) {
         Utils.NoNet(context);
         AreaReq req = new AreaReq();
         req.code = "10018";
@@ -296,10 +298,15 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
-    public void GetCounty(String id_city){
+    public void GetCounty(String id_city) {
         Utils.NoNet(context);
         AreaReq req = new AreaReq();
         req.code = "10018";
@@ -320,6 +327,11 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -359,13 +371,13 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 setPullState(false);
             }
 
-        } else if (R.id.lv_ppfwz == parentId){
-            KaKuApplication.id_shop = list_shop.get(position-1).getId_shop();
-            startActivity(new Intent(this,ShopDetailActivity.class));
+        } else if (R.id.lv_ppfwz == parentId) {
+            KaKuApplication.id_shop = list_shop.get(position - 1).getId_shop();
+            startActivity(new Intent(this, ShopDetailActivity.class));
         }
     }
 
-    public void PinPaiXuanZe(){
+    public void PinPaiXuanZe() {
         PinPaiXuanZeReq req = new PinPaiXuanZeReq();
         req.code = "2008";
         KaKuApiProvider.PinPaiXuanZe(req, new KakuResponseListener<PinPaiXuanZeResp>(this, PinPaiXuanZeResp.class) {
@@ -388,6 +400,12 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
@@ -398,7 +416,7 @@ public class PinPaiFuWuZhanActivity extends BaseActivity implements OnClickListe
                 isPwdPopWindowShow = true;
 
                 MenDianPopWindow input =
-                        new MenDianPopWindow(PinPaiFuWuZhanActivity.this ,phone);
+                        new MenDianPopWindow(PinPaiFuWuZhanActivity.this, phone);
 
                 input.show();
 

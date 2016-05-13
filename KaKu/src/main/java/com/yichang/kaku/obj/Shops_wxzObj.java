@@ -1,19 +1,23 @@
 package com.yichang.kaku.obj;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Shops_wxzObj implements Serializable {
 
 	private String id_shop;
 	private String name_brands;
 	private String image_shop;
-	private String distance;
+	private String num_bill;
 	private String name_shop;
 	private String addr_shop;
 	private String var_lat;
 	private String var_lon;
+	private String num_star;
 	private String mobile_shop;
 	private String image_shop_up;
+	private String distance;
+	public List<String> name_services;
 
 	public String getId_shop() {
 		return id_shop;
@@ -39,12 +43,12 @@ public class Shops_wxzObj implements Serializable {
 		this.image_shop = image_shop;
 	}
 
-	public String getDistance() {
-		return distance;
+	public String getNum_bill() {
+		return num_bill;
 	}
 
-	public void setDistance(String distance) {
-		this.distance = distance;
+	public void setNum_bill(String num_bill) {
+		this.num_bill = num_bill;
 	}
 
 	public String getName_shop() {
@@ -79,6 +83,14 @@ public class Shops_wxzObj implements Serializable {
 		this.var_lon = var_lon;
 	}
 
+	public String getNum_star() {
+		return num_star;
+	}
+
+	public void setNum_star(String num_star) {
+		this.num_star = num_star;
+	}
+
 	public String getMobile_shop() {
 		return mobile_shop;
 	}
@@ -95,19 +107,31 @@ public class Shops_wxzObj implements Serializable {
 		this.image_shop_up = image_shop_up;
 	}
 
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Shops_wxzObj{" +
 				"id_shop='" + id_shop + '\'' +
 				", name_brands='" + name_brands + '\'' +
 				", image_shop='" + image_shop + '\'' +
-				", distance='" + distance + '\'' +
+				", num_bill='" + num_bill + '\'' +
 				", name_shop='" + name_shop + '\'' +
 				", addr_shop='" + addr_shop + '\'' +
 				", var_lat='" + var_lat + '\'' +
 				", var_lon='" + var_lon + '\'' +
+				", num_star='" + num_star + '\'' +
 				", mobile_shop='" + mobile_shop + '\'' +
 				", image_shop_up='" + image_shop_up + '\'' +
+				", distance='" + distance + '\'' +
+				", name_services=" + name_services +
 				'}';
 	}
 }

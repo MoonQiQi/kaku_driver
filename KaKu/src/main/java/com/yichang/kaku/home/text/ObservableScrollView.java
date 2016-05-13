@@ -14,7 +14,7 @@ public class ObservableScrollView extends ScrollView {
         super(context);
     }
 
-    public ObservableScrollView(Context context, AttributeSet attrs,int defStyle) {
+    public ObservableScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -22,7 +22,7 @@ public class ObservableScrollView extends ScrollView {
         super(context, attrs);
     }
 
-    public void setScrollViewListener(ScrollViewListener scrollViewListener) {
+    public void get(ScrollViewListener scrollViewListener) {
         this.scrollViewListener = scrollViewListener;
     }
 
@@ -34,8 +34,11 @@ public class ObservableScrollView extends ScrollView {
         }
     }
 
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
     }
+
+
 }

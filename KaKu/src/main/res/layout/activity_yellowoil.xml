@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_yellowoil"
+            layout="@layout/activity_titlebar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/bmapView_yellowoil"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:clickable="true" />
+
+            <LinearLayout
+                android:id="@+id/line_yellowoil_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_yellowoil_shifukuan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="实付款"
+                    android:textColor="@color/color_red"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/btn_yellowoil"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/color_red"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="确认服务"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_yellow_xianxiazhifuyouhui"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:text="线上支付可享受5元优惠"
+                android:textColor="@color/color_word" />
+
+            <com.yichang.kaku.view.widget.MyGridView
+                android:id="@+id/gv_yellowoil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_yellow_xianxiazhifuyouhui"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/white"
+                android:numColumns="3" />
+
+            <View
+                android:id="@+id/view_yellowoil0"
+                style="@style/Line_h"
+                android:layout_below="@+id/gv_yellowoil"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <View
+                android:id="@+id/view_yellowoil1"
+                style="@style/Line_h"
+                android:layout_above="@+id/gv_yellowoil"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rela_yellowoil_addr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/view_yellowoil1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yellowoil_addr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/tv_yellowoil_jinqu"
+                    android:drawableLeft="@drawable/dingweilan"
+                    android:drawablePadding="5dp"
+                    android:ellipsize="end"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoil_jinqu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="修改地址"
+                    android:textColor="@color/color_word"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_yellowoil_yellowtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/rela_yellowoil_addr"
+                android:layout_alignLeft="@+id/rela_yellowoil_addr"
+                android:layout_alignRight="@+id/rela_yellowoil_addr"
+                android:src="@drawable/qxzcc" />
+
+            <RelativeLayout
+                android:id="@+id/rela_yellowoil_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <com.yichang.kaku.view.CircularImage
+                    android:id="@+id/iv_yellowoil_head"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/icon_boy" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoil_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/iv_yellowoil_head"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <RatingBar
+                    android:id="@+id/star_yellowoil_star"
+                    style="@style/roomRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_yellowoil_name"
+                    android:layout_below="@+id/tv_yellowoil_name"
+                    android:layout_marginTop="5dp"
+                    android:isIndicator="true"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/tv_yellowoil_dan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/star_yellowoil_star"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/star_yellowoil_star"
+                    android:textColor="@color/color_word"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_yellowoil_name"
+                    android:layout_below="@+id/star_yellowoil_star"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_yellowoil_dahuangyou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dahuangyou" />
+
+                    <ImageView
+                        android:id="@+id/iv_yellowoil_luntai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/luntai" />
+
+                    <ImageView
+                        android:id="@+id/iv_yellowoil_baolun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/baolun" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_yellowoil_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/call" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/tv_yellowoil_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rela_yellowoil_top"
+                android:src="@drawable/qzfwwchzqrfk"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

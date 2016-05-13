@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rela_baoyangitem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view_baoyangitem_0"
+            style="@style/Line_h" />
+
+        <TextView
+            android:id="@+id/tv_baoyangitem_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_baoyangitem_0"
+            android:padding="15dp"
+            android:text="订单时间"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_baoyangitem_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="15dp"
+            android:textColor="@color/color_red"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/view_baoyangitem_1"
+            style="@style/Line_h"
+            android:layout_below="@+id/tv_baoyangitem_time" />
+
+        <ListView
+            android:id="@+id/lv_baoyangorder_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_baoyangitem_1"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/tv_order_itemprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/lv_baoyangorder_item"
+            android:layout_margin="15sp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/view_baoyangitem_2"
+            style="@style/Line_h"
+            android:layout_below="@+id/tv_order_itemprice" />
+
+        <TextView
+            android:id="@+id/tv_order_shifukuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_baoyangitem_2"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="实付款"
+            android:textColor="@color/color_red"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_baoyangitem_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/view_baoyangitem_2"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp" />
+
+        <View
+            style="@style/Line_h"
+            android:layout_below="@+id/iv_baoyangitem_button" />
+
+    </RelativeLayout>
+
+</LinearLayout>

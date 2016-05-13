@@ -36,7 +36,7 @@ import com.yichang.kaku.tools.DensityUtils;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -161,6 +161,11 @@ public class HomeSeckillActivity extends BaseActivity implements OnClickListener
                     }
                 }
                 stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -399,6 +404,12 @@ public class HomeSeckillActivity extends BaseActivity implements OnClickListener
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
     }

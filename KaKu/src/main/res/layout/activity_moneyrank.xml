@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_moneyrank"
+        layout="@layout/activity_titlebar" />
+
+    <ListView
+        android:id="@+id/lv_moneyrank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/black"
+        android:scrollbars="none" />
+
+
+</LinearLayout>

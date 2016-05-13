@@ -3,142 +3,86 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_discovery_item"
-    android:orientation="vertical"
+    android:orientation="vertical">
 
-    >
-
-    <LinearLayout
-        android:id="@+id/line_discoveryitem_detail"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_discovery_image"
+            android:layout_width="100dp"
+            android:layout_height="71dp"
+            android:layout_margin="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_discovery_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="无"
-
-            android:textSize="17sp"
-            android:textColor="@color/black" />
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/iv_discovery_image"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tv_discovery_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="15sp"
+            android:layout_alignBottom="@+id/iv_discovery_image"
+            android:layout_alignLeft="@+id/tv_discovery_name"
             android:textColor="@color/color_word"
-            android:text="2000-00-00" />
+            android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/iv_discovery_image"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:scaleType="fitCenter"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/ic_launcher" />
-
-        <TextView
-            android:id="@+id/tv_discovery_content"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="15sp"
-            android:textColor="@color/color_word"
-            android:text="无" />
+            android:layout_alignBottom="@+id/iv_discovery_image"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/tv_discovery_yuedu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/faxian_img_guankan"
+                android:drawablePadding="1dp"
+                android:gravity="bottom"
+                android:text="0"
+                android:textColor="@color/color_word"
+                android:textSize="13sp" />
 
+            <TextView
+                android:id="@+id/tv_discovery_pinglun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:drawableLeft="@drawable/faxian_img_pinglun"
+                android:drawablePadding="1dp"
+                android:gravity="bottom"
+                android:text="0"
+                android:textColor="@color/color_word"
+                android:textSize="13sp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_discovery_dianzan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:drawableLeft="@drawable/faxian_img_dianzan"
+                android:drawablePadding="1dp"
+                android:gravity="bottom"
+                android:text="0"
+                android:textColor="@color/color_word"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-
-
-        android:background="@drawable/dotted_line_horizontal" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x88"
-
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/rela_discoveryitem_shoucang"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_discoveryitem_shoucang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_discovery_favor_normal" />
-
-            <TextView
-                android:id="@+id/tv_discoveryitem_shoucang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/iv_discoveryitem_shoucang"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/iv_discoveryitem_shoucang"
-                android:text="0"
-                android:textSize="15sp"
-                android:textColor="@color/color_word" />
-
-        </RelativeLayout>
-
-        <View style="@style/Line_v_discovery" />
-
-        <RelativeLayout
-            android:id="@+id/rela_discoveryitem_pinglun"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_discoveryitem_pinglun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_discovery_comment" />
-
-            <TextView
-                android:id="@+id/tv_discoveryitem_pinglun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/iv_discoveryitem_pinglun"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/iv_discoveryitem_pinglun"
-                android:text="0"
-                android:textSize="15sp"
-                android:textColor="@color/color_word" />
-
-        </RelativeLayout>
-
-        <View style="@style/Line_v_discovery" />
-
-        <RelativeLayout
-            android:id="@+id/rela_discoveryitem_fenxiang"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_discoveryitem_fenxiang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_discovery_share" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        style="@style/Line_h"/>
 
 </LinearLayout>

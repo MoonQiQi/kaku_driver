@@ -35,13 +35,13 @@ import com.yichang.kaku.response.MapFWZResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FWZMapActivity extends BaseActivity implements View.OnClickListener{
+public class FWZMapActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView left, title;
     // 定位相关
@@ -63,10 +63,10 @@ public class FWZMapActivity extends BaseActivity implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fwzmap);
-        left= (TextView) findViewById(R.id.tv_left);
+        left = (TextView) findViewById(R.id.tv_left);
         left.setOnClickListener(this);
-        title= (TextView) findViewById(R.id.tv_mid);
-        if ("0".equals(KaKuApplication.flag_shop)){
+        title = (TextView) findViewById(R.id.tv_mid);
+        if ("0".equals(KaKuApplication.flag_shop)) {
             title.setText("附近服务站");
         } else {
             title.setText("附近维修站");
@@ -93,11 +93,11 @@ public class FWZMapActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Utils.NoNet(context);
-        if (Utils.Many()){
+        if (Utils.Many()) {
             return;
         }
         int id = v.getId();
-        if (R.id.tv_left == id){
+        if (R.id.tv_left == id) {
             finish();
         }
     }
@@ -162,10 +162,9 @@ public class FWZMapActivity extends BaseActivity implements View.OnClickListener
         MapFWZReq req = new MapFWZReq();
         req.code = "40020";
         req.flag_type = KaKuApplication.flag_shop;
-        req.id_car = Utils.getIdCar();
         req.lat = Utils.getLat();
         req.lon = Utils.getLon();
-        KaKuApiProvider.MapFWZ(req, new KakuResponseListener<MapFWZResp>(this,MapFWZResp.class) {
+        KaKuApiProvider.MapFWZ(req, new KakuResponseListener<MapFWZResp>(this, MapFWZResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
@@ -179,35 +178,45 @@ public class FWZMapActivity extends BaseActivity implements View.OnClickListener
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
     public void initOverlay(final List<Shops_mapObj> list) {
 
-		for (int i = 0 ; i < list.size() ; i++){
-			LatLng latlng = new LatLng(Double.parseDouble(list.get(i).getVar_lat()),Double.parseDouble(list.get(i).getVar_lon()));
-			OverlayOptions oo = new MarkerOptions().position(latlng).icon(bd).zIndex(5);
+        for (int i = 0; i < list.size(); i++) {
+            if ("".equals(list.get(i).getVar_lat()) || "".equals(list.get(i).getVar_lon())) {
+                return;
+            }
+            LatLng latlng = new LatLng(Double.parseDouble(list.get(i).getVar_lat()), Double.parseDouble(list.get(i).getVar_lon()));
+            OverlayOptions oo = new MarkerOptions().position(latlng).icon(bd).zIndex(5);
             Marker mMarker = (Marker) (mBaiduMap.addOverlay(oo));
             mMarker.setTitle(list.get(i).getName_shop());
 
             mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-				public boolean onMarkerClick(final Marker marker) {
+                public boolean onMarkerClick(final Marker marker) {
 
-					LatLng ll = marker.getPosition();
+                    LatLng ll = marker.getPosition();
                     TextView tv = new TextView(FWZMapActivity.this);
                     tv.setBackgroundResource(R.color.white);
                     tv.setTextColor(Color.BLACK);
                     tv.setGravity(Gravity.CENTER);
-                    tv.setPadding(10,10,10,10);
+                    tv.setPadding(10, 10, 10, 10);
                     tv.setText(marker.getTitle());
-                    InfoWindow mInfoWindow = new InfoWindow(tv,ll,-47);
+                    InfoWindow mInfoWindow = new InfoWindow(tv, ll, -47);
                     //InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(tv), ll, -47, null);
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String title = marker.getTitle();
-                            for (int j = 0 ;j < list.size() ;j++){
-                                if (title.equals(list.get(j).getName_shop())){
+                            for (int j = 0; j < list.size(); j++) {
+                                if (title.equals(list.get(j).getName_shop())) {
                                     KaKuApplication.id_shop = list.get(j).getId_shop();
                                 }
                             }
@@ -215,10 +224,10 @@ public class FWZMapActivity extends BaseActivity implements View.OnClickListener
                         }
                     });
                     mBaiduMap.showInfoWindow(mInfoWindow);
-					return true;
-				}
-			});
-		}
+                    return true;
+                }
+            });
+        }
 
     }
 }

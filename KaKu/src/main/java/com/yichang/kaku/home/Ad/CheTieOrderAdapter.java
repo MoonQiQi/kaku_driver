@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -94,7 +94,7 @@ public class CheTieOrderAdapter extends BaseAdapter {
             } else {
                 holder.iv_wodechetieitem_zhifu.setVisibility(View.GONE);
             }
-            holder.tv_wodechetieitem_status.setText("待支付");
+            holder.tv_wodechetieitem_status.setText("待付款");
             holder.iv_wodechetieitem_zhifu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

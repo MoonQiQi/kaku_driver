@@ -13,7 +13,7 @@
         style="@style/Line_h"
         android:layout_marginTop="15dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -21,24 +21,36 @@
 
         <ImageView
             android:id="@+id/iv_adimage_1"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/xiezuoce" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_adimage_1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="15dp"
-            android:text="下次拍照另一侧哦"
-            android:textColor="@color/color_word"
-            android:textSize="13sp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:src="@drawable/xieyouce" />
 
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_adimage_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:src="@drawable/xiezuoce" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="15dp"
+        android:text="拍摄两侧车贴照片"
+        android:textColor="@color/color_word"
+        android:textSize="13sp" />
 
     <View style="@style/Line_h" />
 
@@ -97,7 +109,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/iv_adimage_nike1"
-                android:text="我在活动现场，现场领取"
+                android:text="现场领取"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
@@ -123,6 +135,31 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/iv_adimage_nike2"
                 android:text="让邀请人给我提供"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rela_adimage_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/iv_adimage_nike3"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/uncheck_nike" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_adimage_nike3"
+                android:text="我去买车贴"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 

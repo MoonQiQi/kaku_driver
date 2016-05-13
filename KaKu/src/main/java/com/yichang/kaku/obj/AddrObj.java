@@ -9,6 +9,8 @@ public class AddrObj implements Serializable {
 	private String flag_default;
 	private String phone_addr;
 	private String name_addr;
+	private String remark_area;
+	private String id_area;
 
 	public String getId_addr() {
 		return id_addr;
@@ -50,6 +52,22 @@ public class AddrObj implements Serializable {
 		this.name_addr = name_addr;
 	}
 
+	public String getRemark_area() {
+		return remark_area;
+	}
+
+	public void setRemark_area(String remark_area) {
+		this.remark_area = remark_area;
+	}
+
+	public String getId_area() {
+		return id_area;
+	}
+
+	public void setId_area(String id_area) {
+		this.id_area = id_area;
+	}
+
 	@Override
 	public String toString() {
 		return "AddrObj{" +
@@ -58,6 +76,8 @@ public class AddrObj implements Serializable {
 				", flag_default='" + flag_default + '\'' +
 				", phone_addr='" + phone_addr + '\'' +
 				", name_addr='" + name_addr + '\'' +
+				", remark_area='" + remark_area + '\'' +
+				", id_area='" + id_area + '\'' +
 				'}';
 	}
 }

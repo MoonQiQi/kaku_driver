@@ -24,20 +24,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.yichang.kaku.R;
-import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
-import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.giftmall.ConfirmOrderAdapter;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
-import com.yichang.kaku.request.TruckOrderCommentReq;
-import com.yichang.kaku.response.TruckOrderCommentResp;
 import com.yichang.kaku.tools.Base64Coder;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
-import com.yichang.kaku.webService.KaKuApiProvider;
 import com.yichang.kaku.webService.UrlCtnt;
-import com.yolanda.nohttp.Response;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -119,93 +112,8 @@ public class TruckOrderCommentActivity extends BaseActivity implements OnClickLi
     }
 
     private void init() {
-//初始化进度条
+        //初始化进度条
         iniTitleBar();
-        /*lv_comment_goods_list = (ListView) findViewById(R.id.lv_comment_goods_list);
-//        初始化评论
-        initComment();
-//初始化图片添加按钮
-        btn_comment_add = (Button) findViewById(R.id.btn_comment_add);
-        btn_comment_add.setOnClickListener(this);
-        iv_comment_img1 = (ImageView) findViewById(R.id.iv_comment_img1);
-//初始化进度条
-        star_manner = (RatingBar) findViewById(R.id.star_manner);
-        star_speed = (RatingBar) findViewById(R.id.star_speed);
-        star_service = (RatingBar) findViewById(R.id.star_service);
-//初始化提交按钮
-        btn_comment = (Button) findViewById(R.id.btn_comment);
-        btn_comment.setOnClickListener(this);
-        id_bill = getIntent().getStringExtra("idbill");
-
-        window = new PopupWindow();
-        getCommentInfo();*/
-
-
-    }
-
-    private void initComment() {
-       /* tv_comment_textsize = (TextView) findViewById(R.id.tv_comment_textsize);
-        et_comment_comment = (EditText) findViewById(R.id.et_comment_comment);
-        et_comment_comment.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String comment = String.valueOf(s);
-                if (comment.length() <= 500) {
-                    tv_comment_textsize.setText(String.valueOf(s).length() + "/500");
-                } else {
-                    LogUtil.showShortToast(context, "已超出最大输入字符限制");
-                    comment = comment.substring(0, 500);
-                    et_comment_comment.setText(comment);
-                    Editable ea = et_comment_comment.getEditableText();
-                    Selection.setSelection(ea, ea.length());
-                }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                strComment = s.toString();
-            }
-        });*/
-
-    }
-
-    private void getCommentInfo() {
-        Utils.NoNet(context);
-
-        TruckOrderCommentReq req = new TruckOrderCommentReq();
-        req.code = "30017";
-        req.id_bill = id_bill;
-        KaKuApiProvider.getCommentProductInfo(req, new KakuResponseListener<TruckOrderCommentResp>(this, TruckOrderCommentResp.class) {
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getorder res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        setData(t.shopcar);
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-            }
-        });
-    }
-
-    private void setData(List<ConfirmOrderProductObj> shopcar) {
-        if (shopcar != null) {
-            list.addAll(shopcar);
-        }
-
-        lv_comment_goods_list.setAdapter(new ConfirmOrderAdapter(context, list));
-        setListViewHeightBasedOnChildren(lv_comment_goods_list);
-
     }
 
     private void iniTitleBar() {
@@ -263,7 +171,6 @@ public class TruckOrderCommentActivity extends BaseActivity implements OnClickLi
         bos.flush();
         bos.close();
         imagePath = dataFile.toString();
-        LogUtil.E("imagePath : " + imagePath);
     }
 
     /**

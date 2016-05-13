@@ -16,15 +16,16 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.Ad.AdImageActivity;
-import com.yichang.kaku.home.Ad.XingShiZhengImageActivity;
+import com.yichang.kaku.home.ad.AdImageActivity;
+import com.yichang.kaku.home.ad.StickerOrderActivity;
+import com.yichang.kaku.home.ad.XingShiZhengImageActivity;
 import com.yichang.kaku.request.CheckCodeReq;
 import com.yichang.kaku.response.CheckCodeResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.SecurityPasswordEditText;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 /**
  * Created by xiaosu on 2015/12/3.
@@ -42,7 +43,7 @@ public class CheTieYaoCodeWindow extends PopupWindow {
         super(context);
         this.context = context;
 
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#77000000")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C6000000")));
         setOutsideTouchable(false);
         setFocusable(true);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -51,14 +52,14 @@ public class CheTieYaoCodeWindow extends PopupWindow {
         final View view = context.inflate(R.layout.layout_chetieyaocode_confirm);
         setContentView(view);
 
-        LinearLayout ll_pwd_container= (LinearLayout) view.findViewById(R.id.ll_pwd_container);
+        LinearLayout ll_pwd_container = (LinearLayout) view.findViewById(R.id.ll_pwd_container);
 
         sEdit = (SecurityPasswordEditText) view.findViewById(R.id.et_s_pwd);
         sEdit.setSecurityEditCompleListener(new SecurityPasswordEditText.SecurityEditCompleListener() {
             @Override
             public void onNumCompleted(String num) {
                 strPwd = num;
-                if(num.length()==6){
+                if (num.length() == 6) {
 
                     checkCode(num);
                 }
@@ -66,7 +67,7 @@ public class CheTieYaoCodeWindow extends PopupWindow {
         });
 
 
-        ImageView iv_close= (ImageView) view.findViewById(R.id.iv_close);
+        ImageView iv_close = (ImageView) view.findViewById(R.id.iv_close);
         btn_input_yaocode = (Button) view.findViewById(R.id.btn_input_yaocode);
         btn_input_yaocode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,28 +110,34 @@ public class CheTieYaoCodeWindow extends PopupWindow {
                         KaKuApplication.phone_driver = t.phone_driver;
                         mListener.confirmPwd(true);
                         mListener.stopDialog();
-                        if ("A".equals(KaKuApplication.flag_recommended)){
+                        if ("A".equals(KaKuApplication.flag_recommended)) {
                             KaKuApplication.flag_nochetietv = "you";
                             KaKuApplication.flag_code = "60020";
-                            Intent intent = new Intent(context,AdImageActivity.class);
+                            Intent intent = new Intent(context, AdImageActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
-                        } else if ("B".equals(KaKuApplication.flag_recommended)){
+                        } else if ("B".equals(KaKuApplication.flag_recommended)) {
                             KaKuApplication.flag_nochetietv = "wu";
                             KaKuApplication.flag_code = "60020";
-                            Intent intent = new Intent(context,AdImageActivity.class);
+                            Intent intent = new Intent(context, AdImageActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
-                        } else if ("C".equals(KaKuApplication.flag_recommended) || "D".equals(KaKuApplication.flag_recommended)){
+                        } else if ("C".equals(KaKuApplication.flag_recommended) || "D".equals(KaKuApplication.flag_recommended)) {
                             KaKuApplication.flag_nochetietv = "wu";
                             KaKuApplication.flag_code = "60020";
-                            Intent intent = new Intent(context,XingShiZhengImageActivity.class);
+                            Intent intent = new Intent(context, XingShiZhengImageActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
                         } else if ("".equals(KaKuApplication.flag_recommended)) {
                             KaKuApplication.flag_nochetietv = "wu";
                             KaKuApplication.flag_code = "60018";
                             Intent intent = new Intent(context, AdImageActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(intent);
+                        } else if ("E".equals(KaKuApplication.flag_recommended)) {
+                            KaKuApplication.flag_nochetietv = "wu";
+                            KaKuApplication.flag_code = "60018";
+                            Intent intent = new Intent(context, StickerOrderActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
                         }
@@ -143,6 +150,12 @@ public class CheTieYaoCodeWindow extends PopupWindow {
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
 

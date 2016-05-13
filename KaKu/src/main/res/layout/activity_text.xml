@@ -25,21 +25,19 @@
 
         <EditText
             android:id="@+id/et_text"
-            android:textCursorDrawable="@drawable/cursor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_marginLeft="@dimen/x30"
             android:layout_marginRight="@dimen/x30"
-
             android:background="@null"
+            android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:cursorVisible="true"
             android:gravity="center_vertical"
             android:hint="点击输入"
             android:paddingLeft="@dimen/x10"
             android:textColor="@color/color_word"
+            android:textCursorDrawable="@drawable/cursor"
             android:textSize="17sp" />
     </LinearLayout>
 

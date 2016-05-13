@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_handcode"
+        layout="@layout/activity_titlebar" />
+
+    <View
+        style="@style/Line_h"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:id="@+id/et_handcode"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+        android:gravity="center_vertical"
+        android:hint="请输入品牌型号"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/color_word"
+        android:textSize="15sp" />
+
+    <View style="@style/Line_h" />
+
+    <TextView
+        android:id="@+id/tv_handcode_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="请参考下图所示，输入您的品牌型号"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_handcode_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/handcode" />
+
+    <ListView
+        android:id="@+id/lv_handcode"
+        android:visibility="gone"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

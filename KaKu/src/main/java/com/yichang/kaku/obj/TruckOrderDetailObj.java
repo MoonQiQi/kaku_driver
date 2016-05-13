@@ -17,8 +17,14 @@ public class TruckOrderDetailObj implements Serializable {
 	private String price_point;
 	private String price_bill;
 	private String time_create;
+	private String name_logistics;
+	private String price_transport;
+	private String price_coupon;
+	private String no_logistics;
 	private String money_balance;
 	private String type_receive;
+	private String flag_recharge;
+
 
 	public String getMoney_balance() {
 		return money_balance;
@@ -148,6 +154,46 @@ public class TruckOrderDetailObj implements Serializable {
 		this.type_receive = type_receive;
 	}
 
+	public String getName_logistics() {
+		return name_logistics;
+	}
+
+	public void setName_logistics(String name_logistics) {
+		this.name_logistics = name_logistics;
+	}
+
+	public String getPrice_transport() {
+		return price_transport;
+	}
+
+	public void setPrice_transport(String price_transport) {
+		this.price_transport = price_transport;
+	}
+
+	public String getPrice_coupon() {
+		return price_coupon;
+	}
+
+	public void setPrice_coupon(String price_coupon) {
+		this.price_coupon = price_coupon;
+	}
+
+	public String getNo_logistics() {
+		return no_logistics;
+	}
+
+	public void setNo_logistics(String no_logistics) {
+		this.no_logistics = no_logistics;
+	}
+
+	public String getFlag_recharge() {
+		return flag_recharge;
+	}
+
+	public void setFlag_recharge(String flag_recharge) {
+		this.flag_recharge = flag_recharge;
+	}
+
 	@Override
 	public String toString() {
 		return "TruckOrderDetailObj{" +
@@ -165,8 +211,13 @@ public class TruckOrderDetailObj implements Serializable {
 				", price_point='" + price_point + '\'' +
 				", price_bill='" + price_bill + '\'' +
 				", time_create='" + time_create + '\'' +
+				", name_logistics='" + name_logistics + '\'' +
+				", price_transport='" + price_transport + '\'' +
+				", price_coupon='" + price_coupon + '\'' +
+				", no_logistics='" + no_logistics + '\'' +
 				", money_balance='" + money_balance + '\'' +
 				", type_receive='" + type_receive + '\'' +
+				", flag_recharge='" + flag_recharge + '\'' +
 				'}';
 	}
 }

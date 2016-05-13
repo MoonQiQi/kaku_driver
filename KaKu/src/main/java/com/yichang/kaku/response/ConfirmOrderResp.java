@@ -1,27 +1,31 @@
 package com.yichang.kaku.response;
 
+import com.yichang.kaku.obj.AddrObj;
 import com.yichang.kaku.obj.ConfirmOrderProductObj;
-import com.yichang.kaku.obj.OrderAddressObj;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class ConfirmOrderResp extends BaseResp implements Serializable {
 
-    public OrderAddressObj addr;
+    public AddrObj addr;
     public List<ConfirmOrderProductObj> shopcar;
-//积分上限
     public String point_limit;
-    //商品总价
     public String price_goods;
-    //
     public String price_point;
-    //实付款
     public String price_bill;
-    //可用余额
+    public String point_used;
+    public String price_balance;
+    public String price_transport;
+    public String price_coupon;
+    public String remark_coupon;
     public String money_balance;
-    //是否设置了支付密码
     public String flag_pay;
-
+    public String flag_buy;
+    public String flag_buy_chose;
+    public String flag_checkstand;
+    public String id_driver_coupon;
+    public String balance_choose;
+    public String point_choose;
 
 }

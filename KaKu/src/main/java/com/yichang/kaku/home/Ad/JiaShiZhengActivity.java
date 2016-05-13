@@ -1,4 +1,4 @@
-package com.yichang.kaku.home.Ad;
+package com.yichang.kaku.home.ad;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,16 +21,14 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.request.GetAddReq;
 import com.yichang.kaku.request.QiNiuYunTokenReq;
 import com.yichang.kaku.request.UploadImageReq;
-import com.yichang.kaku.response.GetAddResp;
 import com.yichang.kaku.response.QiNiuYunTokenResp;
 import com.yichang.kaku.response.UploadImageResp;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONObject;
 
@@ -170,6 +168,12 @@ public class JiaShiZhengActivity extends BaseActivity implements OnClickListener
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
@@ -212,68 +216,26 @@ public class JiaShiZhengActivity extends BaseActivity implements OnClickListener
                 if (t != null) {
                     LogUtil.E("uploadimage res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                        GetAdd();
+                        KaKuApplication.flag_get = t.flag_get;
+                        KaKuApplication.money_coupon = t.money_coupon;
+                        startActivity(new Intent(context, ImageFanKuiActivity.class));
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
     public void GetAdd() {
-        showProgressDialog();
-        GetAddReq req = new GetAddReq();
-        req.code = "60011";
-        req.id_driver = Utils.getIdDriver();
-        req.id_advert = KaKuApplication.id_advert;
-        KaKuApiProvider.GetAdd(req, new KakuResponseListener<GetAddResp>(this, GetAddResp.class) {
-
-            @Override
-            public void onSucceed(int what, Response response) {
-                super.onSucceed(what, response);
-                if (t != null) {
-                    LogUtil.E("getadd res: " + t.res);
-                    if (Constants.RES.equals(t.res)) {
-                        KaKuApplication.id_advert = t.advert.getId_advert();
-                        KaKuApplication.flag_recommended = t.advert.getFlag_recommended();
-                        KaKuApplication.flag_jiashinum = t.advert.getNum_privilege();
-                        KaKuApplication.flag_position = t.advert.getFlag_position();
-                        KaKuApplication.flag_heart = t.advert.getFlag_show();
-                        GoToAdd(t.advert.getFlag_type());
-                    } else {
-                        LogUtil.showShortToast(context, t.msg);
-                    }
-                }
-                stopProgressDialog();
-            }
-
-        });
-    }
-
-    public void GoToAdd(String flag_type) {
-        Intent intent = new Intent();
-        if ("N".equals(flag_type)) {
-            intent.setClass(context, Add_NActivity.class);
-        } else if ("Y".equals(flag_type)) {
-            intent.setClass(context, Add_YActivity.class);
-        } else if ("E".equals(flag_type)) {
-            intent.setClass(context, Add_EActivity.class);
-        } else if ("I".equals(flag_type)) {
-            intent.setClass(context, Add_IActivity.class);
-        } else if ("F".equals(flag_type)) {
-            intent.setClass(context, Add_FActivity.class);
-        } else if ("P".equals(flag_type)) {
-            intent.setClass(context, Add_PActivity.class);
-        } else if ("A".equals(flag_type)) {
-            intent.setClass(context, CheTieListActivity.class);
-        } else if ("M".equals(flag_type)) {
-            intent.setClass(context, Add_MActivity.class);
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        Utils.GetAdType(baseActivity);
     }
 
 }

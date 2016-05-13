@@ -1,22 +1,18 @@
 package com.yichang.kaku.home;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.yichang.kaku.R;
 import com.yichang.kaku.obj.NewsObj;
 import com.yichang.kaku.view.wheelview.adapter.AbstractWheelAdapter;
 
 import java.util.List;
 
-/**
- * Created by xiaosu on 2015/12/10.
- */
 public class HeadlinesAdapter extends AbstractWheelAdapter {
 
     public HeadlinesAdapter(List<NewsObj> news) {
@@ -37,11 +33,9 @@ public class HeadlinesAdapter extends AbstractWheelAdapter {
             convertView = new TextView(parent.getContext());
             t = (TextView) convertView;
 
-            t.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-            Drawable drawable = parent.getContext().getResources().getDrawable(R.drawable.redu);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            t.setCompoundDrawables(drawable, null, null, null);
-            t.setCompoundDrawablePadding(10);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            params.setMargins(0, 15, 0, 15);
+            t.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             t.setTextColor(Color.BLACK);
             t.setGravity(Gravity.CENTER_VERTICAL);
         } else {

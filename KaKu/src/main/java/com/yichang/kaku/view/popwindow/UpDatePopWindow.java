@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.yichang.kaku.R;
 import com.yichang.kaku.global.UpdateAppManager;
@@ -19,14 +20,17 @@ public class UpDatePopWindow extends PopupWindow {
     private boolean flag;
     private UpdateAppManager updateManager;
     private String android_url;
+    private String version_introduction;
+    private String version_introduction$ = "";
 
-    public UpDatePopWindow(final Activity context, final boolean flag, final String android_url) {
+    public UpDatePopWindow(final Activity context, final boolean flag, final String android_url, final String version_introduction) {
         super(context);
         this.context = context;
         this.flag = flag;
         this.android_url = android_url;
+        this.version_introduction = version_introduction;
 
-        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#77000000")));
+        setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C6000000")));
         setOutsideTouchable(false);
         setFocusable(false);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -36,9 +40,15 @@ public class UpDatePopWindow extends PopupWindow {
         View view = inflater.inflate(R.layout.update_pupwindow, null);
         setContentView(view);
 
-        ImageView iv_update_liji= (ImageView) view.findViewById(R.id.iv_update_liji);
+        ImageView iv_update_liji = (ImageView) view.findViewById(R.id.iv_update_liji);
         ImageView iv_update_yihouzaishuo = (ImageView) view.findViewById(R.id.iv_update_yihouzaishuo);
-        if (flag){
+        TextView tv_update_info = (TextView) view.findViewById(R.id.tv_update_info);
+        for (int i = 0; i < version_introduction.split("@").length; i++) {
+            version_introduction$ += version_introduction.split("@")[i]+"\n";
+
+        }
+        tv_update_info.setText(version_introduction$);
+        if (flag) {
             iv_update_yihouzaishuo.setVisibility(View.VISIBLE);
         } else {
             iv_update_yihouzaishuo.setVisibility(View.INVISIBLE);

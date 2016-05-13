@@ -13,8 +13,8 @@ import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
 import com.yichang.kaku.global.MainActivity;
-import com.yichang.kaku.home.Ad.CheTieOrderListActivity;
-import com.yichang.kaku.member.serviceorder.ServiceOrderListActivity;
+import com.yichang.kaku.home.ad.CheTieOrderListActivity;
+import com.yichang.kaku.home.baoyang.BaoYangOrderListActivity;
 import com.yichang.kaku.member.truckorder.TruckOrderListActivity;
 
 public class ArrivalpayCallBackActivity extends BaseActivity {
@@ -60,7 +60,7 @@ tv_price.setVisibility(View.INVISIBLE);
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME);
+                intent.putExtra(Constants.GO_TO_TAB, Constants.TAB_POSITION_HOME1);
                 startActivity(intent);
                 finish();
             }
@@ -83,7 +83,7 @@ tv_price.setVisibility(View.INVISIBLE);
     }
 
     private void gotoShopListActivity() {
-        Intent intent = new Intent(context, ServiceOrderListActivity.class);
+        Intent intent = new Intent(context, BaoYangOrderListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         KaKuApplication.color_order = "";
         KaKuApplication.state_order = "";

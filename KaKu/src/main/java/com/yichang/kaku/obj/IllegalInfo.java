@@ -4,60 +4,60 @@ import java.io.Serializable;
 
 public class IllegalInfo implements Serializable {
 
-	private String time;// 时间
-	private String street;// 地点
-	private String reason;// 原因
-	private String degree;// 分数
-	private String count;// 金钱
+    private String date;// 时间
+    private String area;// 地点
+    private String act;// 原因
+    private String fen;// 分数
+    private String money;// 金钱
 
-	public String getTime() {
-		return time;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setTime(String time) {
-		this.time = time;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public String getArea() {
+        return area;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setArea(String area) {
+        this.area = area;
+    }
 
-	public String getReason() {
-		return reason;
-	}
+    public String getAct() {
+        return act;
+    }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+    public void setAct(String act) {
+        this.act = act;
+    }
 
-	public String getDegree() {
-		return degree;
-	}
+    public String getFen() {
+        return fen;
+    }
 
-	public void setDegree(String degree) {
-		this.degree = degree;
-	}
+    public void setFen(String fen) {
+        this.fen = fen;
+    }
 
-	public String getCount() {
-		return count;
-	}
+    public String getMoney() {
+        return money;
+    }
 
-	public void setCount(String count) {
-		this.count = count;
-	}
+    public void setMoney(String money) {
+        this.money = money;
+    }
 
-	@Override
-	public String toString() {
-		return "IllegalInfo{" +
-				"time='" + time + '\'' +
-				", street='" + street + '\'' +
-				", reason='" + reason + '\'' +
-				", degree='" + degree + '\'' +
-				", count='" + count + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "IllegalInfo{" +
+                "date='" + date + '\'' +
+                ", area='" + area + '\'' +
+                ", act='" + act + '\'' +
+                ", fen='" + fen + '\'' +
+                ", money='" + money + '\'' +
+                '}';
+    }
 }

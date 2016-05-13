@@ -11,8 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <com.baidu.mapapi.map.MapView
             android:id="@+id/bmapView"
@@ -24,17 +23,29 @@
         <View
             android:id="@+id/view_line_sos"
             style="@style/Line_h"
-            android:layout_above="@+id/rela_sos_call" />
+            android:layout_above="@+id/rela_sos_jiatong" />
 
-        <ImageView
-            android:id="@+id/rela_sos_call"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rela_sos_jiatong"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:src="@drawable/jiuyuandianhua" />
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:id="@+id/iv_sos_jiatong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/jiatongguanggao" />
+
+            <ImageView
+                android:id="@+id/iv_sos_guanbi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/guanbi" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

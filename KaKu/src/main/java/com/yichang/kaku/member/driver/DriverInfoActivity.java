@@ -1,6 +1,5 @@
 package com.yichang.kaku.member.driver;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -28,7 +27,7 @@ import com.yichang.kaku.callback.KakuResponseListener;
 import com.yichang.kaku.global.BaseActivity;
 import com.yichang.kaku.global.Constants;
 import com.yichang.kaku.global.KaKuApplication;
-import com.yichang.kaku.home.Ad.ClipImageActivity;
+import com.yichang.kaku.home.ad.ClipImageActivity;
 import com.yichang.kaku.member.QRCodeActivity;
 import com.yichang.kaku.obj.DriveInfoObj;
 import com.yichang.kaku.request.MemberDriverInfoReq;
@@ -41,7 +40,7 @@ import com.yichang.kaku.tools.BitmapUtil;
 import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONObject;
 
@@ -61,7 +60,7 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
     private TextView tv_info_referralcode;
 
 
-    private RelativeLayout rela_info_icon,rela_info_name,rela_info_certification,rela_info_qrcode;
+    private RelativeLayout rela_info_icon, rela_info_name, rela_info_certification, rela_info_qrcode;
 
     private static final int NAMECHANGED = 101;// 结果
 
@@ -99,7 +98,6 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
         tv_info_phone = (TextView) findViewById(R.id.tv_info_phone);
         tv_info_certification = (TextView) findViewById(R.id.tv_info_certification);
         iv_info_erweima = (ImageView) findViewById(R.id.iv_info_erweima);
-
         rela_info_icon = (RelativeLayout) findViewById(R.id.rela_info_icon);
         rela_info_icon.setOnClickListener(this);
         rela_info_name = (RelativeLayout) findViewById(R.id.rela_info_name);
@@ -108,8 +106,7 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
         rela_info_certification.setOnClickListener(this);
         rela_info_qrcode = (RelativeLayout) findViewById(R.id.rela_info_qrcode);
         rela_info_qrcode.setOnClickListener(this);
-
-        tv_info_referralcode= (TextView) findViewById(R.id.tv_info_referralcode);
+        tv_info_referralcode = (TextView) findViewById(R.id.tv_info_referralcode);
 
         window = new PopupWindow();
         getDriverInfo();
@@ -135,6 +132,11 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
                     }
                 }
                 stopProgressDialog();
+            }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
             }
 
         });
@@ -193,7 +195,6 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
             showPopWindow(v);
         } else if (R.id.rela_info_name == id) {
 //            编辑昵称
-
             Intent intent = new Intent(context, ModifyNameActivity.class);
             intent.putExtra("name", tv_info_name.getText().toString().trim());
             startActivityForResult(intent, 100);
@@ -214,7 +215,6 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
             window.dismiss();
         } else if (R.id.tv_exitphoto == id) {
             window.dismiss();
-
         }
     }
 
@@ -238,7 +238,7 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (Utils.Many()){
+        if (Utils.Many()) {
             return;
         }
     }
@@ -268,22 +268,9 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
     }
 
     private void startAlbum() {
-        try {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-            intent.setType("image/*");
-            startActivityForResult(intent, START_ALBUM_REQUESTCODE);
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            try {
-                Intent intent = new Intent(Intent.ACTION_PICK, null);
-                intent.setDataAndType(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent, START_ALBUM_REQUESTCODE);
-            } catch (Exception e2) {
-                // TODO: handle exception
-                e.printStackTrace();
-            }
-        }
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, START_ALBUM_REQUESTCODE);
     }
 
     // 裁剪图片的Activity
@@ -357,28 +344,34 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
         req.code = "qn01";
         req.sort = sort;
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this,QiNiuYunTokenResp.class) {
+        KaKuApiProvider.QiNiuYunToken(req, new KakuResponseListener<QiNiuYunTokenResp>(this, QiNiuYunTokenResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
                 if (t != null) {
                     LogUtil.E("qiniuyuntoken res: " + t.res);
                     if (Constants.RES.equals(t.res)) {
-                            token1 = t.token;
-                            key1 = t.key;
-                            uploadImg(token1, key1, sort);
+                        token1 = t.token;
+                        key1 = t.key;
+                        uploadImg(token1, key1, sort);
 
                     } else {
                         LogUtil.showShortToast(context, t.msg);
                     }
                 }
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
-    private void uploadImg(final String token , final String key , final String sort){
+    private void uploadImg(final String token, final String key, final String sort) {
 
-        new Thread(new Runnable(){
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 String file = path1;
@@ -388,7 +381,7 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
                             @Override
                             public void complete(String arg0, ResponseInfo info, JSONObject response) {
                                 // TODO Auto-generated method stub
-                                if (info.isOK()){
+                                if (info.isOK()) {
                                     Upload();
                                 }
                             }
@@ -397,14 +390,14 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
         }).start();
     }
 
-    public void Upload(){
+    public void Upload() {
         Utils.NoNet(context);
         showProgressDialog();
         MemberUploadIconReq req = new MemberUploadIconReq();
         req.code = "10027";
         req.head = key1;
         req.id_driver = Utils.getIdDriver();
-        KaKuApiProvider.headUpload(req, new KakuResponseListener<QiangImageResp>(this,QiangImageResp.class) {
+        KaKuApiProvider.headUpload(req, new KakuResponseListener<QiangImageResp>(this, QiangImageResp.class) {
             @Override
             public void onSucceed(int what, Response response) {
                 super.onSucceed(what, response);
@@ -418,6 +411,12 @@ public class DriverInfoActivity extends BaseActivity implements OnClickListener,
                 }
                 stopProgressDialog();
             }
+
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
 
         });
     }

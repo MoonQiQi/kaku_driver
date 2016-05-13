@@ -12,9 +12,9 @@
         layout="@layout/activity_titlebar" />
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scroll_view"
         android:scrollbars="none">
 
         <LinearLayout
@@ -27,35 +27,35 @@
                 android:layout_marginTop="@dimen/x30" />
 
             <RelativeLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
                 <ImageView
                     android:id="@+id/iv_pingjiaorder_image"
-                    android:src="@drawable/ic_launcher"
-                    android:layout_margin="15dp"
                     android:layout_width="60dp"
-                    android:layout_height="60dp" />
-                
+                    android:layout_height="60dp"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/ic_launcher" />
+
                 <TextView
                     android:id="@+id/tv_pingjiaorder_name"
-                    android:layout_toRightOf="@+id/iv_pingjiaorder_image"
-                    android:layout_marginTop="20dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_pingjiaorder_image"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_pingjiaorder_addr"
-                    android:layout_alignLeft="@+id/tv_pingjiaorder_name"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/tv_pingjiaorder_name"
-                    android:textSize="14sp"
-                    android:textColor="@color/color_word"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_pingjiaorder_name"
+                    android:layout_below="@+id/tv_pingjiaorder_name"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/color_word"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -64,11 +64,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@drawable/bg_edittext"
+                android:gravity="top|left"
                 android:hint="写下体会或使用过程中带来的帮助等，可以为其他人提供参考~"
                 android:maxLength="200"
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:gravity="top|left"
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
                 android:textColor="@color/color_word"
@@ -96,7 +96,7 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="@dimen/x30"
                     android:scrollbars="none"
-                    android:verticalSpacing="2dp"></GridView>
+                    android:verticalSpacing="2dp" />
 
             </RelativeLayout>
 

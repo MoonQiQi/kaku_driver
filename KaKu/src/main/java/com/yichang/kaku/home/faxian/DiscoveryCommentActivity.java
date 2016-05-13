@@ -1,12 +1,10 @@
 package com.yichang.kaku.home.faxian;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -35,7 +33,7 @@ import com.yichang.kaku.tools.LogUtil;
 import com.yichang.kaku.tools.Utils;
 import com.yichang.kaku.view.widget.XListView;
 import com.yichang.kaku.webService.KaKuApiProvider;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,14 +71,6 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         init();
     }
 
-    public void onResume() {
-        super.onResume();
-    }
-
-    public void onPause() {
-        super.onPause();
-    }
-
     private void init() {
         // TODO Auto-generated method stub
         left = (TextView) findViewById(R.id.tv_left);
@@ -90,8 +80,6 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
 
         initNoDataLayout();
         xListView = (XListView) findViewById(R.id.lv_discovery_comment);
-
-        //tv_textsize = (TextView) findViewById(R.id.tv_textsize);
 
         et_discovery_comment = (EditText) findViewById(R.id.et_discovery_comment);
         et_discovery_comment.setOnFocusChangeListener(this);
@@ -105,7 +93,7 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String comment = String.valueOf(s);
                 if (comment.length() <= 200) {
-                    //tv_textsize.setText(String.valueOf(s).length() + "/200");
+
                 } else {
                     LogUtil.showShortToast(context, "已超出最大输入字符限制");
                     comment = comment.substring(0, 200);
@@ -183,7 +171,7 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         req.code = "7006";
         req.start = String.valueOf(pageIndex);
         req.len = String.valueOf(pageSize);
-        req.id_news = KaKuApplication.discoveryId;
+        req.id_news = KaKuApplication.id_news;
         KaKuApiProvider.getDiscoveryCommentsList(req, new KakuResponseListener<DiscoveryCommentsResp>(this, DiscoveryCommentsResp.class) {
 
             @Override
@@ -206,6 +194,11 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
                 }
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
         });
     }
 
@@ -224,7 +217,6 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         xListView.setAdapter(adapter);
         setListViewHeightBasedOnChildren(xListView);
 
-        //xListView.setAdapter(adapter);
         xListView.setPullLoadEnable(list.size() < INDEX ? false : true);
         xListView.setSelection(pageindex);
         xListView.setPullRefreshEnable(false);
@@ -262,7 +254,6 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         } else {
             start = 0;
             pageindex = 0;
-            // prize_info = new ArrayList<PrizeInfoObj>();
             if (choujiang_list != null) {
                 choujiang_list.clear();
             }
@@ -295,8 +286,7 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
 
         DiscoveryCommentSendReq req = new DiscoveryCommentSendReq();
         req.code = "7007";
-        req.id_driver = Utils.getIdDriver();
-        req.id_news = KaKuApplication.discoveryId;
+        req.id_news = KaKuApplication.id_news;
         req.content_comment = strComment;
         KaKuApiProvider.sendDiscoveryComment(req, new KakuResponseListener<DiscoveryCommentSendResp>(this, DiscoveryCommentSendResp.class) {
 
@@ -324,6 +314,12 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
                 stopProgressDialog();
             }
 
+            @Override
+            public void onFailed(int i, Response response) {
+
+            }
+
+
         });
     }
 
@@ -347,17 +343,4 @@ public class DiscoveryCommentActivity extends BaseActivity implements OnClickLis
         listView.setLayoutParams(params);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_BACK )
-        {
-            Intent intent = new Intent();
-            intent.setClass(DiscoveryCommentActivity.this,DiscoveryActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//注意本行的FLAG设置
-            startActivity(intent);
-            finish();
-        }
-        return false;
-    }
 }

@@ -9,6 +9,9 @@ public class MemberDriverObj implements Serializable {
 	private String point_now;
 	private String head;
 	private String num_shop;
+	private String flag_advert;
+	private String flag_kkxz;
+	private String flag_ddexz;
 
 	public String getMoney_balance() {
 		return money_balance;
@@ -70,6 +73,30 @@ public class MemberDriverObj implements Serializable {
 	}
 
 
+	public String getFlag_advert() {
+		return flag_advert;
+	}
+
+	public void setFlag_advert(String flag_advert) {
+		this.flag_advert = flag_advert;
+	}
+
+	public String getFlag_kkxz() {
+		return flag_kkxz;
+	}
+
+	public void setFlag_kkxz(String flag_kkxz) {
+		this.flag_kkxz = flag_kkxz;
+	}
+
+	public String getFlag_ddexz() {
+		return flag_ddexz;
+	}
+
+	public void setFlag_ddexz(String flag_ddexz) {
+		this.flag_ddexz = flag_ddexz;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberDriverObj{" +
@@ -79,6 +106,10 @@ public class MemberDriverObj implements Serializable {
 				", point_now='" + point_now + '\'' +
 				", head='" + head + '\'' +
 				", num_shop='" + num_shop + '\'' +
+				", flag_advert='" + flag_advert + '\'' +
+				", flag_kkxz='" + flag_kkxz + '\'' +
+				", flag_ddexz='" + flag_ddexz + '\'' +
+				", money_balance='" + money_balance + '\'' +
 				'}';
 	}
 }

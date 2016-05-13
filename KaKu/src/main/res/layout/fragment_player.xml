@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+    >
+
+    <!-- 碎片信息展示layout （专辑名、碎片名、封面图）-->
+    <LinearLayout
+        android:id="@+id/player_info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_above="@+id/player_seebar_layout"
+        >
+
+        <ImageView
+            android:id="@+id/player_cover_img"
+            android:layout_width="134dp"
+            android:layout_height="134dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_default"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/player_audio_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="24sp"
+                />
+
+            <TextView
+                android:id="@+id/player_album_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="19sp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- END： 碎片信息展示layout-->
+
+    <!--seekbar layout -->
+    <RelativeLayout
+        android:id="@+id/player_seebar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/player_operation_area"
+        android:background="@null"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/player_current_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="00:00"
+            android:textStyle="bold"/>
+
+        <SeekBar
+            android:id="@+id/player_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:indeterminate="false"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:layout_toLeftOf="@+id/player_duration"
+            android:layout_toRightOf="@+id/player_current_progress"
+            />
+
+        <View
+            android:id="@+id/player_divider"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/player_duration"
+            android:layout_toRightOf="@+id/player_current_progress"
+            android:visibility="gone"  />
+
+        <TextView
+            android:id="@+id/player_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="00:00"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+    <!--END: seekbar layout -->
+
+
+    <!--上一首、下一首、播放、暂停 -->
+    <LinearLayout
+        android:id="@+id/player_operation_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center" >
+
+        <!-- 上一首 -->
+        <Button
+            android:id="@+id/player_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/player_pre"
+             />
+
+        <!-- 播放or暂停 -->
+        <Button
+            android:id="@+id/player_play_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/player_play"
+            />
+
+        <!-- 下一首 -->
+        <Button
+            android:id="@+id/player_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/player_next"
+             />
+
+    </LinearLayout>
+    <!-- END: 播放模式、上一首、下一首、播放、暂停 -->
+
+</RelativeLayout>
