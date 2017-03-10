@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yichang.kaku"
     android:versionCode="1"
-    android:versionName="4.0.1">
+    android:versionName="4.1.0">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -50,20 +50,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="com.yichang.kaku.permission.JPUSH_MESSAGE" />
-
-    // SDK 权限申明, 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名
-    // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。
-    <permission
-        android:name="com.yichang.kaku.permission.RECEIVE_MSG"
-        android:protectionLevel="signature" />
-    <permission
-        android:name="com.yichang.kaku.permission.INCOMING_CALL"
-        android:protectionLevel="signature" />
-    // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名
-    <uses-permission android:name="com.yichang.kaku.permission.RECEIVE_MSG" />
-    // 如果没有VOIP功能可以忽略
-    <uses-permission android:name="com.yichang.kaku.permission.INCOMING_CALL" />
-    // 以上为v5.1.9r 版本增加
 
     // 允许应用程序修改全局声音设置的权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -362,15 +348,15 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.call.CallIntroActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".home.baoyang.BaoYangOrderActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".home.baoyang.XianXiaPayActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.zhaohuochang.PingJiaHuoChangActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -390,11 +376,23 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".home.maixintai.MaiXinTaiActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".home.ad.ImageFanKuiActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".home.baoyang.BaoYangOrderDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.zhaohuochang.HuoChangDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.zhaohuochang.HuoChangPingJiaListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -496,10 +494,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.call.CallMoreActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.yichang.kaku.zhaohuo.MyLoveCarActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -508,29 +502,16 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.call.CallingActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <!-- VoIP 呼叫界面 -->
-        <activity
-            android:name="com.yichang.kaku.home.call.VoIPCallActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-            <intent-filter>
-                <action android:name="con.yuntongxun.ecdemo.intent.ACTION_VOICE_CALL" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".member.driver.ModifyNameActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name="com.yichang.kaku.member.KeFuHelpActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.maixintai.LunTaiDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -657,15 +638,15 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.yichang.kaku.home.call.CallActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.yichang.kaku.home.baoyang.BaoYangQingDanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yichang.kaku.home.baoyang.BaoYangChooseFilterActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yichang.kaku.home.zhaohuochang.ZhaoHuoChangActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -700,7 +681,6 @@
             android:name="com.yichang.kaku.member.JiangLiMingXiActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".member.truckorder.TruckOrderReturnActivity"
             android:label="@string/app_name"
@@ -720,7 +700,6 @@
         <activity
             android:name=".home.faxian.DiscoveryCommentActivity"
             android:label="@string/app_name"
-
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustUnspecified" />
         <activity
@@ -731,7 +710,6 @@
             android:name=".home.faxian.DiscoveryFavorActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".home.mycar.EditCarInfosActivity"
             android:label="@string/app_name"
@@ -788,14 +766,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.miaosha.HomeSeckillActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.miaosha.SeckillOrderActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".home.OrderPayActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -822,10 +792,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".member.truckorder.OrderCommentActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.giftmall.ProductCommentListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -947,6 +913,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".home.maixintai.LunTaiGuiGeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".zhaohuo.QuanziDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -1053,70 +1023,6 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
             </intent-filter>
         </service>
-
-
-        // SDK核心服务配置
-        <service
-            android:name="com.yuntongxun.ecsdk.ECClientService"
-            android:enabled="true"
-            android:process=":push" />
-        // v5.2.2r以后的清单文件需要配置下列服务
-        <service
-            android:name="com.yuntongxun.ecsdk.ECClientService$InnerService"
-            android:enabled="true"
-            android:process=":push" />
-        // 以下两项为SDK事件提醒广播
-        <receiver
-            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver"
-            android:process=":push" />
-        // v5.1.9r增加配置选项
-        <receiver
-            android:name="com.yuntongxun.ecsdk.booter.Alarm"
-            android:exported="false"
-            android:process=":push" />
-        // SDK网络改变广播
-        <receiver
-            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver"
-            android:process=":push">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        // SDK广播通知配置（开机广播）
-        // 可选广播、如果应用想做开机重启，可以实现该广播通知即可
-        <receiver
-            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$BootReceiver"
-            android:process=":push">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        // 配置SDK消息通知广播 ,SDK通知会分三种提醒方式
-        // 1、直接通过设置的回调接口（OnChatReceiveListener）Push给应用
-        // 2、如果应用没有设置回调接口则采用（BroadcastReceiver）广播通知（v5.1.8版本）
-        // 此时如果应用处于未运行状态则会直接唤醒应用处理
-        // 3、如果应用未处于运行状态并且不想被唤醒应用运行则采用状态栏通知处理（SDK直接提醒，不会通知应用）,比如调用
-        // ECDevice#logout(ECDevice.NotifyMode, ECDevice.OnLogoutListener)退出接口传入后台接收消息才会有提醒
-
-        // 注意：以上在a和b的场景下，SDK都会将消息直接给应用处理，只有在c的情况SDK才会直接处理消息提醒，
-        // 所以应用需要处理a和b两种情况
-        // 声明自定义通知的广播接收器，第三方 APP 集成时，action 中的 com.yuntongxun.ecdemo 请替换为自己的包名
-        <!-- 需要权限声明 <uses-permission android:name="com.yuntongxun.ecdemo.permission.RECEIVE_MSG"/> -->
-        // 如果没有VOIP功能可以忽略
-        <!-- 需要权限声明 <uses-permission android:name="com.yuntongxun.ecdemo.permission.INCOMING_CALL"/> -->
-        <receiver
-            android:name=".service.YuntxNotifyReceiver"
-            android:exported="false">
-            <intent-filter>
-                // 接收push消息
-                // action匹配规则{packageName + ".action" + "功能"}
-                <action android:name="com.yuntongxun.ecdemo.action.VOIP_CALL" />
-                <action android:name="com.yuntongxun.ecdemo.action.MESSAGE" />
-                <action android:name="com.yuntongxun.ecdemo.action.NOTIFICATION_CLICK" />
-                <action android:name="com.yuntongxun.ecdemo.action.PERSON_VERSION" />
-            </intent-filter>
-        </receiver>
-
 
         <!-- Required SDK核心功能 -->
         <receiver
